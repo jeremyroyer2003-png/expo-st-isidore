@@ -1,0 +1,80 @@
+/* =========================================================
+   Composants partagés par les pages intérieures
+   (héros texte, en-têtes de section, formulaires, « Bon à savoir »)
+   ========================================================= */
+/* Héros : titre à gauche, texte et boutons à droite */
+.heros__grille--texte{align-items:flex-end;padding-bottom:56px}
+.heros__cote{flex:1 1 380px;min-width:0;display:flex;flex-direction:column;gap:22px;position:relative;z-index:2}
+.chiffres--texte dd{font-size:clamp(30px,3.4vw,42px)}
+
+/* En-tête de section (titre + chapeau) */
+.entete-section{display:flex;flex-wrap:wrap;gap:16px 48px;align-items:flex-end;margin-bottom:48px}
+.entete-section p{margin:0;color:var(--texte-clair);max-width:44ch;flex:1 1 300px}
+
+/* Formulaires */
+.formulaire{display:flex;flex-direction:column;gap:20px}
+.etape{margin:0;padding:28px;background:#FFFFFF;border-radius:14px;border:2px solid var(--marine-fonce);box-shadow:0 4px 0 var(--marine-fonce);min-width:0}
+.etape__titre{display:flex;align-items:center;gap:14px;padding:0;margin-bottom:20px;font-family:var(--titre);font-style:italic;font-weight:900;text-transform:uppercase;font-size:32px;line-height:1;color:var(--marine-fonce)}
+.etape__num{display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:50%;background:var(--jaune);color:var(--nuit);font-size:28px;flex:none}
+.champ{display:flex;flex-direction:column;gap:6px;min-width:0}
+.champ--court{margin-top:20px;max-width:420px}
+.champ__etiquette{font-weight:700;font-size:16px}
+.facultatif{font-weight:400;color:var(--texte-clair)}
+.champ input,.champ textarea,.champ select,.champ__unite input{font:inherit;padding:12px 14px;border:2px solid #8A9BAA;border-radius:8px;min-height:48px;background:#FFFFFF;color:var(--nuit);width:100%}
+.champ textarea{resize:vertical;min-height:96px}
+.champ input:focus,.champ textarea:focus,.champ select:focus,.champ__unite input:focus{border-color:var(--lien);outline:3px solid rgba(27,111,168,.25);outline-offset:0}
+.champ input[aria-invalid="true"],.champ select[aria-invalid="true"],.champ textarea[aria-invalid="true"],.consentement input[aria-invalid="true"],.champ__unite input[aria-invalid="true"]{border-color:#B3261E;background:#FDF1F0}
+.champ__erreur{margin:10px 0 0;color:#B3261E;font-weight:700}
+.coordonnees{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.champ--large{grid-column:1 / -1}
+@media (max-width:600px){
+  .etape{padding:20px}
+  .etape__titre{font-size:28px}
+  .coordonnees{grid-template-columns:minmax(0,1fr)}
+}
+.note{margin:12px 0 0;font-size:15px;color:var(--texte-clair)}
+
+
+.consentement{display:flex;gap:12px;align-items:flex-start;margin-top:20px;font-size:15px;color:var(--texte-clair);cursor:pointer}
+.consentement input{width:24px;height:24px;margin:1px 0 0;flex:none;accent-color:var(--marine-fonce)}
+.formulaire__envoi{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center}
+.formulaire__envoi p{margin:0;color:var(--texte-clair)}
+.formulaire__envoi a{font-weight:700}
+.bouton--grand{font-size:19px;min-height:56px;padding:15px 32px;border:0;cursor:pointer;font-family:inherit}
+
+/* Message de confirmation */
+.merci{margin-top:32px;padding:32px;background:var(--marine-fonce);color:#FFFFFF;border-radius:14px;display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.merci:focus{outline:3px solid var(--jaune);outline-offset:4px}
+.merci h3{margin:0;font-family:var(--titre);font-style:italic;font-weight:900;text-transform:uppercase;font-size:44px;line-height:1;color:var(--jaune)}
+.merci p{margin:0;font-size:19px;color:#D6E2EC;max-width:52ch}
+.merci a{color:#8FD3F2;font-weight:700}
+.merci .bouton{border:0;cursor:pointer;font:inherit;font-weight:700;background:#FFFFFF;color:var(--nuit)}
+
+/* Bon à savoir */
+.savoir{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:32px 48px;align-items:start}
+.liste-questions{margin:0;border-top:2px solid var(--marine-fonce)}
+.liste-questions div{padding:20px 0;border-bottom:2px solid var(--marine-fonce)}
+.liste-questions dt{font-family:var(--titre);font-weight:800;font-size:28px;text-transform:uppercase;color:var(--marine-fonce);line-height:1.1}
+.liste-questions dd{margin:6px 0 0;color:var(--texte-clair)}
+.note-comite{grid-column:2;padding:18px 20px;border:2px dashed var(--orange-fonce);border-radius:10px;background:rgba(255,255,255,.5);font-size:15px;color:var(--texte-clair)}
+.note-comite strong{color:var(--orange-fonce)}
+.note-comite p{margin:6px 0 0}
+@media (max-width:800px){
+  .savoir{grid-template-columns:minmax(0,1fr)}
+  .note-comite{grid-column:1}
+}
+
+@media (max-width:600px){
+  .heros .billet{font-size:16px}
+  .heros .billet span{white-space:nowrap;padding:8px 10px}
+}
+
+/* Variantes de la liste de questions */
+.liste-questions--grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));column-gap:40px;border-top:0}
+.liste-questions--grille div{border-top:2px solid var(--marine-fonce);border-bottom:0}
+.section-nuit .liste-questions{border-top-color:var(--trait-nuit)}
+.section-nuit .liste-questions div{border-bottom-color:var(--trait-nuit)}
+.section-nuit .liste-questions dt{color:#FFFFFF}
+.section-nuit .liste-questions dd{color:var(--texte-nuit)}
+.formulaire--etroit{max-width:860px}
+.lien-clair{color:#FFFFFF}

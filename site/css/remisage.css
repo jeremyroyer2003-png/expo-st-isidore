@@ -1,0 +1,85 @@
+/* =========================================================
+   Page Remisage d'hiver (s'ajoute à site.css)
+   ========================================================= */
+.heros__titre--remisage .contour{font-size:clamp(76px,10vw,140px)}
+
+/* Formulaire + billet */
+.demande{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:48px;align-items:start}
+.demande__cote{position:sticky;top:24px}
+@media (max-width:980px){
+  .demande{grid-template-columns:minmax(0,1fr)}
+  .demande__cote{position:static}
+}
+
+/* Cartes de choix (boutons radio) */
+.choix-grille{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+
+.choix{position:relative;display:block;cursor:pointer}
+.choix input{position:absolute;opacity:0;width:1px;height:1px}
+.choix__carte{position:relative;display:flex;flex-direction:column;justify-content:center;gap:4px;min-height:96px;padding:16px 44px 16px 16px;border:2px solid #B9C3CC;border-radius:12px;background:var(--papier);line-height:1.15;transition:border-color .15s,background .15s,transform .15s}
+.choix__carte::after{content:"";position:absolute;top:14px;right:14px;width:20px;height:20px;border-radius:50%;border:2px solid #8A9BAA;background:#FFFFFF;box-sizing:border-box}
+.choix__nom{font-family:var(--titre);font-style:italic;font-weight:900;text-transform:uppercase;font-size:28px;line-height:.95;color:var(--marine-fonce)}
+.choix__ex{font-size:14px;color:var(--texte-clair)}
+.choix input:checked + .choix__carte::after{border:6px solid var(--nuit)}
+.choix input:checked + .choix__carte .choix__nom,.choix input:checked + .choix__carte .choix__ex{color:var(--nuit)}
+.choix:hover .choix__carte{border-color:var(--marine-fonce)}
+.choix input:checked + .choix__carte{border-color:var(--nuit);background:var(--jaune);transform:rotate(-1.5deg);box-shadow:0 4px 0 var(--nuit)}
+.choix input:focus-visible + .choix__carte{outline:3px solid var(--lien);outline-offset:3px}
+
+/* Champs de dimension avec unité */
+.champ__unite{position:relative;display:block}
+.champ__unite input{padding-right:44px;font-family:var(--titre);font-weight:800;font-size:24px}
+.champ__unite span{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-weight:700;color:var(--texte-clair)}
+.dimensions{display:flex;flex-direction:column;border-top:2px solid var(--papier-2)}
+.dimension-ligne{display:grid;grid-template-columns:110px 150px minmax(0,1fr);gap:8px 20px;align-items:center;padding:14px 0;border-bottom:2px solid var(--papier-2)}
+.dimension-ligne .champ__etiquette{font-family:var(--titre);font-style:italic;font-weight:900;text-transform:uppercase;font-size:24px;color:var(--marine-fonce)}
+.dimension-ligne__aide{margin:0;font-size:15px;color:var(--texte-clair)}
+@media (max-width:600px){
+  .dimension-ligne{grid-template-columns:minmax(0,1fr) 130px}
+  .dimension-ligne__aide{grid-column:1 / -1}
+}
+
+/* Billet résumé */
+.billet-remisage--resume{transform:rotate(1.5deg);position:relative;max-width:100%}
+.resume{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 12px;margin:0;padding:12px 0;border-top:2px dashed #B9C3CC;border-bottom:2px dashed #B9C3CC}
+.resume__ligne--large{grid-column:1 / -1}
+.resume dt{font-size:13px;color:#4A5A68}
+.resume dd{margin:0;font-family:var(--titre);font-weight:800;font-style:italic;font-size:22px;line-height:1.1;overflow-wrap:anywhere;color:#6B7B89}
+.resume dd.est-rempli{color:var(--nuit)}
+.tampon{position:absolute;right:76px;bottom:22px;margin:0;padding:6px 12px;border:4px solid #2E7D32;border-radius:8px;color:#2E7D32;font-family:var(--titre);font-weight:900;font-style:italic;text-transform:uppercase;font-size:24px;transform:rotate(-12deg) scale(1.6);opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;background:rgba(242,239,232,.85)}
+.billet-remisage.est-envoye .tampon{opacity:1;transform:rotate(-12deg) scale(1)}
+
+/* Choix pieds / mètres */
+.unites{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:0 0 8px;padding:0;border:0}
+.unites legend{float:left;width:100%;margin:0 0 6px;padding:0;font-weight:700;font-size:16px}
+.unites__choix{position:relative;cursor:pointer}
+.unites__choix input{position:absolute;opacity:0;width:1px;height:1px}
+.unites__choix span{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border:2px solid #8A9BAA;border-radius:999px;background:#FFFFFF;font-family:var(--titre);font-weight:800;font-style:italic;text-transform:uppercase;font-size:20px;color:var(--marine-fonce)}
+.unites__choix input:checked + span{background:var(--marine-fonce);border-color:var(--marine-fonce);color:#FFFFFF}
+.unites__choix input:focus-visible + span{outline:3px solid var(--lien);outline-offset:3px}
+
+/* Prix */
+.avis-mesure{margin:14px 0 0;padding:12px 14px;border-left:4px solid var(--orange);background:var(--papier);border-radius:0 8px 8px 0;font-size:15px;color:var(--texte-clair)}
+.avis-mesure strong{color:var(--nuit)}
+.resume__ligne--prix{padding-top:8px;border-top:2px dashed #B9C3CC}
+.resume__ligne--prix dd{font-size:32px}
+.resume__ligne--prix dt span{font-weight:700}
+.resume__avis{margin:-4px 0 0;font-size:13px;color:#4A5A68}
+
+@media (max-width:600px){
+  .champ__unite input{font-size:20px;padding-left:10px;padding-right:34px}
+  .champ__unite span{right:10px}
+}
+
+/* Téléphone : une carte de véhicule par ligne (placé à la fin pour avoir priorité) */
+@media (max-width:600px){
+  .choix-grille{grid-template-columns:minmax(0,1fr);gap:10px}
+  .choix__carte{min-height:68px;padding:12px 52px 12px 16px}
+  .choix__carte::after{top:50%;right:16px;margin-top:-10px}
+  .choix__nom{font-size:26px}
+}
+
+@media (max-width:600px){
+  .unites__choix{flex:1 1 0}
+  .unites__choix span{justify-content:center;width:100%}
+}

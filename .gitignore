@@ -1,0 +1,7 @@
+# Captures d'écran des tests (regénérées à chaque vérification)
+captures/
+
+# Fichiers système
+Thumbs.db
+desktop.ini
+.DS_Store

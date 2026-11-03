@@ -1,0 +1,222 @@
+/* =========================================================
+   Pages intérieures : histoire, programmation, tire, exposants,
+   photos, contact, confidentialité (s'ajoute à site.css et composants.css)
+   ========================================================= */
+
+/* ---------- Héros des pages intérieures ---------- */
+.heros--page .heros__titre{font-size:clamp(54px,7.5vw,104px)}
+.heros--page .heros__titre .contour{font-size:inherit;-webkit-text-stroke-width:2.5px}
+.heros__photo{flex:1 1 380px;min-width:0;position:relative;z-index:2;display:flex;justify-content:center}
+.heros__photo .tirage{position:relative;width:min(460px,100%);transform:rotate(3deg)}
+.heros__photo .tirage img{aspect-ratio:3/2}
+
+/* Héros compact (programmation, infos pratiques) */
+.heros--compact .heros__grille{padding-top:48px;padding-bottom:48px}
+.heros--compact .heros__intro a{color:#FFFFFF}
+
+/* Héros photo pleine largeur (tire) */
+.heros--photo{background:linear-gradient(90deg,rgba(14,24,32,.92) 0%,rgba(14,24,32,.75) 45%,rgba(14,24,32,.15) 100%),url(../images/photos/tire-foule.jpg) center/cover no-repeat}
+.heros--photo .heros__grille{min-height:clamp(460px,52vw,620px)}
+.heros__credit{position:absolute;right:20px;bottom:12px;margin:0;font-size:13px;color:var(--texte-nuit)}
+@media (max-width:600px){
+  .heros--photo{background:linear-gradient(180deg,rgba(14,24,32,.55) 0%,rgba(14,24,32,.92) 55%),url(../images/photos/tire-foule-800.jpg) center top/cover no-repeat}
+}
+
+/* Photo d'archive dans le héros (histoire) */
+.heros__archive{flex:none;width:min(460px,100%)}
+.heros__archive figcaption{color:var(--texte-nuit)}
+
+/* Espacements utilitaires */
+.espace-haut{margin-top:40px}
+.espace-bas{margin-bottom:28px}
+.bloc-sous-titre{margin:48px 0 8px}
+.pile{display:flex;flex-direction:column;gap:32px}
+.sources{padding-top:40px;padding-bottom:40px}
+.sources .credits{margin:8px 0 0;max-width:80ch}
+
+/* Bloc de section sur fond clair : titre à gauche, contenu à droite */
+.bloc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:32px 56px;align-items:start}
+.bloc .titre-affiche{font-size:clamp(42px,5vw,68px);overflow-wrap:anywhere}
+.bloc__titre p{margin:16px 0 0;color:var(--texte-clair);max-width:36ch}
+.section-nuit .bloc__titre p,.section-nuit .texte-nuit{color:var(--texte-nuit)}
+.section-nuit .texte-nuit strong{color:#FFFFFF}
+@media (max-width:860px){.bloc{grid-template-columns:minmax(0,1fr)}}
+
+/* ---------- Ligne du temps (histoire) ---------- */
+.ligne-temps{list-style:none;margin:0;padding:0;border-top:2px solid var(--marine-fonce)}
+.ligne-temps li{display:grid;grid-template-columns:150px minmax(0,1fr);gap:20px;align-items:baseline;padding:22px 0;border-bottom:2px solid var(--marine-fonce)}
+.ligne-temps__date{font-family:var(--titre);font-style:italic;font-weight:900;font-size:44px;line-height:.95;color:var(--orange-titre);text-transform:uppercase}
+.ligne-temps__date small{display:block;font-size:20px;color:var(--texte-clair)}
+.ligne-temps h3{margin:0;font-family:var(--titre);font-weight:800;font-size:28px;text-transform:uppercase;color:var(--marine-fonce);line-height:1.1}
+.ligne-temps p{margin:6px 0 0;color:var(--texte-clair)}
+@media (max-width:600px){
+  .ligne-temps li{grid-template-columns:minmax(0,1fr);gap:4px}
+  .ligne-temps__date{font-size:36px}
+}
+
+.ligne-temps--compacte li{grid-template-columns:110px minmax(0,1fr);padding:14px 0}
+.ligne-temps--compacte .ligne-temps__date{font-size:34px}
+.ligne-temps--compacte p{margin:0}
+@media (max-width:600px){.ligne-temps--compacte li{grid-template-columns:80px minmax(0,1fr)}.ligne-temps--compacte .ligne-temps__date{font-size:28px}}
+
+/* ---------- Personnes (bâtisseurs, comité) ---------- */
+.personnes{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0 24px}
+.personnes li{padding:16px 0;border-top:2px solid var(--marine-fonce)}
+.personnes strong{display:block;font-family:var(--titre);font-weight:800;font-size:24px;text-transform:uppercase;color:var(--marine-fonce);line-height:1.1}
+.personnes span{color:var(--texte-clair);font-size:15px}
+.personnes--vedette{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.personnes--vedette strong{font-size:34px;font-style:italic;font-weight:900}
+.personnes--vedette p{margin:6px 0 0;color:var(--texte-clair)}
+
+
+/* Mur de mots : activités d'autrefois */
+.mur-mots{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px 14px;align-items:baseline}
+.mur-mots li{font-family:var(--titre);font-style:italic;font-weight:900;text-transform:uppercase;line-height:1;color:#FFFFFF;font-size:clamp(26px,3vw,40px)}
+.mur-mots li:not(:last-child)::after{content:"•";margin-left:14px;color:var(--orange)}
+.mur-mots__note{margin:24px 0 0;color:var(--texte-nuit);font-size:15px}
+
+/* ---------- Bandeau d'avis (programmation 2027 à venir) ---------- */
+.avis-bandeau{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between;padding:22px 26px;background:var(--jaune);color:var(--nuit);border:3px solid var(--nuit);border-radius:14px;box-shadow:0 5px 0 var(--nuit);margin-bottom:40px}
+.avis-bandeau strong{font-family:var(--titre);font-style:italic;font-weight:900;text-transform:uppercase;font-size:28px;line-height:1}
+.avis-bandeau p{margin:4px 0 0}
+
+/* ---------- Onglets par jour et filtres (programmation) ---------- */
+.onglets{display:flex;gap:8px;overflow-x:auto;padding:4px 4px 10px;margin:0 -4px 8px;scrollbar-width:thin}
+.onglet{flex:none;display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:112px;min-height:64px;padding:10px 16px;border:2px solid var(--marine-fonce);border-radius:12px;background:#FFFFFF;color:var(--marine-fonce);cursor:pointer;font:inherit;text-align:left}
+.onglet__jour{font-family:var(--titre);font-style:italic;font-weight:900;text-transform:uppercase;font-size:24px;line-height:1}
+.onglet__date{font-size:14px;color:var(--texte-clair)}
+.onglet[aria-selected="true"]{background:var(--marine-fonce);color:#FFFFFF;box-shadow:0 4px 0 var(--nuit)}
+.onglet[aria-selected="true"] .onglet__date{color:#C9D4DD}
+.onglet:focus-visible{outline:3px solid var(--lien);outline-offset:3px}
+
+.filtres{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 24px}
+.filtres__titre{font-weight:700;margin-right:4px}
+.filtre{min-height:44px;padding:0 18px;border:2px solid #8A9BAA;border-radius:999px;background:#FFFFFF;color:var(--marine-fonce);font-family:var(--titre);font-weight:800;font-style:italic;text-transform:uppercase;font-size:19px;cursor:pointer}
+.filtre[aria-pressed="true"]{background:var(--jaune);border-color:var(--nuit);color:var(--nuit)}
+.filtre:focus-visible{outline:3px solid var(--lien);outline-offset:3px}
+
+.note-prix{margin:0 0 20px;font-size:15px;color:var(--texte-clair)}
+.jour{margin-bottom:40px}
+.jour__titre{margin:0 0 12px;font-family:var(--titre);font-style:italic;font-weight:900;text-transform:uppercase;font-size:40px;line-height:1;color:var(--marine-fonce)}
+.js .jour__titre{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.evenements{list-style:none;margin:0;padding:0;border-top:2px solid var(--marine-fonce)}
+.evenement{display:grid;grid-template-columns:120px minmax(0,1fr) 220px 110px;gap:6px 20px;align-items:baseline;padding:18px 0;border-bottom:2px solid var(--marine-fonce)}
+.evenement__heure{font-family:var(--titre);font-style:italic;font-weight:900;font-size:30px;line-height:1;color:var(--marine-fonce)}
+.evenement__heure small{display:block;font-size:16px;font-weight:700;color:var(--texte-clair);font-style:normal}
+.evenement h4{margin:0;font-family:var(--titre);font-weight:800;font-size:26px;text-transform:uppercase;color:var(--marine-fonce);line-height:1.1}
+.evenement p{margin:4px 0 0;color:var(--texte-clair);font-size:15px}
+.evenement__lieu{color:var(--texte-clair);font-size:15px}
+.evenement__prix{font-family:var(--titre);font-weight:800;font-size:22px;color:var(--nuit);text-align:right}
+.evenement__prix--gratuit{color:#2E7D32}
+.etiquette{display:inline-block;margin:8px 6px 0 0;padding:2px 10px;border-radius:999px;font-size:13px;font-weight:700;background:var(--papier-2);color:var(--nuit)}
+.etiquette--spectacles{background:#FFE2C7}
+.etiquette--animaux{background:#DCEFC8}
+.etiquette--famille{background:#D3EEFA}
+.etiquette--tire{background:#FFEBA8}
+.aucun-resultat{padding:24px 0;color:var(--texte-clair)}
+@media (max-width:860px){
+  .evenement{grid-template-columns:90px minmax(0,1fr);gap:4px 16px}
+  .evenement__lieu,.evenement__prix{grid-column:2;text-align:left}
+  .evenement__heure{font-size:24px}
+}
+
+/* ---------- Tire : billet de prix, classes, pilotes ---------- */
+.tarifs{display:flex;background:var(--papier);color:var(--nuit);border-radius:14px;overflow:hidden;box-shadow:0 20px 44px rgba(0,0,0,.45);transform:rotate(-1.5deg);max-width:560px}
+.tarifs__corps{flex:1 1 auto;padding:28px;min-width:0}
+.tarifs__corps .surtitre{color:var(--orange-fonce);font-size:15px;letter-spacing:.08em;margin:0 0 12px}
+.tarifs__liste{margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 20px}
+.tarifs__liste dt{font-size:14px;color:#4A5A68}
+.tarifs__liste dd{margin:0;font-family:var(--titre);font-style:italic;font-weight:900;font-size:40px;line-height:1}
+.tarifs__note{margin:16px 0 0;font-size:14px;color:#4A5A68}
+.tarifs__talon{flex:0 0 64px;border-left:3px dashed var(--marine-fonce);display:flex;align-items:center;justify-content:center;background:var(--jaune)}
+.tarifs__talon span{writing-mode:vertical-rl;white-space:nowrap;font-family:var(--titre);font-weight:900;font-style:italic;font-size:24px;text-transform:uppercase}
+@media (max-width:600px){.tarifs{transform:none}.tarifs__liste dd{font-size:32px}.tarifs__talon{flex-basis:48px}}
+
+.classes{list-style:none;margin:0;padding:0;columns:2 260px;column-gap:40px}
+.classes li{break-inside:avoid;display:flex;gap:16px;align-items:baseline;padding:14px 0;border-bottom:2px solid var(--marine-fonce)}
+.classes__num{font-family:var(--titre);font-style:italic;font-weight:900;font-size:28px;color:#8A9BAA;min-width:40px}
+.classes__nom{font-family:var(--titre);font-weight:800;font-size:28px;text-transform:uppercase;color:var(--marine-fonce);line-height:1.05}
+
+.pilotes{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:40px 32px}
+.pilotes .tirage{padding-bottom:12px}
+@media (min-width:900px){.pilotes{grid-template-columns:repeat(3,minmax(0,1fr))}.pilotes li:first-child{grid-column:span 2}.pilotes li:first-child .tirage img{aspect-ratio:16/9}}
+.pilotes .pilotes__lieu{margin-top:4px;font-size:13px;font-style:italic}
+.pilotes li:nth-child(3n+1) .tirage{transform:rotate(-2deg)}
+.pilotes li:nth-child(3n+2) .tirage{transform:rotate(1.5deg)}
+.pilotes li:nth-child(3n) .tirage{transform:rotate(-1deg)}
+.pilotes .tirage img{aspect-ratio:3/2}
+.pilotes figcaption{position:static;padding:12px 4px 0;display:flex;flex-direction:column;gap:2px}
+.pilotes figcaption strong{font-family:var(--titre);font-style:italic;font-weight:900;font-size:28px;text-transform:uppercase;color:var(--marine-fonce);line-height:1}
+.pilotes figcaption span{font-family:var(--texte);font-weight:500;font-size:15px;color:var(--texte-clair)}
+.pilotes figcaption .classe{display:inline-block;align-self:flex-start;margin-top:6px;padding:2px 10px;border-radius:999px;background:var(--jaune);color:var(--nuit);font-weight:700;font-size:13px}
+
+.tableau{width:100%;border-collapse:collapse;font-size:16px}
+.tableau caption{text-align:left;font-weight:700;margin-bottom:10px;color:var(--marine-fonce)}
+.tableau th,.tableau td{text-align:left;padding:12px 10px;border-bottom:2px solid var(--papier-2);vertical-align:top}
+.tableau thead th{font-family:var(--titre);font-weight:800;text-transform:uppercase;font-size:18px;color:var(--marine-fonce);border-bottom-color:var(--marine-fonce)}
+.tableau-defilant{overflow-x:auto}
+
+/* ---------- Photos en rangée (exposants, tire) ---------- */
+.rangee-photos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin-top:48px}
+.rangee-photos .tirage img{aspect-ratio:3/2}
+.rangee-photos .tirage:nth-child(1){transform:rotate(-2deg)}
+.rangee-photos .tirage:nth-child(2){transform:rotate(1.5deg) translateY(12px)}
+.rangee-photos .tirage:nth-child(3){transform:rotate(-1deg)}
+@media (max-width:760px){.rangee-photos{grid-template-columns:minmax(0,1fr)}}
+
+/* ---------- Documents (exposants) ---------- */
+.documents{list-style:none;margin:0;padding:0;border-top:2px solid var(--marine-fonce)}
+.documents li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 20px;align-items:center;padding:16px 0;border-bottom:2px solid var(--marine-fonce)}
+.documents strong{font-family:var(--titre);font-weight:800;font-size:24px;text-transform:uppercase;color:var(--marine-fonce);line-height:1.1}
+.documents span{display:block;color:var(--texte-clair);font-size:15px}
+.etat{display:inline-flex;align-items:center;min-height:36px;padding:0 14px;border-radius:999px;font-weight:700;font-size:14px;white-space:nowrap}
+.etat--a-venir{background:var(--papier-2);color:var(--texte-clair)}
+a.etat{background:var(--marine-fonce);color:#FFFFFF;text-decoration:none}
+a.etat:hover{background:var(--marine);color:#FFFFFF}
+
+/* ---------- Galerie et visionneuse ---------- */
+.galerie-section{margin-bottom:64px}
+.galerie-section__titre{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px;margin:0 0 24px}
+.galerie-section__titre h2{margin:0;font-family:var(--titre);font-style:italic;font-weight:900;text-transform:uppercase;font-size:clamp(36px,4.5vw,56px);line-height:.95;color:var(--marine-fonce)}
+.galerie-section__titre span{color:var(--texte-clair)}
+.galerie{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.galerie a{display:block;background:#FFFFFF;padding:8px;border-radius:4px;box-shadow:0 8px 20px rgba(21,32,42,.16);transition:transform .2s}
+.galerie a:hover,.galerie a:focus-visible{transform:rotate(-1.5deg) scale(1.02)}
+.galerie img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover}
+.galerie li:first-child{grid-column:span 2;grid-row:span 2}
+.galerie li:first-child img{height:100%}
+.galerie li:first-child a{height:100%}
+.galerie--bande li:first-child{grid-row:span 1}
+.galerie--bande li:first-child img{aspect-ratio:3/2;height:auto}
+@media (max-width:560px){.galerie{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.galerie a{padding:5px}}
+.credits{font-size:14px;color:var(--texte-clair)}
+
+.visionneuse{border:0;padding:0;background:transparent;max-width:min(1200px,94vw);max-height:94vh;overflow:visible}
+.visionneuse::backdrop{background:rgba(14,24,32,.92)}
+.visionneuse figure{margin:0;background:#FFFFFF;padding:10px 10px 0;border-radius:4px}
+.visionneuse img{display:block;max-width:100%;max-height:78vh;width:auto;height:auto;margin:0 auto}
+.visionneuse figcaption{padding:10px 4px 12px;font-family:var(--titre);font-weight:700;font-size:19px;color:var(--marine)}
+.visionneuse__barre{display:flex;justify-content:space-between;gap:10px;margin-top:12px}
+.visionneuse button{min-width:48px;min-height:48px;padding:0 18px;border:2px solid #FFFFFF;border-radius:999px;background:transparent;color:#FFFFFF;font:inherit;font-weight:700;cursor:pointer}
+.visionneuse button:hover{background:#FFFFFF;color:var(--nuit)}
+
+/* ---------- Contact ---------- */
+.coord-grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0 32px;margin:0}
+.coord-grille div{padding:18px 0;border-top:2px solid var(--marine-fonce)}
+.coord-grille dt{font-size:15px;color:var(--texte-clair)}
+.coord-grille dd{margin:4px 0 0;font-family:var(--titre);font-weight:800;font-size:30px;line-height:1.1}
+.coord-grille dd a{color:var(--marine-fonce);text-decoration-thickness:2px;text-underline-offset:4px;overflow-wrap:anywhere}
+.coord-grille dd.coord-grille__long{font-size:22px}
+.coord-grille dd.coord-grille__moyen{font-size:24px}
+.coord-grille dd small a{font-family:var(--texte);font-weight:600;font-size:15px}
+.coord-grille dd small{display:block;font-family:var(--texte);font-weight:400;font-size:15px;color:var(--texte-clair)}
+.carte-rangee{padding-bottom:88px}
+.carte{margin:0;background:#FFFFFF;padding:10px;border-radius:4px;box-shadow:0 14px 34px rgba(21,32,42,.22)}
+.carte iframe{display:block;width:100%;height:380px;border:0}
+.carte figcaption{padding:10px 4px 2px;font-size:15px;color:var(--texte-clair)}
+
+/* ---------- Texte légal ---------- */
+.legal{max-width:72ch;color:var(--texte-clair)}
+.legal h2{margin:40px 0 10px;font-family:var(--titre);font-style:italic;font-weight:900;text-transform:uppercase;font-size:32px;line-height:1;color:var(--marine-fonce)}
+.legal ul{padding-left:22px}
+.legal li{margin-bottom:6px}
