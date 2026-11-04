@@ -1,0 +1,3 @@
+# Netlify : publier seulement le dossier du site (les autres dossiers sont des notes de projet)
+[build]
+  publish = "site"
