@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Expo St-Isidore – Exposition agricole gratuite en Beauce depuis 1983</title>
   <meta name="description" content="Expo agricole gratuite à Saint-Isidore, en Beauce : jugements d'animaux, tire de tracteurs, spectacles et activités familiales. Merci pour 2026, on se revoit en juillet 2027. Toute l'année : remisage d'hiver intérieur, location de salle et danse country.">
-  <meta name="theme-color" content="#FFFFFF">
+  <meta name="theme-color" content="#0F0D0A">
   <meta property="og:title" content="Expo St-Isidore / Bassin de la Chaudière">
   <meta property="og:description" content="Expo agricole gratuite en Beauce depuis 1983. On se revoit en juillet 2027.">
   <meta property="og:locale" content="fr_CA">
@@ -19,8 +19,9 @@
   <link rel="icon" href="images/favicon.png">
   <link rel="preload" href="fonts/barlow-condensed-latin-900-italic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/barlow-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="images/photos/tire-poussiere.webp" as="image" media="(min-width: 761px)">
+  <link rel="preload" href="images/photos/tire-nuit.webp" as="image" media="(min-width: 761px)">
   <link rel="stylesheet" href="css/site.css">
+  <link rel="stylesheet" href="css/theme-nuit.css">
   <script>document.documentElement.classList.add('js')</script>
   <script src="js/site.js" defer></script>
   <script src="js/accueil.js" defer></script>
@@ -65,17 +66,18 @@
       <section class="une" aria-labelledby="titre-heros">
         <!-- Photos de l'ancien site (droits à confirmer) : remplacer le fichier dans images/photos/ -->
         <ul class="une__diapos" aria-label="Photos de l'Expo">
+          <!-- Thème Nuit d'Expo : le diaporama ne montre que des photos de soirée -->
           <li class="une__diapo est-active">
-            <img src="images/photos/tire-poussiere.webp" srcset="images/photos/tire-poussiere-800.webp 800w, images/photos/tire-poussiere.webp 1400w" sizes="100vw" alt="Tracteur vert qui tire la luge dans un nuage de poussière, devant les estrades" width="1600" height="1067" data-legende="Tire de tracteurs ASTTQ, Saint-Isidore">
-          </li>
-          <li class="une__diapo">
-            <img src="images/photos/holstein-rubans.webp" srcset="images/photos/holstein-rubans-800.webp 800w, images/photos/holstein-rubans.webp 1400w" sizes="100vw" alt="Des dizaines de rosettes de jugement multicolores alignées sur une table" width="1600" height="1067" loading="lazy" data-legende="Les rosettes du jugement Holstein">
+            <img src="images/photos/tire-nuit.webp" srcset="images/photos/tire-nuit-800.webp 800w, images/photos/tire-nuit.webp 1400w" sizes="100vw" alt="Tracteur vert crachant une fumée noire, le soir, sous les projecteurs" width="1400" height="933" data-legende="La tire, à la nuit tombée">
           </li>
           <li class="une__diapo">
             <img src="images/photos/spectacle-scene.webp" srcset="images/photos/spectacle-scene-800.webp 800w, images/photos/spectacle-scene.webp 1400w" sizes="100vw" alt="Foule en silhouette devant une scène baignée de lumière rouge" width="1600" height="1065" loading="lazy" data-legende="Spectacle sous le grand chapiteau">
           </li>
           <li class="une__diapo">
-            <img src="images/photos/kiosques-exterieurs.webp" srcset="images/photos/kiosques-exterieurs-800.webp 800w, images/photos/kiosques-exterieurs.webp 1400w" sizes="100vw" alt="Tracteurs neufs et kiosques d'exposants sous le soleil d'été" width="1600" height="1067" loading="lazy" data-legende="Kiosques extérieurs et machinerie">
+            <img src="images/photos/soiree-saloon.webp" srcset="images/photos/soiree-saloon-800.webp 800w, images/photos/soiree-saloon.webp 1080w" sizes="100vw" alt="Le Saloon de la grange 3, façade en bois illuminée de guirlandes, le soir" width="1080" height="864" loading="lazy" data-legende="Le Saloon, un soir d'Expo">
+          </li>
+          <li class="une__diapo">
+            <img src="images/photos/tire-semi-nuit.webp" srcset="images/photos/tire-semi-nuit-800.webp 800w, images/photos/tire-semi-nuit.webp 1400w" sizes="100vw" alt="Camion semi-remorque sous les projecteurs, le soir, devant les estrades pleines" width="1400" height="934" loading="lazy" data-legende="Les semis, sous les projecteurs">
           </li>
         </ul>
 

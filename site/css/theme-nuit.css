@@ -1,0 +1,145 @@
+/* =========================================================
+   Thème « Nuit d'Expo »
+   Chargé APRÈS les autres feuilles : il ne fait que redéfinir.
+   Le site de nuit : fond presque noir, guirlandes, ambre lumineux.
+   Les billets, formulaires et tirages photo restent clairs, comme
+   des objets de papier éclairés par les lumières.
+   Pour revenir au thème « plein été », retirer la ligne
+   <link rel="stylesheet" href="css/theme-nuit.css"> des pages.
+   ========================================================= */
+
+:root{
+  --noir:#0F0D0A;
+  --noir-2:#16120E;
+  --noir-3:#1E1913;
+  --creme:#F5E9D3;
+  --ambre:#F2A33A;
+  --ambre-vif:#FFC266;
+  --rouge-nuit:#C2412D;
+  /* Les couleurs du moulinet, un peu plus lumineuses pour la nuit */
+  --orange:#F28A3B;
+  --jaune:#FDB913;
+  --vert:#8FCB54;
+  --bleu:#3DB7E8;
+  --orange-titre:var(--ambre);
+  --papier:var(--noir);
+  --papier-2:var(--noir-2);
+  --bleu-pied:var(--noir);
+  --lien:var(--ambre);
+  --texte-nuit:#E3D6BF;
+  --trait-nuit:#3A3127;
+  --lueur:0 0 18px rgba(242,163,58,.45),0 0 2px rgba(242,163,58,.6);
+  /* Guirlande : ampoules ambrées espacées de 34 px */
+  --guirlande:radial-gradient(circle at 17px 9px,#FFD58A 0 3px,rgba(255,196,102,.55) 4px,rgba(255,196,102,0) 11px) 0 0/34px 22px repeat-x;
+}
+body{background:var(--noir);color:var(--creme)}
+a:hover{color:var(--ambre-vif)}
+::selection{background:var(--ambre);color:var(--noir)}
+:focus-visible{outline-color:var(--ambre)}
+
+/* Les sections sombres : on inverse les couleurs « texte sur papier » */
+.section-papier,.section-papier-2{color:var(--creme);--marine-fonce:var(--creme);--texte-clair:#CBBBA0}
+.section-papier-2{background:var(--noir-2)}
+.section-papier .titre-affiche,.section-papier-2 .titre-affiche{color:var(--creme)}
+.section-papier .titre-affiche span,.section-papier-2 .titre-affiche span{color:var(--ambre)}
+/* Les objets de papier gardent l'encre foncée */
+.etape,.tarifs,.billet-remisage,.tirage,.archive-photo__papier,.resume,.choix__carte,.merci,.carte,
+.formulaire .consentement,.avis-mesure{--marine-fonce:#1B2E3D;--texte-clair:#3E4C58;color:var(--noir)}
+
+/* ---------- Grands titres : lettres lumineuses ---------- */
+.titre-affiche,.une__titre,.heros__titre{font-style:normal;letter-spacing:.01em}
+.une__titre span,.heros__titre .jaune,.section-nuit .titre-affiche span{color:var(--ambre);text-shadow:var(--lueur)}
+.une__titre{text-shadow:0 2px 24px rgba(0,0,0,.6)}
+.surtitre,.surtitre--orange{color:var(--ambre)}
+
+/* ---------- En-tête : nuit, guirlande dessous ---------- */
+.entete{background:var(--noir);border-bottom:1px solid #2A231B}
+.entete::after{content:"";position:absolute;left:0;right:0;bottom:-16px;height:22px;background:var(--guirlande);pointer-events:none;opacity:.95}
+.entete.est-defile{box-shadow:0 10px 30px rgba(0,0,0,.6)}
+.entete__logo img{content:url(../images/logo-expo-blanc.webp);height:62px}
+.nav a{color:var(--creme)}
+.nav a:hover{color:var(--ambre-vif)}
+.nav a:not(.nav__remisage)::after{background:var(--ambre);box-shadow:var(--lueur)}
+.nav a[aria-current="page"]{color:var(--ambre)}
+.nav .nav__remisage{background:var(--ambre);color:var(--noir);box-shadow:0 0 22px rgba(242,163,58,.35)}
+.nav .nav__remisage:hover{background:var(--ambre-vif);color:var(--noir)}
+.nav .nav__remisage[aria-current="page"]{background:var(--creme);color:var(--noir)}
+.menu-bouton{background:var(--ambre);color:var(--noir)}
+@media (max-width:1240px){.nav a{border-top-color:#2A231B}}
+
+/* ---------- Boutons ---------- */
+.bouton--orange{background:var(--ambre);color:var(--noir);box-shadow:0 0 24px rgba(242,163,58,.35)}
+.bouton--orange:hover{background:var(--ambre-vif);color:var(--noir)}
+.bouton--marine{background:var(--creme);color:var(--noir)}
+.bouton--marine:hover{background:var(--ambre);color:var(--noir)}
+.bouton--contour{box-shadow:inset 0 0 0 2px var(--creme);color:var(--creme)}
+.bouton--contour:hover{background:var(--creme);color:var(--noir)}
+.etape .bouton--marine,.tarifs .bouton--marine,.billet-remisage .bouton--marine{background:var(--noir);color:var(--creme)}
+
+/* ---------- Héros et sections foncées ---------- */
+.heros,.section-nuit{background:var(--noir-2)}
+.une{background:var(--noir)}
+.une::before{background:linear-gradient(90deg,rgba(15,13,10,.92) 0%,rgba(15,13,10,.6) 45%,rgba(15,13,10,.1) 80%),linear-gradient(0deg,rgba(15,13,10,.85) 0%,rgba(15,13,10,0) 45%)}
+@media (max-width:760px){.une::before{background:linear-gradient(0deg,rgba(15,13,10,.95) 0%,rgba(15,13,10,.72) 50%,rgba(15,13,10,.25) 100%)}}
+.une__point[aria-current="true"]::before{background:var(--ambre);box-shadow:var(--lueur)}
+.billet{background:var(--ambre);color:var(--noir);box-shadow:0 0 26px rgba(242,163,58,.35)}
+
+/* ---------- Bandeau : enseigne lumineuse ---------- */
+.bandeau{background:var(--noir);color:var(--ambre);border-top:1px solid #2A231B;border-bottom:1px solid #2A231B;position:relative}
+.bandeau__piste{text-shadow:var(--lueur)}
+.bandeau svg{fill:var(--ambre)}
+.bandeau svg use{fill:var(--ambre)}
+
+/* ---------- Cartes : panneaux sombres, couleur du moulinet en lumière ---------- */
+.porte,.choix__panneau,.annees li,.salle,.nouveaute{background:var(--noir-3);color:var(--creme);border:1px solid #2E261D;box-shadow:inset 0 3px 0 var(--c,var(--ambre)),0 18px 40px rgba(0,0,0,.45)}
+.porte h3,.choix__texte h3,.annees strong,.salle__texte h3,.nouveaute__texte h3{color:var(--c,var(--ambre));text-shadow:0 0 22px color-mix(in srgb,var(--c,var(--ambre)) 45%,transparent)}
+.porte .porte__saison,.porte__faits dt{color:#CBBBA0}
+.porte p,.choix__texte > p,.salle__texte p,.nouveaute__texte > p:not(.nouveaute__etiquette){color:#DCCDB3}
+.porte--remisage{--c:var(--ambre);background:linear-gradient(180deg,#221B14,var(--noir-3))}
+.porte__faits div{border-top-color:#3A3127}
+.porte__faits dd{color:var(--ambre)}
+.choix__liste li{border-top-color:rgba(245,233,211,.14)}
+.choix__panneau.c-marine{--c:#F5E9D3}
+.annees .c-marine{--c:#F5E9D3}
+.nouveaute{--c:var(--rouge-nuit)}
+.nouveaute__texte h3{color:#FF7A5C}
+.nouveaute__etiquette{background:var(--rouge-nuit);color:var(--creme)}
+.salle{background:var(--noir-3)}
+
+/* Onglets : petites enseignes */
+.choix__onglet{background:var(--noir-3);color:var(--creme);box-shadow:inset 0 0 0 1px #3A3127}
+.choix__onglet[aria-selected="true"]{background:var(--c);color:var(--noir);box-shadow:0 0 24px color-mix(in srgb,var(--c) 45%,transparent)}
+.choix__onglet--marine[aria-selected="true"]{--c:var(--creme);color:var(--noir)}
+.choix__onglet--marine[aria-selected="true"]::before{background:var(--noir)}
+
+/* Pages intérieures : onglets de jours, filtres, étiquettes */
+.onglet,.filtre{background:var(--noir-3);color:var(--creme);border-color:#4A3F33}
+.onglet[aria-selected="true"]{background:var(--ambre);color:var(--noir);border-color:var(--ambre)}
+.filtre[aria-pressed="true"]{background:var(--ambre);color:var(--noir);border-color:var(--ambre)}
+.classes__num,.etat--a-venir{color:var(--ambre)}
+
+/* Photos : un peu plus de chaleur, comme sous les ampoules */
+.mosaique li{border-radius:10px;box-shadow:0 14px 30px rgba(0,0,0,.5)}
+.mosaique span{background:var(--ambre);color:var(--noir)}
+.venir__photo,.porte__photo,.choix__photo,.salle__photo,.nouveaute__photo{filter:saturate(1.05)}
+
+/* Formulaires : cartes crème sur fond de nuit */
+.etape{background:var(--creme);border-color:var(--creme)}
+.champ input,.champ textarea,.champ select,.champ__unite input{background:#FFFDF8}
+.formulaire__envoi p,.entete-section p,.entete-accueil p{color:#CBBBA0}
+
+/* ---------- Pied de page : guirlande au-dessus ---------- */
+.pied{background:var(--noir);border-top:1px solid #2A231B;position:relative}
+.pied::before{content:"";position:absolute;left:0;right:0;top:-10px;height:22px;background:var(--guirlande)}
+.pied a:hover{color:var(--ambre)}
+.pied__bas{border-top-color:#2A231B}
+
+/* ---------- Corrections : éléments clairs dans les formulaires et l'horaire ---------- */
+.choix__carte,.avis-mesure{background:#FFFDF8}
+.choix input:checked + .choix__carte{background:var(--jaune)}
+.etape__titre{color:var(--noir);background:var(--creme);padding:2px 14px 2px 2px;border-radius:999px;width:fit-content}
+.evenement__prix{color:var(--creme)}
+.evenement__prix--gratuit{color:var(--vert)}
+.onglet[aria-selected="true"] .onglet__date{color:var(--noir)}
+.unites__choix span{background:#FFFDF8}
+.etape a,.merci a,.tarifs a,.billet-remisage a,.avis-mesure a{color:#8A3B12}
