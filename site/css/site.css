@@ -203,7 +203,8 @@ a:hover{color:#124E78}
   .une{min-height:640px}
   .une::before{background:linear-gradient(0deg,rgba(14,24,32,.92) 0%,rgba(14,24,32,.7) 50%,rgba(14,24,32,.2) 100%)}
   .une__contenu{padding-top:72px;padding-bottom:132px}
-  .une__legende{left:20px;right:20px;bottom:24px;justify-content:space-between}
+  .une__legende{left:20px;right:20px;bottom:16px;justify-content:space-between;flex-wrap:wrap;gap:4px 16px}
+  .une__legende-texte{flex:1 0 100%}
   .une__legende-texte{text-align:left;font-size:14px}
   .une__point::before{width:18px}
   .une__point[aria-current="true"]::before{width:28px}

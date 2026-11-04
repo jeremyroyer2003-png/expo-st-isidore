@@ -20,6 +20,14 @@ Ce fichier est lu automatiquement par Claude Code. Il résume tout ce qui a ét�
 
 ## Direction visuelle retenue : « affiche de foire agricole »
 
+> **Mise à jour du 4 novembre 2026 : direction « plein été »** (plus de contraste, demandée par Jérémy). Elle remplace certains points plus bas :
+> - Fond **blanc** `#FFFFFF`; sections alternées en ciel pâle `#EAF4FA` (au lieu du papier beige). Héros des pages intérieures sur marine `#263F53`.
+> - En-tête **blanc et collant** avec le logo officiel en couleur (`site/images/logo-expo.png`). Pied de page **bleu** `#0B67A8` avec logo blanc (`logo-expo-blanc.png`).
+> - Les 4 couleurs du moulinet en aplats (onglets de l'accueil, cartes des grandes dates), texte foncé `#15202A` dessus.
+> - Le **moulinet est revenu**, découpé dans le logo officiel (`site/images/moulinet.png`), pas dessiné en code.
+> - Plus de page encadrée aux coins arrondis.
+> - Accueil : diaporama plein écran (avec bouton pause), mosaïque de photos, photo aérienne du terrain.
+
 La référence est `maquettes/accueil-v2.html`. Ouvre-la dans un navigateur avant de coder.
 
 - **Couleurs** (tirées du logo) :

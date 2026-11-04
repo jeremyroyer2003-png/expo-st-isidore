@@ -27,13 +27,17 @@ Les décisions de fond (couleurs, règles, contenu) sont dans `CLAUDE.md`. Ce qu
 - Apparition des blocs au défilement (`js/site.js`).
 - Vérifié par captures à 1440 px : accueil, histoire, remisage, programmation. Rendu cohérent.
 
+### Vérifié et corrigé (4 novembre 2026, 2e passe)
+- Captures des 9 pages sur ordinateur (1440 px) et sur téléphone (390 px, dans un cadre de 390 px car Chrome sans fenêtre ne descend pas sous ~500 px). Aucun débordement horizontal.
+- Programmation : au chargement, le script ajoutait `#jour-jeu-16` à l'adresse trop tôt; le navigateur sautait à l'horaire et lui donnait le focus (contour orange). Corrigé dans `js/programmation.js` : l'adresse change seulement quand on clique un jour.
+- Accueil sur téléphone : la légende du diaporama était coincée sur 4 lignes; elle a maintenant sa propre ligne au-dessus des boutons.
+- Contrastes vérifiés (WCAG) : texte foncé sur vert 7,1, bleu 6,0, jaune 9,5, orange 5,9; blanc sur pied de page bleu 6,0; tout passe 4,5:1. L'orange `#C75E10` (4,2) est réservé aux grands titres.
+- `CLAUDE.md` mis à jour avec la nouvelle direction.
+
 ### À faire ensuite
-- [ ] Captures sur téléphone (390 px) de toutes les pages : vérifier le menu, le diaporama, la mosaïque, aucun débordement.
-- [ ] Captures ordinateur des pages pas encore revues : tire de tracteurs, exposants, photos, contact, confidentialité.
-- [ ] Programmation : un contour orange apparaît autour de la liste de l'horaire au chargement (style `:focus-visible` global). À vérifier/corriger.
-- [ ] Vérifier les contrastes (4,5:1) des petits textes sur les aplats vert, bleu et jaune.
-- [ ] Mettre à jour la section « Direction visuelle » de `CLAUDE.md` (elle décrit encore le fond papier beige et le moulinet retiré).
-- [ ] Faire valider la direction par Jérémy, puis pousser sur GitHub.
+- [ ] Jérémy regarde le rendu dans son navigateur et donne ses retours.
+- [ ] Score Lighthouse (performance, accessibilité, SEO) une fois la direction validée.
+- [ ] Toujours en attente du comité : voir `A-CONFIRMER.md`.
 
 ---
 

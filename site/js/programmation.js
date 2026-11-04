@@ -37,7 +37,7 @@
     annonce.textContent = visibles + (visibles > 1 ? ' activités affichées' : ' activité affichée');
   }
 
-  function choisir(i, focus) {
+  function choisir(i, focus, initial) {
     onglets.forEach(function (b, j) {
       var actif = i === j;
       b.setAttribute('aria-selected', String(actif));
@@ -45,8 +45,11 @@
       jours[j].hidden = !actif;
     });
     if (focus) onglets[i].focus();
-    onglets[i].scrollIntoView({ block: 'nearest', inline: 'nearest' });
     appliquerFiltre();
+    // Au chargement, on ne touche ni au défilement ni à l'adresse : sinon le navigateur
+    // saute à l'horaire et lui donne le focus (contour orange).
+    if (initial) return;
+    onglets[i].scrollIntoView({ block: 'nearest', inline: 'nearest' });
     history.replaceState(null, '', '#' + jours[i].id);
   }
 
@@ -73,5 +76,5 @@
   groupeFiltres.hidden = false;
   var demande = jours.findIndex(function (j) { return '#' + j.id === location.hash; });
   var depart = jours.findIndex(function (j) { return j.id === 'jour-jeu-16'; });
-  choisir(demande !== -1 ? demande : Math.max(depart, 0), false);
+  choisir(demande !== -1 ? demande : Math.max(depart, 0), false, true);
 })();
