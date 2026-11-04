@@ -5,17 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Expo St-Isidore – Exposition agricole gratuite en Beauce depuis 1983</title>
   <meta name="description" content="Expo agricole gratuite à Saint-Isidore, en Beauce : jugements d'animaux, tire de tracteurs, spectacles et activités familiales. Merci pour 2026, on se revoit en juillet 2027. Remisage d'hiver intérieur.">
-  <meta name="theme-color" content="#263F53">
+  <meta name="theme-color" content="#FFFFFF">
   <meta property="og:title" content="Expo St-Isidore / Bassin de la Chaudière">
   <meta property="og:description" content="Expo agricole gratuite en Beauce depuis 1983. On se revoit en juillet 2027.">
-  <meta property="og:image" content="images/photos/tire-foule.jpg">
+  <meta property="og:image" content="images/photos/tire-poussiere.jpg">
   <meta property="og:locale" content="fr_CA">
-  <link rel="icon" href="images/logo.png">
+  <link rel="icon" href="images/favicon.png">
   <link rel="preload" href="fonts/barlow-condensed-latin-900-italic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/barlow-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="images/photos/tire-poussiere.jpg" as="image" media="(min-width: 761px)">
   <link rel="stylesheet" href="css/site.css">
   <script>document.documentElement.classList.add('js')</script>
   <script src="js/site.js" defer></script>
+  <script src="js/accueil.js" defer></script>
 </head>
 <body>
 <a class="lien-evitement" href="#contenu">Aller au contenu</a>
@@ -31,7 +33,7 @@
   <header class="entete">
     <div class="contenu entete__barre">
       <a class="entete__logo" href="index.html" aria-label="Expo St-Isidore – Bassin de la Chaudière, accueil">
-        <img src="images/logo.png" alt="Expo St-Isidore – Bassin de la Chaudière" width="104" height="62">
+        <img src="images/logo-expo.png" alt="Expo St-Isidore – Bassin de la Chaudière" width="124" height="72">
       </a>
       <button class="menu-bouton" type="button" aria-expanded="false" aria-controls="nav-principale">
         <span class="menu-bouton__icone" aria-hidden="true"><span></span></span>
@@ -51,43 +53,50 @@
 
   <main id="contenu">
 
-    <!-- ===== Héros affiche ===== -->
-    <section class="heros" aria-labelledby="titre-heros">
-      <div class="contenu heros__grille">
-        <div class="heros__texte">
+    <!-- ===== Héros : diaporama de vraies photos de l'Expo ===== -->
+    <div class="une-zone">
+      <section class="une" aria-labelledby="titre-heros">
+        <!-- Photos de l'ancien site (droits à confirmer) : remplacer le fichier dans images/photos/ -->
+        <ul class="une__diapos" aria-label="Photos de l'Expo">
+          <li class="une__diapo est-active">
+            <img src="images/photos/tire-poussiere.jpg" srcset="images/photos/tire-poussiere-800.jpg 800w, images/photos/tire-poussiere.jpg 1600w" sizes="100vw" alt="Tracteur vert qui tire la luge dans un nuage de poussière, devant les estrades" width="1600" height="1067" data-legende="Tire de tracteurs ASTTQ, Saint-Isidore">
+          </li>
+          <li class="une__diapo">
+            <img src="images/photos/holstein-rubans.jpg" srcset="images/photos/holstein-rubans-800.jpg 800w, images/photos/holstein-rubans.jpg 1600w" sizes="100vw" alt="Des dizaines de rosettes de jugement multicolores alignées sur une table" width="1600" height="1067" loading="lazy" data-legende="Les rosettes du jugement Holstein">
+          </li>
+          <li class="une__diapo">
+            <img src="images/photos/spectacle-scene.jpg" srcset="images/photos/spectacle-scene-800.jpg 800w, images/photos/spectacle-scene.jpg 1600w" sizes="100vw" alt="Foule en silhouette devant une scène baignée de lumière rouge" width="1600" height="1065" loading="lazy" data-legende="Spectacle sous le grand chapiteau">
+          </li>
+          <li class="une__diapo">
+            <img src="images/photos/kiosques-exterieurs.jpg" srcset="images/photos/kiosques-exterieurs-800.jpg 800w, images/photos/kiosques-exterieurs.jpg 1600w" sizes="100vw" alt="Tracteurs neufs et kiosques d'exposants sous le soleil d'été" width="1600" height="1067" loading="lazy" data-legende="Kiosques extérieurs et machinerie">
+          </li>
+        </ul>
+
+        <div class="contenu une__contenu">
           <p class="billet"><span>Entrée gratuite</span><span>depuis 1983</span></p>
-          <h1 id="titre-heros" class="heros__titre">
-            <span>On se revoit</span>
-            <span class="jaune">en juillet</span>
-            <span class="contour">2027</span>
-          </h1>
-          <p class="heros__intro">Merci d'être venus à la 44<sup>e</sup> édition. Six jours d'agriculture, de tracteurs et de fête à Saint-Isidore, en Beauce. <strong>[Dates 2027 à confirmer]</strong></p>
+          <h1 id="titre-heros" class="une__titre">On se revoit <span>en juillet 2027</span></h1>
+          <p class="une__intro">Merci d'être venus à la 44<sup>e</sup> édition. Six jours d'agriculture, de tracteurs et de fête à Saint-Isidore, en Beauce. <strong>[Dates 2027 à confirmer]</strong></p>
           <div class="groupe-boutons">
-            <a class="bouton bouton--orange" href="photos.html">Revivre 2026 en photos</a>
+            <a class="bouton bouton--orange" href="photos.html">Revivre 2026 en photos <span class="fleche" aria-hidden="true">→</span></a>
             <a class="bouton bouton--contour" href="remisage.html">Remiser mon véhicule cet hiver</a>
           </div>
         </div>
 
-        <div class="heros__visuel">
-          <!-- Photos de l'ancien site (droits à confirmer) : remplacer le fichier dans images/photos/ -->
-          <figure class="tirage tirage--a">
-            <img src="images/photos/tire-foule-800.jpg" alt="Tracteur vert en pleine tire devant les estrades remplies" width="800" height="533">
-            <figcaption>Tire de tracteurs ASTTQ</figcaption>
-          </figure>
-          <figure class="tirage tirage--b">
-            <img src="images/photos/tire-semi-nuit-800.jpg" alt="Camion semi sous les projecteurs, le soir, devant les estrades pleines" width="800" height="533">
-            <figcaption>Les semis, à la nuit tombée</figcaption>
-          </figure>
+        <div class="une__legende" hidden>
+          <p class="une__legende-texte" aria-live="polite"></p>
+          <div class="une__points"></div>
+          <button class="une__pause" type="button" aria-pressed="false" aria-label="Arrêter le défilement des photos">
+            <svg class="icone-pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12" rx="1"/><rect x="9.5" y="2" width="3.5" height="12" rx="1"/></svg>
+            <svg class="icone-lecture" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11a.8.8 0 0 0 1.2.7l9-5.5a.8.8 0 0 0 0-1.4l-9-5.5A.8.8 0 0 0 4 2.5z"/></svg>
+          </button>
         </div>
-      </div>
+      </section>
 
-      <dl class="contenu chiffres">
-        <div><dt>Éditions</dt><dd>44</dd></div>
-        <div><dt>Producteurs fondateurs</dt><dd>28</dd></div>
-        <div><dt>Bénévoles</dt><dd><span aria-hidden="true">≈ </span><span class="visuellement-cache">environ </span>50</dd></div>
-        <div><dt>Prix d'entrée</dt><dd class="jaune">0 $</dd></div>
-      </dl>
-    </section>
+      <!-- Moulinet découpé du logo officiel (PNG du site actuel) -->
+      <div class="moulinet" aria-hidden="true">
+        <div class="moulinet__pales"><img src="images/moulinet.png" alt="" width="360" height="360"></div>
+      </div>
+    </div>
 
     <!-- ===== Bandeau défilant ===== -->
     <div class="bandeau">
@@ -112,48 +121,135 @@
       </div>
     </div>
 
-    <!-- ===== Six jours, six ambiances ===== -->
-    <section class="section-papier" aria-labelledby="titre-ambiances">
-      <div class="contenu section-espacee ambiances">
-        <div class="ambiances__intro">
-          <h2 id="titre-ambiances" class="titre-affiche">Six jours,<br><span>six ambiances</span></h2>
-          <p>Jugements, tire, spectacles, famille et kiosques : ce qui vous attend chaque été.</p>
-          <figure class="tirage ambiances__photo">
-            <img src="images/photos/machinerie-exterieure-800.jpg" alt="Allée de machinerie agricole neuve exposée à l'extérieur" width="800" height="533" loading="lazy">
-            <figcaption>Kiosques extérieurs</figcaption>
-          </figure>
+    <!-- ===== Choisir son Expo : une couleur du moulinet par ambiance ===== -->
+    <section class="section-papier" aria-labelledby="titre-choix">
+      <div class="contenu section-espacee">
+        <div class="entete-accueil">
+          <h2 id="titre-choix" class="titre-affiche">Six jours, six ambiances</h2>
+          <p>Choisissez ce qui vous allume. Voici ce qu'il y avait en 2026; la programmation 2027 sera dévoilée au printemps [date à confirmer].</p>
         </div>
-        <ol class="liste-numerotee">
-          <li>
-            <span class="liste-numerotee__num" aria-hidden="true">01</span>
-            <div><h3>Jugements d'animaux</h3><p>Holstein, jeunes éleveurs et relève : la raison d'être de l'Expo depuis 1983.</p></div>
-          </li>
-          <li>
-            <span class="liste-numerotee__num" aria-hidden="true">02</span>
-            <div><h3>Tire de tracteurs</h3><p>Super Stock, Pro Farm, 4x4 modifiés et semi-remorques, deux soirs de compétition ASTTQ.</p></div>
-          </li>
-          <li>
-            <span class="liste-numerotee__num" aria-hidden="true">03</span>
-            <div><h3>Le grand chapiteau</h3><p>Spectacles chaque soir, Beach Party et feux d'artifice.</p></div>
-          </li>
-          <li>
-            <span class="liste-numerotee__num" aria-hidden="true">04</span>
-            <div><h3>Place de la famille</h3><p>Cinéma extérieur, jeux gonflables, maquillage et mascottes.</p></div>
-          </li>
-          <li>
-            <span class="liste-numerotee__num" aria-hidden="true">05</span>
-            <div><h3>Exposants et machinerie</h3><p>Concessionnaires, producteurs, artisans et le palais des commerces. <a href="exposants.html">Réserver un kiosque pour 2027</a></p></div>
-          </li>
-          <li>
-            <span class="liste-numerotee__num" aria-hidden="true">06</span>
-            <div><h3>Agriculture d'aujourd'hui</h3><p>Agriculture 4.0 et Agri'Culture, avec le Cégep de Lévis.</p></div>
-          </li>
-        </ol>
+
+        <div class="choix">
+          <div class="choix__onglets" role="tablist" aria-label="Ambiances de l'Expo" hidden>
+            <button class="choix__onglet c-vert" type="button" role="tab" id="onglet-animaux" aria-controls="ambiance-animaux" aria-selected="true">Animaux</button>
+            <button class="choix__onglet c-orange" type="button" role="tab" id="onglet-tire" aria-controls="ambiance-tire" aria-selected="false" tabindex="-1">Tire</button>
+            <button class="choix__onglet c-bleu" type="button" role="tab" id="onglet-spectacles" aria-controls="ambiance-spectacles" aria-selected="false" tabindex="-1">Spectacles</button>
+            <button class="choix__onglet c-jaune" type="button" role="tab" id="onglet-famille" aria-controls="ambiance-famille" aria-selected="false" tabindex="-1">Famille</button>
+            <button class="choix__onglet choix__onglet--marine c-marine" type="button" role="tab" id="onglet-kiosques" aria-controls="ambiance-kiosques" aria-selected="false" tabindex="-1">Kiosques</button>
+          </div>
+
+          <article class="choix__panneau c-vert" id="ambiance-animaux" role="tabpanel" aria-labelledby="onglet-animaux">
+            <figure class="choix__photo">
+              <img src="images/photos/holstein-championne-800.jpg" srcset="images/photos/holstein-championne-800.jpg 800w, images/photos/holstein-championne.jpg 1600w" sizes="(max-width: 900px) 100vw, 720px" alt="Deux éleveuses présentent la vache championne Holstein devant la bannière de l'Expo" width="800" height="523" loading="lazy">
+              <figcaption>Championne Holstein</figcaption>
+            </figure>
+            <div class="choix__texte">
+              <h3>Les animaux</h3>
+              <p>La raison d'être de l'Expo depuis 1983 : les éleveurs de la région viennent comparer leur bétail sous la tente de jugement.</p>
+              <ul class="choix__liste">
+                <li><span class="choix__quand">Jeu. 10 h 30</span><span class="choix__quoi">Jugement des jeunes éleveurs<small>Tente de jugement</small></span></li>
+                <li><span class="choix__quand">Ven. 14 h</span><span class="choix__quoi">Concours de tonte<small>Tente de jugement</small></span></li>
+                <li><span class="choix__quand">Sam. 10 h</span><span class="choix__quoi">Jugement des bovins laitiers<small>Tente de jugement</small></span></li>
+                <li><span class="choix__quand">Dim. 10 h</span><span class="choix__quoi">Chiens de berger au travail<small>Terrain de tire · gratuit</small></span></li>
+              </ul>
+              <a class="bouton bouton--marine" href="programmation.html">Toute la programmation <span class="fleche" aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="choix__panneau c-orange" id="ambiance-tire" role="tabpanel" aria-labelledby="onglet-tire">
+            <figure class="choix__photo">
+              <img src="images/photos/tire-semi-nuit-800.jpg" srcset="images/photos/tire-semi-nuit-800.jpg 800w, images/photos/tire-semi-nuit.jpg 1600w" sizes="(max-width: 900px) 100vw, 720px" alt="Camion semi-remorque sous les projecteurs, le soir, devant les estrades pleines" width="800" height="533" loading="lazy">
+              <figcaption>Les semis, à la nuit tombée</figcaption>
+            </figure>
+            <div class="choix__texte">
+              <h3>La tire</h3>
+              <p>Deux soirs de compétition ASTTQ : Super Stock, Pro Farm, 4x4 modifiés et semi-remorques, devant des estrades pleines.</p>
+              <ul class="choix__liste">
+                <li><span class="choix__quand">Ven. 18 h 30</span><span class="choix__quoi">Tire de tracteurs ASTTQ<small>Terrain de tire · 30 $ adulte</small></span></li>
+                <li><span class="choix__quand">Sam. 18 h</span><span class="choix__quoi">Tire de tracteurs ASTTQ<small>Terrain de tire · 30 $ adulte</small></span></li>
+                <li><span class="choix__quand">Dim. 14 h</span><span class="choix__quoi">Tire de mini-tracteurs Gérard Larochelle<small>Aréna</small></span></li>
+              </ul>
+              <a class="bouton bouton--marine" href="tire-de-tracteurs.html">Classes, pilotes et billets <span class="fleche" aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="choix__panneau c-bleu" id="ambiance-spectacles" role="tabpanel" aria-labelledby="onglet-spectacles">
+            <figure class="choix__photo">
+              <img src="images/photos/spectacle-foule-800.jpg" srcset="images/photos/spectacle-foule-800.jpg 800w, images/photos/spectacle-foule.jpg 1600w" sizes="(max-width: 900px) 100vw, 720px" alt="Foule devant la scène pendant un spectacle rock en soirée" width="800" height="533" loading="lazy">
+              <figcaption>Le grand chapiteau, en soirée</figcaption>
+            </figure>
+            <div class="choix__texte">
+              <h3>Les soirées</h3>
+              <p>Chaque soir sous le grand chapiteau, la plupart gratuits, et de la danse country à l'aréna.</p>
+              <ul class="choix__liste">
+                <li><span class="choix__quand">Jeu. 20 h</span><span class="choix__quoi">Show Lex Roses<small>Grand chapiteau</small></span></li>
+                <li><span class="choix__quand">Ven. minuit</span><span class="choix__quoi">Beach Party D.James<small>Grand chapiteau · gratuit</small></span></li>
+                <li><span class="choix__quand">Sam. 13 h</span><span class="choix__quoi">12 heures de danse country<small>Aréna · 15 $</small></span></li>
+                <li><span class="choix__quand">Sam. 22 h 30</span><span class="choix__quoi">La Grand-Messe<small>Grand chapiteau · gratuit</small></span></li>
+              </ul>
+              <a class="bouton bouton--marine" href="programmation.html">Toute la programmation <span class="fleche" aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="choix__panneau c-jaune" id="ambiance-famille" role="tabpanel" aria-labelledby="onglet-famille">
+            <figure class="choix__photo">
+              <img src="images/photos/petits-animaux-800.jpg" srcset="images/photos/petits-animaux-800.jpg 800w, images/photos/petits-animaux.jpg 1600w" sizes="(max-width: 900px) 100vw, 720px" alt="Chèvres et petit zébu dans un enclos de bois" width="800" height="533" loading="lazy">
+              <figcaption>Les petits animaux</figcaption>
+            </figure>
+            <div class="choix__texte">
+              <h3>En famille</h3>
+              <p>La Place de la famille Desjardins : jeux gonflables gratuits, cinéma en plein air et feux d'artifice.</p>
+              <ul class="choix__liste">
+                <li><span class="choix__quand">Jeu. au dim.</span><span class="choix__quoi">Jeux gonflables et maquillage<small>Place de la famille · jeux gratuits</small></span></li>
+                <li><span class="choix__quand">Jeu. 19 h</span><span class="choix__quoi">Cinéma extérieur familial<small>Place de la famille · gratuit</small></span></li>
+                <li><span class="choix__quand">Jeu. 22 h</span><span class="choix__quoi">Feux d'artifice<small>Place de la famille</small></span></li>
+                <li><span class="choix__quand">Dim. 12 h</span><span class="choix__quoi">Pique-nique familial<small>Grand chapiteau · 20 $ par famille</small></span></li>
+              </ul>
+              <a class="bouton bouton--marine" href="programmation.html">Toute la programmation <span class="fleche" aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="choix__panneau c-marine" id="ambiance-kiosques" role="tabpanel" aria-labelledby="onglet-kiosques">
+            <figure class="choix__photo">
+              <img src="images/photos/machinerie-exterieure-800.jpg" srcset="images/photos/machinerie-exterieure-800.jpg 800w, images/photos/machinerie-exterieure.jpg 1600w" sizes="(max-width: 900px) 100vw, 720px" alt="Allée de machinerie agricole neuve exposée à l'extérieur" width="800" height="533" loading="lazy">
+              <figcaption>L'allée de la machinerie</figcaption>
+            </figure>
+            <div class="choix__texte">
+              <h3>Les kiosques</h3>
+              <p>Concessionnaires, producteurs, artisans et le palais des commerces, du jeudi au dimanche.</p>
+              <ul class="choix__liste">
+                <li><span class="choix__quand">Jeu. au dim.</span><span class="choix__quoi">Kiosques intérieurs et extérieurs<small>Aréna et terrain</small></span></li>
+                <li><span class="choix__quand">Ven. 10 h 30</span><span class="choix__quoi">Parcel-O-Champs<small>Grand chapiteau · gratuit</small></span></li>
+                <li><span class="choix__quand">Sam. et dim.</span><span class="choix__quoi">Agri'Culture<small>Bâtiment 2 (grange 2)</small></span></li>
+                <li><span class="choix__quand">Sam. 18 h</span><span class="choix__quoi">Dégustation BBQ Grill Together<small>Grand chapiteau · 35 $</small></span></li>
+              </ul>
+              <a class="bouton bouton--orange" href="exposants.html">Réserver un kiosque <span class="fleche" aria-hidden="true">→</span></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== L'été 2026 en images ===== -->
+    <section class="section-papier-2" aria-labelledby="titre-images">
+      <div class="contenu section-espacee">
+        <div class="entete-accueil">
+          <h2 id="titre-images" class="titre-affiche">L'été 2026 en images</h2>
+          <a class="bouton bouton--marine" href="photos.html">Tous les albums <span class="fleche" aria-hidden="true">→</span></a>
+        </div>
+        <ul class="mosaique">
+          <li><a href="photos.html#album-animaux"><img src="images/photos/holstein-jugement-800.jpg" srcset="images/photos/holstein-jugement-800.jpg 800w, images/photos/holstein-jugement.jpg 1600w" sizes="(max-width: 700px) 100vw, 620px" alt="Juge et éleveurs devant une rangée de vaches Holstein sous la tente" width="800" height="533" loading="lazy"><span>Jugement Holstein</span></a></li>
+          <li><a href="photos.html#album-soirees"><img src="images/photos/danse-country-400.jpg" srcset="images/photos/danse-country-400.jpg 400w, images/photos/danse-country-800.jpg 800w" sizes="(max-width: 700px) 50vw, 310px" alt="Danseurs en ligne sous les lumières d'une grange décorée" width="400" height="266" loading="lazy"><span>Danse country</span></a></li>
+          <li><a href="photos.html#album-tire"><img src="images/photos/tire-pickups-400.jpg" srcset="images/photos/tire-pickups-400.jpg 400w, images/photos/tire-pickups-800.jpg 800w" sizes="(max-width: 700px) 50vw, 310px" alt="Pick-up modifié en pleine tire sur la piste de terre" width="400" height="267" loading="lazy"><span>Tire de pick-ups</span></a></li>
+          <li><a href="photos.html#album-animaux"><img src="images/photos/holstein-rosettes-800.jpg" srcset="images/photos/holstein-rosettes-800.jpg 800w, images/photos/holstein-rosettes.jpg 1600w" sizes="(max-width: 700px) 50vw, 620px" alt="Plaques et rubans de champion aux couleurs de l'Expo" width="800" height="533" loading="lazy"><span>Rubans de champion</span></a></li>
+          <li><a href="photos.html#album-kiosques"><img src="images/photos/agroalimentaire-400.jpg" srcset="images/photos/agroalimentaire-400.jpg 400w, images/photos/agroalimentaire-800.jpg 800w" sizes="(max-width: 700px) 50vw, 310px" alt="Animation agroalimentaire : visiteurs autour d'une table d'activités" width="400" height="267" loading="lazy"><span>Agroalimentaire</span></a></li>
+          <li><a href="photos.html#album-soirees"><img src="images/photos/chapiteau-foule-400.jpg" srcset="images/photos/chapiteau-foule-400.jpg 400w, images/photos/chapiteau-foule-800.jpg 800w" sizes="(max-width: 700px) 100vw, 310px" alt="Foule rassemblée sous le grand chapiteau, le soir" width="400" height="267" loading="lazy"><span>Le chapiteau</span></a></li>
+        </ul>
       </div>
     </section>
 
     <!-- ===== Archives et grandes dates ===== -->
-    <section class="section-papier-2" aria-labelledby="titre-histoire">
+    <section class="section-papier" aria-labelledby="titre-histoire">
       <div class="contenu section-espacee archives">
         <div class="archives__haut">
           <figure class="archive-photo">
@@ -168,32 +264,40 @@
             <h2 id="titre-histoire" class="surtitre">Notre histoire</h2>
             <blockquote class="archives__citation"><p>« Créée par 28 producteurs visionnaires. »</p></blockquote>
             <p>À l'automne 1982, des producteurs de la Beauce, de Lévis et de Dorchester veulent comparer leur bétail. Ils imaginent un « party agricole » ouvert à tous. Plus de 40 ans plus tard, l'idée tient toujours, grâce aux bénévoles.</p>
-            <a class="bouton bouton--marine" href="histoire.html">Lire l'histoire et nos bâtisseurs</a>
+            <a class="bouton bouton--marine" href="histoire.html">Lire l'histoire et nos bâtisseurs <span class="fleche" aria-hidden="true">→</span></a>
           </div>
         </div>
 
-        <ol class="rubans" aria-label="Grandes dates">
-          <li>
-            <svg aria-hidden="true" viewBox="0 0 92 120"><path d="M30 70 L18 118 L34 106 L42 120 L46 72 Z" fill="#C75E10"/><path d="M62 70 L74 118 L58 106 L50 120 L46 72 Z" fill="#C75E10"/><circle cx="46" cy="44" r="40" fill="#EE7A22"/><circle cx="46" cy="44" r="29" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="4 4"/><text x="46" y="52" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-style="italic" font-size="22" fill="#15202A">1983</text></svg>
-            <span><span class="visuellement-cache">1983 : </span>Lettres patentes et premier bureau, présidé par Odilon Pelchat</span>
-          </li>
-          <li>
-            <svg aria-hidden="true" viewBox="0 0 92 120"><path d="M30 70 L18 118 L34 106 L42 120 L46 72 Z" fill="#5A9A2C"/><path d="M62 70 L74 118 L58 106 L50 120 L46 72 Z" fill="#5A9A2C"/><circle cx="46" cy="44" r="40" fill="#7DBB42"/><circle cx="46" cy="44" r="29" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="4 4"/><text x="46" y="52" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-style="italic" font-size="22" fill="#15202A">1984</text></svg>
-            <span><span class="visuellement-cache">1984 : </span>Quatre nouvelles étables</span>
-          </li>
-          <li>
-            <svg aria-hidden="true" viewBox="0 0 92 120"><path d="M30 70 L18 118 L34 106 L42 120 L46 72 Z" fill="#D9950A"/><path d="M62 70 L74 118 L58 106 L50 120 L46 72 Z" fill="#D9950A"/><circle cx="46" cy="44" r="40" fill="#FDB913"/><circle cx="46" cy="44" r="29" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="4 4"/><text x="46" y="52" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-style="italic" font-size="22" fill="#15202A">1991</text></svg>
-            <span><span class="visuellement-cache">1991 : </span>Construction du palais des commerces</span>
-          </li>
-          <li>
-            <svg aria-hidden="true" viewBox="0 0 92 120"><path d="M30 70 L18 118 L34 106 L42 120 L46 72 Z" fill="#1280B0"/><path d="M62 70 L74 118 L58 106 L50 120 L46 72 Z" fill="#1280B0"/><circle cx="46" cy="44" r="40" fill="#19A7E0"/><circle cx="46" cy="44" r="29" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="4 4"/><text x="46" y="52" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-style="italic" font-size="22" fill="#15202A">2010</text></svg>
-            <span><span class="visuellement-cache">2010 : </span>Premiers manèges de l'histoire de l'Expo</span>
-          </li>
-          <li>
-            <svg aria-hidden="true" viewBox="0 0 92 120"><path d="M30 70 L18 118 L34 106 L42 120 L46 72 Z" fill="#15202A"/><path d="M62 70 L74 118 L58 106 L50 120 L46 72 Z" fill="#15202A"/><circle cx="46" cy="44" r="40" fill="#263F53"/><circle cx="46" cy="44" r="29" fill="none" stroke="#FDB913" stroke-width="2" stroke-dasharray="4 4"/><text x="46" y="52" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-style="italic" font-size="22" fill="#FDB913">2026</text></svg>
-            <span><span class="visuellement-cache">2026 : </span>44<sup>e</sup> édition, toujours gratuite</span>
-          </li>
+        <ol class="annees" aria-label="Grandes dates">
+          <li class="c-orange"><strong>1983</strong><span>Lettres patentes et premier bureau, présidé par Odilon Pelchat</span></li>
+          <li class="c-vert"><strong>1984</strong><span>Quatre nouvelles étables</span></li>
+          <li class="c-jaune"><strong>1991</strong><span>Construction du palais des commerces</span></li>
+          <li class="c-bleu"><strong>2010</strong><span>Premiers manèges de l'histoire de l'Expo</span></li>
+          <li class="c-marine"><strong>2026</strong><span>44<sup>e</sup> édition, toujours gratuite</span></li>
         </ol>
+      </div>
+    </section>
+
+    <!-- ===== Venir à l'Expo ===== -->
+    <section class="section-papier-2" aria-labelledby="titre-venir">
+      <div class="contenu section-espacee venir">
+        <figure class="venir__photo">
+          <img src="images/photos/terrain-aerien-800.jpg" srcset="images/photos/terrain-aerien-800.jpg 800w, images/photos/terrain-aerien.jpg 1280w" sizes="(max-width: 900px) 100vw, 700px" alt="Vue aérienne du site de l'Expo : bâtiments, chapiteaux blancs, terrain de tire et stationnements entourés de champs" width="800" height="450" loading="lazy">
+          <figcaption>Le site de l'Expo vu du ciel</figcaption>
+        </figure>
+        <div class="venir__texte">
+          <h2 id="titre-venir" class="titre-affiche">Venir à l'Expo</h2>
+          <address class="venir__adresse">132, route Coulombe<small>Saint-Isidore (Québec) G0S 2S0, en Beauce</small></address>
+          <ul class="venir__faits">
+            <li class="c-vert">Entrée gratuite sur le site</li>
+            <li class="c-orange">Stationnement payant, à proximité</li>
+            <li class="c-bleu">Certaines activités payantes : tire, danse, souper</li>
+          </ul>
+          <div class="groupe-boutons">
+            <a class="bouton bouton--orange" href="https://www.google.com/maps/search/?api=1&amp;query=132+route+Coulombe+Saint-Isidore+QC+G0S+2S0" rel="noopener">Itinéraire <span class="fleche" aria-hidden="true">→</span></a>
+            <a class="bouton bouton--marine" href="contact.html#visiter">Infos pratiques</a>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -201,7 +305,6 @@
     <section class="section-nuit" aria-labelledby="titre-remisage">
       <div class="contenu section-espacee remisage-pub">
         <div class="remisage-pub__texte">
-          <p class="surtitre">Hors saison, l'Expo travaille aussi</p>
           <h2 id="titre-remisage" class="titre-affiche">L'hiver,<br>votre roulotte<br><span>dort en dedans.</span></h2>
           <p>Remisage intérieur dans les bâtiments de l'Expo pour roulottes, véhicules récréatifs (VR), autos, pick-ups, bateaux, motos et Spyder. Assuré, avec plus de 20 ans d'expérience.</p>
         </div>
@@ -212,7 +315,7 @@
               <div><dt>Entrée</dt><dd>mi-octobre</dd></div>
               <div><dt>Sortie</dt><dd>mi-mai</dd></div>
             </dl>
-            <a class="bouton bouton--orange" href="remisage.html">Envoyer mes dimensions</a>
+            <a class="bouton bouton--orange" href="remisage.html">Envoyer mes dimensions <span class="fleche" aria-hidden="true">→</span></a>
             <a class="billet-remisage__tel" href="tel:+14188829619">418 882-9619</a>
           </div>
           <div class="billet-remisage__talon" aria-hidden="true"><span>Admis</span></div>
@@ -225,26 +328,30 @@
   <!-- ===== Pied de page ===== -->
   <footer class="pied">
     <div class="contenu pied__interieur">
-      <div class="pied__colonnes">
-        <address class="pied__bloc">
-          <strong>Expo St-Isidore / Bassin de la Chaudière</strong>
-          <span>132, route Coulombe, Saint-Isidore (Québec) G0S 2S0</span>
-          <a href="https://www.google.com/maps/search/?api=1&amp;query=132+route+Coulombe+Saint-Isidore+QC+G0S+2S0" rel="noopener">Itinéraire</a>
-        </address>
-        <div class="pied__bloc">
-          <span>Bureau : <a href="tel:+14188825649">418 882-5649</a></span>
-          <span>Cellulaire : <a href="tel:+14183860484">418 386-0484</a></span>
-          <span>Remisage : <a href="tel:+14188829619">418 882-9619</a></span>
-          <a href="mailto:info@expobassinchaudiere.com">info@expobassinchaudiere.com</a>
-        </div>
-        <div class="pied__bloc">
-          <strong>Suivre l'Expo</strong>
-          <a href="https://www.facebook.com/expostisidorebassinchaudiere/" rel="noopener">Facebook</a>
-          <a href="contact.html#visiter">Infos pratiques</a>
-          <a href="remisage.html">Remisage d'hiver</a>
+      <div class="pied__haut">
+        <img class="pied__logo" src="images/logo-expo-blanc.png" alt="Expo St-Isidore – Bassin de la Chaudière" width="300" height="174" loading="lazy">
+        <div class="pied__colonnes">
+          <address class="pied__bloc">
+            <strong>Nous trouver</strong>
+            <span>132, route Coulombe</span>
+            <span>Saint-Isidore (Québec) G0S 2S0</span>
+            <a href="https://www.google.com/maps/search/?api=1&amp;query=132+route+Coulombe+Saint-Isidore+QC+G0S+2S0" rel="noopener">Itinéraire</a>
+          </address>
+          <div class="pied__bloc">
+            <strong>Nous joindre</strong>
+            <span>Bureau : <a href="tel:+14188825649">418 882-5649</a></span>
+            <span>Cellulaire : <a href="tel:+14183860484">418 386-0484</a></span>
+            <span>Remisage : <a href="tel:+14188829619">418 882-9619</a></span>
+            <a href="mailto:info@expobassinchaudiere.com">info@expobassinchaudiere.com</a>
+          </div>
+          <div class="pied__bloc">
+            <strong>Suivre l'Expo</strong>
+            <a href="https://www.facebook.com/expostisidorebassinchaudiere/" rel="noopener">Facebook</a>
+            <a href="contact.html#visiter">Infos pratiques</a>
+            <a href="remisage.html">Remisage d'hiver</a>
+          </div>
         </div>
       </div>
-      <p class="pied__geant" aria-hidden="true">St-Isidore</p>
       <div class="pied__bas">
         <span>© 2026 Expo St-Isidore · <a href="confidentialite.html">Politique de confidentialité</a></span>
         <span>Maquette de démonstration – proposition de refonte</span>

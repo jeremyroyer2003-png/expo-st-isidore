@@ -55,6 +55,37 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // En-tête collant : une ombre apparaît seulement quand la page a défilé
+  var entete = document.querySelector('.entete');
+  if (entete) {
+    var majOmbre = function () { entete.classList.toggle('est-defile', window.scrollY > 8); };
+    window.addEventListener('scroll', majOmbre, { passive: true });
+    majOmbre();
+  }
+
+  // Apparition au défilement : les blocs de chaque section montent l'un après l'autre.
+  // Sans IntersectionObserver ou avec « réduire les animations », tout reste visible.
+  var calme = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if ('IntersectionObserver' in window && !calme) {
+    var blocs = document.querySelectorAll(
+      'main > section:not(.heros) > .contenu > *, .archives__haut > *, .mosaique > li, .annees > li, .venir > *'
+    );
+    var observateur = new IntersectionObserver(function (entrees) {
+      entrees.forEach(function (entree) {
+        if (!entree.isIntersecting) return;
+        entree.target.classList.add('est-visible');
+        observateur.unobserve(entree.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    blocs.forEach(function (bloc) {
+      if (bloc.matches('.archives__haut, .mosaique, .annees, .venir, form, .formulaire, [role="tablist"]')) return;
+      var freres = Array.prototype.indexOf.call(bloc.parentNode.children, bloc);
+      bloc.style.setProperty('--delai', Math.min(freres, 6) * 0.07 + 's');
+      bloc.classList.add('revele');
+      observateur.observe(bloc);
+    });
+  }
+
   // Formulaires simples (exposants, contact)
   document.querySelectorAll('form[data-envoi-simple]').forEach(function (form) {
     var erreur = form.querySelector('.formulaire__erreur');

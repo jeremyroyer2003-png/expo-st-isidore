@@ -2,6 +2,8 @@
 
 Ce fichier est lu automatiquement par Claude Code. Il résume tout ce qui a été décidé avant le début de la programmation.
 
+> **Reprise de session** : lire `PROGRESS.md` en premier, il dit où le travail est rendu. À la fin de chaque étape, mettre `PROGRESS.md` à jour et faire un commit Git, pour qu'aucune session perdue ne fasse perdre le fil.
+
 ## Contexte
 
 - Exercice de refonte réalisé par Jérémy dans le cadre d'une formation en création de sites Web.
