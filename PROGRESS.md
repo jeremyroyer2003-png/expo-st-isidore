@@ -34,10 +34,26 @@ Les décisions de fond (couleurs, règles, contenu) sont dans `CLAUDE.md`. Ce qu
 - Contrastes vérifiés (WCAG) : texte foncé sur vert 7,1, bleu 6,0, jaune 9,5, orange 5,9; blanc sur pied de page bleu 6,0; tout passe 4,5:1. L'orange `#C75E10` (4,2) est réservé aux grands titres.
 - `CLAUDE.md` mis à jour avec la nouvelle direction.
 
+### Retours du coach appliqués (4 novembre 2026, 3e passe)
+Le coach a lu le dossier (`Downloads/dossier-refonte-expo-st-isidore.pdf`). Fait :
+- **Accueil** : « Remiser mon véhicule cet hiver » devient le bouton principal (hors saison); « Revivre 2026 en photos » passe en secondaire.
+- **Nouvelle section « L'Expo, toute l'année »** sous le bandeau : remisage (bande pleine largeur), location de salle, danse country (grange 2, 19 h–21 h, 20 $ la session, l'été), et bandeau « Nouveau en 2027 : rodéo, la semaine avant l'Expo ». Le bloc remisage du bas de l'accueil est retiré (doublon).
+- **Nouvelle page `location.html`** (Location de salle) avec formulaire Netlify `location`; ajoutée au menu et au pied de page des 10 pages, et à la politique de confidentialité.
+- **Plus aucun crochet visible au public** : remplacés par des phrases neutres; tout ce qui manque reste dans `A-CONFIRMER.md`.
+- **Confidentialité** : notes internes retirées; responsable = la présidence (règle par défaut de la Loi 25).
+- **Images en WebP** (12 Mo → 7,9 Mo), grandes photos à 1400 px; **image de partage 1200 × 630** (`images/partage/`) sur chaque page, avec adresse absolue Netlify (à changer si le nom de domaine change).
+- **Tire** : étiquette « 2024 » sur la liste des pilotes.
+- Menu un peu plus serré pour tenir sur une ligne avec 8 liens (menu hamburger sous 1240 px).
+
 ### À faire ensuite
-- [ ] Jérémy regarde le rendu dans son navigateur et donne ses retours.
-- [ ] Score Lighthouse (performance, accessibilité, SEO) une fois la direction validée.
+- [ ] **Formulaires en ligne : ne fonctionnent pas encore.** Netlify ne les a pas détectés (l'attribut `data-netlify` est encore dans le HTML servi). Jérémy doit activer la détection des formulaires dans Netlify et une notification courriel, puis on teste les 4 formulaires.
+- [ ] Le coach recommande de garder le lien privé tant que les droits des photos ne sont pas obtenus (le site Netlify est public depuis le 4 novembre).
+- [ ] Idée du coach : bouton principal de l'accueil qui change selon la saison (remisage de mi-octobre à mi-mai, Expo et billets le reste de l'année).
+- [ ] Score Lighthouse après la conversion WebP.
 - [ ] Toujours en attente du comité : voir `A-CONFIRMER.md`.
+
+### ⚠ Piège technique : Acronis
+L'antirançongiciel Acronis de l'ordinateur surveille les programmes qui lisent beaucoup d'images, écrivent de nouvelles versions et suppriment les originaux. Il a bloqué un script Python de conversion WebP et **a restauré tous les fichiers que Python avait modifiés**, y compris le HTML. Pour toute conversion en lot : travailler sur des copies dans un dossier temporaire, puis copier les résultats et supprimer les originaux avec `git rm`. Faire un commit avant chaque opération en lot.
 
 ---
 

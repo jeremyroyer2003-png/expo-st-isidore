@@ -94,18 +94,18 @@ a:hover{color:#124E78}
 .entete__logo img{height:72px;width:auto;display:block;transition:transform .3s var(--sortie)}
 .entete__logo:hover img{transform:rotate(-3deg) scale(1.04)}
 .menu-bouton{display:none}
-.nav{display:flex;flex-wrap:wrap;align-items:center;gap:4px 24px;font-family:var(--titre);font-weight:700;font-size:19px;text-transform:uppercase;letter-spacing:.03em}
+.nav{display:flex;flex-wrap:wrap;align-items:center;gap:4px 18px;font-family:var(--titre);font-weight:700;font-size:18px;text-transform:uppercase;letter-spacing:.02em}
 .nav a{color:var(--marine-fonce);text-decoration:none;display:inline-flex;align-items:center;min-height:44px;position:relative}
 .nav a:not(.nav__remisage)::after{content:"";position:absolute;left:0;right:0;bottom:6px;height:3px;background:var(--orange);transform:scaleX(0);transform-origin:left;transition:transform .25s var(--sortie)}
 .nav a:hover{color:var(--marine-fonce)}
 .nav a:hover::after,.nav a[aria-current="page"]::after{transform:scaleX(1)}
 .nav a[aria-current="page"]{color:var(--orange-fonce)}
-.nav .nav__remisage{background:var(--orange);color:var(--nuit);padding:0 20px;border-radius:999px;transition:background-color .2s,transform .16s var(--sortie)}
+.nav .nav__remisage{background:var(--orange);color:var(--nuit);padding:0 18px;border-radius:999px;transition:background-color .2s,transform .16s var(--sortie)}
 .nav .nav__remisage:hover{background:var(--jaune);color:var(--nuit)}
 .nav .nav__remisage:active{transform:scale(.97)}
 .nav .nav__remisage[aria-current="page"]{background:var(--marine-fonce);color:#FFFFFF}
 
-@media (max-width:1100px){
+@media (max-width:1240px){
   .menu-bouton{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 18px;background:var(--marine-fonce);color:#FFFFFF;border:0;border-radius:999px;font-family:var(--titre);font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:.04em;cursor:pointer}
   .menu-bouton__icone{width:20px;height:14px;position:relative;display:inline-block}
   .menu-bouton__icone::before,.menu-bouton__icone::after,.menu-bouton__icone span{content:"";position:absolute;left:0;right:0;height:2px;background:currentColor;transition:transform .2s,opacity .2s}
@@ -229,14 +229,18 @@ a:hover{color:#124E78}
 .entete-accueil p{margin:0;max-width:46ch;color:var(--texte-clair);font-size:19px}
 
 /* ---------- Toute l'année : trois portes ---------- */
-.portes{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);grid-template-rows:auto auto;gap:16px}
+.portes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 .porte{border-radius:20px;padding:36px;display:flex;flex-direction:column;gap:16px;background:var(--c,#EEF2F5);color:var(--nuit)}
 .porte h3{margin:0;font-family:var(--titre);font-style:italic;font-weight:900;text-transform:uppercase;font-size:clamp(38px,4vw,58px);line-height:.9}
 .porte p{margin:0;font-size:18px;max-width:42ch}
 .porte .porte__saison{font-family:var(--titre);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:17px}
 .porte > .bouton,.porte__corps > .bouton{align-self:flex-start;margin-top:auto}
 .porte .groupe-boutons{margin-top:auto}
-.porte--remisage{grid-row:span 2;background:var(--marine);color:#FFFFFF;padding:44px}
+/* Remisage : bande pleine largeur, texte à gauche, dates et boutons à droite */
+.porte--remisage{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:16px 56px;align-items:end;background:var(--marine);color:#FFFFFF;padding:44px}
+.porte--remisage > :nth-child(-n+3){grid-column:1}
+.porte--remisage > .porte__faits{grid-column:2;grid-row:2;margin:0}
+.porte--remisage > .groupe-boutons{grid-column:2;grid-row:3;align-self:start}
 .porte--remisage h3{font-size:clamp(48px,5.4vw,80px)}
 .porte--remisage p{color:var(--texte-nuit)}
 .porte--remisage .porte__saison{color:var(--jaune)}
@@ -253,7 +257,7 @@ a:hover{color:#124E78}
 .nouveaute__etiquette{background:var(--nuit);color:#FFFFFF;font-family:var(--titre);font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:15px;padding:5px 12px;border-radius:999px}
 @media (max-width:900px){
   .portes{grid-template-columns:1fr}
-  .porte--remisage{grid-row:auto;padding:32px 24px}
+  .porte--remisage{display:flex;padding:32px 24px}
   .porte{padding:28px 24px}
   .porte--danse{flex-direction:column;padding:0}
   .porte__photo{flex:none;aspect-ratio:3/2}

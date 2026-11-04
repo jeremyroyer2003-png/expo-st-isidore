@@ -1,6 +1,12 @@
 # À confirmer avec le comité de l'Expo
 
-Ces informations manquent sur le site. Sur les pages, elles apparaissent entre crochets, comme [à confirmer]. Une fois la réponse obtenue, remplacer le texte entre crochets dans le fichier indiqué.
+Ces informations manquent sur le site. Depuis le 4 novembre 2026, **plus aucun crochet n'est visible au public** (conseil du coach) : chaque trou est remplacé par une phrase neutre (« annoncées au printemps », « appelez le bureau », « on vous rappelle avec le prix »). Une fois la réponse obtenue, remplacer la phrase neutre par la vraie information dans le fichier indiqué.
+
+## Nouveautés à documenter (ajoutées le 4 novembre 2026)
+- [ ] **Rodéo 2027**, la semaine avant l'Expo : dates, heure, lieu, prix, billetterie (`index.html`, `programmation.html`)
+- [ ] **Danse country en ligne**, grange 2, 19 h à 21 h, 20 $ la session : quel jour de la semaine? date de début et de fin (environ un mois après la sortie des roulottes, un mois avant leur rentrée)? inscription requise? (`index.html`)
+- [ ] **Location de salle** : quelle salle (nom du bâtiment)? capacité maximale? tarif ou fourchette de prix? traiteur et bar permis? photo de la salle montée (`location.html`, `index.html`)
+- [ ] Une photo de la salle de location et une du rodéo (la photo de danse sert pour l'instant)
 
 ## Dates et horaires
 - [ ] Dates de l'Expo 2027 (`index.html`, `contact.html`, `tire-de-tracteurs.html`)

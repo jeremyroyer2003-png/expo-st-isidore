@@ -106,7 +106,8 @@ Construire **une page à la fois**, la faire valider, puis passer à la suivante
 ## Contenu et images
 
 - Faits historiques, bâtisseurs, activités disparues, sources : `recherche/recherche-expo.md` et le PDF du Beauce Média de 2010.
-- Ne rien inventer : un fait manquant devient un repère entre crochets, comme `[Dates 2027 à confirmer]`.
+- Ne rien inventer. Un fait manquant ne s'affiche **pas** entre crochets au public (décision du 4 novembre 2026) : utiliser une phrase neutre et vraie (« annoncées au printemps », « appelez le bureau ») et noter le manque dans `A-CONFIRMER.md`.
+- L'Expo de juillet reste le cœur de la marque. Hors saison, le remisage passe en premier sur l'accueil; la location de salle, la danse country (grange 2) et le rodéo (nouveau en 2027, la semaine avant l'Expo) sont des activités qui la soutiennent.
 - Images de la maquette : `maquettes/images/`. Elles viennent de captures de l'ancien site et du journal (basse résolution, droits à obtenir). Les vraies photos arriveront plus tard : prévoir des emplacements faciles à remplacer.
 - Pas de photos d'enfants identifiables.
 - Logo : `maquettes/images/logo.png` (lettres noires sur fond marine). Une version blanche ou SVG serait idéale.
