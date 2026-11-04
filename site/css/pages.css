@@ -15,11 +15,11 @@
 .heros--compact .heros__intro a{color:#FFFFFF}
 
 /* Héros photo pleine largeur (tire) */
-.heros--photo{background:linear-gradient(90deg,rgba(14,24,32,.92) 0%,rgba(14,24,32,.75) 45%,rgba(14,24,32,.15) 100%),url(../images/photos/tire-foule.jpg) center/cover no-repeat}
+.heros--photo{background:linear-gradient(90deg,rgba(14,24,32,.92) 0%,rgba(14,24,32,.75) 45%,rgba(14,24,32,.15) 100%),url(../images/photos/tire-foule.webp) center/cover no-repeat}
 .heros--photo .heros__grille{min-height:clamp(460px,52vw,620px)}
 .heros__credit{position:absolute;right:20px;bottom:12px;margin:0;font-size:13px;color:var(--texte-nuit)}
 @media (max-width:600px){
-  .heros--photo{background:linear-gradient(180deg,rgba(14,24,32,.55) 0%,rgba(14,24,32,.92) 55%),url(../images/photos/tire-foule-800.jpg) center top/cover no-repeat}
+  .heros--photo{background:linear-gradient(180deg,rgba(14,24,32,.55) 0%,rgba(14,24,32,.92) 55%),url(../images/photos/tire-foule-800.webp) center top/cover no-repeat}
 }
 
 /* Photo d'archive dans le héros (histoire) */
