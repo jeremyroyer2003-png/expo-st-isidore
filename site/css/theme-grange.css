@@ -1,0 +1,181 @@
+/* =========================================================
+   Thème « Grange & rodéo »
+   Chargé APRÈS les autres feuilles : il ne fait que redéfinir.
+   Pour revenir au thème « plein été », retirer la ligne
+   <link rel="stylesheet" href="css/theme-grange.css"> des pages.
+   ========================================================= */
+
+/* ---------- Polices d'affiche (hébergées localement, Loi 25) ---------- */
+@font-face{font-family:'Alfa Slab One';font-weight:400;font-style:normal;font-display:swap;src:url(../fonts/alfa-slab-one-latin-400.woff2) format('woff2')}
+@font-face{font-family:'Rye';font-weight:400;font-style:normal;font-display:swap;src:url(../fonts/rye-latin-400.woff2) format('woff2')}
+
+/* ---------- Palette : bois, crème, rouge grange, moutarde ---------- */
+:root{
+  --marine-fonce:#2A1D14;  /* brun planche foncé */
+  --marine:#3B2A1E;        /* brun planche */
+  --nuit:#1E140D;          /* encre brune (texte) */
+  --nuit-2:#160F09;
+  --orange:#C8622A;        /* rouille */
+  --jaune:#D9A441;         /* moutarde */
+  --vert:#8A9A4B;          /* foin, olive */
+  --bleu:#6A97A3;          /* jean délavé */
+  --rouge:#8E2A1E;         /* rouge grange : bouton principal */
+  --rouge-vif:#A8321F;
+  --creme:#F3EAD8;
+  --orange-fonce:#8E2A1E;
+  --orange-titre:#8E2A1E;
+  --bleu-pied:#2A1D14;
+  --papier:#F3EAD8;        /* crème */
+  --papier-2:#E8D9BA;      /* papier kraft */
+  --texte-clair:#5A4636;
+  --lien:#8E2A1E;
+  --trait-nuit:#5A4636;
+  --texte-nuit:#E8DCC6;
+  --affiche:'Alfa Slab One', Rockwell, 'Roboto Slab', Georgia, serif;
+  --western:'Rye', 'Alfa Slab One', Georgia, serif;
+  --ombre-affiche:6px 6px 0 var(--nuit);
+  /* Planches de grange : bandes verticales très discrètes */
+  --planches:repeating-linear-gradient(90deg,rgba(0,0,0,0) 0 118px,rgba(0,0,0,.22) 118px 120px,rgba(255,255,255,.025) 120px 122px);
+}
+html{font-synthesis:none}
+body{background-color:var(--papier);color:var(--nuit)}
+a:hover{color:var(--rouge-vif)}
+::selection{background:var(--jaune);color:var(--nuit)}
+:focus-visible{outline-color:var(--rouge)}
+
+/* Grain de papier, très léger, sur les sections claires */
+.section-papier,.section-papier-2{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .25 0 0 0 0 .15 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E")}
+
+/* ---------- Grands titres : lettrage d'affiche de rodéo ---------- */
+.titre-affiche,.heros__titre,.une__titre,.porte h3,.nouveaute__texte h3,.choix__texte h3,
+.archives__citation,.annees strong,.salle__texte h3,.galerie-section__titre h2,.jour__titre,
+.merci h3,.ligne-temps__date,.personnes--vedette strong,.tarifs__liste dd,.legal h2,
+.venir__adresse,.chiffres dd{
+  font-family:var(--affiche);font-style:normal;font-weight:400;letter-spacing:.005em;
+}
+.titre-affiche{font-size:clamp(36px,4.6vw,64px);line-height:1}
+.une__titre{font-size:clamp(42px,6.4vw,100px);line-height:.95;text-shadow:0 3px 0 rgba(0,0,0,.35)}
+.heros__titre{font-size:clamp(44px,6vw,84px);line-height:.95}
+.heros__titre .contour{font-size:clamp(70px,9vw,124px);-webkit-text-stroke:2px var(--jaune)}
+.porte h3,.choix__texte h3{font-size:clamp(30px,3.2vw,46px);line-height:1}
+.porte--remisage h3{font-size:clamp(38px,4.2vw,62px)}
+.nouveaute__texte h3{font-size:clamp(32px,3.6vw,52px);line-height:1}
+.annees strong{font-size:clamp(34px,3.4vw,50px)}
+.archives__citation{font-size:clamp(30px,3.8vw,50px);line-height:1.05}
+.salle__texte h3{font-size:clamp(26px,2.6vw,36px)}
+.venir__adresse{font-size:clamp(24px,2.4vw,32px)}
+.chiffres dd{font-size:40px}
+.ligne-temps__date{font-size:36px}
+.tarifs__liste dd{font-size:32px}
+.merci h3{font-size:36px}
+.legal h2{font-size:26px}
+.galerie-section__titre h2{font-size:clamp(28px,3.4vw,44px)}
+.jour__titre{font-size:32px}
+.personnes--vedette strong{font-size:26px}
+
+/* Petits titres en lettres condensées, droites (pas d'italique) */
+.surtitre,.porte__saison,.choix__onglet,.nav,.menu-bouton,.choix__quand,.billet,
+.liste-questions dt,.onglet__jour,.evenement__heure,.filtre,.etiquette{font-style:normal}
+.surtitre,.porte .porte__saison{font-family:var(--western);font-weight:400;letter-spacing:.04em;text-transform:none;font-size:19px}
+
+/* ---------- Boutons : rouge grange, coins carrés ---------- */
+.bouton{border-radius:3px;font-family:var(--titre);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:18px}
+.bouton--orange{background:var(--rouge);color:var(--creme);box-shadow:0 3px 0 var(--nuit)}
+.bouton--orange:hover{background:var(--rouge-vif);color:var(--creme)}
+.bouton--marine{background:var(--nuit);color:var(--creme)}
+.bouton--marine:hover{background:var(--rouge);color:var(--creme)}
+.bouton--contour{box-shadow:inset 0 0 0 2px var(--creme);color:var(--creme)}
+.bouton--contour:hover{background:var(--creme);color:var(--nuit)}
+.bouton--blanc{background:var(--creme);color:var(--nuit)}
+.bouton:active{transform:translateY(2px)}
+
+/* ---------- En-tête : crème, double filet brun ---------- */
+.entete{background:var(--papier);border-bottom:3px solid var(--nuit);box-shadow:0 3px 0 var(--papier),0 5px 0 var(--nuit)}
+.entete.est-defile{box-shadow:0 3px 0 var(--papier),0 5px 0 var(--nuit),0 12px 24px rgba(30,20,13,.18)}
+.nav a{color:var(--nuit)}
+.nav a:not(.nav__remisage)::after{background:var(--rouge)}
+.nav a[aria-current="page"]{color:var(--rouge)}
+.nav .nav__remisage{background:var(--rouge);color:var(--creme);border-radius:3px}
+.nav .nav__remisage:hover{background:var(--rouge-vif);color:var(--creme)}
+.nav .nav__remisage[aria-current="page"]{background:var(--nuit);color:var(--creme)}
+.menu-bouton{background:var(--nuit);color:var(--creme);border-radius:3px}
+@media (max-width:1240px){.nav a{border-top-color:#D8C7A4}}
+
+/* ---------- Sections foncées : planches de grange ---------- */
+.section-nuit,.heros,.porte--remisage{background-color:var(--marine-fonce);background-image:var(--planches)}
+.une{background:var(--nuit)}
+.une::before{background:linear-gradient(90deg,rgba(30,20,13,.9) 0%,rgba(30,20,13,.62) 45%,rgba(30,20,13,.1) 80%),linear-gradient(0deg,rgba(30,20,13,.75) 0%,rgba(30,20,13,0) 42%)}
+@media (max-width:760px){.une::before{background:linear-gradient(0deg,rgba(30,20,13,.94) 0%,rgba(30,20,13,.72) 50%,rgba(30,20,13,.25) 100%)}}
+.une__titre span,.heros__titre .jaune,.section-nuit .titre-affiche span{color:var(--jaune)}
+.une__intro,.heros__intro{color:var(--texte-nuit)}
+.une__point[aria-current="true"]::before{background:var(--jaune)}
+
+/* Billet « Entrée gratuite | depuis 1983 » : moutarde, lettrage western */
+.billet{background:var(--jaune);color:var(--nuit);border-radius:2px;font-family:var(--western);font-weight:400;text-transform:none;letter-spacing:.02em;box-shadow:0 3px 0 var(--nuit)}
+
+/* ---------- Bandeau défilant : rouge grange, étoiles ---------- */
+.bandeau{background:var(--rouge);color:var(--creme);border-top:3px solid var(--nuit);border-bottom:3px solid var(--nuit)}
+.bandeau__piste{font-family:var(--western);font-style:normal;font-weight:400;text-transform:none;font-size:clamp(24px,2.4vw,32px)}
+.bandeau svg{display:none}
+.bandeau__groupe li::after{content:"★";color:var(--jaune);font-family:var(--texte);font-size:.7em}
+
+/* ---------- Cartes : cadres d'affiche avec ombre décalée ---------- */
+.porte,.nouveaute,.choix__panneau,.salle,.billet-remisage,.annees li{border-radius:4px;border:3px solid var(--nuit);box-shadow:var(--ombre-affiche)}
+.portes{gap:22px}
+.nouveaute{margin-top:22px;background:var(--rouge);color:var(--creme)}
+.nouveaute__etiquette{background:var(--jaune);color:var(--nuit)}
+.nouveaute .bouton--marine{background:var(--creme);color:var(--nuit)}
+.nouveaute .bouton--marine:hover{background:var(--jaune)}
+.porte--remisage .porte__saison{color:var(--jaune)}
+.porte__faits dd{color:var(--jaune)}
+.porte__photo,.nouveaute__photo,.choix__photo{border-right:3px solid var(--nuit)}
+@media (max-width:900px){.porte__photo,.nouveaute__photo,.choix__photo{border-right:0;border-bottom:3px solid var(--nuit)}}
+
+/* Onglets « Six jours » : étiquettes de concours */
+.choix__onglet{border-radius:3px;background:var(--papier);box-shadow:inset 0 0 0 2px var(--nuit);color:var(--nuit)}
+.choix__onglet[aria-selected="true"]{background:var(--c);box-shadow:inset 0 0 0 2px var(--nuit),0 3px 0 var(--nuit)}
+.choix__onglet--marine[aria-selected="true"],.choix__panneau.c-marine{color:var(--creme)}
+.choix__liste li{border-top-color:rgba(30,20,13,.25)}
+
+/* Grandes dates */
+.annees li{border-radius:4px}
+.annees .c-marine{color:var(--creme)}
+
+/* Photos : tirages crème, légère chaleur pour unifier les sources */
+.tirage,.archive-photo__papier{background:#FBF5E9}
+.mosaique li{border-radius:3px;border:3px solid var(--nuit)}
+.mosaique img,.choix__photo img,.porte__photo img,.salle__photo img,.venir__photo img{filter:sepia(.12) saturate(1.05)}
+.mosaique span{background:var(--rouge);color:var(--creme);font-family:var(--western);font-weight:400;text-transform:none}
+.venir__photo{border-radius:4px;border:3px solid var(--nuit);box-shadow:var(--ombre-affiche)}
+.archive-photo__ruban{background:rgba(217,164,65,.85)}
+
+/* Billet de remisage, formulaires et encadrés */
+.billet-remisage{background:#FBF5E9}
+.salle{background:var(--papier-2)}
+.formulaire input,.formulaire select,.formulaire textarea{background:#FFFCF5;border-color:#8A7358}
+
+/* ---------- Pied de page : planches foncées ---------- */
+.pied{background-color:var(--nuit);background-image:var(--planches);border-top:5px solid var(--rouge)}
+.pied a:hover{color:var(--jaune)}
+.pied__bloc strong{font-family:var(--western);font-weight:400;text-transform:none;letter-spacing:.02em}
+.pied__bas{border-top-color:rgba(232,220,198,.25)}
+
+/* ---------- Pages intérieures : héros sur planches ---------- */
+.heros--photo{background:linear-gradient(90deg,rgba(30,20,13,.92) 0%,rgba(30,20,13,.72) 45%,rgba(30,20,13,.15) 100%),url(../images/photos/tire-foule.webp) center/cover no-repeat}
+@media (max-width:600px){.heros--photo{background:linear-gradient(180deg,rgba(30,20,13,.55) 0%,rgba(30,20,13,.92) 55%),url(../images/photos/tire-foule-800.webp) center top/cover no-repeat}}
+
+/* ---------- Téléphone : le lettrage d'affiche est large, on le resserre ---------- */
+.heros__titre,.une__titre,.titre-affiche{overflow-wrap:break-word}
+@media (max-width:600px){
+  .heros__titre{font-size:clamp(28px,8.2vw,44px)}
+  .heros__titre .contour{font-size:clamp(40px,12vw,70px)}
+  .une__titre{font-size:clamp(32px,9.4vw,46px)}
+  .titre-affiche{font-size:clamp(28px,8vw,40px)}
+  .chiffres dd{font-size:26px}
+  .billet{font-size:15px}
+  .porte h3,.choix__texte h3,.nouveaute__texte h3{font-size:clamp(26px,7.6vw,34px)}
+  .annees strong{font-size:30px}
+}
+@media (max-width:900px){.porte--remisage{align-items:stretch}}
+.heros--page .heros__titre{font-size:clamp(40px,4vw,56px)}
+@media (max-width:600px){.heros--page .heros__titre{font-size:clamp(26px,7.6vw,40px)}}
