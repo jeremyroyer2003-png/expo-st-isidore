@@ -179,3 +179,78 @@ a:hover{color:var(--rouge-vif)}
 @media (max-width:900px){.porte--remisage{align-items:stretch}}
 .heros--page .heros__titre{font-size:clamp(40px,4vw,56px)}
 @media (max-width:600px){.heros--page .heros__titre{font-size:clamp(26px,7.6vw,40px)}}
+
+/* =========================================================
+   Formulaires et horaire : même monde que la vitrine
+   (cartes d'inscription de concours, cocardes, talons de billet)
+   ========================================================= */
+
+/* Étapes du formulaire : fiches d'inscription */
+.etape{background:#FBF6EC;border:3px solid var(--nuit);border-radius:4px;box-shadow:var(--ombre-affiche)}
+.etape__titre{font-family:var(--affiche);font-style:normal;font-weight:400;text-transform:uppercase;font-size:clamp(24px,2.4vw,30px);letter-spacing:.01em;color:var(--nuit)}
+/* Numéro d'étape : cocarde de concours (rond rouge, double anneau) */
+.etape__num{background:var(--rouge);color:var(--creme);font-family:var(--affiche);font-size:24px;box-shadow:0 0 0 3px #FBF6EC,0 0 0 5px var(--rouge)}
+
+/* Champs */
+.champ input,.champ textarea,.champ select,.champ__unite input{border:2px solid #8A7358;border-radius:3px;background:#FFFCF5;color:var(--nuit)}
+.champ input:hover,.champ textarea:hover,.champ select:hover{border-color:var(--nuit)}
+.champ input:focus,.champ textarea:focus,.champ select:focus,.champ__unite input:focus{border-color:var(--rouge);outline:3px solid rgba(142,42,30,.22);outline-offset:0}
+.champ input[aria-invalid="true"],.champ select[aria-invalid="true"],.champ textarea[aria-invalid="true"],.champ__unite input[aria-invalid="true"]{border-color:var(--rouge);background:#FBEDE8}
+.champ__erreur{color:var(--rouge)}
+::placeholder{color:#76604B;opacity:1;font-weight:400}
+.champ__unite input::placeholder{font-weight:400}
+.consentement input{accent-color:var(--rouge)}
+.champ__etiquette{color:var(--nuit)}
+
+/* Cartes de véhicule : étiquettes d'inscription */
+.choix__carte{border:2px solid #8A7358;border-radius:3px;background:#FFFCF5}
+.choix__carte::after{border:2px solid var(--nuit);border-radius:2px;background:#FFFCF5}
+.choix__nom{font-style:normal;font-weight:800;color:var(--nuit);letter-spacing:.01em}
+.choix__ex{color:var(--texte-clair)}
+.choix:hover .choix__carte{border-color:var(--nuit)}
+.choix input:checked + .choix__carte{border:2px solid var(--nuit);background:var(--jaune);box-shadow:4px 4px 0 var(--nuit);transform:rotate(-1deg)}
+.choix input:checked + .choix__carte::after{border:2px solid var(--nuit);background:var(--nuit);box-shadow:inset 0 0 0 3px var(--jaune)}
+.choix input:focus-visible + .choix__carte{outline:3px solid var(--rouge);outline-offset:3px}
+
+/* Pieds / mètres : interrupteur à deux cases carrées */
+.unites__choix span{border:2px solid var(--nuit);border-radius:3px;background:#FFFCF5;font-style:normal;color:var(--nuit)}
+.unites__choix input:checked + span{background:var(--nuit);border-color:var(--nuit);color:var(--creme)}
+.unites__choix input:focus-visible + span{outline:3px solid var(--rouge)}
+.dimension-ligne .champ__etiquette{font-style:normal;font-weight:800;color:var(--nuit)}
+.dimensions,.dimension-ligne{border-color:#D8C7A4}
+.champ__unite span{color:var(--texte-clair)}
+
+/* Encadré du prix : plus de bordure de côté, une note simple sous un filet pointillé */
+.avis-mesure{border-left:0;border-top:2px dashed #B39B78;border-radius:0;background:none;padding:14px 0 0;color:var(--texte-clair)}
+
+/* Billet résumé */
+.resume,.resume__ligne--prix{border-color:#B39B78}
+.resume dt,.resume__avis{color:var(--texte-clair)}
+.resume dd{font-style:normal;color:#76604B}
+.resume dd.est-rempli{color:var(--nuit)}
+/* Tampon « Demande reçue » : encre rouge grange */
+.tampon{border:4px solid var(--rouge);border-radius:3px;color:var(--rouge);font-family:var(--affiche);font-style:normal;font-weight:400;background:rgba(251,246,236,.88)}
+
+/* Message de confirmation */
+.merci{background-color:var(--marine-fonce);background-image:var(--planches);border:3px solid var(--nuit);border-radius:4px;box-shadow:var(--ombre-affiche)}
+.merci h3{font-style:normal;color:var(--jaune)}
+.merci a{color:var(--jaune)}
+.merci .bouton{background:var(--creme);color:var(--nuit)}
+
+/* ---------- Horaire : talons de billet et étiquettes ---------- */
+.onglet{border:2px solid var(--nuit);border-radius:3px;background:#FFFCF5;color:var(--nuit);position:relative}
+.onglet__jour{font-family:var(--affiche);font-style:normal;font-weight:400;font-size:22px}
+.onglet[aria-selected="true"]{background:var(--rouge);border-color:var(--nuit);color:var(--creme);box-shadow:4px 4px 0 var(--nuit)}
+.onglet[aria-selected="true"] .onglet__date{color:#F3DCCF}
+.onglet:focus-visible,.filtre:focus-visible{outline:3px solid var(--rouge)}
+.filtre{border:2px solid var(--nuit);border-radius:3px;background:#FFFCF5;color:var(--nuit);font-style:normal}
+.filtre[aria-pressed="true"]{background:var(--jaune);border-color:var(--nuit);box-shadow:3px 3px 0 var(--nuit)}
+.evenement__heure{font-family:var(--affiche);font-style:normal;font-weight:400;font-size:26px;color:var(--nuit)}
+.evenement__prix--gratuit{color:#4F5D22}
+.etiquette{border-radius:2px;border:1px solid rgba(30,20,13,.35)}
+.etiquette--spectacles{background:#F1CDB6}
+.etiquette--animaux{background:#D9DDB8}
+.etiquette--famille{background:#CFE0E4}
+.etiquette--tire{background:#F1DCA8}
+.avis-bandeau{border-radius:4px;box-shadow:var(--ombre-affiche)}
+.avis-bandeau strong{font-family:var(--affiche);font-style:normal;font-weight:400}
