@@ -109,6 +109,10 @@
 
     var pret = type && dims.longueur && dims.largeur && dims.hauteur && nom && telephone;
     talon.textContent = pret ? 'Prêt à envoyer' : 'En attente';
+    document.querySelectorAll('[data-etat]').forEach(function (el) {
+      el.textContent = talon.textContent;
+      el.classList.toggle('est-pret', !!pret);
+    });
   }
 
   function majConseils() {
@@ -146,6 +150,7 @@
     e.target.setCustomValidity('');
     if (e.target.getAttribute('aria-invalid') === 'true' && e.target.checkValidity()) {
       e.target.removeAttribute('aria-invalid');
+      Expo.afficherErreur(e.target, false);
     }
   });
 
@@ -178,6 +183,7 @@
   function confirmer() {
     billet.classList.add('est-envoye');
     talon.textContent = 'Admis';
+    document.querySelectorAll('[data-etat]').forEach(function (el) { el.textContent = 'Admis'; });
     form.hidden = true;
     merci.hidden = false;
     merci.focus({ preventScroll: true });

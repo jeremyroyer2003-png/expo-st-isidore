@@ -286,3 +286,34 @@ a:hover{color:var(--rouge-vif)}
   box-shadow:0 0 0 2px var(--nuit)}
 .annees li::before{content:"";position:absolute;top:18px;right:24px;width:26px;height:30px;background:var(--rouge);clip-path:polygon(0 0,100% 0,100% 100%,50% 78%,0 100%);border:0}
 .annees li > *{position:relative;z-index:1}
+
+/* =========================================================
+   Téléphone et robustesse (adapt + harden)
+   ========================================================= */
+/* Message d'erreur sous le champ fautif */
+.champ__erreur--champ{margin:6px 0 0;font-size:15px}
+.dimension-ligne + .champ__erreur--champ{margin:-4px 0 10px}
+.consentement + .champ__erreur--champ{margin-top:8px}
+
+/* Mini-billet : invisible sur ordinateur (le vrai billet suit la page) */
+.mini-billet{display:none}
+@media (max-width:980px){
+  .mini-billet{display:flex;flex-wrap:wrap;align-items:center;gap:4px 14px;position:sticky;bottom:10px;z-index:20;padding:10px 14px;
+    background:#FBF6EC;border:3px solid var(--nuit);border-radius:4px;box-shadow:4px 4px 0 var(--nuit),0 -8px 24px rgba(30,20,13,.15);
+    font-family:var(--titre);font-weight:800;text-transform:uppercase;font-size:17px;line-height:1.2;color:var(--nuit)}
+  .mini-billet__ligne{min-width:0}
+  .mini-billet [data-resume]:not(.est-rempli){color:#76604B}
+  .mini-billet__etat{margin-left:auto;padding:4px 10px;border:2px dashed var(--nuit);border-radius:2px;background:var(--jaune);white-space:nowrap}
+  .mini-billet__etat.est-pret{background:var(--rouge);color:var(--creme);border-style:solid}
+}
+
+/* Horaire sur téléphone : les six jours visibles, sur deux rangées */
+@media (max-width:600px){
+  .onglets{flex-wrap:wrap;overflow:visible;margin:0 0 8px;padding:0 0 6px}
+  .onglet{flex:1 1 calc(33.333% - 8px);min-width:0;padding:8px 10px}
+  .onglet__jour{font-size:19px}
+}
+/* Onglets « Six jours » de l'accueil : un fondu à droite montre qu'on peut glisser */
+@media (max-width:600px){
+  .choix__onglets{-webkit-mask-image:linear-gradient(90deg,#000 82%,transparent);mask-image:linear-gradient(90deg,#000 82%,transparent);padding-right:40px}
+}

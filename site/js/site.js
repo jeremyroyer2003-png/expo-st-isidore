@@ -7,14 +7,60 @@ var Expo = (function () {
     champ.setCustomValidity(valide ? '' : 'Numéro incomplet');
   }
 
-  // Marque les champs invalides (aria-invalid) et renvoie la liste
+  // Message affiché sous un champ invalide : data-erreur sur le champ, sinon selon son type
+  function messagePour(el) {
+    if (el.dataset.erreur) return el.dataset.erreur;
+    if (el.type === 'checkbox') return 'Cochez cette case pour envoyer.';
+    if (el.type === 'tel') return "Entrez un numéro complet, avec l'indicatif régional (ex. 418 555-1234).";
+    if (el.type === 'email') return 'Vérifiez le courriel (ex. nom@exemple.com).';
+    if (el.type === 'date') return 'Choisissez une date à venir.';
+    if (el.type === 'number') return 'Entrez un nombre.';
+    if (el.tagName === 'SELECT') return 'Choisissez une option dans la liste.';
+    return 'Ce champ est obligatoire.';
+  }
+
+  // Le message vit à côté du champ et lui est relié (aria-describedby) pour les lecteurs d'écran
+  function afficherErreur(el, visible) {
+    var id = 'err-' + (el.id || el.name);
+    var msg = document.getElementById(id);
+    if (!visible) { if (msg) msg.hidden = true; return; }
+    if (!msg) {
+      msg = document.createElement('p');
+      msg.className = 'champ__erreur champ__erreur--champ';
+      msg.id = id;
+      var bloc = el.closest('.dimension-ligne, .consentement, .champ') || el.parentNode;
+      bloc.parentNode.insertBefore(msg, bloc.nextSibling);
+      var lies = (el.getAttribute('aria-describedby') || '').split(' ').filter(Boolean);
+      if (lies.indexOf(id) === -1) el.setAttribute('aria-describedby', lies.concat(id).join(' '));
+    }
+    msg.textContent = messagePour(el);
+    msg.hidden = false;
+  }
+
+  // Marque les champs invalides (aria-invalid + message sous le champ) et renvoie la liste
   function marquerInvalides(champs) {
     return Array.prototype.filter.call(champs, function (el) {
       var ok = !el.willValidate || el.checkValidity();
       if (ok) el.removeAttribute('aria-invalid'); else el.setAttribute('aria-invalid', 'true');
+      afficherErreur(el, !ok);
       return !ok;
     });
   }
+
+  // Dès qu'un champ marqué invalide redevient valide, son message disparaît
+  document.addEventListener('input', function (e) {
+    var el = e.target;
+    if (!el.getAttribute || el.getAttribute('aria-invalid') !== 'true') return;
+    if (el.type === 'tel') verifierTelephone(el);
+    if (el.classList.contains('dimension')) return; // validées à l'envoi (unités)
+    if (el.checkValidity()) { el.removeAttribute('aria-invalid'); afficherErreur(el, false); }
+  });
+  document.addEventListener('change', function (e) {
+    var el = e.target;
+    if (el.type === 'checkbox' && el.checked && el.getAttribute('aria-invalid') === 'true') {
+      el.removeAttribute('aria-invalid'); afficherErreur(el, false);
+    }
+  });
 
   // Envoi à Netlify Forms. Ouvert directement sur l'ordinateur (file:), on simule l'envoi.
   function envoyer(form) {
@@ -33,10 +79,16 @@ var Expo = (function () {
       telephone.replace(/\D/g, '') + "\">" + telephone + '</a>.';
   }
 
-  return { verifierTelephone: verifierTelephone, marquerInvalides: marquerInvalides, envoyer: envoyer, messageEchec: messageEchec };
+  return { verifierTelephone: verifierTelephone, marquerInvalides: marquerInvalides, afficherErreur: afficherErreur, envoyer: envoyer, messageEchec: messageEchec };
 })();
 
 document.addEventListener('DOMContentLoaded', function () {
+  // Champs de date : pas de date passée (min = aujourd'hui, heure locale)
+  var auj = new Date(); auj.setMinutes(auj.getMinutes() - auj.getTimezoneOffset());
+  document.querySelectorAll('input[type="date"][data-min-aujourdhui]').forEach(function (el) {
+    el.min = auj.toISOString().slice(0, 10);
+  });
+
   // Menu hamburger sur téléphone
   var bouton = document.querySelector('.menu-bouton');
   var nav = document.getElementById('nav-principale');

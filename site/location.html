@@ -162,8 +162,9 @@
                   <option>Je ne sais pas, conseillez-moi</option>
                 </select>
               </label>
-              <label class="champ"><span class="champ__etiquette">Date souhaitée</span><input type="date" name="date" required></label>
-              <label class="champ"><span class="champ__etiquette">Nombre de personnes</span><input type="number" name="personnes" min="1" inputmode="numeric" required></label>
+              <label class="champ"><span class="champ__etiquette">Date souhaitée</span><input type="date" name="date" required data-min-aujourdhui></label>
+              <label class="champ"><span class="champ__etiquette">Date de rechange <span class="facultatif">(facultatif)</span></span><input type="date" name="date_rechange" data-min-aujourdhui></label>
+              <label class="champ"><span class="champ__etiquette">Nombre de personnes</span><input type="number" name="personnes" min="1" max="2000" inputmode="numeric" required data-erreur="Entrez le nombre d'invités, environ (ex. 120)."></label>
               <label class="champ"><span class="champ__etiquette">Durée <span class="facultatif">(facultatif)</span></span><input type="text" name="duree" placeholder="ex. de 17 h à 1 h"></label>
             </div>
           </fieldset>
