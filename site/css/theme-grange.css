@@ -254,3 +254,35 @@ a:hover{color:var(--rouge-vif)}
 .etiquette--tire{background:#F1DCA8}
 .avis-bandeau{border-radius:4px;box-shadow:var(--ombre-affiche)}
 .avis-bandeau strong{font-family:var(--affiche);font-style:normal;font-weight:400}
+
+/* =========================================================
+   Ton « foire agricole » : le western (Rye) seulement pour le
+   Saloon, la danse country et le rodéo; ailleurs, le pochoir
+   des sacs de moulée et des caisses de ferme.
+   ========================================================= */
+@font-face{font-family:'Big Shoulders Stencil';font-weight:100 900;font-style:normal;font-display:swap;src:url(../fonts/big-shoulders-stencil-latin.woff2) format('woff2')}
+:root{--pochoir:'Big Shoulders Stencil','Alfa Slab One',Georgia,sans-serif}
+
+.surtitre,.billet,.bandeau__piste,.mosaique span,.pied__bloc strong{font-family:var(--pochoir);font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+.surtitre{font-size:22px}
+.billet{font-size:21px}
+.bandeau__piste{font-size:clamp(30px,3.2vw,42px);letter-spacing:.04em}
+.pied__bloc strong{font-size:21px}
+.mosaique span{font-size:18px}
+@media (max-width:600px){.billet{font-size:17px}}
+
+/* Western réservé : danse country, rodéo, le Saloon */
+.porte--danse:not(.porte--location) h3,.nouveaute__texte h3,.salles .salle:last-child h3{font-family:var(--western);text-transform:none;letter-spacing:0}
+.porte--danse:not(.porte--location) h3{font-size:clamp(32px,3.4vw,48px)}
+.nouveaute__texte h3{font-size:clamp(32px,3.6vw,50px)}
+
+/* Séparateurs du bandeau : losanges moutarde dessinés (plus de glyphe ★) */
+.bandeau__groupe li::after{content:"";width:12px;height:12px;background:var(--jaune);transform:rotate(45deg);flex:none;font-size:0}
+
+/* Grandes dates : chaque carte porte sa cocarde de concours */
+.annees li{position:relative}
+.annees li::after{content:"";position:absolute;top:-16px;right:16px;width:42px;height:42px;border-radius:50%;
+  background:radial-gradient(circle,var(--c) 0 30%,var(--nuit) 31% 36%,transparent 37%),repeating-conic-gradient(var(--nuit) 0 9deg,#FBF6EC 9deg 18deg);
+  box-shadow:0 0 0 2px var(--nuit)}
+.annees li::before{content:"";position:absolute;top:18px;right:24px;width:26px;height:30px;background:var(--rouge);clip-path:polygon(0 0,100% 0,100% 100%,50% 78%,0 100%);border:0}
+.annees li > *{position:relative;z-index:1}
