@@ -47,7 +47,17 @@ Le coach a lu le dossier (`Downloads/dossier-refonte-expo-st-isidore.pdf`). Fait
 
 - **Deux salles à louer** (confirmé par Jérémy) : le palais des commerces et le Saloon de la grange 3. Section « Deux salles » avec photos sur `location.html`, choix de la salle dans le formulaire, photo du Saloon sur la carte de l'accueil et dans l'image de partage.
 
+### Essai de nouvelle direction « Grange & rodéo » (branche `design-grange-rodeo`)
+- Choisie par Jérémy parmi 4 options (Grange & rodéo, Nuit d'Expo, Journal de campagne, changement partiel).
+- Tout le thème est dans **un seul fichier** : `site/css/theme-grange.css`, chargé après les autres. Retirer cette ligne des pages = retour au thème « plein été ».
+- Palette : crème `#F3EAD8`, kraft `#E8D9BA`, planches brunes `#2A1D14`, rouge grange `#8E2A1E` (bouton principal), moutarde `#D9A441`, olive `#8A9A4B`, jean `#6A97A3`, rouille `#C8622A`. Contrastes vérifiés (tous ≥ 4,5:1).
+- Polices locales : **Alfa Slab One** (grands titres d'affiche) et **Rye** (lettrage western : billets, bandeau, surtitres); Barlow reste pour le texte et les étiquettes.
+- Cartes en cadres d'affiche (bordure brune + ombre décalée), coins carrés, planches de grange sur les sections foncées, grain de papier sur les sections claires.
+- Skill `ui-ux-pro-max` ajouté (`.claude/skills/`); sa proposition par défaut (violet + Inter + Google Fonts) a été écartée : contraire à `CLAUDE.md` et à la Loi 25.
+- **La branche `main` (en ligne sur Netlify) garde le thème « plein été »** tant que Jérémy n'a pas validé.
+
 ### À faire ensuite
+- [ ] Jérémy compare les deux thèmes et décide : fusionner `design-grange-rodeo` dans `main`, ajuster, ou abandonner.
 - [ ] **Formulaires en ligne : ne fonctionnent pas encore.** Netlify ne les a pas détectés (l'attribut `data-netlify` est encore dans le HTML servi). Jérémy doit activer la détection des formulaires dans Netlify et une notification courriel, puis on teste les 4 formulaires.
 - [ ] Le coach recommande de garder le lien privé tant que les droits des photos ne sont pas obtenus (le site Netlify est public depuis le 4 novembre).
 - [ ] Idée du coach : bouton principal de l'accueil qui change selon la saison (remisage de mi-octobre à mi-mai, Expo et billets le reste de l'année).
