@@ -430,3 +430,8 @@ a:hover{color:#124E78}
   .js .revele{opacity:1;transform:none}
   *{transition:none!important}
 }
+
+/* ---------- Héros de l'accueil selon la saison (classe posée dans le <head>) ---------- */
+.une__saison--ete{display:none}
+.saison-ete .une__saison--ete{display:flex}
+.saison-ete .une__saison--hiver{display:none}

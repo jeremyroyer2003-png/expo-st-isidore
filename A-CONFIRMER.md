@@ -8,6 +8,8 @@ Ces informations manquent sur le site. Depuis le 4 novembre 2026, **plus aucun c
 - [ ] **Capacité** du palais des commerces et du Saloon (nombre de personnes assises / debout) (`location.html`)
 - [ ] Une photo de l'**intérieur du Saloon** et du palais **monté pour une réception**
 - [ ] Une version **une couleur** du logo (crème ou brune) pour le thème Grange & rodéo
+- [ ] Orthographe du groupe « Show Lex Roses » (`programmation.html`)
+- [ ] La photo « Tire de pick-ups » porte le filigrane du photographe (tirsQC.com) : on le laisse visible (c'est son crédit) tant qu'on n'a pas une version sans filigrane avec permission
 - [ ] Quand le tarif au pied sera inscrit, la ligne « Estimation » du billet et la phrase « Votre estimation apparaît… » réapparaissent toutes seules (`data-prix-par-pied`)
 
 ## Nouveautés à documenter (ajoutées le 4 novembre 2026)

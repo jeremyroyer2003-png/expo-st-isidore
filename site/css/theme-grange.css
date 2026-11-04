@@ -317,3 +317,52 @@ a:hover{color:var(--rouge-vif)}
 @media (max-width:600px){
   .choix__onglets{-webkit-mask-image:linear-gradient(90deg,#000 82%,transparent);mask-image:linear-gradient(90deg,#000 82%,transparent);padding-right:40px}
 }
+
+/* Distill : le moulinet quatre couleurs volait l'attention au bouton principal; retiré dans ce thème */
+.moulinet{display:none}
+
+/* =========================================================
+   Layout : location (formulaire + « Ce qui arrive ensuite »),
+   longueur de ligne, citation
+   ========================================================= */
+.demande-salle{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:48px;align-items:start}
+.demande-salle > form,.demande-salle > .merci{grid-column:1;grid-row:1}
+.demande-salle > .ensuite{grid-column:2;grid-row:1;position:sticky;top:124px}
+.ensuite{padding:26px 26px 22px;background-color:var(--marine-fonce);background-image:var(--planches);color:var(--texte-nuit);border:3px solid var(--nuit);border-radius:4px;box-shadow:var(--ombre-affiche)}
+.ensuite h3{margin:0 0 16px;font-family:var(--affiche);font-weight:400;text-transform:uppercase;font-size:24px;line-height:1.05;color:var(--jaune)}
+.ensuite ol{list-style:none;margin:0;padding:0;counter-reset:etape;display:flex;flex-direction:column;gap:16px}
+.ensuite li{counter-increment:etape;position:relative;padding-left:50px;min-height:36px;font-size:16px;line-height:1.45}
+.ensuite li::before{content:counter(etape);position:absolute;left:2px;top:-2px;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--rouge);color:var(--creme);font-family:var(--affiche);font-size:18px;box-shadow:0 0 0 2px var(--marine-fonce),0 0 0 4px var(--rouge)}
+.ensuite strong{color:var(--creme)}
+.ensuite p{margin:18px 0 0;padding-top:14px;border-top:1px dashed var(--trait-nuit);font-size:15px}
+.ensuite a{color:var(--jaune)}
+@media (max-width:980px){
+  .demande-salle{grid-template-columns:minmax(0,1fr);gap:28px}
+  .demande-salle > form,.demande-salle > .merci,.demande-salle > .ensuite{grid-column:1;grid-row:auto;position:static}
+}
+
+/* Lignes de texte trop longues dans les FAQ (106 caractères relevés) */
+.liste-questions dd{max-width:68ch}
+/* Citation de l'histoire : pleine encre, plus l'air désactivée */
+.archives__citation,.archives__citation p{color:var(--nuit)}
+
+/* =========================================================
+   Corrections mineures (critique du 4 novembre 2026)
+   ========================================================= */
+/* Survol de lien sur fond moutarde : 3,0:1 relevé; l'encre brune garde 8:1 */
+.c-jaune a:not(.bouton):hover,.avis-bandeau a:not(.bouton):hover,.billet a:hover{color:var(--nuit)}
+/* « D'HIVER » en lettres contour : difficile à lire en basse vision; lettres pleines */
+.heros__titre .contour{color:var(--jaune);-webkit-text-stroke:0}
+/* Mots seuls en fin de paragraphe et titres mal équilibrés */
+p,dd,li,figcaption{text-wrap:pretty}
+h1,h2,h3,h4,.titre-affiche{text-wrap:balance}
+/* Pastilles de « Venir à l'Expo » : une seule couleur, elles ne codaient rien */
+.venir__faits li::before{background:var(--rouge)}
+/* Bandeau défilant : il s'arrête quand on le survole ou qu'on y place le focus */
+.bandeau:hover .bandeau__piste,.bandeau:focus-within .bandeau__piste{animation-play-state:paused}
+/* Hiérarchie des tailles sur téléphone : écarts plus francs entre h2, h3 et texte */
+@media (max-width:600px){
+  .titre-affiche{font-size:clamp(31px,9vw,40px)}
+  .porte h3,.choix__texte h3,.salle__texte h3{font-size:clamp(23px,6.4vw,28px)}
+  .porte--danse:not(.porte--location) h3,.nouveaute__texte h3{font-size:clamp(25px,7vw,30px)}
+}

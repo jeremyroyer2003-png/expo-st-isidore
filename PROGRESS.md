@@ -57,6 +57,12 @@ Le coach a lu le dossier (`Downloads/dossier-refonte-expo-st-isidore.pdf`). Fait
 - **4 novembre 2026 : Jérémy choisit « Grange & rodéo » comme version finale.** Fusionnée dans `main` et mise en ligne. L'essai « Nuit d'Expo » reste sur la branche `design-nuit-expo` (non retenu, gardé pour référence).
 - Billet de remisage collant : descend maintenant sous l'en-tête (`top:124px`), et rapetisse un peu sur les écrans peu hauts (`remisage.css`).
 
+### Critique impeccable et corrections (4 novembre 2026, soir)
+- Skill `impeccable` : `critique` lancée en double évaluation (agent design + agent détecteur). **Note : 26/40.** Rapport dans `.impeccable/critique/`.
+- Choix de Jérémy : formulaires d'abord, ton « foire agricole », tout corriger (même le mineur).
+- Fait : formulaires et horaire au style grange (cocardes, étiquettes d'inscription, talons de billet) · pochoir Big Shoulders Stencil pour bandeau/billets/étiquettes, Rye réservé au Saloon/danse/rodéo · plus de surtitres ni de glyphes ★ · cocardes sur les grandes dates · promesse de prix cohérente (estimation masquée sans tarif) · « ex. » dans les exemples · « Infos et contact » · **héros selon la saison** (hiver = remisage, été = Expo; classe posée dans le `<head>` de index.html) · moulinet retiré du thème · mini-billet collant sur téléphone · erreurs sous chaque champ (code partagé `Expo.afficherErreur` dans site.js) · dates sans passé + date de rechange · six jours visibles sur téléphone · « Ce qui arrive ensuite » sur la location · corrections mineures (survol, placeholders, contour « D'HIVER », text-wrap, bandeau en pause au survol).
+- Prochaine étape : relancer `critique` pour mesurer le gain.
+
 ### À faire ensuite
 - [x] Choix du thème final : Grange & rodéo.
 - [ ] Mettre à jour la section « Direction visuelle » de `CLAUDE.md` pour décrire Grange & rodéo (palette, polices Alfa Slab One et Rye).

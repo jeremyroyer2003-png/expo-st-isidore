@@ -28,8 +28,11 @@ var Expo = (function () {
       msg = document.createElement('p');
       msg.className = 'champ__erreur champ__erreur--champ';
       msg.id = id;
-      var bloc = el.closest('.dimension-ligne, .consentement, .champ') || el.parentNode;
-      bloc.parentNode.insertBefore(msg, bloc.nextSibling);
+      // Dans un bloc .champ (cellule de grille), le message va à l'intérieur pour ne pas décaler la grille
+      var champ = el.closest('.champ');
+      var bloc = el.closest('.dimension-ligne, .consentement');
+      if (champ && !bloc) champ.appendChild(msg);
+      else { bloc = bloc || el.parentNode; bloc.parentNode.insertBefore(msg, bloc.nextSibling); }
       var lies = (el.getAttribute('aria-describedby') || '').split(' ').filter(Boolean);
       if (lies.indexOf(id) === -1) el.setAttribute('aria-describedby', lies.concat(id).join(' '));
     }

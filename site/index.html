@@ -22,7 +22,15 @@
   <link rel="preload" href="images/photos/tire-poussiere.webp" as="image" media="(min-width: 761px)">
   <link rel="stylesheet" href="css/site.css">
   <link rel="stylesheet" href="css/theme-grange.css">
-  <script>document.documentElement.classList.add('js')</script>
+  <script>
+    document.documentElement.classList.add('js');
+    // Saison du héros : hiver du 15 octobre au 14 mai (remisage), été le reste de l'année (Expo)
+    (function () {
+      var d = new Date(), m = d.getMonth() + 1, j = d.getDate();
+      var hiver = m > 10 || m < 5 || (m === 10 && j >= 15) || (m === 5 && j < 15);
+      document.documentElement.classList.add(hiver ? 'saison-hiver' : 'saison-ete');
+    })();
+  </script>
   <script src="js/site.js" defer></script>
   <script src="js/accueil.js" defer></script>
 </head>
@@ -63,7 +71,7 @@
 
     <!-- ===== Héros : diaporama de vraies photos de l'Expo ===== -->
     <div class="une-zone">
-      <section class="une" aria-labelledby="titre-heros">
+      <section class="une" aria-label="À la une">
         <!-- Photos de l'ancien site (droits à confirmer) : remplacer le fichier dans images/photos/ -->
         <ul class="une__diapos" aria-label="Photos de l'Expo">
           <li class="une__diapo est-active">
@@ -80,12 +88,24 @@
           </li>
         </ul>
 
-        <div class="contenu une__contenu">
-          <p class="billet"><span>Entrée gratuite</span><span>depuis 1983</span></p>
-          <h1 id="titre-heros" class="une__titre">On se revoit <span>en juillet 2027</span></h1>
-          <p class="une__intro">Merci d'être venus à la 44<sup>e</sup> édition. Six jours d'agriculture, de tracteurs et de fête à Saint-Isidore, en Beauce. Les dates 2027 seront annoncées au printemps.</p>
+        <!-- Le héros suit la saison (classe posée dans le <head>) :
+             hiver = de la mi-octobre à la mi-mai, le remisage d'abord; été = l'Expo d'abord.
+             Sans JavaScript, c'est la version d'hiver qui s'affiche. -->
+        <div class="contenu une__contenu une__saison une__saison--hiver">
+          <p class="billet"><span>Remisage intérieur</span><span>mi-octobre à mi-mai</span></p>
+          <h1 class="une__titre">Votre roulotte, <span>au sec cet hiver</span></h1>
+          <p class="une__intro">Roulottes, VR, autos, bateaux et motos, à l'intérieur des bâtiments de l'Expo. Assuré, plus de 20 ans d'expérience. <strong>Et on se revoit en juillet 2027</strong> pour la 45<sup>e</sup> Expo.</p>
           <div class="groupe-boutons">
-            <a class="bouton bouton--orange" href="remisage.html">Remiser mon véhicule cet hiver <span class="fleche" aria-hidden="true">→</span></a>
+            <a class="bouton bouton--orange" href="remisage.html">Envoyer mes dimensions <span class="fleche" aria-hidden="true">→</span></a>
+            <a class="bouton bouton--contour" href="tel:+14188829619">418 882-9619</a>
+          </div>
+        </div>
+        <div class="contenu une__contenu une__saison une__saison--ete">
+          <p class="billet"><span>Entrée gratuite</span><span>depuis 1983</span></p>
+          <h1 class="une__titre">On se revoit <span>en juillet 2027</span></h1>
+          <p class="une__intro">Six jours d'agriculture, de tracteurs et de fête à Saint-Isidore, en Beauce. Les dates 2027 seront annoncées au printemps.</p>
+          <div class="groupe-boutons">
+            <a class="bouton bouton--orange" href="programmation.html">Voir la programmation <span class="fleche" aria-hidden="true">→</span></a>
             <a class="bouton bouton--contour" href="photos.html">Revivre 2026 en photos</a>
           </div>
         </div>
