@@ -2,6 +2,14 @@
 
 Ces informations manquent sur le site. Depuis le 4 novembre 2026, **plus aucun crochet n'est visible au public** (conseil du coach) : chaque trou est remplacé par une phrase neutre (« annoncées au printemps », « appelez le bureau », « on vous rappelle avec le prix »). Une fois la réponse obtenue, remplacer la phrase neutre par la vraie information dans le fichier indiqué.
 
+## Soulevé par la critique de design (4 novembre 2026)
+- [ ] **Délai de réponse** aux demandes (remisage, location, exposants) : « on vous rappelle d'ici 2 jours ouvrables »? Pour l'ajouter aux messages de confirmation et à « Ce qui arrive ensuite » (`remisage.html`, `location.html`)
+- [ ] L'Expo est-elle fermée le **mercredi**? L'horaire 2026 saute du mardi au jeudi (`programmation.html`)
+- [ ] **Capacité** du palais des commerces et du Saloon (nombre de personnes assises / debout) (`location.html`)
+- [ ] Une photo de l'**intérieur du Saloon** et du palais **monté pour une réception**
+- [ ] Une version **une couleur** du logo (crème ou brune) pour le thème Grange & rodéo
+- [ ] Quand le tarif au pied sera inscrit, la ligne « Estimation » du billet et la phrase « Votre estimation apparaît… » réapparaissent toutes seules (`data-prix-par-pied`)
+
 ## Nouveautés à documenter (ajoutées le 4 novembre 2026)
 - [ ] **Rodéo 2027**, la semaine avant l'Expo : dates, heure, lieu, prix, billetterie (`index.html`, `programmation.html`). L'accueil dit « Monte de taureaux, sur le site de l'Expo » : à confirmer. La photo est une **photo d'illustration** libre de droits (Joey Chacon, Unsplash), à remplacer par une vraie photo du rodéo après l'événement.
 - [x] Chiens permis en laisse, bingo, mini-ferme, salle de dégustation, aire de pique-nique, camion de rue (fiche Bonjour Québec, confirmé par Jérémy) : ajoutés à l'accueil et à Infos pratiques.

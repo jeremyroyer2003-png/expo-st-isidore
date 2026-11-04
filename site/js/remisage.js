@@ -64,6 +64,9 @@
   document.querySelectorAll('[data-tarif]').forEach(function (el) {
     if (tarif) el.textContent = argent(tarif) + ' le pied';
   });
+  // Sans tarif inscrit, on ne promet pas d'estimation : la ligne disparaît du billet
+  document.querySelectorAll('[data-si-tarif]').forEach(function (el) { el.hidden = !tarif; });
+  document.querySelectorAll('.resume__ligne--prix').forEach(function (el) { el.hidden = !tarif; });
   document.querySelectorAll('[data-tarif-court]').forEach(function (el) {
     el.textContent = tarif ? '(' + argent(tarif) + ' / pi)' : '';
   });
@@ -114,7 +117,7 @@
     DIMENSIONS.forEach(function (d, i) {
       document.getElementById('aide-' + d).textContent = c[d];
       var ex = nombre(c.exemples[i]);
-      champ(d).placeholder = format(enMetres() ? Math.round(ex * PIED * 10) / 10 : ex);
+      champ(d).placeholder = 'ex. ' + format(enMetres() ? Math.round(ex * PIED * 10) / 10 : ex);
     });
     if (type) erreurType.hidden = true;
   }
