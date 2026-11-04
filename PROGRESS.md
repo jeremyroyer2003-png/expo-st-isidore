@@ -45,6 +45,8 @@ Le coach a lu le dossier (`Downloads/dossier-refonte-expo-st-isidore.pdf`). Fait
 - **Tire** : étiquette « 2024 » sur la liste des pilotes.
 - Menu un peu plus serré pour tenir sur une ligne avec 8 liens (menu hamburger sous 1240 px).
 
+- **Deux salles à louer** (confirmé par Jérémy) : le palais des commerces et le Saloon de la grange 3. Section « Deux salles » avec photos sur `location.html`, choix de la salle dans le formulaire, photo du Saloon sur la carte de l'accueil et dans l'image de partage.
+
 ### À faire ensuite
 - [ ] **Formulaires en ligne : ne fonctionnent pas encore.** Netlify ne les a pas détectés (l'attribut `data-netlify` est encore dans le HTML servi). Jérémy doit activer la détection des formulaires dans Netlify et une notification courriel, puis on teste les 4 formulaires.
 - [ ] Le coach recommande de garder le lien privé tant que les droits des photos ne sont pas obtenus (le site Netlify est public depuis le 4 novembre).

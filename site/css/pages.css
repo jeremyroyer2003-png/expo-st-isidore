@@ -221,3 +221,15 @@ a.etat:hover{background:var(--marine);color:#FFFFFF}
 .legal ul{padding-left:22px}
 .legal li{margin-bottom:6px}
 .annee-liste{display:inline-block;vertical-align:middle;margin-left:.2em;padding:.12em .4em;border-radius:8px;background:var(--jaune);color:var(--nuit);font-size:.42em;font-style:normal;letter-spacing:.02em;line-height:1.1}
+
+/* ---------- Location : les deux salles ---------- */
+.salles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.salle{display:flex;flex-direction:column;border-radius:20px;overflow:hidden;background:var(--papier-2)}
+.salle__photo{margin:0;position:relative;aspect-ratio:3/2;background:var(--nuit)}
+.salle__photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.salle__photo figcaption{position:absolute;left:14px;bottom:12px;font-size:14px;color:#FFFFFF;background:rgba(14,24,32,.72);padding:4px 10px;border-radius:4px}
+.salle__texte{padding:28px 32px 32px;display:flex;flex-direction:column;gap:12px}
+.salle__texte h3{margin:0;font-family:var(--titre);font-style:italic;font-weight:900;text-transform:uppercase;font-size:clamp(32px,3.2vw,44px);line-height:.95;color:var(--marine-fonce)}
+.salle__texte h3 small{display:inline-block;vertical-align:middle;margin-left:.2em;padding:.15em .45em;border-radius:8px;background:var(--jaune);color:var(--nuit);font-size:.45em;font-style:normal;letter-spacing:.02em}
+.salle__texte p{margin:0;color:var(--texte-clair);font-size:18px;max-width:46ch}
+@media (max-width:900px){.salles{grid-template-columns:1fr}.salle__texte{padding:24px}}

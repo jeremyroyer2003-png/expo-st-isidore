@@ -5,8 +5,9 @@ Ces informations manquent sur le site. Depuis le 4 novembre 2026, **plus aucun c
 ## Nouveautés à documenter (ajoutées le 4 novembre 2026)
 - [ ] **Rodéo 2027**, la semaine avant l'Expo : dates, heure, lieu, prix, billetterie (`index.html`, `programmation.html`)
 - [ ] **Danse country en ligne**, grange 2, 19 h à 21 h, 20 $ la session : quel jour de la semaine? date de début et de fin (environ un mois après la sortie des roulottes, un mois avant leur rentrée)? inscription requise? (`index.html`)
-- [ ] **Location de salle** : quelle salle (nom du bâtiment)? capacité maximale? tarif ou fourchette de prix? traiteur et bar permis? photo de la salle montée (`location.html`, `index.html`)
-- [ ] Une photo de la salle de location et une du rodéo (la photo de danse sert pour l'instant)
+- [x] **Location de salle** : deux salles, le palais des commerces et le Saloon de la grange 3 (confirmé par Jérémy).
+- [ ] Location : capacité de chaque salle? tarif ou fourchette de prix? traiteur et bar permis? (`location.html`)
+- [ ] Photos des deux salles montées pour une réception (pour l'instant : le palais pendant l'Expo, le Saloon de l'extérieur), et une photo du rodéo
 
 ## Dates et horaires
 - [ ] Dates de l'Expo 2027 (`index.html`, `contact.html`, `tire-de-tracteurs.html`)
