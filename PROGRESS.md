@@ -54,10 +54,12 @@ Le coach a lu le dossier (`Downloads/dossier-refonte-expo-st-isidore.pdf`). Fait
 - Polices locales : **Alfa Slab One** (grands titres d'affiche) et **Rye** (lettrage western : billets, bandeau, surtitres); Barlow reste pour le texte et les étiquettes.
 - Cartes en cadres d'affiche (bordure brune + ombre décalée), coins carrés, planches de grange sur les sections foncées, grain de papier sur les sections claires.
 - Skill `ui-ux-pro-max` ajouté (`.claude/skills/`); sa proposition par défaut (violet + Inter + Google Fonts) a été écartée : contraire à `CLAUDE.md` et à la Loi 25.
-- **La branche `main` (en ligne sur Netlify) garde le thème « plein été »** tant que Jérémy n'a pas validé.
+- **4 novembre 2026 : Jérémy choisit « Grange & rodéo » comme version finale.** Fusionnée dans `main` et mise en ligne. L'essai « Nuit d'Expo » reste sur la branche `design-nuit-expo` (non retenu, gardé pour référence).
+- Billet de remisage collant : descend maintenant sous l'en-tête (`top:124px`), et rapetisse un peu sur les écrans peu hauts (`remisage.css`).
 
 ### À faire ensuite
-- [ ] Jérémy compare les deux thèmes et décide : fusionner `design-grange-rodeo` dans `main`, ajuster, ou abandonner.
+- [x] Choix du thème final : Grange & rodéo.
+- [ ] Mettre à jour la section « Direction visuelle » de `CLAUDE.md` pour décrire Grange & rodéo (palette, polices Alfa Slab One et Rye).
 - [ ] **Formulaires en ligne : ne fonctionnent pas encore.** Netlify ne les a pas détectés (l'attribut `data-netlify` est encore dans le HTML servi). Jérémy doit activer la détection des formulaires dans Netlify et une notification courriel, puis on teste les 4 formulaires.
 - [ ] Le coach recommande de garder le lien privé tant que les droits des photos ne sont pas obtenus (le site Netlify est public depuis le 4 novembre).
 - [ ] Idée du coach : bouton principal de l'accueil qui change selon la saison (remisage de mi-octobre à mi-mai, Expo et billets le reste de l'année).

@@ -20,6 +20,13 @@ Ce fichier est lu automatiquement par Claude Code. Il résume tout ce qui a ét�
 
 ## Direction visuelle retenue : « affiche de foire agricole »
 
+> **DIRECTION FINALE (4 novembre 2026) : « Grange & rodéo »**, choisie par Jérémy. Elle est entièrement dans `site/css/theme-grange.css`, chargé après les autres feuilles; c'est ce fichier qui fait foi pour les couleurs et les polices.
+> - Palette : crème `#F3EAD8`, kraft `#E8D9BA`, planches brunes `#2A1D14` / `#3B2A1E`, encre `#1E140D`, rouge grange `#8E2A1E` (bouton principal, texte crème), moutarde `#D9A441`, olive `#8A9A4B`, jean `#6A97A3`, rouille `#C8622A`.
+> - Polices locales : **Alfa Slab One** (grands titres d'affiche, jamais en italique), **Rye** (lettrage western : billets, bandeau, surtitres), Barlow / Barlow Condensed pour le texte et les étiquettes.
+> - Motifs : cartes en cadres d'affiche (bordure brune 3 px + ombre décalée 6 px), coins presque carrés, planches de grange sur les sections foncées, grain de papier sur les sections claires, étoiles ★ dans le bandeau, double filet sous l'en-tête.
+> - Le lettrage d'affiche est large : vérifier chaque nouveau grand titre à 390 px (débordement).
+> - Les sections « plein été » ci-dessous restent la base du HTML et du CSS commun.
+>
 > **Mise à jour du 4 novembre 2026 : direction « plein été »** (plus de contraste, demandée par Jérémy). Elle remplace certains points plus bas :
 > - Fond **blanc** `#FFFFFF`; sections alternées en ciel pâle `#EAF4FA` (au lieu du papier beige). Héros des pages intérieures sur marine `#263F53`.
 > - En-tête **blanc et collant** avec le logo officiel en couleur (`site/images/logo-expo.png`). Pied de page **bleu** `#0B67A8` avec logo blanc (`logo-expo-blanc.png`).
