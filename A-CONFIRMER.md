@@ -4,7 +4,7 @@ Ces informations manquent sur le site. Depuis le 4 novembre 2026, **plus aucun c
 
 ## Nouveautés à documenter (ajoutées le 4 novembre 2026)
 - [ ] **Rodéo 2027**, la semaine avant l'Expo : dates, heure, lieu, prix, billetterie (`index.html`, `programmation.html`). L'accueil dit « Monte de taureaux, sur le site de l'Expo » : à confirmer. La photo est une **photo d'illustration** libre de droits (Joey Chacon, Unsplash), à remplacer par une vraie photo du rodéo après l'événement.
-- [ ] Bonjour Québec (fiche de l'Expo) indique : **chiens permis en laisse**, bingo, mini-ferme, salle de dégustation, aire de pique-nique, camion de rue. Si le comité confirme, on peut l'ajouter à Infos pratiques (`contact.html`, « Animaux de compagnie »).
+- [x] Chiens permis en laisse, bingo, mini-ferme, salle de dégustation, aire de pique-nique, camion de rue (fiche Bonjour Québec, confirmé par Jérémy) : ajoutés à l'accueil et à Infos pratiques.
 - [ ] **Danse country en ligne**, grange 2, 19 h à 21 h, 20 $ la session : quel jour de la semaine? date de début et de fin (environ un mois après la sortie des roulottes, un mois avant leur rentrée)? inscription requise? (`index.html`)
 - [x] **Location de salle** : deux salles, le palais des commerces et le Saloon de la grange 3 (confirmé par Jérémy).
 - [ ] Location : capacité de chaque salle? tarif ou fourchette de prix? traiteur et bar permis? (`location.html`)
