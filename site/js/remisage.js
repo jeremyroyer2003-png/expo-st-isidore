@@ -97,7 +97,7 @@
 
     if (!dims.longueur) remplir('prix', '—', false);
     else if (tarif) remplir('prix', argent(Math.round(versPieds(dims.longueur) * tarif * 100) / 100), true);
-    else remplir('prix', '[Tarif à confirmer]', false);
+    else remplir('prix', 'Tarif donné au téléphone', false);
 
     var nom = champ('nom').value.trim();
     var telephone = champ('telephone').value.trim();

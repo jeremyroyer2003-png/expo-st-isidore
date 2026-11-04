@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Location de salle – mariage, party, réunion | Expo St-Isidore</title>
+  <meta name="description" content="Louez la salle de l'Expo St-Isidore à Saint-Isidore, en Beauce : tables, chaises et ambiance comprises. Mariage, party de famille, réunion, anniversaire. Demandez une date en ligne ou au 418 882-5649.">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta property="og:title" content="Location de salle – mariage, party, réunion | Expo St-Isidore">
+  <meta property="og:description" content="Louez la salle de l'Expo St-Isidore à Saint-Isidore, en Beauce : tables, chaises et ambiance comprises. Mariage, party de famille, réunion, anniversaire. Demandez une date en ligne ou au 418 882-5649.">
+  <meta property="og:locale" content="fr_CA">
+  <link rel="icon" href="images/favicon.png">
+  <link rel="preload" href="fonts/barlow-condensed-latin-900-italic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/barlow-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/site.css">
+  <link rel="stylesheet" href="css/composants.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script>document.documentElement.classList.add('js')</script>
+  <script src="js/site.js" defer></script>
+</head>
+<body>
+<a class="lien-evitement" href="#contenu">Aller au contenu</a>
+
+<svg class="sprite" aria-hidden="true">
+  <symbol id="separateur" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5"/></symbol>
+</svg>
+
+<div class="cadre">
+<div class="page">
+
+  <!-- ===== En-tête ===== -->
+  <header class="entete">
+    <div class="contenu entete__barre">
+      <a class="entete__logo" href="index.html" aria-label="Expo St-Isidore – Bassin de la Chaudière, accueil">
+        <img src="images/logo-expo.png" alt="Expo St-Isidore – Bassin de la Chaudière" width="124" height="72">
+      </a>
+      <button class="menu-bouton" type="button" aria-expanded="false" aria-controls="nav-principale">
+        <span class="menu-bouton__icone" aria-hidden="true"><span></span></span>
+        Menu
+      </button>
+      <nav id="nav-principale" class="nav" aria-label="Navigation principale">
+        <a href="programmation.html">Programmation</a>
+        <a href="tire-de-tracteurs.html">Tire de tracteurs</a>
+        <a href="exposants.html">Exposants</a>
+        <a href="photos.html">Photos</a>
+        <a href="histoire.html">Notre histoire</a>
+        <a href="contact.html">Infos pratiques</a>
+        <a href="location.html" aria-current="page">Location de salle</a>
+        <a class="nav__remisage" href="remisage.html">Remisage d'hiver</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenu">
+
+    <!-- ===== Héros ===== -->
+    <section class="heros heros--page heros--compact" aria-labelledby="titre-heros">
+      <div class="contenu heros__grille heros__grille--texte">
+        <div class="heros__texte">
+          <p class="billet"><span>Toute l'année</span><span>Saint-Isidore</span></p>
+          <h1 id="titre-heros" class="heros__titre">
+            <span>Louer</span>
+            <span class="jaune">la salle</span>
+          </h1>
+        </div>
+        <div class="heros__cote">
+          <p class="heros__intro">Mariage, party de famille, réunion ou anniversaire : la salle de l'Expo avec les <strong>tables, les chaises et l'ambiance comprises</strong>. Dites-nous votre date, on vous rappelle avec les disponibilités et le prix.</p>
+          <div class="groupe-boutons">
+            <a class="bouton bouton--orange" href="#demande">Demander une date <span class="fleche" aria-hidden="true">→</span></a>
+            <a class="bouton bouton--contour" href="tel:+14188825649">418 882-5649</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Ce qui est compris ===== -->
+    <section class="section-papier" aria-labelledby="titre-compris">
+      <div class="contenu section-espacee bloc">
+        <div class="bloc__titre">
+          <h2 id="titre-compris" class="titre-affiche">Ce qui<br>est compris</h2>
+          <p>Vous arrivez avec vos invités. Le reste est déjà là.</p>
+        </div>
+        <dl class="liste-questions">
+          <div><dt>Les tables et les chaises</dt><dd>Installées pour votre nombre d'invités.</dd></div>
+          <div><dt>L'ambiance</dt><dd>La décoration de la salle fait partie de la location.</dd></div>
+          <div><dt>Pour quels événements?</dt><dd>Mariages, partys de famille, réunions, anniversaires, soupers de groupe. Pour autre chose, demandez-nous.</dd></div>
+          <div><dt>Le prix</dt><dd>Il dépend de la date et du nombre de personnes. On vous le donne en vous rappelant.</dd></div>
+          <div><dt>Où?</dt><dd>Sur le site de l'Expo, au 132, route Coulombe, Saint-Isidore. Stationnement sur place.</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ===== Formulaire ===== -->
+    <section id="demande" class="section-papier-2" aria-labelledby="titre-demande">
+      <div class="contenu section-espacee">
+        <div class="entete-section">
+          <h2 id="titre-demande" class="titre-affiche">Demander<br>une date</h2>
+          <p>Deux minutes. On vérifie la disponibilité et on vous rappelle.</p>
+        </div>
+        <form id="form-location" class="formulaire formulaire--etroit" name="location" method="POST" action="location.html" data-netlify="true" netlify-honeypot="champ-robot" data-envoi-simple data-merci="merci-location" novalidate>
+          <input type="hidden" name="form-name" value="location">
+          <p class="visuellement-cache"><label>Ne pas remplir : <input name="champ-robot" tabindex="-1" autocomplete="off"></label></p>
+          <fieldset class="etape">
+            <legend class="etape__titre">Votre événement</legend>
+            <div class="coordonnees">
+              <label class="champ"><span class="champ__etiquette">Type d'événement</span>
+                <select name="type" required>
+                  <option value="">Choisir…</option>
+                  <option>Mariage</option>
+                  <option>Party de famille</option>
+                  <option>Anniversaire</option>
+                  <option>Réunion ou formation</option>
+                  <option>Souper de groupe</option>
+                  <option>Autre</option>
+                </select>
+              </label>
+              <label class="champ"><span class="champ__etiquette">Date souhaitée</span><input type="date" name="date" required></label>
+              <label class="champ"><span class="champ__etiquette">Nombre de personnes</span><input type="number" name="personnes" min="1" inputmode="numeric" required></label>
+              <label class="champ"><span class="champ__etiquette">Durée <span class="facultatif">(facultatif)</span></span><input type="text" name="duree" placeholder="ex. de 17 h à 1 h"></label>
+            </div>
+          </fieldset>
+          <fieldset class="etape">
+            <legend class="etape__titre">Vos coordonnées</legend>
+            <div class="coordonnees">
+              <label class="champ"><span class="champ__etiquette">Nom complet</span><input type="text" name="nom" required autocomplete="name"></label>
+              <label class="champ"><span class="champ__etiquette">Téléphone</span><input type="tel" name="telephone" required autocomplete="tel" inputmode="tel" placeholder="418 555-1234"></label>
+              <label class="champ champ--large"><span class="champ__etiquette">Courriel <span class="facultatif">(facultatif)</span></span><input type="email" name="courriel" autocomplete="email"></label>
+              <label class="champ champ--large"><span class="champ__etiquette">Commentaires <span class="facultatif">(facultatif)</span></span><textarea name="message" rows="4" placeholder="Traiteur, musique, heure d'installation…"></textarea></label>
+            </div>
+            <label class="consentement">
+              <input type="checkbox" name="consentement" value="oui" required>
+              <span>J'accepte que l'Expo St-Isidore utilise ces renseignements seulement pour répondre à ma demande de location, selon sa <a href="confidentialite.html">politique de confidentialité</a>.</span>
+            </label>
+          </fieldset>
+          <div class="formulaire__envoi">
+            <button type="submit" class="bouton bouton--orange bouton--grand">Envoyer ma demande</button>
+            <p>Vous préférez parler à quelqu'un? <a href="tel:+14188825649">418 882-5649</a></p>
+          </div>
+          <p class="champ__erreur formulaire__erreur" role="alert" hidden></p>
+        </form>
+        <div class="merci" id="merci-location" tabindex="-1" hidden>
+          <h3>Merci, c'est reçu!</h3>
+          <p>On vérifie la disponibilité de la salle et on vous rappelle. Si c'est pressant, appelez le bureau au <a href="tel:+14188825649">418 882-5649</a>.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Pied de page ===== -->
+  <footer class="pied">
+    <div class="contenu pied__interieur">
+      <div class="pied__haut">
+        <img class="pied__logo" src="images/logo-expo-blanc.png" alt="Expo St-Isidore – Bassin de la Chaudière" width="300" height="174" loading="lazy">
+        <div class="pied__colonnes">
+          <address class="pied__bloc">
+            <strong>Nous trouver</strong>
+            <span>132, route Coulombe</span>
+            <span>Saint-Isidore (Québec) G0S 2S0</span>
+            <a href="https://www.google.com/maps/search/?api=1&amp;query=132+route+Coulombe+Saint-Isidore+QC+G0S+2S0" rel="noopener">Itinéraire</a>
+          </address>
+          <div class="pied__bloc">
+            <strong>Nous joindre</strong>
+            <span>Bureau : <a href="tel:+14188825649">418 882-5649</a></span>
+            <span>Cellulaire : <a href="tel:+14183860484">418 386-0484</a></span>
+            <span>Remisage : <a href="tel:+14188829619">418 882-9619</a></span>
+            <a href="mailto:info@expobassinchaudiere.com">info@expobassinchaudiere.com</a>
+          </div>
+          <div class="pied__bloc">
+            <strong>Suivre l'Expo</strong>
+            <a href="https://www.facebook.com/expostisidorebassinchaudiere/" rel="noopener">Facebook</a>
+            <a href="contact.html#visiter">Infos pratiques</a>
+            <a href="location.html">Location de salle</a>
+            <a href="remisage.html">Remisage d'hiver</a>
+          </div>
+        </div>
+      </div>
+      <div class="pied__bas">
+        <span>© 2026 Expo St-Isidore · <a href="confidentialite.html">Politique de confidentialité</a></span>
+        <span>Maquette de démonstration – proposition de refonte</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</div>
+</body>
+</html>

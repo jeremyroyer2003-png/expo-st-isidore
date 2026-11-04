@@ -228,6 +228,38 @@ a:hover{color:#124E78}
 .entete-accueil{display:flex;flex-wrap:wrap;gap:16px 48px;align-items:flex-end;justify-content:space-between;margin-bottom:40px}
 .entete-accueil p{margin:0;max-width:46ch;color:var(--texte-clair);font-size:19px}
 
+/* ---------- Toute l'année : trois portes ---------- */
+.portes{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);grid-template-rows:auto auto;gap:16px}
+.porte{border-radius:20px;padding:36px;display:flex;flex-direction:column;gap:16px;background:var(--c,#EEF2F5);color:var(--nuit)}
+.porte h3{margin:0;font-family:var(--titre);font-style:italic;font-weight:900;text-transform:uppercase;font-size:clamp(38px,4vw,58px);line-height:.9}
+.porte p{margin:0;font-size:18px;max-width:42ch}
+.porte .porte__saison{font-family:var(--titre);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:17px}
+.porte > .bouton,.porte__corps > .bouton{align-self:flex-start;margin-top:auto}
+.porte .groupe-boutons{margin-top:auto}
+.porte--remisage{grid-row:span 2;background:var(--marine);color:#FFFFFF;padding:44px}
+.porte--remisage h3{font-size:clamp(48px,5.4vw,80px)}
+.porte--remisage p{color:var(--texte-nuit)}
+.porte--remisage .porte__saison{color:var(--jaune)}
+.porte__faits{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:8px 0;max-width:420px}
+.porte__faits div{border-top:2px solid var(--trait-nuit);padding-top:10px}
+.porte__faits dt{font-size:15px;color:#A9BDCC}
+.porte__faits dd{margin:0;font-family:var(--titre);font-style:italic;font-weight:800;font-size:34px;line-height:1.05;color:var(--jaune)}
+.porte--danse{padding:0;flex-direction:row;overflow:hidden}
+.porte__photo{margin:0;flex:0 0 42%;position:relative;background:var(--nuit)}
+.porte__photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.porte__corps{padding:32px;display:flex;flex-direction:column;gap:14px;flex:1;min-width:0}
+.nouveaute{margin:16px 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;padding:18px 24px;border-radius:14px;background:var(--orange);color:var(--nuit);font-size:18px}
+.nouveaute strong{font-family:var(--titre);font-style:italic;font-weight:900;text-transform:uppercase;font-size:26px;line-height:1}
+.nouveaute__etiquette{background:var(--nuit);color:#FFFFFF;font-family:var(--titre);font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:15px;padding:5px 12px;border-radius:999px}
+@media (max-width:900px){
+  .portes{grid-template-columns:1fr}
+  .porte--remisage{grid-row:auto;padding:32px 24px}
+  .porte{padding:28px 24px}
+  .porte--danse{flex-direction:column;padding:0}
+  .porte__photo{flex:none;aspect-ratio:3/2}
+  .porte__corps{padding:24px}
+}
+
 /* ---------- Choisir son Expo (onglets en couleurs du moulinet) ---------- */
 .choix__onglets{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 28px;padding:0}
 .choix__onglet{--c:var(--orange);display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 22px 0 16px;border:0;border-radius:999px;background:#EEF2F5;color:var(--marine-fonce);font-family:var(--titre);font-weight:800;font-size:22px;text-transform:uppercase;letter-spacing:.02em;cursor:pointer;transition:background-color .25s,color .25s,transform .16s var(--sortie)}

@@ -220,3 +220,4 @@ a.etat:hover{background:var(--marine);color:#FFFFFF}
 .legal h2{margin:40px 0 10px;font-family:var(--titre);font-style:italic;font-weight:900;text-transform:uppercase;font-size:32px;line-height:1;color:var(--marine-fonce)}
 .legal ul{padding-left:22px}
 .legal li{margin-bottom:6px}
+.annee-liste{display:inline-block;vertical-align:middle;margin-left:.2em;padding:.12em .4em;border-radius:8px;background:var(--jaune);color:var(--nuit);font-size:.42em;font-style:normal;letter-spacing:.02em;line-height:1.1}

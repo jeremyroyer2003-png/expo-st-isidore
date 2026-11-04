@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Expo St-Isidore – Exposition agricole gratuite en Beauce depuis 1983</title>
-  <meta name="description" content="Expo agricole gratuite à Saint-Isidore, en Beauce : jugements d'animaux, tire de tracteurs, spectacles et activités familiales. Merci pour 2026, on se revoit en juillet 2027. Remisage d'hiver intérieur.">
+  <meta name="description" content="Expo agricole gratuite à Saint-Isidore, en Beauce : jugements d'animaux, tire de tracteurs, spectacles et activités familiales. Merci pour 2026, on se revoit en juillet 2027. Toute l'année : remisage d'hiver intérieur, location de salle et danse country.">
   <meta name="theme-color" content="#FFFFFF">
   <meta property="og:title" content="Expo St-Isidore / Bassin de la Chaudière">
   <meta property="og:description" content="Expo agricole gratuite en Beauce depuis 1983. On se revoit en juillet 2027.">
@@ -46,6 +46,7 @@
         <a href="photos.html">Photos</a>
         <a href="histoire.html">Notre histoire</a>
         <a href="contact.html">Infos pratiques</a>
+        <a href="location.html">Location de salle</a>
         <a class="nav__remisage" href="remisage.html">Remisage d'hiver</a>
       </nav>
     </div>
@@ -75,10 +76,10 @@
         <div class="contenu une__contenu">
           <p class="billet"><span>Entrée gratuite</span><span>depuis 1983</span></p>
           <h1 id="titre-heros" class="une__titre">On se revoit <span>en juillet 2027</span></h1>
-          <p class="une__intro">Merci d'être venus à la 44<sup>e</sup> édition. Six jours d'agriculture, de tracteurs et de fête à Saint-Isidore, en Beauce. <strong>[Dates 2027 à confirmer]</strong></p>
+          <p class="une__intro">Merci d'être venus à la 44<sup>e</sup> édition. Six jours d'agriculture, de tracteurs et de fête à Saint-Isidore, en Beauce. Les dates 2027 seront annoncées au printemps.</p>
           <div class="groupe-boutons">
-            <a class="bouton bouton--orange" href="photos.html">Revivre 2026 en photos <span class="fleche" aria-hidden="true">→</span></a>
-            <a class="bouton bouton--contour" href="remisage.html">Remiser mon véhicule cet hiver</a>
+            <a class="bouton bouton--orange" href="remisage.html">Remiser mon véhicule cet hiver <span class="fleche" aria-hidden="true">→</span></a>
+            <a class="bouton bouton--contour" href="photos.html">Revivre 2026 en photos</a>
           </div>
         </div>
 
@@ -102,6 +103,7 @@
     <div class="bandeau">
       <div class="bandeau__piste">
         <ul class="bandeau__groupe" aria-label="Activités de l'Expo">
+          <li>Nouveau : rodéo<svg aria-hidden="true" fill="#15202A"><use href="#separateur"/></svg></li>
           <li>Tire de tracteurs<svg aria-hidden="true" fill="#15202A"><use href="#separateur"/></svg></li>
           <li>Jugements Holstein<svg aria-hidden="true" fill="#15202A"><use href="#separateur"/></svg></li>
           <li>Beach Party<svg aria-hidden="true" fill="#15202A"><use href="#separateur"/></svg></li>
@@ -111,6 +113,7 @@
         </ul>
         <!-- Copie identique pour que le défilement boucle sans trou -->
         <ul class="bandeau__groupe" aria-hidden="true">
+          <li>Nouveau : rodéo<svg fill="#15202A"><use href="#separateur"/></svg></li>
           <li>Tire de tracteurs<svg fill="#15202A"><use href="#separateur"/></svg></li>
           <li>Jugements Holstein<svg fill="#15202A"><use href="#separateur"/></svg></li>
           <li>Beach Party<svg fill="#15202A"><use href="#separateur"/></svg></li>
@@ -121,12 +124,59 @@
       </div>
     </div>
 
+    <!-- ===== Toute l'année : hors saison, le remisage passe en premier ===== -->
+    <section class="section-papier" aria-labelledby="titre-annee">
+      <div class="contenu section-espacee">
+        <div class="entete-accueil">
+          <h2 id="titre-annee" class="titre-affiche">L'Expo, toute l'année</h2>
+          <p>La grande semaine, c'est en juillet. Le reste de l'année, les bâtiments de l'Expo travaillent aussi : remisage, location de salle et danse country.</p>
+        </div>
+
+        <div class="portes">
+          <article class="porte porte--remisage">
+            <p class="porte__saison">D'octobre à mai</p>
+            <h3>Remisage d'hiver</h3>
+            <p>Roulottes, VR, autos, pick-ups, bateaux, motos et Spyder, à l'intérieur, dans les bâtiments de l'Expo. Assuré, plus de 20 ans d'expérience.</p>
+            <dl class="porte__faits">
+              <div><dt>Entrée</dt><dd>mi-octobre</dd></div>
+              <div><dt>Sortie</dt><dd>mi-mai</dd></div>
+            </dl>
+            <div class="groupe-boutons">
+              <a class="bouton bouton--orange" href="remisage.html">Envoyer mes dimensions <span class="fleche" aria-hidden="true">→</span></a>
+              <a class="bouton bouton--contour" href="tel:+14188829619">418 882-9619</a>
+            </div>
+          </article>
+
+          <article class="porte porte--location c-vert">
+            <p class="porte__saison">Toute l'année</p>
+            <h3>Louer la salle</h3>
+            <p>Mariage, party de famille, réunion, anniversaire : la salle avec les tables, les chaises et l'ambiance comprises.</p>
+            <a class="bouton bouton--marine" href="location.html">Demander une date <span class="fleche" aria-hidden="true">→</span></a>
+          </article>
+
+          <article class="porte porte--danse c-jaune">
+            <figure class="porte__photo">
+              <img src="images/photos/danse-country-800.jpg" srcset="images/photos/danse-country-400.jpg 400w, images/photos/danse-country-800.jpg 800w" sizes="(max-width: 900px) 100vw, 400px" alt="Danseurs en ligne sous les lustres en roues de charrette d'une grange décorée" width="800" height="532" loading="lazy">
+            </figure>
+            <div class="porte__corps">
+              <p class="porte__saison">L'été</p>
+              <h3>Danse country</h3>
+              <p>Danse en ligne dans la grange 2, de 19 h à 21 h. <strong>20 $ la session.</strong> Entre la sortie et la rentrée des roulottes.</p>
+              <a class="bouton bouton--marine" href="https://www.facebook.com/expostisidorebassinchaudiere/" rel="noopener">Les dates sur Facebook <span class="fleche" aria-hidden="true">→</span></a>
+            </div>
+          </article>
+        </div>
+
+        <p class="nouveaute"><span class="nouveaute__etiquette">Nouveau en 2027</span> <strong>Un rodéo, la semaine avant l'Expo.</strong> Dates et billets annoncés au printemps avec la programmation.</p>
+      </div>
+    </section>
+
     <!-- ===== Choisir son Expo : une couleur du moulinet par ambiance ===== -->
-    <section class="section-papier" aria-labelledby="titre-choix">
+    <section class="section-papier-2" aria-labelledby="titre-choix">
       <div class="contenu section-espacee">
         <div class="entete-accueil">
           <h2 id="titre-choix" class="titre-affiche">Six jours, six ambiances</h2>
-          <p>Choisissez ce qui vous allume. Voici ce qu'il y avait en 2026; la programmation 2027 sera dévoilée au printemps [date à confirmer].</p>
+          <p>Choisissez ce qui vous allume. Voici ce qu'il y avait en 2026; la programmation 2027 sera dévoilée au printemps.</p>
         </div>
 
         <div class="choix">
@@ -231,7 +281,7 @@
     </section>
 
     <!-- ===== L'été 2026 en images ===== -->
-    <section class="section-papier-2" aria-labelledby="titre-images">
+    <section class="section-papier" aria-labelledby="titre-images">
       <div class="contenu section-espacee">
         <div class="entete-accueil">
           <h2 id="titre-images" class="titre-affiche">L'été 2026 en images</h2>
@@ -249,7 +299,7 @@
     </section>
 
     <!-- ===== Archives et grandes dates ===== -->
-    <section class="section-papier" aria-labelledby="titre-histoire">
+    <section class="section-papier-2" aria-labelledby="titre-histoire">
       <div class="contenu section-espacee archives">
         <div class="archives__haut">
           <figure class="archive-photo">
@@ -279,7 +329,7 @@
     </section>
 
     <!-- ===== Venir à l'Expo ===== -->
-    <section class="section-papier-2" aria-labelledby="titre-venir">
+    <section class="section-papier" aria-labelledby="titre-venir">
       <div class="contenu section-espacee venir">
         <figure class="venir__photo">
           <img src="images/photos/terrain-aerien-800.jpg" srcset="images/photos/terrain-aerien-800.jpg 800w, images/photos/terrain-aerien.jpg 1280w" sizes="(max-width: 900px) 100vw, 700px" alt="Vue aérienne du site de l'Expo : bâtiments, chapiteaux blancs, terrain de tire et stationnements entourés de champs" width="800" height="450" loading="lazy">
@@ -297,28 +347,6 @@
             <a class="bouton bouton--orange" href="https://www.google.com/maps/search/?api=1&amp;query=132+route+Coulombe+Saint-Isidore+QC+G0S+2S0" rel="noopener">Itinéraire <span class="fleche" aria-hidden="true">→</span></a>
             <a class="bouton bouton--marine" href="contact.html#visiter">Infos pratiques</a>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== Remisage d'hiver ===== -->
-    <section class="section-nuit" aria-labelledby="titre-remisage">
-      <div class="contenu section-espacee remisage-pub">
-        <div class="remisage-pub__texte">
-          <h2 id="titre-remisage" class="titre-affiche">L'hiver,<br>votre roulotte<br><span>dort en dedans.</span></h2>
-          <p>Remisage intérieur dans les bâtiments de l'Expo pour roulottes, véhicules récréatifs (VR), autos, pick-ups, bateaux, motos et Spyder. Assuré, avec plus de 20 ans d'expérience.</p>
-        </div>
-        <div class="billet-remisage">
-          <div class="billet-remisage__corps">
-            <p class="surtitre">Billet de remisage</p>
-            <dl class="billet-remisage__dates">
-              <div><dt>Entrée</dt><dd>mi-octobre</dd></div>
-              <div><dt>Sortie</dt><dd>mi-mai</dd></div>
-            </dl>
-            <a class="bouton bouton--orange" href="remisage.html">Envoyer mes dimensions <span class="fleche" aria-hidden="true">→</span></a>
-            <a class="billet-remisage__tel" href="tel:+14188829619">418 882-9619</a>
-          </div>
-          <div class="billet-remisage__talon" aria-hidden="true"><span>Admis</span></div>
         </div>
       </div>
     </section>
@@ -348,6 +376,7 @@
             <strong>Suivre l'Expo</strong>
             <a href="https://www.facebook.com/expostisidorebassinchaudiere/" rel="noopener">Facebook</a>
             <a href="contact.html#visiter">Infos pratiques</a>
+            <a href="location.html">Location de salle</a>
             <a href="remisage.html">Remisage d'hiver</a>
           </div>
         </div>
