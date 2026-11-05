@@ -513,3 +513,30 @@ body *:not(em):not(i):not(cite){font-style:normal}
 /* Danse country : même voix que les autres cartes (la règle de la ronde 2 était plus spécifique) */
 .porte.porte--danse:not(.porte--location) h3,.nouveaute .nouveaute__texte h3,.salles .salle:last-child h3{font-family:var(--titre);font-weight:800;text-transform:none;letter-spacing:-.005em}
 .merci:focus{outline:none}
+/* Dernière ronde : « Faire une autre demande » en simple lien (l'utilisateur a fini) */
+.lien-action{align-self:flex-start;padding:6px 0;border:0;background:none;color:var(--jaune);font:inherit;font-weight:700;text-decoration:underline;text-underline-offset:4px;cursor:pointer;min-height:44px}
+.lien-action:hover{color:var(--creme)}
+.lien-action:focus-visible{outline:3px solid var(--jaune);outline-offset:3px}
+/* Entrée souhaitée : deux choix sur une ligne */
+.entree-souhaitee{border:0;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 24px;align-items:center}
+.entree-souhaitee legend{float:left;width:100%;margin-bottom:6px;padding:0}
+.entree-souhaitee__choix{display:inline-flex;align-items:center;gap:8px;min-height:44px;cursor:pointer}
+.entree-souhaitee__choix input{width:20px;height:20px;accent-color:var(--rouge);margin:0}
+/* Mini-billet : minuscules normales (« — PI » se lisait comme π) */
+.mini-billet{text-transform:none}
+/* Horaire sur téléphone : filtres sur plusieurs rangées plutôt que coupés sur une ligne */
+@media (max-width:600px){
+  .filtres{flex-wrap:wrap;overflow:visible;margin-left:0;margin-right:0;padding:0 0 6px;-webkit-mask-image:none;mask-image:none}
+  .filtre{min-height:44px;padding:0 12px;font-size:17px}
+}
+/* Héros d'hiver sur téléphone : voile plus léger, on voit les bâtiments */
+@media (max-width:760px){
+  .saison-hiver .une::before{background:linear-gradient(0deg,rgba(30,20,13,.94) 0%,rgba(30,20,13,.7) 48%,rgba(30,20,13,.18) 78%,rgba(30,20,13,.05) 100%)}
+}
+/* « Venir à l'Expo » en hiver : sans photo, le texte occupe la largeur sur deux colonnes */
+@media (min-width:901px){
+  .saison-hiver .venir__texte{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:56px;row-gap:18px;align-items:start}
+  .saison-hiver .venir__texte > h2,.saison-hiver .venir__texte > .venir__adresse{grid-column:1}
+  .saison-hiver .venir__texte > .venir__faits{grid-column:2;grid-row:1 / span 2}
+  .saison-hiver .venir__texte > .groupe-boutons{grid-column:2}
+}

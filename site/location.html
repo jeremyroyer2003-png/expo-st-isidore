@@ -200,16 +200,22 @@
             <span class="mini-billet__ligne"><span data-resume="date">—</span></span>
             <span class="mini-billet__etat" data-etat>En attente</span>
           </div>
+          <p class="champ__erreur formulaire__erreur" role="alert" hidden></p>
           <div class="formulaire__envoi">
             <button type="submit" class="bouton bouton--orange bouton--grand">Envoyer ma demande</button>
             <p>Vous préférez parler à quelqu'un? <a href="tel:+14188825649">418 882-5649</a></p>
           </div>
-          <p class="champ__erreur formulaire__erreur" role="alert" hidden></p>
         </form>
         <div class="merci" id="merci-location" tabindex="-1" hidden>
           <h3>Merci, c'est reçu!</h3>
-          <p>On vérifie la disponibilité de la salle et on vous rappelle au <strong data-resume="telephone"></strong>. Si c'est pressant, appelez le bureau au <a href="tel:+14188825649">418 882-5649</a>.</p>
-          <button type="button" class="bouton bouton--marine" id="nouvelle-demande">Faire une autre demande</button>
+          <p>On vérifie la disponibilité de la salle et on vous rappelle au <strong data-resume="telephone"></strong>.</p>
+          <dl class="merci__recap">
+            <div><dt>Salle</dt><dd data-resume="salle">—</dd></div>
+            <div><dt>Date</dt><dd data-resume="date">—</dd></div>
+            <div><dt>Invités</dt><dd data-resume="personnes">—</dd></div>
+          </dl>
+          <p class="merci__garder">Pas de nouvelles d'ici quelques jours&nbsp;? Appelez le bureau au <a href="tel:+14188825649">418 882-5649</a>.</p>
+          <button type="button" class="lien-action" id="nouvelle-demande">Faire une autre demande</button>
         </div>
         </div>
           <aside class="demande__cote" aria-label="Résumé de votre demande">

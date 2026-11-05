@@ -447,3 +447,7 @@ a:hover{color:#124E78}
 .saison-hiver .seulement-hiver{display:block}
 .saison-hiver .seulement-ete,.saison-hiver .porte--remisage-ete{display:none}
 .saison-hiver .porte--etapes{display:grid}
+/* Petits bouts de texte qui changent selon la saison (pages qui posent la classe dans le <head>) */
+.seulement-hiver-ligne{display:none}
+.saison-hiver .seulement-hiver-ligne{display:inline}
+.saison-hiver .seulement-ete-ligne{display:none}

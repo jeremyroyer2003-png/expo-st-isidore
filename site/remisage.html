@@ -23,7 +23,15 @@
   <link rel="stylesheet" href="css/composants.css">
   <link rel="stylesheet" href="css/remisage.css">
   <link rel="stylesheet" href="css/theme-grange.css">
-  <script>document.documentElement.classList.add('js')</script>
+  <script>
+    document.documentElement.classList.add('js');
+    // Même règle que l'accueil : hiver du 15 octobre au 14 mai
+    (function () {
+      var d = new Date(), m = d.getMonth() + 1, j = d.getDate();
+      var hiver = m > 10 || m < 5 || (m === 10 && j >= 15) || (m === 5 && j < 15);
+      document.documentElement.classList.add(hiver ? 'saison-hiver' : 'saison-ete');
+    })();
+  </script>
   <script src="js/site.js" defer></script>
   <script src="js/remisage.js" defer></script>
 </head>
@@ -66,7 +74,7 @@
     <section class="heros" aria-labelledby="titre-heros">
       <div class="contenu heros__grille heros__grille--texte">
         <div class="heros__texte">
-          <p class="billet"><span>Entrée mi-octobre</span><span>Sortie mi-mai</span></p>
+          <p class="billet"><span><span class="seulement-hiver-ligne">Entrées en cours</span><span class="seulement-ete-ligne">Entrée mi-octobre</span></span><span>Sortie mi-mai</span></p>
           <h1 id="titre-heros" class="heros__titre heros__titre--remisage">
             <span>Remisage</span>
             <span class="jaune">intérieur</span>
@@ -74,7 +82,7 @@
           </h1>
         </div>
         <div class="heros__cote">
-          <p class="heros__intro">Votre roulotte, votre auto ou votre bateau à l'abri de la neige tout l'hiver, dans les bâtiments de l'Expo à Saint-Isidore. Envoyez vos dimensions, on regarde l'espace et on vous rappelle.</p>
+          <p class="heros__intro">Votre roulotte, votre auto ou votre bateau à l'abri de la neige tout l'hiver, dans les bâtiments de l'Expo à Saint-Isidore. <span class="seulement-hiver-ligne">Encore de la place cet hiver&nbsp;? Ça dépend de la taille. </span>Envoyez vos dimensions, on regarde l'espace et on vous rappelle.</p>
           <div class="groupe-boutons">
             <a class="bouton bouton--orange" href="#demande">Envoyer mes dimensions</a>
             <a class="bouton bouton--contour" href="tel:+14188829619">Appeler le 418 882-9619</a>
@@ -228,9 +236,14 @@
                   <span class="champ__etiquette">Courriel <span class="facultatif">(facultatif)</span></span>
                   <input type="email" name="courriel" autocomplete="email">
                 </label>
+                <fieldset class="champ champ--large entree-souhaitee">
+                  <legend class="champ__etiquette">Entrée souhaitée</legend>
+                  <label class="entree-souhaitee__choix"><input type="radio" name="entree" value="Dès que possible" checked> Dès que possible</label>
+                  <label class="entree-souhaitee__choix"><input type="radio" name="entree" value="À une date précise (voir commentaires)"> À une date précise</label>
+                </fieldset>
                 <label class="champ champ--large">
                   <span class="champ__etiquette">Commentaires <span class="facultatif">(facultatif)</span></span>
-                  <textarea name="message" rows="3" placeholder="Extensions, accessoires, date d'entrée souhaitée…"></textarea>
+                  <textarea name="message" rows="3" placeholder="Extensions, accessoires, date d'entrée si vous en avez une…"></textarea>
                 </label>
               </div>
               <label class="consentement">
@@ -261,8 +274,8 @@
               <div><dt>Longueur</dt><dd data-resume="longueur">—</dd></div>
               <div><dt>Au nom de</dt><dd data-resume="nom">—</dd></div>
             </dl>
-            <p class="merci__garder">Gardez ce numéro&nbsp;: remisage <a href="tel:+14188829619">418 882-9619</a>.</p>
-            <button type="button" class="bouton bouton--marine" id="nouvelle-demande">Faire une autre demande</button>
+            <p class="merci__garder">Pas de nouvelles d'ici quelques jours&nbsp;? Appelez le remisage au <a href="tel:+14188829619">418 882-9619</a>.</p>
+            <button type="button" class="lien-action" id="nouvelle-demande">Faire une autre demande</button>
           </div>
 
           <!-- Billet qui se remplit pendant la saisie -->
@@ -276,6 +289,7 @@
                   <div class="resume__ligne"><dt>Largeur</dt><dd data-resume="largeur">— pi</dd></div>
                   <div class="resume__ligne"><dt>Hauteur</dt><dd data-resume="hauteur">— pi</dd></div>
                   <div class="resume__ligne"><dt>Espace au sol</dt><dd data-resume="surface">— pi²</dd></div>
+                  <div class="resume__ligne resume__ligne--large"><dt>Entrée souhaitée</dt><dd data-resume="entree">Dès que possible</dd></div>
                   <div class="resume__ligne resume__ligne--large"><dt>Au nom de</dt><dd data-resume="nom">—</dd></div>
                   <div class="resume__ligne resume__ligne--large resume__ligne--prix"><dt>Estimation <span data-tarif-court></span></dt><dd data-resume="prix">—</dd></div>
                 </dl>

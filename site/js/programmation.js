@@ -30,6 +30,8 @@
     var visibles = 0;
     var semaine = filtre !== 'tout';
     horaire.classList.toggle('mode-semaine', semaine);
+    // En mode semaine, aucun jour n'est « l'onglet choisi » : on ne l'annonce pas comme tel
+    onglets.forEach(function (b, j) { b.setAttribute('aria-selected', String(!semaine && j === courant)); });
     jours.forEach(function (jour, j) {
       var n = 0;
       jour.querySelectorAll('.evenement').forEach(function (ev) {
