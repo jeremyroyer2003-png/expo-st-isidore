@@ -442,3 +442,8 @@ a:hover{color:#124E78}
 .saison-hiver .une__fixe figcaption{position:absolute;z-index:2;right:28px;bottom:40px;font-size:15px;color:#E6EDF2;text-shadow:0 1px 8px rgba(0,0,0,.6)}
 .saison-hiver .une__diapos{display:none}
 @media (max-width:760px){.saison-hiver .une__fixe figcaption{left:20px;right:auto;bottom:24px;font-size:14px}}
+/* Sections qui changent selon la saison (classe posée dans le <head> de l'accueil) */
+.seulement-hiver,.porte--etapes{display:none}
+.saison-hiver .seulement-hiver{display:block}
+.saison-hiver .seulement-ete,.saison-hiver .porte--remisage-ete{display:none}
+.saison-hiver .porte--etapes{display:grid}

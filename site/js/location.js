@@ -45,7 +45,7 @@
     remplir('date', dateLisible(champ('date').value));
     remplir('date_rechange', dateLisible(champ('date_rechange').value));
     var n = champ('personnes').value;
-    remplir('personnes', n ? n + ' personnes' : '');
+    remplir('personnes', n ? n + (Number(n) > 1 ? ' personnes' : ' personne') : '');
     remplir('duree', champ('duree').value.trim());
     remplir('nom', champ('nom').value.trim());
     remplir('telephone', champ('telephone').value.trim());
@@ -62,7 +62,12 @@
   document.querySelectorAll('[data-choisir-salle]').forEach(function (lien) {
     lien.addEventListener('click', function () {
       var radio = form.querySelector('input[name="salle"][value="' + lien.dataset.choisirSalle + '"]');
-      if (radio) { radio.checked = true; maj(); }
+      if (radio) {
+        radio.checked = true;
+        radio.dispatchEvent(new Event('change', { bubbles: true }));
+        // Le focus suit le choix : le clavier et les lecteurs d'écran arrivent sur la bonne carte
+        setTimeout(function () { radio.focus({ preventScroll: true }); }, 0);
+      }
     });
   });
 
@@ -72,7 +77,9 @@
   }).observe(form, { attributes: true, attributeFilter: ['hidden'] });
 
   document.getElementById('nouvelle-demande').addEventListener('click', function () {
+    var garder = ['nom', 'telephone', 'courriel'].map(function (n) { return [n, champ(n).value]; });
     form.reset();
+    garder.forEach(function (p) { champ(p[0]).value = p[1]; });
     form.hidden = false;
     merci.hidden = true;
     billet.classList.remove('est-envoye');

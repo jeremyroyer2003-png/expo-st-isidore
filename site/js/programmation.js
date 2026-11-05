@@ -7,6 +7,8 @@
   if (!jours.length || !tablist) return;
 
   var filtre = 'tout';
+  var courant = 0;
+  var horaire = document.getElementById('horaire');
   var onglets = jours.map(function (jour, i) {
     var b = document.createElement('button');
     b.type = 'button';
@@ -23,26 +25,39 @@
     return b;
   });
 
+  // « Tout » : le jour choisi. Un filtre (ex. Tire) : toute la semaine, groupée par jour.
   function appliquerFiltre() {
     var visibles = 0;
-    jours.forEach(function (jour) {
-      if (jour.hidden) return;
+    var semaine = filtre !== 'tout';
+    horaire.classList.toggle('mode-semaine', semaine);
+    jours.forEach(function (jour, j) {
+      var n = 0;
       jour.querySelectorAll('.evenement').forEach(function (ev) {
-        var garde = filtre === 'tout' || ev.dataset.cat.split(' ').indexOf(filtre) !== -1;
+        var garde = !semaine || ev.dataset.cat.split(' ').indexOf(filtre) !== -1;
         ev.hidden = !garde;
-        if (garde) visibles++;
+        if (garde) n++;
       });
+      jour.hidden = semaine ? n === 0 : j !== courant;
+      if (!jour.hidden) visibles += n;
     });
     aucun.hidden = visibles > 0;
-    annonce.textContent = visibles + (visibles > 1 ? ' activités affichées' : ' activité affichée');
+    annonce.textContent = visibles + (visibles > 1 ? ' activités affichées' : ' activité affichée') + (semaine ? ' pour la semaine' : '');
+  }
+
+  function choisirFiltre(nom) {
+    filtre = nom;
+    groupeFiltres.querySelectorAll('.filtre').forEach(function (f) {
+      f.setAttribute('aria-pressed', String(f.dataset.filtre === nom));
+    });
   }
 
   function choisir(i, focus, initial) {
+    courant = i;
+    if (!initial) choisirFiltre('tout'); // choisir un jour revient à « Tout » pour ce jour
     onglets.forEach(function (b, j) {
       var actif = i === j;
       b.setAttribute('aria-selected', String(actif));
       b.tabIndex = actif ? 0 : -1;
-      jours[j].hidden = !actif;
     });
     if (focus) onglets[i].focus();
     appliquerFiltre();
@@ -65,10 +80,7 @@
   groupeFiltres.addEventListener('click', function (e) {
     var b = e.target.closest('.filtre');
     if (!b) return;
-    filtre = b.dataset.filtre;
-    groupeFiltres.querySelectorAll('.filtre').forEach(function (f) {
-      f.setAttribute('aria-pressed', String(f === b));
-    });
+    choisirFiltre(b.dataset.filtre);
     appliquerFiltre();
   });
 

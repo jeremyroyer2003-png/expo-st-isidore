@@ -133,7 +133,7 @@
             <fieldset class="etape">
               <legend class="etape__titre"><span class="etape__num" aria-hidden="true">1</span>Quel véhicule?</legend>
               <p class="champ__erreur" id="erreur-type" hidden>Choisissez d'abord le type de véhicule.</p>
-              <div class="choix-grille" role="radiogroup" aria-describedby="erreur-type" aria-label="Type de véhicule">
+              <div class="choix-grille" role="radiogroup" aria-describedby="erreur-type">
                 <label class="choix">
                   <input type="radio" name="type" value="Roulotte" required data-schema="roulotte">
                   <span class="choix__carte">
@@ -252,6 +252,19 @@
             </div>
           </form>
 
+          <!-- Message après l'envoi : prend la place du formulaire, à côté du billet tamponné -->
+          <div class="merci" id="merci" tabindex="-1" hidden>
+            <h3>Merci, c'est reçu!</h3>
+            <p>On regarde l'espace disponible pour votre véhicule et on vous rappelle au <strong data-resume="telephone"></strong>.</p>
+            <dl class="merci__recap">
+              <div><dt>Véhicule</dt><dd data-resume="type">—</dd></div>
+              <div><dt>Longueur</dt><dd data-resume="longueur">—</dd></div>
+              <div><dt>Au nom de</dt><dd data-resume="nom">—</dd></div>
+            </dl>
+            <p class="merci__garder">Gardez ce numéro&nbsp;: remisage <a href="tel:+14188829619">418 882-9619</a>.</p>
+            <button type="button" class="bouton bouton--marine" id="nouvelle-demande">Faire une autre demande</button>
+          </div>
+
           <!-- Billet qui se remplit pendant la saisie -->
           <aside class="demande__cote" aria-label="Résumé de votre demande">
             <div class="billet-remisage billet-remisage--resume" id="billet">
@@ -262,7 +275,7 @@
                   <div class="resume__ligne"><dt>Longueur</dt><dd data-resume="longueur">— pi</dd></div>
                   <div class="resume__ligne"><dt>Largeur</dt><dd data-resume="largeur">— pi</dd></div>
                   <div class="resume__ligne"><dt>Hauteur</dt><dd data-resume="hauteur">— pi</dd></div>
-                  <div class="resume__ligne"><dt>Surface au sol</dt><dd data-resume="surface">— pi²</dd></div>
+                  <div class="resume__ligne"><dt>Espace au sol</dt><dd data-resume="surface">— pi²</dd></div>
                   <div class="resume__ligne resume__ligne--large"><dt>Au nom de</dt><dd data-resume="nom">—</dd></div>
                   <div class="resume__ligne resume__ligne--large resume__ligne--prix"><dt>Estimation <span data-tarif-court></span></dt><dd data-resume="prix">—</dd></div>
                 </dl>
@@ -278,12 +291,16 @@
           </aside>
         </div>
 
-        <!-- Message après l'envoi -->
-        <div class="merci" id="merci" tabindex="-1" hidden>
-          <h3>Merci, c'est reçu!</h3>
-          <p>On regarde l'espace disponible pour votre véhicule et on vous rappelle au <strong data-resume="telephone"></strong>. Si c'est pressant, appelez-nous au <a href="tel:+14188829619">418 882-9619</a>.</p>
-          <button type="button" class="bouton bouton--marine" id="nouvelle-demande">Faire une autre demande</button>
-        </div>
+        <aside class="ensuite ensuite--bande" aria-labelledby="titre-ensuite">
+          <h3 id="titre-ensuite">Ce qui arrive ensuite</h3>
+          <ol>
+            <li><strong>On vérifie l'espace</strong> pour votre véhicule, selon ses dimensions.</li>
+            <li><strong>On vous rappelle</strong> avec le tarif au pied et votre date d'entrée.</li>
+            <li><strong>Vous arrivez, on mesure</strong>, et votre véhicule dort au sec jusqu'à la mi-mai.</li>
+          </ol>
+          <p>Pressé? Le remisage répond au <a href="tel:+14188829619">418 882-9619</a>.</p>
+        </aside>
+
       </div>
     </section>
 
@@ -318,7 +335,7 @@
           <div class="pied__bloc">
             <strong>Nous joindre</strong>
             <span>Bureau&nbsp;: <a href="tel:+14188825649">418 882-5649</a></span>
-            <span>Cellulaire&nbsp;: <a href="tel:+14183860484">418 386-0484</a></span>
+            <span>Coordination (cell.)&nbsp;: <a href="tel:+14183860484">418 386-0484</a></span>
             <span>Remisage&nbsp;: <a href="tel:+14188829619">418 882-9619</a></span>
             <a href="mailto:info@expobassinchaudiere.com">info@expobassinchaudiere.com</a>
           </div>

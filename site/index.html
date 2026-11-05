@@ -99,7 +99,7 @@
         <div class="contenu une__contenu une__saison une__saison--hiver">
           <p class="billet"><span>Remisage intérieur</span><span>Entrées en cours</span></p>
           <h1 class="une__titre">Votre roulotte, <span>au sec cet hiver</span></h1>
-          <p class="une__intro">Roulottes, VR, autos, bateaux et motos, à l'intérieur des bâtiments de l'Expo. Assuré, plus de 20 ans d'expérience. Encore temps cet hiver&nbsp;: envoyez vos dimensions, on regarde l'espace. <strong>Et on se revoit en juillet 2027</strong> pour la 45<sup>e</sup> Expo.</p>
+          <p class="une__intro">Roulottes, VR, autos, bateaux et motos, à l'intérieur des bâtiments de l'Expo. Assuré, plus de 20 ans d'expérience. Il est encore temps cet hiver&nbsp;: envoyez vos dimensions, on regarde l'espace. <strong>Et on se revoit en juillet 2027</strong> pour la 45<sup>e</sup> Expo.</p>
           <div class="groupe-boutons">
             <a class="bouton bouton--orange" href="remisage.html">Envoyer mes dimensions <span class="fleche" aria-hidden="true">→</span></a>
             <a class="bouton bouton--contour" href="tel:+14188829619">418 882-9619</a>
@@ -171,7 +171,20 @@
         </div>
 
         <div class="portes">
-          <article class="porte porte--remisage">
+          <!-- Hiver : le héros présente déjà le remisage; cette porte explique comment ça marche -->
+          <article class="porte porte--remisage porte--etapes">
+            <h3>Le remisage, comment ça marche</h3>
+            <ol class="etapes-remisage">
+              <li><strong>Vous envoyez vos dimensions</strong> en ligne, en deux minutes, ou au téléphone.</li>
+              <li><strong>On vous rappelle</strong> avec la place disponible, le tarif au pied et votre date d'entrée.</li>
+              <li><strong>Vous arrivez, on mesure</strong>, et votre véhicule dort au sec jusqu'à la mi-mai.</li>
+            </ol>
+            <div class="groupe-boutons">
+              <a class="bouton bouton--orange" href="remisage.html">Envoyer mes dimensions <span class="fleche" aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="porte porte--remisage porte--remisage-ete">
             <h3>Remisage d'hiver</h3>
             <p>Roulottes, VR, autos, pick-ups, bateaux, motos et Spyder, à l'intérieur, dans les bâtiments de l'Expo. Assuré, plus de 20 ans d'expérience.</p>
             <dl class="porte__faits">
@@ -222,8 +235,27 @@
       </div>
     </section>
 
+    <!-- ===== Hiver : une seule carte pour la foire de juillet (les deux sections suivantes sont pour l'été) ===== -->
+    <section class="section-papier-2 seulement-hiver" aria-labelledby="titre-juillet">
+      <div class="contenu section-espacee">
+        <article class="juillet">
+          <figure class="juillet__photo">
+            <img src="images/photos/holstein-championne-800.webp" srcset="images/photos/holstein-championne-800.webp 800w, images/photos/holstein-championne.webp 1400w" sizes="(max-width: 900px) 100vw, 560px" alt="Deux éleveuses présentent la vache championne Holstein devant la bannière de l'Expo" width="800" height="523" loading="lazy">
+          </figure>
+          <div class="juillet__texte">
+            <h2 id="titre-juillet" class="titre-affiche">L'Expo, c'est en juillet</h2>
+            <p>Six jours d'agriculture, de tracteurs et de fête&nbsp;: jugements Holstein, tire de tracteurs ASTTQ, spectacles sous le chapiteau, kiosques et place de la famille. Entrée gratuite. La programmation 2027 sera dévoilée au printemps.</p>
+            <div class="groupe-boutons">
+              <a class="bouton bouton--marine" href="programmation.html">L'horaire 2026 <span class="fleche" aria-hidden="true">→</span></a>
+              <a class="bouton bouton--contour-fonce" href="photos.html">Les photos 2026</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
     <!-- ===== Choisir son Expo : une couleur du moulinet par ambiance ===== -->
-    <section class="section-papier-2" aria-labelledby="titre-choix">
+    <section class="section-papier-2 seulement-ete" aria-labelledby="titre-choix">
       <div class="contenu section-espacee">
         <div class="entete-accueil">
           <h2 id="titre-choix" class="titre-affiche">Six jours, cinq ambiances</h2>
@@ -332,7 +364,7 @@
     </section>
 
     <!-- ===== L'été 2026 en images ===== -->
-    <section class="section-papier" aria-labelledby="titre-images">
+    <section class="section-papier seulement-ete" aria-labelledby="titre-images">
       <div class="contenu section-espacee">
         <div class="entete-accueil">
           <h2 id="titre-images" class="titre-affiche">L'été 2026 en images</h2>
@@ -421,7 +453,7 @@
           <div class="pied__bloc">
             <strong>Nous joindre</strong>
             <span>Bureau&nbsp;: <a href="tel:+14188825649">418 882-5649</a></span>
-            <span>Cellulaire&nbsp;: <a href="tel:+14183860484">418 386-0484</a></span>
+            <span>Coordination (cell.)&nbsp;: <a href="tel:+14183860484">418 386-0484</a></span>
             <span>Remisage&nbsp;: <a href="tel:+14188829619">418 882-9619</a></span>
             <a href="mailto:info@expobassinchaudiere.com">info@expobassinchaudiere.com</a>
           </div>

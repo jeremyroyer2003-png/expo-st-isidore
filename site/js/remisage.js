@@ -51,7 +51,9 @@
   function symbole() { return enMetres() ? 'm' : 'pi'; }
 
   function nombre(v) {
-    var n = parseFloat(String(v).replace(',', '.'));
+    var t = String(v).trim();
+    if (!/^\d+([.,]\d+)?$/.test(t)) return null; // chiffres seulement, virgule ou point permis
+    var n = parseFloat(t.replace(',', '.'));
     return isFinite(n) && n > 0 ? n : null;
   }
   function format(n) { return n.toLocaleString('fr-CA', { maximumFractionDigits: 1 }); }
@@ -145,7 +147,16 @@
     majConseils();
   }
 
-  form.addEventListener('input', majBillet);
+  form.addEventListener('input', function (e) {
+    var el = e.target;
+    if (el.classList && el.classList.contains('dimension') && el.getAttribute('aria-invalid') === 'true') {
+      var v = nombre(el.value);
+      if (v && versPieds(v) <= Number(el.dataset.max)) {
+        el.setCustomValidity(''); el.removeAttribute('aria-invalid'); Expo.afficherErreur(el, false);
+      }
+    }
+    majBillet();
+  });
   form.addEventListener('change', function (e) {
     var nom = e.target.name;
     if (nom === 'type') { majConseils(); majBillet(); return; }
@@ -163,9 +174,16 @@
     erreurType.hidden = !!type;
 
     Expo.verifierTelephone(champ('telephone'));
+    majConseils(); // remet le message d'exemple de chaque mesure
     form.querySelectorAll('.dimension').forEach(function (el) {
       var v = nombre(el.value);
-      el.setCustomValidity(v && versPieds(v) <= Number(el.dataset.max) ? '' : 'Dimension invalide');
+      var max = Number(el.dataset.max);
+      var tropGrand = v && versPieds(v) > max;
+      if (tropGrand) {
+        var maxAffiche = format(enMetres() ? Math.round(max * PIED * 10) / 10 : max);
+        el.dataset.erreur = 'Au plus ' + maxAffiche + ' ' + (enMetres() ? 'm' : 'pi') + '. Plus grand? Appelez-nous au 418 882-9619.';
+      }
+      el.setCustomValidity(v && !tropGrand ? '' : 'Dimension invalide');
     });
     var invalides = Expo.marquerInvalides(form.querySelectorAll('input[required]:not([type="radio"]), textarea[required]'));
     var premier = type ? invalides[0] : form.querySelector('input[name="type"]');
@@ -211,7 +229,9 @@
   });
 
   document.getElementById('nouvelle-demande').addEventListener('click', function () {
+    var garder = ['nom', 'telephone', 'courriel'].map(function (n) { return [n, champ(n) ? champ(n).value : '']; });
     form.reset();
+    garder.forEach(function (p) { if (champ(p[0])) champ(p[0]).value = p[1]; });
     form.hidden = false;
     merci.hidden = true;
     billet.classList.remove('est-envoye');

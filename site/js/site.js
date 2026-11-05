@@ -3,7 +3,9 @@ var Expo = (function () {
   var CHIFFRES_MIN_TELEPHONE = 10; // indicatif régional + numéro
 
   function verifierTelephone(champ) {
-    var valide = !champ.value || champ.value.replace(/\D/g, '').length >= CHIFFRES_MIN_TELEPHONE;
+    var chiffres = champ.value.replace(/\D/g, '').length;
+    // 10 chiffres (indicatif + numéro), ou 11 avec le 1 devant
+    var valide = !champ.value || (chiffres >= CHIFFRES_MIN_TELEPHONE && chiffres <= CHIFFRES_MIN_TELEPHONE + 1);
     champ.setCustomValidity(valide ? '' : 'Numéro incomplet');
   }
 
@@ -179,6 +181,11 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
       erreur.hidden = true;
+      // Pendant l'envoi : bouton désactivé (pas de double envoi) et état visible
+      var bouton = form.querySelector('button[type="submit"]');
+      var texteBouton = bouton.textContent;
+      bouton.disabled = true;
+      bouton.textContent = 'Envoi en cours…';
       Expo.envoyer(form).then(function () {
         form.hidden = true;
         merci.hidden = false;
@@ -186,6 +193,9 @@ document.addEventListener('DOMContentLoaded', function () {
       }).catch(function () {
         erreur.innerHTML = Expo.messageEchec('418 882-5649');
         erreur.hidden = false;
+      }).finally(function () {
+        bouton.disabled = false;
+        bouton.textContent = texteBouton;
       });
     });
   });
