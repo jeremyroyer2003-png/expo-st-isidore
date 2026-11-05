@@ -132,7 +132,8 @@
             <!-- Étape 1 -->
             <fieldset class="etape">
               <legend class="etape__titre"><span class="etape__num" aria-hidden="true">1</span>Quel véhicule?</legend>
-              <div class="choix-grille">
+              <p class="champ__erreur" id="erreur-type" hidden>Choisissez d'abord le type de véhicule.</p>
+              <div class="choix-grille" role="radiogroup" aria-describedby="erreur-type" aria-label="Type de véhicule">
                 <label class="choix">
                   <input type="radio" name="type" value="Roulotte" required data-schema="roulotte">
                   <span class="choix__carte">
@@ -176,7 +177,6 @@
                   </span>
                 </label>
               </div>
-              <p class="champ__erreur" id="erreur-type" hidden>Choisissez un type de véhicule.</p>
               <label class="champ champ--court" id="champ-modele">
                 <span class="champ__etiquette">Marque et modèle <span class="facultatif">(facultatif)</span></span>
                 <input type="text" name="modele" autocomplete="off" placeholder="ex. Jayco Jay Flight 28BHS">
@@ -245,11 +245,11 @@
               <span class="mini-billet__ligne"><span data-resume="longueur">— pi</span> × <span data-resume="largeur">— pi</span></span>
               <span class="mini-billet__etat" data-etat>En attente</span>
             </div>
+            <p class="champ__erreur formulaire__erreur" id="erreur-envoi" role="alert" hidden></p>
             <div class="formulaire__envoi">
               <button type="submit" class="bouton bouton--orange bouton--grand">Envoyer ma demande</button>
               <p>Vous préférez parler à quelqu'un? <a href="tel:+14188829619">418 882-9619</a></p>
             </div>
-            <p class="champ__erreur formulaire__erreur" id="erreur-envoi" role="alert" hidden></p>
           </form>
 
           <!-- Billet qui se remplit pendant la saisie -->

@@ -19,7 +19,7 @@
   <link rel="icon" href="images/favicon.png">
   <link rel="preload" href="fonts/alfa-slab-one-latin-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/barlow-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="images/photos/tire-poussiere.webp" as="image" media="(min-width: 761px)">
+  <link rel="preload" href="images/photos/terrain-aerien.webp" as="image" media="(min-width: 761px)">
   <link rel="stylesheet" href="css/site.css">
   <link rel="stylesheet" href="css/theme-grange.css">
   <script>
@@ -73,6 +73,11 @@
     <div class="une-zone">
       <section class="une" aria-label="À la une">
         <!-- Photos de l'ancien site (droits à confirmer) : remplacer le fichier dans images/photos/ -->
+        <!-- Hiver : une seule image fixe, les bâtiments où dorment les véhicules (le diaporama d'été est caché) -->
+        <figure class="une__fixe">
+          <img src="images/photos/terrain-aerien.webp" srcset="images/photos/terrain-aerien-800.webp 800w, images/photos/terrain-aerien.webp 1280w" sizes="100vw" alt="Vue aérienne du site de l'Expo : les bâtiments, les stationnements et les champs autour" width="1280" height="720">
+          <figcaption>Les bâtiments de l'Expo, vus du ciel</figcaption>
+        </figure>
         <ul class="une__diapos" aria-label="Photos de l'Expo">
           <li class="une__diapo est-active">
             <img src="images/photos/tire-poussiere.webp" srcset="images/photos/tire-poussiere-800.webp 800w, images/photos/tire-poussiere.webp 1400w" sizes="100vw" alt="Tracteur vert qui tire la luge dans un nuage de poussière, devant les estrades" width="1600" height="1067" data-legende="Tire de tracteurs ASTTQ, Saint-Isidore">
@@ -92,9 +97,9 @@
              hiver = de la mi-octobre à la mi-mai, le remisage d'abord; été = l'Expo d'abord.
              Sans JavaScript, c'est la version d'hiver qui s'affiche. -->
         <div class="contenu une__contenu une__saison une__saison--hiver">
-          <p class="billet"><span>Remisage intérieur</span><span>mi-octobre à mi-mai</span></p>
+          <p class="billet"><span>Remisage intérieur</span><span>Entrées en cours</span></p>
           <h1 class="une__titre">Votre roulotte, <span>au sec cet hiver</span></h1>
-          <p class="une__intro">Roulottes, VR, autos, bateaux et motos, à l'intérieur des bâtiments de l'Expo. Assuré, plus de 20 ans d'expérience. <strong>Et on se revoit en juillet 2027</strong> pour la 45<sup>e</sup> Expo.</p>
+          <p class="une__intro">Roulottes, VR, autos, bateaux et motos, à l'intérieur des bâtiments de l'Expo. Assuré, plus de 20 ans d'expérience. Encore temps cet hiver : envoyez vos dimensions, on regarde l'espace. <strong>Et on se revoit en juillet 2027</strong> pour la 45<sup>e</sup> Expo.</p>
           <div class="groupe-boutons">
             <a class="bouton bouton--orange" href="remisage.html">Envoyer mes dimensions <span class="fleche" aria-hidden="true">→</span></a>
             <a class="bouton bouton--contour" href="tel:+14188829619">418 882-9619</a>
@@ -221,7 +226,7 @@
     <section class="section-papier-2" aria-labelledby="titre-choix">
       <div class="contenu section-espacee">
         <div class="entete-accueil">
-          <h2 id="titre-choix" class="titre-affiche">Six jours, six ambiances</h2>
+          <h2 id="titre-choix" class="titre-affiche">Six jours, cinq ambiances</h2>
           <p>Choisissez ce qui vous allume. Voici ce qu'il y avait en 2026; la programmation 2027 sera dévoilée au printemps.</p>
         </div>
 

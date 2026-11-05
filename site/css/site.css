@@ -435,3 +435,10 @@ a:hover{color:#124E78}
 .une__saison--ete{display:none}
 .saison-ete .une__saison--ete{display:flex}
 .saison-ete .une__saison--hiver{display:none}
+/* Héros d'hiver : image fixe des bâtiments à la place du diaporama d'été */
+.une__fixe{display:none;margin:0}
+.saison-hiver .une__fixe{display:block;position:absolute;inset:0}
+.saison-hiver .une__fixe img{width:100%;height:100%;object-fit:cover;display:block}
+.saison-hiver .une__fixe figcaption{position:absolute;z-index:2;right:28px;bottom:40px;font-size:15px;color:#E6EDF2;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.saison-hiver .une__diapos{display:none}
+@media (max-width:760px){.saison-hiver .une__fixe figcaption{left:20px;right:auto;bottom:24px;font-size:14px}}

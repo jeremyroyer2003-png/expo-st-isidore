@@ -107,7 +107,9 @@
     remplir('nom', nom || '—', !!nom);
     remplir('telephone', telephone, true);
 
-    var pret = type && dims.longueur && dims.largeur && dims.hauteur && nom && telephone;
+    var dimsOk = DIMENSIONS.every(function (d) { return dims[d] && versPieds(dims[d]) <= Number(champ(d).dataset.max); });
+    var telOk = telephone.replace(/\D/g, '').length >= 10;
+    var pret = !!(type && dimsOk && nom && telOk && champ('consentement').checked);
     talon.textContent = pret ? 'Prêt à envoyer' : 'En attente';
     document.querySelectorAll('[data-etat]').forEach(function (el) {
       el.textContent = talon.textContent;
@@ -121,7 +123,9 @@
     DIMENSIONS.forEach(function (d, i) {
       document.getElementById('aide-' + d).textContent = c[d];
       var ex = nombre(c.exemples[i]);
-      champ(d).placeholder = 'ex. ' + format(enMetres() ? Math.round(ex * PIED * 10) / 10 : ex);
+      var exemple = format(enMetres() ? Math.round(ex * PIED * 10) / 10 : ex);
+      champ(d).placeholder = 'ex. ' + exemple;
+      champ(d).dataset.erreur = 'Entrez la ' + d + ' en chiffres, en ' + (enMetres() ? 'mètres' : 'pieds') + ' (ex. ' + exemple + ').';
     });
     if (type) erreurType.hidden = true;
   }
@@ -165,6 +169,7 @@
     });
     var invalides = Expo.marquerInvalides(form.querySelectorAll('input[required]:not([type="radio"]), textarea[required]'));
     var premier = type ? invalides[0] : form.querySelector('input[name="type"]');
+    if (!type) erreurType.scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     if (!premier) {
       erreurEnvoi.hidden = true;
       return true;
@@ -176,14 +181,14 @@
       : premier.name === 'telephone' ? "Entrez un numéro de téléphone complet, avec l'indicatif régional."
       : 'Remplissez votre nom et votre téléphone.';
     erreurEnvoi.hidden = false;
-    premier.focus();
+    premier.focus({ preventScroll: !type });
     return false;
   }
 
   function confirmer() {
     billet.classList.add('est-envoye');
-    talon.textContent = 'Admis';
-    document.querySelectorAll('[data-etat]').forEach(function (el) { el.textContent = 'Admis'; });
+    talon.textContent = 'Reçue';
+    document.querySelectorAll('[data-etat]').forEach(function (el) { el.textContent = 'Reçue'; });
     form.hidden = true;
     merci.hidden = false;
     merci.focus({ preventScroll: true });

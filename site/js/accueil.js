@@ -6,7 +6,9 @@ document.addEventListener('DOMContentLoaded', function () {
   var DELAI_DIAPO = 6500;
   var diapos = document.querySelectorAll('.une__diapo');
   var legende = document.querySelector('.une__legende');
-  if (diapos.length > 1 && legende) {
+  // En hiver, le héros montre une image fixe (voir index.html) : pas de diaporama
+  var hiver = document.documentElement.classList.contains('saison-hiver');
+  if (diapos.length > 1 && legende && !hiver) {
     var texte = legende.querySelector('.une__legende-texte');
     var points = legende.querySelector('.une__points');
     var pause = legende.querySelector('.une__pause');

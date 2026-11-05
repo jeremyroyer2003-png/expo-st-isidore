@@ -22,9 +22,11 @@
   <link rel="stylesheet" href="css/site.css">
   <link rel="stylesheet" href="css/composants.css">
   <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/remisage.css">
   <link rel="stylesheet" href="css/theme-grange.css">
   <script>document.documentElement.classList.add('js')</script>
   <script src="js/site.js" defer></script>
+  <script src="js/location.js" defer></script>
 </head>
 <body>
 <a class="lien-evitement" href="#contenu">Aller au contenu</a>
@@ -97,6 +99,7 @@
             <div class="salle__texte">
               <h3>Le palais des commerces</h3>
               <p>Le grand bâtiment de l'Expo : beaucoup d'espace, un plafond haut et un plancher de béton. Pour les grands mariages, les soupers de groupe et les événements d'entreprise.</p>
+              <a class="bouton bouton--marine" href="#demande" data-choisir-salle="Le palais des commerces">Choisir cette salle <span class="fleche" aria-hidden="true">→</span></a>
             </div>
           </article>
           <article class="salle">
@@ -107,6 +110,7 @@
             <div class="salle__texte">
               <h3>Le Saloon <small>grange 3</small></h3>
               <p>Façade de bois, guirlandes lumineuses et ambiance western. Pour les partys de famille, les anniversaires et les soirées qui finissent en danse.</p>
+              <a class="bouton bouton--marine" href="#demande" data-choisir-salle="Le Saloon (grange 3)">Choisir cette salle <span class="fleche" aria-hidden="true">→</span></a>
             </div>
           </article>
         </div>
@@ -137,22 +141,29 @@
           <h2 id="titre-demande" class="titre-affiche">Demander<br>une date</h2>
           <p>Deux minutes. On vérifie la disponibilité et on vous rappelle.</p>
         </div>
-        <div class="demande-salle">
-        <aside class="ensuite" aria-labelledby="titre-ensuite">
-          <h3 id="titre-ensuite">Ce qui arrive ensuite</h3>
-          <ol>
-            <li><strong>On regarde le calendrier</strong> de la salle choisie pour votre date, et votre date de rechange.</li>
-            <li><strong>On vous rappelle</strong> avec les disponibilités et le prix.</li>
-            <li><strong>Vous venez voir la salle</strong> si vous le voulez, avant de réserver.</li>
-          </ol>
-          <p>Pressé? Le bureau répond au <a href="tel:+14188825649">418 882-5649</a>.</p>
-        </aside>
+        <div class="demande">
+        <div>
         <form id="form-location" class="formulaire formulaire--etroit" name="location" method="POST" action="location.html" data-netlify="true" netlify-honeypot="champ-robot" data-envoi-simple data-merci="merci-location" novalidate>
           <input type="hidden" name="form-name" value="location">
           <p class="visuellement-cache"><label>Ne pas remplir : <input name="champ-robot" tabindex="-1" autocomplete="off"></label></p>
           <fieldset class="etape">
-            <legend class="etape__titre">Votre événement</legend>
-            <div class="coordonnees">
+            <legend class="etape__titre"><span class="etape__num" aria-hidden="true">1</span>Votre événement</legend>
+            <p class="champ__etiquette" id="etiquette-salle">Salle souhaitée</p>
+            <div class="choix-grille choix-grille--salles" role="radiogroup" aria-labelledby="etiquette-salle">
+              <label class="choix">
+                <input type="radio" name="salle" value="Le palais des commerces" required data-erreur="Choisissez une salle, ou « Je ne sais pas »">
+                <span class="choix__carte"><span class="choix__nom">Le palais</span><span class="choix__ex">Grande salle, plafond haut</span></span>
+              </label>
+              <label class="choix">
+                <input type="radio" name="salle" value="Le Saloon (grange 3)" required data-erreur="Choisissez une salle, ou « Je ne sais pas »">
+                <span class="choix__carte"><span class="choix__nom">Le Saloon</span><span class="choix__ex">Grange 3, décor western</span></span>
+              </label>
+              <label class="choix">
+                <input type="radio" name="salle" value="Je ne sais pas, conseillez-moi" required data-erreur="Choisissez une salle, ou « Je ne sais pas »">
+                <span class="choix__carte"><span class="choix__nom">Je ne sais pas</span><span class="choix__ex">On vous conseille</span></span>
+              </label>
+            </div>
+            <div class="coordonnees espace-haut">
               <label class="champ"><span class="champ__etiquette">Type d'événement</span>
                 <select name="type" required>
                   <option value="">Choisir…</option>
@@ -164,14 +175,6 @@
                   <option>Autre</option>
                 </select>
               </label>
-              <label class="champ"><span class="champ__etiquette">Salle souhaitée</span>
-                <select name="salle" required>
-                  <option value="">Choisir…</option>
-                  <option>Le palais des commerces</option>
-                  <option>Le Saloon (grange 3)</option>
-                  <option>Je ne sais pas, conseillez-moi</option>
-                </select>
-              </label>
               <label class="champ"><span class="champ__etiquette">Date souhaitée</span><input type="date" name="date" required data-min-aujourdhui></label>
               <label class="champ"><span class="champ__etiquette">Date de rechange <span class="facultatif">(facultatif)</span></span><input type="date" name="date_rechange" data-min-aujourdhui></label>
               <label class="champ"><span class="champ__etiquette">Nombre de personnes</span><input type="number" name="personnes" min="1" max="2000" inputmode="numeric" required data-erreur="Entrez le nombre d'invités, environ (ex. 120)."></label>
@@ -179,7 +182,7 @@
             </div>
           </fieldset>
           <fieldset class="etape">
-            <legend class="etape__titre">Vos coordonnées</legend>
+            <legend class="etape__titre"><span class="etape__num" aria-hidden="true">2</span>Vos coordonnées</legend>
             <div class="coordonnees">
               <label class="champ"><span class="champ__etiquette">Nom complet</span><input type="text" name="nom" required autocomplete="name"></label>
               <label class="champ"><span class="champ__etiquette">Téléphone</span><input type="tel" name="telephone" required autocomplete="tel" inputmode="tel" placeholder="418 555-1234"></label>
@@ -199,9 +202,39 @@
         </form>
         <div class="merci" id="merci-location" tabindex="-1" hidden>
           <h3>Merci, c'est reçu!</h3>
-          <p>On vérifie la disponibilité de la salle et on vous rappelle. Si c'est pressant, appelez le bureau au <a href="tel:+14188825649">418 882-5649</a>.</p>
+          <p>On vérifie la disponibilité de la salle et on vous rappelle au <strong data-resume="telephone"></strong>. Si c'est pressant, appelez le bureau au <a href="tel:+14188825649">418 882-5649</a>.</p>
+          <button type="button" class="bouton bouton--marine" id="nouvelle-demande">Faire une autre demande</button>
         </div>
         </div>
+          <aside class="demande__cote" aria-label="Résumé de votre demande">
+            <div class="billet-remisage billet-remisage--resume" id="billet">
+              <div class="billet-remisage__corps">
+                <p class="surtitre">Réservation de salle</p>
+                <dl class="resume">
+                  <div class="resume__ligne resume__ligne--large"><dt>Salle</dt><dd data-resume="salle">—</dd></div>
+                  <div class="resume__ligne resume__ligne--large"><dt>Événement</dt><dd data-resume="type">—</dd></div>
+                  <div class="resume__ligne"><dt>Date</dt><dd data-resume="date">—</dd></div>
+                  <div class="resume__ligne"><dt>Rechange</dt><dd data-resume="date_rechange">—</dd></div>
+                  <div class="resume__ligne"><dt>Invités</dt><dd data-resume="personnes">—</dd></div>
+                  <div class="resume__ligne"><dt>Durée</dt><dd data-resume="duree">—</dd></div>
+                  <div class="resume__ligne resume__ligne--large"><dt>Au nom de</dt><dd data-resume="nom">—</dd></div>
+                </dl>
+                <p class="resume__avis">Tables, chaises et ambiance comprises. Le prix vous est donné en vous rappelant.</p>
+              </div>
+              <div class="billet-remisage__talon" aria-hidden="true"><span data-etat>En attente</span></div>
+              <p class="tampon" aria-hidden="true">Demande reçue</p>
+            </div>
+          </aside>
+        </div>
+        <aside class="ensuite ensuite--bande" aria-labelledby="titre-ensuite">
+          <h3 id="titre-ensuite">Ce qui arrive ensuite</h3>
+          <ol>
+            <li><strong>On regarde le calendrier</strong> de la salle choisie pour votre date, et votre date de rechange.</li>
+            <li><strong>On vous rappelle</strong> avec les disponibilités et le prix.</li>
+            <li><strong>Vous venez voir la salle</strong> si vous le voulez, avant de réserver.</li>
+          </ol>
+          <p>Pressé? Le bureau répond au <a href="tel:+14188825649">418 882-5649</a>.</p>
+        </aside>
       </div>
     </section>
   </main>

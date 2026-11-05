@@ -366,3 +366,30 @@ h1,h2,h3,h4,.titre-affiche{text-wrap:balance}
   .porte h3,.choix__texte h3,.salle__texte h3{font-size:clamp(23px,6.4vw,28px)}
   .porte--danse:not(.porte--location) h3,.nouveaute__texte h3{font-size:clamp(25px,7vw,30px)}
 }
+
+/* =========================================================
+   Ronde 2 (2e critique, 5 novembre 2026)
+   ========================================================= */
+/* Cartes de véhicule : un seul choix = un indicateur ROND (le carré faisait « case à cocher ») */
+.choix__carte::after{border-radius:50%}
+/* Focus clavier : pointillé brun, pour ne pas ressembler à une erreur (rouge) ni à un choix */
+.choix input:focus-visible + .choix__carte{outline:3px dashed var(--nuit);outline-offset:4px}
+/* Téléphone : deux cartes par rangée, plus compactes (6 cartes = 3 rangées au lieu de 6) */
+@media (max-width:600px){
+  .choix-grille{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .choix__carte{min-height:76px;padding:10px 34px 10px 12px}
+  .choix__carte::after{top:12px;right:10px;margin-top:0;width:18px;height:18px}
+  .choix__nom{font-size:20px}
+  .choix__ex{font-size:13px;line-height:1.25}
+  .etape__titre{font-size:21px;gap:10px}
+  .etape__num{width:40px;height:40px;font-size:20px}
+  .mini-billet{font-size:15px;padding:8px 12px;bottom:8px}
+}
+/* Location : trois cartes de salle, « Ce qui arrive ensuite » en bande sous le formulaire */
+.choix-grille--salles{grid-template-columns:repeat(3,minmax(0,1fr));margin:8px 0 4px}
+#etiquette-salle{margin:0 0 4px}
+.salle__texte .bouton{align-self:flex-start;margin-top:6px}
+.ensuite--bande{margin-top:40px;position:static}
+.ensuite--bande ol{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px 28px}
+@media (max-width:900px){.ensuite--bande ol{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:600px){.choix-grille--salles{grid-template-columns:repeat(2,minmax(0,1fr))}}

@@ -85,33 +85,23 @@
           <a class="bouton bouton--marine" href="https://www.facebook.com/expostisidorebassinchaudiere/" rel="noopener">Suivre l'Expo sur Facebook</a>
         </div>
 
-        <h2 id="titre-horaire" class="titre-affiche espace-bas">Horaire 2026</h2>
+        <h2 id="titre-horaire" class="titre-affiche titre-archive espace-bas">L'horaire 2026, pour vous donner une idée</h2>
 
         <div class="onglets" role="tablist" aria-label="Jours de l'Expo" hidden></div>
         <div class="filtres" role="group" aria-label="Filtrer les activités" hidden>
           <span class="filtres__titre" aria-hidden="true">Afficher :</span>
           <button type="button" class="filtre" data-filtre="tout" aria-pressed="true">Tout</button>
-          <button type="button" class="filtre" data-filtre="spectacles" aria-pressed="false">Spectacles</button>
           <button type="button" class="filtre" data-filtre="animaux" aria-pressed="false">Animaux</button>
-          <button type="button" class="filtre" data-filtre="famille" aria-pressed="false">Famille</button>
           <button type="button" class="filtre" data-filtre="tire" aria-pressed="false">Tire</button>
+          <button type="button" class="filtre" data-filtre="spectacles" aria-pressed="false">Spectacles</button>
+          <button type="button" class="filtre" data-filtre="famille" aria-pressed="false">Famille</button>
+          <button type="button" class="filtre" data-filtre="kiosques" aria-pressed="false">Kiosques</button>
         </div>
-        <p class="note-prix">Les prix sont indiqués quand ils avaient été publiés pour 2026.</p>
+        <p class="note-prix">Les prix sont indiqués quand ils avaient été publiés pour 2026. Aucune activité n'avait été publiée le mercredi.</p>
+        <p class="note-avant"><strong>Avant l'Expo, le samedi 11 juillet 2026 :</strong> tournoi de balle Conrad Fauchon, de 8&nbsp;h&nbsp;30 à 18&nbsp;h, au terrain de balle.</p>
         <p class="visuellement-cache" aria-live="polite" id="annonce-filtre"></p>
 
         <!-- Chaque jour est une section : sans JavaScript, tout reste affiché en liste -->
-        <section class="jour" id="jour-sam-11" data-onglet="Avant" data-date="sam. 11 juillet" aria-labelledby="t-sam-11">
-          <h3 class="jour__titre" id="t-sam-11">Samedi 11 juillet, avant l'Expo</h3>
-          <ul class="evenements">
-            <li class="evenement" data-cat="autres">
-              <span class="evenement__heure">8 h 30<small> à 18 h</small></span>
-              <div><h4>Tournoi de balle Conrad Fauchon</h4><span class="etiquette">Sport</span></div>
-              <span class="evenement__lieu">Terrain de balle</span>
-              <span class="evenement__prix"></span>
-            </li>
-          </ul>
-        </section>
-
         <section class="jour" id="jour-mar-14" data-onglet="Mar." data-date="14 juillet" aria-labelledby="t-mar-14">
           <h3 class="jour__titre" id="t-mar-14">Mardi 14 juillet</h3>
           <ul class="evenements">
@@ -133,9 +123,9 @@
               <span class="evenement__lieu">Tente de jugement</span>
               <span class="evenement__prix"></span>
             </li>
-            <li class="evenement" data-cat="autres">
+            <li class="evenement" data-cat="kiosques">
               <span class="evenement__heure">16 h</span>
-              <div><h4>Ouverture des kiosques</h4></div>
+              <div><h4>Ouverture des kiosques</h4><span class="etiquette etiquette--kiosques">Kiosques</span></div>
               <span class="evenement__lieu">Aréna</span>
               <span class="evenement__prix"></span>
             </li>
@@ -187,9 +177,9 @@
               <span class="evenement__lieu">Place de la famille Desjardins</span>
               <span class="evenement__prix evenement__prix--gratuit">Jeux gratuits</span>
             </li>
-            <li class="evenement" data-cat="autres">
+            <li class="evenement" data-cat="kiosques">
               <span class="evenement__heure">10 h 30<small> à 15 h</small></span>
-              <div><h4>Parcel-O-Champs</h4><p>Journée parcelle. Dîner inclus pour les participants.</p></div>
+              <div><h4>Parcel-O-Champs</h4><p>Journée parcelle. Dîner inclus pour les participants.</p><span class="etiquette etiquette--kiosques">Kiosques</span></div>
               <span class="evenement__lieu">Grand chapiteau</span>
               <span class="evenement__prix evenement__prix--gratuit">Gratuit</span>
             </li>
@@ -199,9 +189,9 @@
               <span class="evenement__lieu">Tente de jugement</span>
               <span class="evenement__prix"></span>
             </li>
-            <li class="evenement" data-cat="autres">
+            <li class="evenement" data-cat="kiosques">
               <span class="evenement__heure">15 h 30</span>
-              <div><h4>Ouverture des kiosques</h4><p>Kiosques intérieurs du palais des commerces.</p></div>
+              <div><h4>Ouverture des kiosques</h4><p>Kiosques intérieurs du palais des commerces.</p><span class="etiquette etiquette--kiosques">Kiosques</span></div>
               <span class="evenement__lieu">Aréna</span>
               <span class="evenement__prix"></span>
             </li>
@@ -265,15 +255,15 @@
               <span class="evenement__lieu">Place de la famille Desjardins</span>
               <span class="evenement__prix evenement__prix--gratuit">Jeux gratuits</span>
             </li>
-            <li class="evenement" data-cat="autres">
+            <li class="evenement" data-cat="kiosques">
               <span class="evenement__heure">12 h<small> à 18 h</small></span>
-              <div><h4>Agri'Culture</h4><p>Présenté par le Cégep de Lévis.</p></div>
+              <div><h4>Agri'Culture</h4><p>Présenté par le Cégep de Lévis.</p><span class="etiquette etiquette--kiosques">Kiosques</span></div>
               <span class="evenement__lieu">Bâtiment 2 (grange 2)</span>
               <span class="evenement__prix"></span>
             </li>
-            <li class="evenement" data-cat="autres">
+            <li class="evenement" data-cat="kiosques">
               <span class="evenement__heure">12 h 30</span>
-              <div><h4>Ouverture des kiosques</h4></div>
+              <div><h4>Ouverture des kiosques</h4><span class="etiquette etiquette--kiosques">Kiosques</span></div>
               <span class="evenement__lieu">Aréna</span>
               <span class="evenement__prix"></span>
             </li>
@@ -289,9 +279,9 @@
               <span class="evenement__lieu">Terrain de tire</span>
               <span class="evenement__prix">30 $ adulte</span>
             </li>
-            <li class="evenement" data-cat="autres">
+            <li class="evenement" data-cat="kiosques">
               <span class="evenement__heure">18 h<small> à 20 h</small></span>
-              <div><h4>Dégustation BBQ Grill Together</h4><p>Une consommation incluse. Profits remis à Entraide-secours.</p></div>
+              <div><h4>Dégustation BBQ Grill Together</h4><p>Une consommation incluse. Profits remis à Entraide-secours.</p><span class="etiquette etiquette--kiosques">Kiosques</span></div>
               <span class="evenement__lieu">Grand chapiteau</span>
               <span class="evenement__prix">35 $</span>
             </li>
@@ -337,9 +327,9 @@
               <span class="evenement__lieu">Terrain de tire</span>
               <span class="evenement__prix evenement__prix--gratuit">Gratuit</span>
             </li>
-            <li class="evenement" data-cat="autres">
+            <li class="evenement" data-cat="kiosques">
               <span class="evenement__heure">10 h 30</span>
-              <div><h4>Ouverture des kiosques</h4></div>
+              <div><h4>Ouverture des kiosques</h4><span class="etiquette etiquette--kiosques">Kiosques</span></div>
               <span class="evenement__lieu">Aréna</span>
               <span class="evenement__prix"></span>
             </li>
@@ -349,9 +339,9 @@
               <span class="evenement__lieu">Aréna</span>
               <span class="evenement__prix evenement__prix--gratuit">Gratuit</span>
             </li>
-            <li class="evenement" data-cat="autres">
+            <li class="evenement" data-cat="kiosques">
               <span class="evenement__heure">11 h 30<small> à 17 h</small></span>
-              <div><h4>Agri'Culture</h4><p>Présenté par le Cégep de Lévis.</p></div>
+              <div><h4>Agri'Culture</h4><p>Présenté par le Cégep de Lévis.</p><span class="etiquette etiquette--kiosques">Kiosques</span></div>
               <span class="evenement__lieu">Bâtiment 2 (grange 2)</span>
               <span class="evenement__prix"></span>
             </li>

@@ -31,7 +31,9 @@ var Expo = (function () {
       // Dans un bloc .champ (cellule de grille), le message va à l'intérieur pour ne pas décaler la grille
       var champ = el.closest('.champ');
       var bloc = el.closest('.dimension-ligne, .consentement');
-      if (champ && !bloc) champ.appendChild(msg);
+      var groupe = el.type === 'radio' && el.closest('[role="radiogroup"]');
+      if (groupe) groupe.parentNode.insertBefore(msg, groupe); // un seul message, au-dessus des cartes
+      else if (champ && !bloc) champ.appendChild(msg);
       else { bloc = bloc || el.parentNode; bloc.parentNode.insertBefore(msg, bloc.nextSibling); }
       var lies = (el.getAttribute('aria-describedby') || '').split(' ').filter(Boolean);
       if (lies.indexOf(id) === -1) el.setAttribute('aria-describedby', lies.concat(id).join(' '));
@@ -61,6 +63,14 @@ var Expo = (function () {
   document.addEventListener('change', function (e) {
     var el = e.target;
     if (el.type === 'checkbox' && el.checked && el.getAttribute('aria-invalid') === 'true') {
+      el.removeAttribute('aria-invalid'); afficherErreur(el, false);
+    }
+    // Un choix fait dans un groupe de cartes efface l'erreur de tout le groupe
+    if (el.type === 'radio' && el.form) {
+      el.form.querySelectorAll('input[type="radio"][name="' + el.name + '"]').forEach(function (r) { r.removeAttribute('aria-invalid'); });
+      afficherErreur(el, false);
+    }
+    if (el.type === 'date' && el.getAttribute('aria-invalid') === 'true' && el.checkValidity()) {
       el.removeAttribute('aria-invalid'); afficherErreur(el, false);
     }
   });
