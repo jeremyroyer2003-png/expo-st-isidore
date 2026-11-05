@@ -393,3 +393,34 @@ h1,h2,h3,h4,.titre-affiche{text-wrap:balance}
 .ensuite--bande ol{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px 28px}
 @media (max-width:900px){.ensuite--bande ol{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:600px){.choix-grille--salles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* Un seul rôle par police : tous les titres de cartes en lettrage d'affiche (Alfa Slab),
+   le western Rye ne reste que dans les petits billets et étiquettes du rodéo */
+.porte--danse:not(.porte--location) h3,.nouveaute__texte h3,.salles .salle:last-child h3{font-family:var(--affiche);text-transform:uppercase;letter-spacing:.005em}
+.porte--danse:not(.porte--location) h3{font-size:clamp(30px,3.2vw,46px)}
+.nouveaute__etiquette{font-family:var(--western);font-weight:400;text-transform:none;letter-spacing:.02em}
+/* Pas de mots d'affiche criés au milieu d'une phrase */
+.avis-bandeau p strong{font-family:inherit;font-weight:700;text-transform:none;font-size:inherit;letter-spacing:0}
+/* Horaire : l'archive 2026 parle moins fort que l'annonce 2027; heures jamais coupées */
+.titre-archive{font-size:clamp(26px,3vw,40px)}
+.evenement__heure{white-space:nowrap}
+.note-avant{margin:-8px 0 20px;font-size:15px;color:var(--texte-clair)}
+.note-avant strong{color:var(--nuit)}
+.etiquette--kiosques{background:#E3D3B4}
+@media (max-width:600px){
+  .filtres{flex-wrap:nowrap;overflow-x:auto;margin-left:-20px;margin-right:-20px;padding:2px 20px 8px;scrollbar-width:none}
+  .filtre{flex:none}
+  .filtres__titre{flex:none}
+}
+/* Hiérarchie des tailles sur téléphone : h1 nettement au-dessus de h2 */
+@media (max-width:600px){
+  .une__titre{font-size:clamp(36px,10.6vw,48px)}
+  .heros--page .heros__titre{font-size:clamp(28px,7.6vw,38px)}
+  .titre-affiche{font-size:clamp(25px,6.8vw,32px)}
+  .une__intro,.heros__intro{font-size:18px}
+}
+/* FAQ : environ 70 caractères par ligne (la limite en ch laissait passer 89 avec cette police) */
+.liste-questions dd{max-width:58ch}
+@media (max-width:600px){
+  .evenement{grid-template-columns:110px minmax(0,1fr);column-gap:12px}
+  .evenement__heure{font-size:19px}
+}
