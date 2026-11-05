@@ -510,3 +510,6 @@ body *:not(em):not(i):not(cite){font-style:normal}
 /* Ruban adhésif de la photo d'archive : ne cache plus la date de la légende sur téléphone */
 @media (max-width:600px){.archive-photo__ruban--2{bottom:auto;top:46%;right:-8px}}
 .tampon{background:none;mix-blend-mode:multiply;top:58%}
+/* Danse country : même voix que les autres cartes (la règle de la ronde 2 était plus spécifique) */
+.porte.porte--danse:not(.porte--location) h3,.nouveaute .nouveaute__texte h3,.salles .salle:last-child h3{font-family:var(--titre);font-weight:800;text-transform:none;letter-spacing:-.005em}
+.merci:focus{outline:none}
