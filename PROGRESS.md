@@ -6,7 +6,26 @@ Les décisions de fond (couleurs, règles, contenu) sont dans `CLAUDE.md`. Ce qu
 
 ---
 
-## Étape en cours : refonte « plein été » (plus de contraste, meilleures couleurs)
+## Étape en cours (10 novembre 2026) : reconstruction en application Next.js (branche `rebuild`)
+
+**Demande de Jérémy** : application française complète avec back-office (Next.js + Supabase + Stripe en mode test), **en local seulement, aucun déploiement Netlify avant son approbation**. Le site statique `site/` reste intact (tag Git `baseline` = état d'avant). Le nouveau code est dans `web/`.
+
+Décisions (10 novembre) : Node LTS installé en version portable (sans droits admin) dans `%LOCALAPPDATA%\Programs
+ode-v26.13.0-win-x64`; base Supabase = **projet gratuit en ligne** (pas Docker); photos Facebook = Jérémy les télécharge lui-même; prix inconnus = **valeurs fictives marquées « à confirmer »**, cachées au public (« Prix sur demande »), visibles en dev seulement avec `AFFICHER_PRIX_FICTIFS=true`.
+
+Phases (un commit chacune) :
+- [x] 1. Scaffold : Next 16 + TS + Tailwind, schéma SQL avec RLS (`web/supabase/migrations/0001_schema.sql`), seed (`seed.sql`), clients Supabase/Stripe, courriels simulés (boîte d'envoi)
+- [x] 2. Site public : pages converties du site statique (même CSS), programmation animée depuis la base, galerie/vidéos depuis la médiathèque, contact/exposants en actions serveur
+- [ ] 3. Flux de réservation : salles (calendrier libre-service), kiosques intérieurs (plan + approbation), kiosques extérieurs (entente + facture), danse (forfaits), remisage (approbation + dépôt)
+- [ ] 4. Paiements Stripe (test), webhook, page de confirmation
+- [ ] 5. Admin : rôles super_admin / editeur / lecteur, réservations, calendrier, prix, médias, contenu, boîte d'envoi, annulations et remboursements
+- [ ] 6. Finition et docs (développeur + personnel)
+
+Pour tester de bout en bout, Jérémy doit créer un projet Supabase et un compte Stripe (mode test) et remplir `web/.env.local`.
+
+---
+
+## Étape précédente : refonte « plein été » (plus de contraste, meilleures couleurs)
 
 **Demande de Jérémy (4 novembre 2026)** : plus de contraste, un meilleur choix de couleurs, tout en gardant le côté authentique de la page d'origine (affiche de foire agricole, couleurs du moulinet, typo Barlow Condensed).
 
