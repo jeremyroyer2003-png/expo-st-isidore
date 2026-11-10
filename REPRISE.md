@@ -1,0 +1,134 @@
+# REPRISE : où on en est (à lire en premier)
+
+> **Pour Claude, au début de la prochaine conversation** : lis ce fichier en entier, puis `PROGRESS.md` et `CLAUDE.md`. Le travail se fait sur la branche **`rebuild`**, pas sur `main`. Reprends à la section « Prochaine étape ».
+
+Dernière mise à jour : 10 novembre 2026, fin de journée (poste du travail).
+La prochaine séance aura lieu sur le **PC personnel de Jérémy**, où Node.js est disponible.
+
+---
+
+## 1. L'état en une minute
+
+- Le site statique (`site/`) est toujours en ligne sur Netlify (https://celebrated-sorbet-3dce34.netlify.app). Il vient de la branche `main` et **n'a pas changé**.
+- Une **application Next.js complète** est construite dans `web/`, sur la branche `rebuild`. Elle comprend :
+  - le site public ;
+  - les réservations (salles, kiosques, danse, remisage) ;
+  - les paiements Stripe en mode test ;
+  - un back-office avec 3 rôles ;
+  - des courriels simulés.
+- Les 6 phases demandées sont faites, avec un commit par phase. Le tag Git `baseline` marque l'état d'avant.
+- **Ce qui a été vérifié :** le contrôle des types, le lint et le build passent, et les pages publiques s'affichent correctement à 1440 px et à 390 px.
+- **Ce qui n'a jamais été testé :** rien n'a roulé contre une vraie base Supabase ni contre Stripe, parce que les comptes n'existent pas encore. Les réservations, les paiements et l'admin sont écrits, pas essayés. Il faut s'attendre à quelques bogues.
+- **Règle absolue :** aucun déploiement Netlify et aucune fusion dans `main` sans l'approbation explicite de Jérémy. Stripe reste en mode test.
+
+## 2. Ce soir sur le PC personnel : mise en route
+
+```bash
+git clone https://github.com/jeremyroyer2003-png/expo-st-isidore.git
+cd expo-st-isidore
+git switch rebuild
+cd web
+npm install
+cp .env.example .env.local
+```
+
+- Il faut Node.js 20 ou plus récent (`node --version`). La version LTS de nodejs.org convient.
+- Le fichier `web/.env.local` **n'est pas dans GitHub**, et c'est voulu : il contient les clés secrètes. Il faut le remplir sur chaque ordinateur.
+
+### Créer les comptes (une seule fois)
+
+1. **Supabase**
+   - Créer un projet gratuit sur supabase.com (région Canada si offerte).
+   - Dans Project Settings > API, copier l'URL, la clé `anon` et la clé `service_role` dans `.env.local`.
+   - Dans SQL Editor, exécuter `web/supabase/migrations/0001_schema.sql`, **puis** `web/supabase/seed.sql`.
+2. **Stripe**
+   - Créer un compte et rester en **mode test**.
+   - Dans Développeurs > Clés API, copier la clé `sk_test_…` dans `STRIPE_SECRET_KEY`.
+3. Garder `COURRIEL_FOURNISSEUR=console` et `AFFICHER_PRIX_FICTIFS=true`.
+4. Créer le compte super-admin :
+   ```bash
+   npm run creer-admin -- ton@courriel.com "UnMotDePasseLong" super_admin "Jérémy Royer"
+   ```
+5. Lancer le site avec `npm run dev`, puis ouvrir http://localhost:3000 (site public) et http://localhost:3000/admin (administration).
+
+> Ne jamais coller les clés dans une conversation avec Claude. Elles restent dans `.env.local`.
+
+## 3. Prochaine étape : tester chaque flux de bout en bout
+
+Pour chaque flux, noter ce qui casse, puis corriger avec Claude. Carte de test Stripe : `4242 4242 4242 4242`, une date future et n'importe quel CVC.
+
+- [ ] **Site public**
+  - Accueil, programmation (vient de la base), photos (vient de la médiathèque).
+  - Formulaires Contact et Exposants : le message apparaît dans Admin > Messages et dans la Boîte d'envoi.
+- [ ] **Salle** (`/location`)
+  - Choisir une date en jaune, un créneau, remplir le formulaire, payer.
+  - Résultat attendu : page « Votre salle est réservée », créneau « Réservé » dans Admin > Calendrier, 2 courriels dans la Boîte d'envoi.
+  - Abandonner un paiement (bouton retour de Stripe) : la date doit redevenir libre.
+- [ ] **Kiosque intérieur** (`/kiosques`)
+  - Choisir un emplacement sur le plan et envoyer la demande.
+  - Dans Admin > Kiosques, cliquer sur Approuver. Ouvrir le lien `/payer/…` de la Boîte d'envoi et payer.
+  - Résultat attendu : demande « Confirmée », emplacement hachuré sur le plan public.
+- [ ] **Kiosque extérieur**
+  - Envoyer la demande, puis dans l'admin : Noter l'entente, puis Envoyer la facture.
+  - Payer la facture Stripe. Sans webhook, le statut ne se met pas à jour tout seul (voir section 5).
+- [ ] **Danse** (`/danse`) : choisir un forfait, indiquer le nombre de personnes, payer. Résultat attendu : inscription « Payée » dans Admin > Danse.
+- [ ] **Remisage** (`/remisage`)
+  - Envoyer les dimensions.
+  - Dans Admin > Remisage, cliquer sur Approuver ; le dépôt doit être d'au moins 100 $.
+  - Payer le dépôt par le lien. Résultat attendu : « Dépôt payé ».
+- [ ] **Annulation et remboursement** : sur une réservation payée, cliquer sur « Annuler et rembourser » avec des frais. Vérifier dans Stripe que le remboursement partiel est là, et que la date ou l'emplacement est libéré.
+- [ ] **Rôles**
+  - Créer un compte « lecteur » dans Admin > Utilisateurs et se connecter avec.
+  - Résultat attendu : aucun bouton de modification, et la base refuse toute écriture.
+- [ ] **Médiathèque** : téléverser une photo et vérifier qu'elle apparaît sur `/photos`.
+- [ ] **Prix** : décocher « À confirmer » sur un prix et vérifier qu'il s'affiche au public.
+
+## 4. Où trouver quoi
+
+| Besoin | Fichier |
+|---|---|
+| Installation, variables, schéma, sécurité, Stripe, déploiement | `docs/DEVELOPPEUR.md` |
+| Mode d'emploi de l'admin pour le comité | `docs/GUIDE-PERSONNEL.md` |
+| Infos manquantes du comité (prix fictifs, plan officiel, Loi 25…) | `A-CONFIRMER.md` |
+| Historique complet du projet | `PROGRESS.md` |
+| Règles de design et de contenu | `CLAUDE.md` |
+| Schéma de la base + RLS | `web/supabase/migrations/0001_schema.sql` |
+| Données de départ | `web/supabase/seed.sql` |
+| Actions publiques (réserver, demander) | `web/src/actions/reservations.ts`, `messages.ts`, `paiement.ts` |
+| Actions admin | `web/src/actions/admin/` |
+| Confirmation des paiements (idempotente) | `web/src/lib/paiements.ts` |
+| Gabarits de courriels | `web/src/lib/courriel/gabarits.ts` |
+| Pages reprises du site statique | `web/src/contenu-statique/` |
+
+## 5. Points à surveiller pendant les tests
+
+- **Webhook Stripe :** sans lui, un paiement Checkout est quand même confirmé au retour sur `/paiement/merci`. Par contre, la **facture du kiosque extérieur** et l'**expiration d'une session abandonnée** dépendent du webhook. Pour les tester :
+  1. installer la CLI Stripe ;
+  2. lancer `stripe listen --forward-to localhost:3000/api/stripe/webhook` ;
+  3. copier le secret `whsec_…` dans `STRIPE_WEBHOOK_SECRET`.
+- **Requêtes Supabase non typées :** le contrôle des types ne vérifie pas les noms de colonnes. Une faute de nom ne se verra qu'à l'exécution, alors lire les erreurs du terminal.
+- **Fuseau horaire :** les créneaux sont calculés en heure du Québec (`America/Toronto`). Vérifier qu'un créneau ajouté à « 17:00 » s'affiche bien à 17 h.
+- **Version de l'API Stripe :** le SDK `stripe` v23 utilise sa version par défaut. Les factures (`invoicePayments`, `invoiceItems.amount`) sont l'endroit le plus probable d'une incompatibilité.
+- **Poste du travail seulement :** l'antivirus Acronis peut annuler des modifications en lot. Sur ce poste, faire un commit avant toute opération en lot. Sur le PC personnel, ce n'est pas un problème.
+
+## 6. Décisions déjà prises (ne pas les redemander)
+
+- Base Supabase : projet gratuit en ligne, pas Docker.
+- Prix inconnus : valeurs fictives marquées « à confirmer ». Le public voit « Prix sur demande » ; les prix fictifs sont visibles seulement en développement.
+- Photos Facebook : Jérémy les télécharge lui-même, puis les ajoute dans la Médiathèque. Les droits sont à confirmer.
+- Éditeurs : ils peuvent aussi approuver les demandes et rembourser. Le super-admin gère en plus les comptes.
+- Dépôt minimum de 100 $ : seulement pour le remisage. La danse n'a pas de frais d'annulation par défaut.
+- Courriel obligatoire au remisage : il sert à envoyer le lien de dépôt.
+- Plan du palais : indicatif (36 emplacements générés) en attendant le plan officiel.
+- Dépendances ajoutées : `@supabase/supabase-js`, `@supabase/ssr` et `stripe`. Signaler à Jérémy toute autre dépendance avant de l'ajouter.
+
+## 7. Après les tests (à décider avec Jérémy)
+
+1. Corriger les bogues trouvés, avec un commit par correction.
+2. Remplacer les prix fictifs et le plan quand le comité répond (`A-CONFIRMER.md`).
+3. Faire une passe Lighthouse et vérifier l'accessibilité sur les nouvelles pages (calendrier, plan, admin).
+4. Seulement avec l'approbation de Jérémy :
+   - fusionner `rebuild` dans `main` ;
+   - adapter `netlify.toml` pour bâtir `web/` ;
+   - créer les comptes de production ;
+   - faire l'évaluation exigée par la Loi 25.
