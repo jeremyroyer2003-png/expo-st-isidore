@@ -165,7 +165,7 @@ export default function PageHistoire() {
     <section className="section-papier-2" aria-labelledby="titre-sources">
       <div className="contenu sources">
         <h2 id="titre-sources" className="surtitre surtitre--orange">Sources</h2>
-        <p className="credits">«&nbsp;L&apos;Expo&nbsp;: une histoire remplie de gens passionnés&nbsp;», cahier spécial du Beauce Média, 15 juillet 2010, p. 18 (archives BAnQ). Site de l&apos;Expo, section À propos. Publications Facebook de l&apos;Expo (octobre 2026). Une correction ou un souvenir à ajouter? <Link href="/contact#ecrire">Écrivez-nous</Link>.</p>
+        <p className="credits">«&nbsp;L&apos;Expo&nbsp;: une histoire remplie de gens passionnés&nbsp;», cahier spécial du Beauce Média, 15 juillet 2010, p. 18 (archives BAnQ; une copie du cahier est conservée dans les archives de l&apos;Expo). Site de l&apos;Expo, section À propos. Publications Facebook de l&apos;Expo (octobre 2026). Une correction ou un souvenir à ajouter? <Link href="/contact#ecrire">Écrivez-nous</Link>.</p>
       </div>
     </section>
   

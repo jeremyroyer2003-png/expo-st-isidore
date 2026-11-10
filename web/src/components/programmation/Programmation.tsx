@@ -1,0 +1,199 @@
+"use client";
+
+import { useMemo, useRef, useState } from "react";
+import type { Evenement } from "@/lib/donnees";
+
+const CATEGORIES = [
+  { cle: "tout", nom: "Tout" },
+  { cle: "animaux", nom: "Animaux" },
+  { cle: "tire", nom: "Tire" },
+  { cle: "spectacles", nom: "Spectacles" },
+  { cle: "famille", nom: "Famille" },
+  { cle: "kiosques", nom: "Kiosques" },
+  { cle: "autres", nom: "Autres" },
+] as const;
+
+// Couleur et photo d'ambiance par catégorie (photos déjà sur le site, aucun enfant identifiable)
+const STYLE: Record<string, { fond: string; texte: string; photo: string }> = {
+  animaux: { fond: "bg-olive", texte: "text-encre", photo: "/images/photos/holstein-jugement-400.webp" },
+  tire: { fond: "bg-rouille", texte: "text-encre", photo: "/images/photos/tire-foule-400.webp" },
+  spectacles: { fond: "bg-rouge", texte: "text-creme", photo: "/images/photos/spectacle-scene-400.webp" },
+  famille: { fond: "bg-jean", texte: "text-encre", photo: "/images/photos/chapiteau-foule-400.webp" },
+  kiosques: { fond: "bg-moutarde", texte: "text-encre", photo: "/images/photos/kiosques-interieurs-400.webp" },
+  autres: { fond: "bg-kraft", texte: "text-encre", photo: "/images/photos/soiree-saloon-400.webp" },
+};
+
+const BANDEAU_JOUR = [
+  "/images/photos/spectacle-foule-800.webp",
+  "/images/photos/holstein-alignement-800.webp",
+  "/images/photos/tire-nuit-800.webp",
+  "/images/photos/chapiteau-foule-800.webp",
+  "/images/photos/tire-poussiere-800.webp",
+  "/images/photos/holstein-rosettes-800.webp",
+];
+
+function infosJour(iso: string) {
+  const d = new Date(iso + "T12:00:00");
+  return {
+    nom: d.toLocaleDateString("fr-CA", { weekday: "long" }),
+    court: d.toLocaleDateString("fr-CA", { weekday: "short" }).replace(".", ""),
+    num: d.getDate(),
+    mois: d.toLocaleDateString("fr-CA", { month: "long" }),
+  };
+}
+
+function Carte({ e, rang }: { e: Evenement; rang: number }) {
+  const cat = e.categories[0] ?? "autres";
+  const s = STYLE[cat] ?? STYLE.autres;
+  const [debut, fin] = e.heure.split(" à ");
+  return (
+    <li
+      className="anim-monter group relative grid grid-cols-[88px_1fr] sm:grid-cols-[120px_1fr_150px] gap-0 bg-creme cadre-affiche transition-transform duration-200 hover:-translate-y-1 hover:shadow-[9px_9px_0_#1E140D] motion-reduce:hover:translate-y-0"
+      style={{ animationDelay: `${Math.min(rang, 8) * 55}ms` }}
+    >
+      <div className={`${s.fond} ${s.texte} flex flex-col items-center justify-center px-2 py-4 border-r-[3px] border-encre text-center`}>
+        <span className="font-pochoir font-extrabold text-[34px] sm:text-[40px] leading-none">{debut}</span>
+        {fin && <span className="font-etiquette font-bold text-[15px] mt-1">à {fin}</span>}
+      </div>
+      <div className="px-4 py-3 sm:px-5 sm:py-4 min-w-0">
+        <h4 className="font-etiquette font-extrabold text-[22px] sm:text-[24px] leading-tight text-encre">{e.titre}</h4>
+        {e.description && <p className="mt-1 text-[16px] leading-snug text-gris-brun">{e.description}</p>}
+        <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[15px] font-semibold text-encre">
+          <span>{e.lieu}</span>
+          {e.prix && (
+            <span className="font-etiquette uppercase tracking-wide text-[14px] px-2 py-0.5 border-2 border-encre bg-kraft">{e.prix}</span>
+          )}
+          {e.categories.map((c) => (
+            <span key={c} className="font-etiquette uppercase tracking-wide text-[13px] text-gris-brun">{CATEGORIES.find((x) => x.cle === c)?.nom ?? c}</span>
+          ))}
+        </p>
+      </div>
+      <div className="hidden sm:block relative overflow-hidden border-l-[3px] border-encre">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={e.photo || s.photo}
+          alt=""
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover sepia-[.25] transition duration-500 group-hover:scale-110 group-hover:sepia-0 motion-reduce:group-hover:scale-100"
+        />
+      </div>
+    </li>
+  );
+}
+
+export default function Programmation({ annee, evenements }: { annee: number; evenements: Evenement[] }) {
+  const jours = useMemo(() => [...new Set(evenements.map((e) => e.jour))].sort(), [evenements]);
+  const [jour, setJour] = useState(jours[0]);
+  const [filtre, setFiltre] = useState<string>("tout");
+  const [sens, setSens] = useState<"suivant" | "precedent">("suivant");
+  const onglets = useRef<(HTMLButtonElement | null)[]>([]);
+
+  const choisirJour = (j: string, focus = false) => {
+    setSens(jours.indexOf(j) >= jours.indexOf(jour) ? "suivant" : "precedent");
+    setJour(j);
+    setFiltre("tout");
+    if (focus) onglets.current[jours.indexOf(j)]?.focus();
+  };
+
+  const clavier = (e: React.KeyboardEvent, i: number) => {
+    const cible = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: jours.length - 1 }[e.key];
+    if (cible === undefined) return;
+    e.preventDefault();
+    choisirJour(jours[(cible + jours.length) % jours.length], true);
+  };
+
+  const semaine = filtre !== "tout";
+  const filtres = (e: Evenement) => !semaine || e.categories.includes(filtre);
+  const affiches = semaine ? jours : [jour];
+  const total = evenements.filter(filtres).length;
+
+  return (
+    <div>
+      {/* Jours : des billets d'entrée */}
+      <div role="tablist" aria-label="Jours de l'Expo" className="grid grid-cols-3 sm:grid-cols-[repeat(auto-fit,minmax(110px,1fr))] gap-3 mb-6">
+        {jours.map((j, i) => {
+          const d = infosJour(j);
+          const actif = !semaine && j === jour;
+          return (
+            <button
+              key={j}
+              ref={(el) => { onglets.current[i] = el; }}
+              role="tab"
+              type="button"
+              id={`onglet-${j}`}
+              aria-selected={actif}
+              aria-controls="panneau-programmation"
+              tabIndex={actif || (semaine && i === 0) ? 0 : -1}
+              onClick={() => choisirJour(j)}
+              onKeyDown={(e) => clavier(e, i)}
+              className={`relative min-h-[88px] border-[3px] border-encre px-2 py-2 text-center transition-all duration-200 motion-reduce:transition-none
+                ${actif ? "bg-rouge text-creme shadow-affiche -translate-y-1" : "bg-kraft text-encre shadow-affiche-sm hover:-translate-y-0.5 hover:bg-moutarde"}
+                before:absolute before:left-[-3px] before:top-1/2 before:h-4 before:w-2 before:-translate-y-1/2 before:rounded-r-full before:bg-creme before:border-[3px] before:border-l-0 before:border-encre
+                after:absolute after:right-[-3px] after:top-1/2 after:h-4 after:w-2 after:-translate-y-1/2 after:rounded-l-full after:bg-creme after:border-[3px] after:border-r-0 after:border-encre`}
+            >
+              <span className="block font-etiquette font-bold uppercase tracking-wider text-[15px]">{d.court}</span>
+              <span className="block font-affiche text-[34px] leading-none">{d.num}</span>
+              <span className="block font-etiquette text-[14px]">{d.mois}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Filtres */}
+      <div role="group" aria-label="Filtrer les activités" className="flex flex-wrap items-center gap-2 mb-8">
+        <span className="font-etiquette font-bold uppercase text-[15px] mr-1" aria-hidden="true">Afficher&nbsp;:</span>
+        {CATEGORIES.map((c) => {
+          const actif = filtre === c.cle;
+          const s = STYLE[c.cle];
+          return (
+            <button
+              key={c.cle}
+              type="button"
+              aria-pressed={actif}
+              onClick={() => setFiltre(c.cle)}
+              className={`min-h-[44px] px-4 border-[3px] border-encre font-etiquette font-bold uppercase tracking-wide text-[16px] transition-all duration-150 motion-reduce:transition-none
+                ${actif ? `${s ? `${s.fond} ${s.texte}` : "bg-encre text-creme"} shadow-affiche-sm -translate-y-0.5` : "bg-creme text-encre hover:bg-kraft"}`}
+            >
+              {c.nom}
+            </button>
+          );
+        })}
+      </div>
+      <p className="visuellement-cache" aria-live="polite">
+        {semaine ? `${total} activités « ${CATEGORIES.find((c) => c.cle === filtre)?.nom} » sur la semaine` : ""}
+      </p>
+
+      <div id="panneau-programmation" role="tabpanel" aria-labelledby={semaine ? undefined : `onglet-${jour}`} aria-label={semaine ? "Toute la semaine" : undefined}>
+        {affiches.map((j) => {
+          const liste = evenements.filter((e) => e.jour === j && filtres(e));
+          if (!liste.length) return null;
+          const d = infosJour(j);
+          const photo = BANDEAU_JOUR[jours.indexOf(j) % BANDEAU_JOUR.length];
+          return (
+            <section key={`${j}-${filtre}`} className={semaine ? "mb-12 anim-monter" : sens === "suivant" ? "anim-mois-suivant" : "anim-mois-precedent"} aria-label={`${d.nom} ${d.num} ${d.mois}`}>
+              {/* Bandeau du jour : photo + grande date d'affiche */}
+              <div className="relative mb-6 h-[150px] sm:h-[190px] overflow-hidden border-[3px] border-encre shadow-affiche">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={photo} alt="" className="absolute inset-0 h-full w-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-r from-encre/90 via-encre/60 to-transparent" />
+                <div className="relative flex h-full items-center gap-5 px-5 sm:px-8 text-creme">
+                  <span className="font-affiche text-[72px] sm:text-[104px] leading-none text-moutarde">{d.num}</span>
+                  <span>
+                    <span className="block font-affiche text-[28px] sm:text-[40px] leading-none capitalize">{d.nom}</span>
+                    <span className="block font-etiquette font-bold uppercase tracking-widest text-[15px] sm:text-[17px] mt-2">
+                      {d.mois} {annee} · {liste.length} activité{liste.length > 1 ? "s" : ""}
+                    </span>
+                  </span>
+                </div>
+              </div>
+              <ul className="grid gap-4">
+                {liste.map((e, i) => <Carte key={e.id} e={e} rang={i} />)}
+              </ul>
+            </section>
+          );
+        })}
+        {semaine && total === 0 && <p className="text-[18px]">Aucune activité de ce type cette année-là.</p>}
+      </div>
+    </div>
+  );
+}

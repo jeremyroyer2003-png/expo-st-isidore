@@ -1,0 +1,590 @@
+[
+ {
+  "id": "s0-0",
+  "annee": 2026,
+  "jour": "2026-07-14",
+  "heure": "19 h",
+  "titre": "Bingo",
+  "lieu": "Aréna",
+  "prix": "Payant sur place",
+  "description": "Plus de 3 000 $ en prix, en argent et en cartes-cadeaux.",
+  "categories": [
+   "autres"
+  ],
+  "photo": "",
+  "ordre": 0
+ },
+ {
+  "id": "s1-0",
+  "annee": 2026,
+  "jour": "2026-07-16",
+  "heure": "10 h 30",
+  "titre": "Jugement des jeunes éleveurs",
+  "lieu": "Tente de jugement",
+  "prix": "",
+  "description": "",
+  "categories": [
+   "animaux"
+  ],
+  "photo": "",
+  "ordre": 0
+ },
+ {
+  "id": "s2-1",
+  "annee": 2026,
+  "jour": "2026-07-16",
+  "heure": "16 h",
+  "titre": "Ouverture des kiosques",
+  "lieu": "Aréna",
+  "prix": "",
+  "description": "",
+  "categories": [
+   "kiosques"
+  ],
+  "photo": "",
+  "ordre": 1
+ },
+ {
+  "id": "s3-2",
+  "annee": 2026,
+  "jour": "2026-07-16",
+  "heure": "17 h à 21 h",
+  "titre": "Place de la famille",
+  "lieu": "Place de la famille Desjardins",
+  "prix": "Jeux gratuits",
+  "description": "Jeux gonflables gratuits, mini-golf (payant), maquillage et kiosque de popsicles.",
+  "categories": [
+   "famille"
+  ],
+  "photo": "",
+  "ordre": 2
+ },
+ {
+  "id": "s4-3",
+  "annee": 2026,
+  "jour": "2026-07-16",
+  "heure": "19 h à minuit",
+  "titre": "Danse country : Winslow Dancers",
+  "lieu": "Aréna",
+  "prix": "15 $",
+  "description": "",
+  "categories": [
+   "spectacles"
+  ],
+  "photo": "",
+  "ordre": 3
+ },
+ {
+  "id": "s5-4",
+  "annee": 2026,
+  "jour": "2026-07-16",
+  "heure": "19 h",
+  "titre": "Bar Country",
+  "lieu": "Bâtiment 3",
+  "prix": "",
+  "description": "",
+  "categories": [
+   "autres"
+  ],
+  "photo": "",
+  "ordre": 4
+ },
+ {
+  "id": "s6-5",
+  "annee": 2026,
+  "jour": "2026-07-16",
+  "heure": "19 h à 21 h",
+  "titre": "Cinéma extérieur familial",
+  "lieu": "Place de la famille Desjardins",
+  "prix": "Gratuit",
+  "description": "",
+  "categories": [
+   "famille"
+  ],
+  "photo": "",
+  "ordre": 5
+ },
+ {
+  "id": "s7-6",
+  "annee": 2026,
+  "jour": "2026-07-16",
+  "heure": "20 h",
+  "titre": "Show Lex Roses",
+  "lieu": "Grand chapiteau",
+  "prix": "",
+  "description": "",
+  "categories": [
+   "spectacles"
+  ],
+  "photo": "",
+  "ordre": 6
+ },
+ {
+  "id": "s8-7",
+  "annee": 2026,
+  "jour": "2026-07-16",
+  "heure": "22 h",
+  "titre": "Feux d'artifice",
+  "lieu": "Place de la famille Desjardins",
+  "prix": "",
+  "description": "",
+  "categories": [
+   "famille",
+   "spectacles"
+  ],
+  "photo": "",
+  "ordre": 7
+ },
+ {
+  "id": "s9-0",
+  "annee": 2026,
+  "jour": "2026-07-17",
+  "heure": "10 h à 21 h",
+  "titre": "Place de la famille",
+  "lieu": "Place de la famille Desjardins",
+  "prix": "Jeux gratuits",
+  "description": "Jeux gonflables gratuits, mini-golf (payant), maquillage et popsicles.",
+  "categories": [
+   "famille"
+  ],
+  "photo": "",
+  "ordre": 0
+ },
+ {
+  "id": "s10-1",
+  "annee": 2026,
+  "jour": "2026-07-17",
+  "heure": "10 h 30 à 15 h",
+  "titre": "Parcel-O-Champs",
+  "lieu": "Grand chapiteau",
+  "prix": "Gratuit",
+  "description": "Journée parcelle. Dîner inclus pour les participants.",
+  "categories": [
+   "kiosques"
+  ],
+  "photo": "",
+  "ordre": 1
+ },
+ {
+  "id": "s11-2",
+  "annee": 2026,
+  "jour": "2026-07-17",
+  "heure": "14 h",
+  "titre": "Concours de tonte",
+  "lieu": "Tente de jugement",
+  "prix": "",
+  "description": "",
+  "categories": [
+   "animaux"
+  ],
+  "photo": "",
+  "ordre": 2
+ },
+ {
+  "id": "s12-3",
+  "annee": 2026,
+  "jour": "2026-07-17",
+  "heure": "15 h 30",
+  "titre": "Ouverture des kiosques",
+  "lieu": "Aréna",
+  "prix": "",
+  "description": "Kiosques intérieurs du palais des commerces.",
+  "categories": [
+   "kiosques"
+  ],
+  "photo": "",
+  "ordre": 3
+ },
+ {
+  "id": "s13-4",
+  "annee": 2026,
+  "jour": "2026-07-17",
+  "heure": "18 h à minuit",
+  "titre": "Danse country : The Hurricane Dancers",
+  "lieu": "Aréna",
+  "prix": "15 $",
+  "description": "",
+  "categories": [
+   "spectacles"
+  ],
+  "photo": "",
+  "ordre": 4
+ },
+ {
+  "id": "s14-5",
+  "annee": 2026,
+  "jour": "2026-07-17",
+  "heure": "18 h 30",
+  "titre": "Tire de tracteurs ASTTQ",
+  "lieu": "Terrain de tire",
+  "prix": "30 $ adulte",
+  "description": "4x4, Hot Farm, Pro Farm, Pro Stock, Super Stock et semi-remorques. Prix et détails de la tire",
+  "categories": [
+   "tire"
+  ],
+  "photo": "",
+  "ordre": 5
+ },
+ {
+  "id": "s15-6",
+  "annee": 2026,
+  "jour": "2026-07-17",
+  "heure": "19 h",
+  "titre": "Bar Country",
+  "lieu": "Bâtiment 3",
+  "prix": "",
+  "description": "",
+  "categories": [
+   "autres"
+  ],
+  "photo": "",
+  "ordre": 6
+ },
+ {
+  "id": "s16-7",
+  "annee": 2026,
+  "jour": "2026-07-17",
+  "heure": "19 h 30",
+  "titre": "Social de club",
+  "lieu": "Bâtiment 3 (grange 9)",
+  "prix": "",
+  "description": "Réservé aux membres des clubs Holstein.",
+  "categories": [
+   "animaux"
+  ],
+  "photo": "",
+  "ordre": 7
+ },
+ {
+  "id": "s17-8",
+  "annee": 2026,
+  "jour": "2026-07-17",
+  "heure": "21 h à minuit",
+  "titre": "Soirée latino",
+  "lieu": "Bâtiment 2 (grange 2)",
+  "prix": "Gratuit",
+  "description": "Cours de danse, puis soirée.",
+  "categories": [
+   "spectacles"
+  ],
+  "photo": "",
+  "ordre": 8
+ },
+ {
+  "id": "s18-9",
+  "annee": 2026,
+  "jour": "2026-07-17",
+  "heure": "22 h à minuit",
+  "titre": "Show That's Hit",
+  "lieu": "Grand chapiteau",
+  "prix": "Gratuit",
+  "description": "Rock des années 60 à 2000.",
+  "categories": [
+   "spectacles"
+  ],
+  "photo": "",
+  "ordre": 9
+ },
+ {
+  "id": "s19-10",
+  "annee": 2026,
+  "jour": "2026-07-17",
+  "heure": "Minuit",
+  "titre": "Beach Party D.James",
+  "lieu": "Grand chapiteau",
+  "prix": "Gratuit",
+  "description": "",
+  "categories": [
+   "spectacles"
+  ],
+  "photo": "",
+  "ordre": 10
+ },
+ {
+  "id": "s20-0",
+  "annee": 2026,
+  "jour": "2026-07-18",
+  "heure": "10 h",
+  "titre": "Jugement des bovins laitiers",
+  "lieu": "Tente de jugement",
+  "prix": "",
+  "description": "",
+  "categories": [
+   "animaux"
+  ],
+  "photo": "",
+  "ordre": 0
+ },
+ {
+  "id": "s21-1",
+  "annee": 2026,
+  "jour": "2026-07-18",
+  "heure": "10 h à 21 h",
+  "titre": "Place de la famille",
+  "lieu": "Place de la famille Desjardins",
+  "prix": "Jeux gratuits",
+  "description": "Jeux gonflables gratuits, mini-golf (payant), maquillage et popsicles.",
+  "categories": [
+   "famille"
+  ],
+  "photo": "",
+  "ordre": 1
+ },
+ {
+  "id": "s22-2",
+  "annee": 2026,
+  "jour": "2026-07-18",
+  "heure": "12 h à 18 h",
+  "titre": "Agri'Culture",
+  "lieu": "Bâtiment 2 (grange 2)",
+  "prix": "",
+  "description": "Présenté par le Cégep de Lévis.",
+  "categories": [
+   "kiosques"
+  ],
+  "photo": "",
+  "ordre": 2
+ },
+ {
+  "id": "s23-3",
+  "annee": 2026,
+  "jour": "2026-07-18",
+  "heure": "12 h 30",
+  "titre": "Ouverture des kiosques",
+  "lieu": "Aréna",
+  "prix": "",
+  "description": "",
+  "categories": [
+   "kiosques"
+  ],
+  "photo": "",
+  "ordre": 3
+ },
+ {
+  "id": "s24-4",
+  "annee": 2026,
+  "jour": "2026-07-18",
+  "heure": "13 h à 1 h",
+  "titre": "12 heures de danse country avec Mathieu Gagné",
+  "lieu": "Aréna",
+  "prix": "15 $",
+  "description": "",
+  "categories": [
+   "spectacles"
+  ],
+  "photo": "",
+  "ordre": 4
+ },
+ {
+  "id": "s25-5",
+  "annee": 2026,
+  "jour": "2026-07-18",
+  "heure": "18 h",
+  "titre": "Tire de tracteurs ASTTQ",
+  "lieu": "Terrain de tire",
+  "prix": "30 $ adulte",
+  "description": "4x4, Hot Farm, Pro Farm, Pro Stock et semi-remorques. Prix et détails de la tire",
+  "categories": [
+   "tire"
+  ],
+  "photo": "",
+  "ordre": 5
+ },
+ {
+  "id": "s26-6",
+  "annee": 2026,
+  "jour": "2026-07-18",
+  "heure": "18 h à 20 h",
+  "titre": "Dégustation BBQ Grill Together",
+  "lieu": "Grand chapiteau",
+  "prix": "35 $",
+  "description": "Une consommation incluse. Profits remis à Entraide-secours.",
+  "categories": [
+   "kiosques"
+  ],
+  "photo": "",
+  "ordre": 6
+ },
+ {
+  "id": "s27-7",
+  "annee": 2026,
+  "jour": "2026-07-18",
+  "heure": "19 h",
+  "titre": "Bar Country",
+  "lieu": "Bâtiment 3",
+  "prix": "",
+  "description": "",
+  "categories": [
+   "autres"
+  ],
+  "photo": "",
+  "ordre": 7
+ },
+ {
+  "id": "s28-8",
+  "annee": 2026,
+  "jour": "2026-07-18",
+  "heure": "20 h",
+  "titre": "La Championne se paie la traite",
+  "lieu": "",
+  "prix": "",
+  "description": "Pour les éleveurs du jugement, sur invitation.",
+  "categories": [
+   "animaux"
+  ],
+  "photo": "",
+  "ordre": 8
+ },
+ {
+  "id": "s29-9",
+  "annee": 2026,
+  "jour": "2026-07-18",
+  "heure": "22 h 30 à minuit",
+  "titre": "La Grand-Messe",
+  "lieu": "Grand chapiteau",
+  "prix": "Gratuit",
+  "description": "Hommage aux succès des Cowboys Fringants.",
+  "categories": [
+   "spectacles"
+  ],
+  "photo": "",
+  "ordre": 9
+ },
+ {
+  "id": "s30-10",
+  "annee": 2026,
+  "jour": "2026-07-18",
+  "heure": "Minuit à 2 h 30",
+  "titre": "Hit the Road Country",
+  "lieu": "Grand chapiteau",
+  "prix": "Gratuit",
+  "description": "Country et danse en ligne, débutants bienvenus.",
+  "categories": [
+   "spectacles"
+  ],
+  "photo": "",
+  "ordre": 10
+ },
+ {
+  "id": "s31-0",
+  "annee": 2026,
+  "jour": "2026-07-19",
+  "heure": "10 h à 16 h",
+  "titre": "Place de la famille",
+  "lieu": "Place de la famille Desjardins",
+  "prix": "Jeux gratuits",
+  "description": "Jeux gonflables gratuits, mini-golf (payant), maquillage et popsicles.",
+  "categories": [
+   "famille"
+  ],
+  "photo": "",
+  "ordre": 0
+ },
+ {
+  "id": "s32-1",
+  "annee": 2026,
+  "jour": "2026-07-19",
+  "heure": "10 h et 13 h",
+  "titre": "Chiens de berger",
+  "lieu": "Terrain de tire",
+  "prix": "Gratuit",
+  "description": "Présentation de travail au troupeau (herding), une heure chaque fois.",
+  "categories": [
+   "animaux",
+   "famille"
+  ],
+  "photo": "",
+  "ordre": 1
+ },
+ {
+  "id": "s33-2",
+  "annee": 2026,
+  "jour": "2026-07-19",
+  "heure": "10 h 30",
+  "titre": "Ouverture des kiosques",
+  "lieu": "Aréna",
+  "prix": "",
+  "description": "",
+  "categories": [
+   "kiosques"
+  ],
+  "photo": "",
+  "ordre": 2
+ },
+ {
+  "id": "s34-3",
+  "annee": 2026,
+  "jour": "2026-07-19",
+  "heure": "11 h",
+  "titre": "Messe",
+  "lieu": "Aréna",
+  "prix": "Gratuit",
+  "description": "",
+  "categories": [
+   "autres"
+  ],
+  "photo": "",
+  "ordre": 3
+ },
+ {
+  "id": "s35-4",
+  "annee": 2026,
+  "jour": "2026-07-19",
+  "heure": "11 h 30 à 17 h",
+  "titre": "Agri'Culture",
+  "lieu": "Bâtiment 2 (grange 2)",
+  "prix": "",
+  "description": "Présenté par le Cégep de Lévis.",
+  "categories": [
+   "kiosques"
+  ],
+  "photo": "",
+  "ordre": 4
+ },
+ {
+  "id": "s36-5",
+  "annee": 2026,
+  "jour": "2026-07-19",
+  "heure": "11 h 30 à 14 h 30",
+  "titre": "Mascottes",
+  "lieu": "Place de la famille Desjardins",
+  "prix": "",
+  "description": "",
+  "categories": [
+   "famille"
+  ],
+  "photo": "",
+  "ordre": 5
+ },
+ {
+  "id": "s37-6",
+  "annee": 2026,
+  "jour": "2026-07-19",
+  "heure": "12 h à 13 h",
+  "titre": "Pique-nique familial",
+  "lieu": "Grand chapiteau",
+  "prix": "20 $ par famille",
+  "description": "8 hot-dogs, 4 breuvages, 4 desserts et du fromage. Hot-dogs supplémentaires en vente.",
+  "categories": [
+   "famille"
+  ],
+  "photo": "",
+  "ordre": 6
+ },
+ {
+  "id": "s38-7",
+  "annee": 2026,
+  "jour": "2026-07-19",
+  "heure": "14 h",
+  "titre": "Tire de mini-tracteurs Gérard Larochelle",
+  "lieu": "Aréna",
+  "prix": "Inscription payante",
+  "description": "",
+  "categories": [
+   "tire",
+   "famille"
+  ],
+  "photo": "",
+  "ordre": 7
+ }
+]

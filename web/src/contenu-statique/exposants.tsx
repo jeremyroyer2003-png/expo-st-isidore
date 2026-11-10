@@ -1,5 +1,7 @@
 // Converti automatiquement depuis site/exposants.html (contenu d'origine du site statique)
 import Link from "next/link";
+import FormulaireSimple from "@/components/formulaires/FormulaireSimple";
+import { envoyerMessage } from "@/actions/messages";
 
 export const meta = { titre: "Exposants – kiosques, jugements et inscription | Expo St-Isidore", description: "Exposer à l'Expo St-Isidore : kiosques intérieurs et extérieurs, agroalimentaire, artisanat et jugements Holstein. Documents et demande d'inscription." };
 
@@ -52,7 +54,8 @@ export default function PageExposants() {
       <div className="contenu section-espacee">
         <div className="entete-section">
           <h2 id="titre-emplacements" className="titre-affiche">Votre<br />emplacement</h2>
-          <p>Prix et disponibilités sur demande&nbsp;: remplissez le formulaire et on vous envoie les tarifs 2027.</p>
+          <p>Les kiosques intérieurs se choisissent maintenant sur le plan du palais des commerces; les kiosques extérieurs se demandent en ligne. Pour les autres emplacements, remplissez le formulaire plus bas.</p>
+          <p className="groupe-boutons"><Link className="bouton bouton--orange" href="/kiosques">Choisir un kiosque sur le plan <span className="fleche" aria-hidden="true">→</span></Link><Link className="bouton bouton--contour" href="/kiosques#exterieur">Kiosque extérieur</Link></p>
         </div>
         <dl className="liste-questions liste-questions--grille">
           <div><dt>Kiosque extérieur</dt><dd>Sur le terrain de l&apos;Expo, pour la machinerie, les concessionnaires et les fournisseurs.</dd></div>
@@ -94,13 +97,13 @@ export default function PageExposants() {
     <section id="inscription" className="section-papier-2" aria-labelledby="titre-inscription">
       <div className="contenu section-espacee">
         <div className="entete-section">
-          <h2 id="titre-inscription" className="titre-affiche">Réserver<br />un emplacement</h2>
+          <h2 id="titre-inscription" className="titre-affiche">Agroalimentaire,<br />restauration, artisanat</h2>
           <p>Dites-nous ce que vous cherchez. Marjolaine Boutin, coordonnatrice, communique avec vous pour vous donner les disponibilités et les prix. Vous pouvez aussi l&apos;appeler au <a href="tel:+14183860484">418 386-0484</a> (cellulaire) ou au <a href="tel:+14188825649">418 882-5649</a> (bureau).</p>
         </div>
 
-        <form id="form-exposants" className="formulaire formulaire--etroit" name="exposants" method="POST" action="exposants.html" data-envoi-simple data-merci="merci-exposants" noValidate>
-          <input type="hidden" name="form-name" value="exposants" />
-          <p className="visuellement-cache"><label>Ne pas remplir&nbsp;: <input name="champ-robot" tabIndex={-1} autoComplete="off" /></label></p>
+        <FormulaireSimple action={envoyerMessage} id="form-exposants" bouton="Envoyer ma demande" merci={<><h3>Merci, c&apos;est reçu!</h3>
+          <p>On communique avec vous pour les disponibilités et les prix. Si c&apos;est pressant&nbsp;: <a href="tel:+14183860484">418 386-0484</a>.</p></>}>
+          <input type="hidden" name="formulaire" value="exposants" />
           <fieldset className="etape">
             <legend className="etape__titre">Votre demande</legend>
             <div className="coordonnees">
@@ -127,15 +130,8 @@ export default function PageExposants() {
               <span>J&apos;accepte que l&apos;Expo St-Isidore utilise ces renseignements seulement pour répondre à ma demande, selon sa <Link href="/confidentialite">politique de confidentialité</Link>.</span>
             </label>
           </fieldset>
-          <p className="champ__erreur formulaire__erreur" role="alert" hidden></p>
-          <div className="formulaire__envoi">
-            <button type="submit" className="bouton bouton--orange bouton--grand">Envoyer ma demande</button>
-          </div>
-        </form>
-        <div className="merci" id="merci-exposants" tabIndex={-1} hidden>
-          <h3>Merci, c&apos;est reçu!</h3>
-          <p>On communique avec vous pour les disponibilités et les prix. Si c&apos;est pressant&nbsp;: <a href="tel:+14183860484">418 386-0484</a>.</p>
-        </div>
+        </FormulaireSimple>
+        
       </div>
     </section>
   

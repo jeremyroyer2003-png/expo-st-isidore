@@ -3,9 +3,12 @@ import Link from "next/link";
 
 export const meta = { titre: "Expo St-Isidore – Exposition agricole gratuite en Beauce depuis 1983", description: "Expo agricole gratuite à Saint-Isidore, en Beauce : jugements d'animaux, tire de tracteurs, spectacles et activités familiales. Merci pour 2026, on se revoit en juillet 2027. Toute l'année : remisage d'hiver intérieur, location de salle et danse country." };
 
+import ComportementsAccueil from "@/components/site/ComportementsAccueil";
+
 export default function PageAccueil() {
   return (
     <>
+      <ComportementsAccueil />
 
 
     {/* ===== Héros : diaporama de vraies photos de l'Expo ===== */}
@@ -143,7 +146,7 @@ export default function PageAccueil() {
             <div className="porte__corps">
               <h3>Louer une salle</h3>
               <p>Toute l&apos;année, le palais des commerces ou le Saloon de la grange 3, avec les tables, les chaises et l&apos;ambiance comprises.</p>
-              <Link className="bouton bouton--marine" href="/location">Demander une date <span className="fleche" aria-hidden="true">→</span></Link>
+              <Link className="bouton bouton--marine" href="/location">Voir les dates libres <span className="fleche" aria-hidden="true">→</span></Link>
             </div>
           </article>
 
@@ -153,8 +156,8 @@ export default function PageAccueil() {
             </figure>
             <div className="porte__corps">
               <h3>Danse country</h3>
-              <p>L&apos;été, danse en ligne dans la grange 2, de 19&nbsp;h à 21&nbsp;h. <strong>20&nbsp;$ la session.</strong> Les dates sont annoncées sur Facebook et au bureau, au <a href="tel:+14188825649">418 882-5649</a>.</p>
-              <a className="bouton bouton--marine" href="https://www.facebook.com/expostisidorebassinchaudiere/" rel="noopener">Les dates sur Facebook <span className="fleche" aria-hidden="true">→</span></a>
+              <p>L&apos;été, danse en ligne dans la grange 2, de 19&nbsp;h à 21&nbsp;h. <strong>20&nbsp;$ la session</strong>, ou un forfait pour le mois ou la saison. Les dates sont annoncées sur Facebook et au bureau, au <a href="tel:+14188825649">418 882-5649</a>.</p>
+              <Link className="bouton bouton--marine" href="/danse">Voir les forfaits <span className="fleche" aria-hidden="true">→</span></Link>
             </div>
           </article>
         </div>

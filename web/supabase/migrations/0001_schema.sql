@@ -239,7 +239,10 @@ create table public.contenus (
 create table public.medias (
   id uuid primary key default gen_random_uuid(),
   chemin text not null unique,
+  type text not null default 'photo' check (type in ('photo', 'video')),
+  -- photo : url de l'image; vidéo : lien YouTube ou Facebook (vignette = image d'aperçu)
   url text not null,
+  vignette text not null default '',
   alt text not null,
   credit text not null default '',
   categorie text not null default 'galerie',

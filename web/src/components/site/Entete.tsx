@@ -11,8 +11,7 @@ const LIENS = [
   { href: "/photos", texte: "Photos" },
   { href: "/histoire", texte: "Notre histoire" },
   { href: "/contact", texte: "Infos et contact" },
-  { href: "/location", texte: "Location de salle" },
-  { href: "/danse", texte: "Danse country" },
+  { href: "/reserver", texte: "Réserver" },
 ];
 
 export default function Entete() {
@@ -47,7 +46,12 @@ export default function Entete() {
     return () => document.removeEventListener("keydown", touche);
   }, [ouvert]);
 
-  const actif = (href: string) => (chemin === href || chemin.startsWith(href + "/") ? "page" : undefined);
+  // « Réserver » reste actif sur les pages de réservation qu'il regroupe
+  const GROUPE_RESERVER = ["/reserver", "/location", "/kiosques", "/danse"];
+  const actif = (href: string) => {
+    if (href === "/reserver") return GROUPE_RESERVER.some((g) => chemin.startsWith(g)) ? "page" : undefined;
+    return chemin === href || chemin.startsWith(href + "/") ? "page" : undefined;
+  };
 
   return (
     <header className={"entete" + (defile ? " est-defile" : "")}>

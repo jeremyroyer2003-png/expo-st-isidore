@@ -1,5 +1,7 @@
 // Converti automatiquement depuis site/contact.html (contenu d'origine du site statique)
 import Link from "next/link";
+import FormulaireSimple from "@/components/formulaires/FormulaireSimple";
+import { envoyerMessage } from "@/actions/messages";
 
 export const meta = { titre: "Infos pratiques – venir à l'Expo et nous joindre | Expo St-Isidore", description: "Venir à l'Expo St-Isidore : dates, adresse, stationnement et accès. Bureau 418 882-5649, remisage 418 882-9619, 132, route Coulombe, Saint-Isidore." };
 
@@ -80,9 +82,9 @@ export default function PageContact() {
           <h2 id="titre-ecrire" className="titre-affiche">Écrivez-<br />nous</h2>
           <p>Pour un kiosque, une commandite, du bénévolat ou une simple question. On répond par courriel ou par téléphone.</p>
         </div>
-        <form id="form-contact" className="formulaire formulaire--etroit" name="contact" method="POST" action="contact.html" data-envoi-simple data-merci="merci-contact" noValidate>
-          <input type="hidden" name="form-name" value="contact" />
-          <p className="visuellement-cache"><label>Ne pas remplir&nbsp;: <input name="champ-robot" tabIndex={-1} autoComplete="off" /></label></p>
+        <FormulaireSimple action={envoyerMessage} id="form-contact" bouton="Envoyer le message" merci={<><h3>Merci, c&apos;est reçu!</h3>
+          <p>On vous répond dès que possible. Si c&apos;est pressant, appelez le bureau au <a href="tel:+14188825649">418 882-5649</a>.</p></>}>
+          <input type="hidden" name="formulaire" value="contact" />
           <fieldset className="etape">
             <legend className="etape__titre">Votre message</legend>
             <div className="coordonnees">
@@ -109,15 +111,8 @@ export default function PageContact() {
               <span>J&apos;accepte que l&apos;Expo St-Isidore utilise ces renseignements seulement pour répondre à mon message, selon sa <Link href="/confidentialite">politique de confidentialité</Link>.</span>
             </label>
           </fieldset>
-          <p className="champ__erreur formulaire__erreur" role="alert" hidden></p>
-          <div className="formulaire__envoi">
-            <button type="submit" className="bouton bouton--orange bouton--grand">Envoyer le message</button>
-          </div>
-        </form>
-        <div className="merci" id="merci-contact" tabIndex={-1} hidden>
-          <h3>Merci, c&apos;est reçu!</h3>
-          <p>On vous répond dès que possible. Si c&apos;est pressant, appelez le bureau au <a href="tel:+14188825649">418 882-5649</a>.</p>
-        </div>
+        </FormulaireSimple>
+        
       </div>
     </section>
   
