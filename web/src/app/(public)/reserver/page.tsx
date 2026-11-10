@@ -31,7 +31,7 @@ export default function Page() {
         <div className="contenu section-espacee">
           <ul className="grid gap-6 md:grid-cols-2">
             {SERVICES.map((s, i) => (
-              <li key={s.href} data-revele className="anim-monter" style={{ animationDelay: `${i * 70}ms` }}>
+              <li key={s.href} className="anim-monter" style={{ animationDelay: `${i * 70}ms` }}>
                 <Link href={s.href} className="group grid grid-cols-[38%_1fr] h-full bg-creme cadre-affiche overflow-hidden no-underline transition-transform duration-200 hover:-translate-y-1 hover:shadow-[9px_9px_0_#1E140D] motion-reduce:hover:translate-y-0">
                   <span className="relative overflow-hidden border-r-[3px] border-encre">
                     {/* eslint-disable-next-line @next/next/no-img-element */}

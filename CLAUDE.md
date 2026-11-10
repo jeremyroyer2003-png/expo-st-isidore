@@ -2,6 +2,8 @@
 
 Ce fichier est lu automatiquement par Claude Code. Il résume tout ce qui a été décidé avant le début de la programmation.
 
+> **Depuis le 10 novembre 2026** : l'application Next.js (`web/`, branche `rebuild`) remplace peu à peu le site statique `site/`, gardé comme repli (tag `baseline`). Docs : `docs/DEVELOPPEUR.md` et `docs/GUIDE-PERSONNEL.md`. **Aucun déploiement Netlify sans l'approbation explicite de Jérémy.** Stripe en mode test seulement.
+>
 > **Reprise de session** : lire `PROGRESS.md` en premier, il dit où le travail est rendu. À la fin de chaque étape, mettre `PROGRESS.md` à jour et faire un commit Git, pour qu'aucune session perdue ne fasse perdre le fil.
 
 ## Contexte

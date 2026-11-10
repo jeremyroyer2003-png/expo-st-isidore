@@ -2,6 +2,22 @@
 
 Ces informations manquent sur le site. Depuis le 4 novembre 2026, **plus aucun crochet n'est visible au public** (conseil du coach) : chaque trou est remplacé par une phrase neutre (« annoncées au printemps », « appelez le bureau », « on vous rappelle avec le prix »). Une fois la réponse obtenue, remplacer la phrase neutre par la vraie information dans le fichier indiqué.
 
+## Application avec réservations en ligne (ajouté le 10 novembre 2026)
+Les prix ci-dessous sont des **valeurs fictives de départ**, marquées « à confirmer » dans Admin > Prix : le public voit « Prix sur demande » tant qu'un éditeur ne les a pas validées.
+- [ ] Location : prix du palais des commerces (fictif : 1 200 $ le créneau) et du Saloon (fictif : 600 $); créneaux réellement offerts (seed : vendredis et samedis, 17 h à 1 h)
+- [ ] Kiosque intérieur (fictif : 350 $) et prix de départ d'un kiosque extérieur (fictif : 750 $)
+- [ ] Danse : forfait mensuel (75 $, donné en exemple par Jérémy) et forfait saison d'environ 3 mois (fictif : 180 $). La session à 20 $ est confirmée.
+- [ ] Remisage : tarif au pied (fictif : 15 $); le dépôt minimum de 100 $ est confirmé. Comment se paie le solde?
+- [ ] Frais d'annulation : salle (fictif : 50 $), kiosque (fictif : 50 $), remisage (fictif : 25 $); politique d'annulation (délais)
+- [ ] **Plan officiel du palais des commerces** : le plan en ligne est indicatif (36 emplacements de 10 pi × 10 pi, généré)
+- [ ] Capacité des salles (pour l'afficher au calendrier)
+- [ ] Compte Stripe de l'Expo (au nom du comité) pour la mise en ligne; qui reçoit les virements
+- [ ] Noms et courriels des 3 éditeurs et des lecteurs de l'administration
+- [ ] Courriel d'envoi (domaine expobassinchaudiere.com à vérifier dans Resend)
+- [ ] Loi 25 : Supabase, Stripe et Netlify hébergent les données hors Québec. Évaluation des facteurs relatifs à la vie privée et mise à jour de la politique de confidentialité avant la mise en ligne
+- [ ] Photos de la page Facebook : Jérémy les télécharge (droits à confirmer avec chaque photographe) puis les ajoute dans Admin > Médiathèque
+- [ ] Cahier Beauce Média 2010 (archives BAnQ) : copie gardée dans `docs/archives/`, citée dans Notre histoire; ne pas la publier en ligne sans permission
+
 ## Soulevé par la critique de design (4 novembre 2026)
 - [ ] **Délai de réponse** aux demandes (remisage, location, exposants) : « on vous rappelle d'ici 2 jours ouvrables »? Pour l'ajouter aux messages de confirmation et à « Ce qui arrive ensuite » (`remisage.html`, `location.html`)
 - [ ] L'Expo est-elle fermée le **mercredi**? L'horaire 2026 saute du mardi au jeudi (`programmation.html`)

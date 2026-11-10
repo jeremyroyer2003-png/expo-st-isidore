@@ -16,12 +16,14 @@ ode-v26.13.0-win-x64`; base Supabase = **projet gratuit en ligne** (pas Docker);
 Phases (un commit chacune) :
 - [x] 1. Scaffold : Next 16 + TS + Tailwind, schéma SQL avec RLS (`web/supabase/migrations/0001_schema.sql`), seed (`seed.sql`), clients Supabase/Stripe, courriels simulés (boîte d'envoi)
 - [x] 2. Site public : pages converties du site statique (même CSS), programmation animée depuis la base, galerie/vidéos depuis la médiathèque, contact/exposants en actions serveur
-- [ ] 3. Flux de réservation : salles (calendrier libre-service), kiosques intérieurs (plan + approbation), kiosques extérieurs (entente + facture), danse (forfaits), remisage (approbation + dépôt)
-- [ ] 4. Paiements Stripe (test), webhook, page de confirmation
-- [ ] 5. Admin : rôles super_admin / editeur / lecteur, réservations, calendrier, prix, médias, contenu, boîte d'envoi, annulations et remboursements
-- [ ] 6. Finition et docs (développeur + personnel)
+- [x] 3. Flux de réservation : salles (calendrier libre-service), kiosques intérieurs (plan + approbation), kiosques extérieurs (entente + facture), danse (forfaits), remisage (approbation + dépôt)
+- [x] 4. Paiements Stripe (test), webhook, page de confirmation
+- [x] 5. Admin : rôles super_admin / editeur / lecteur, réservations, calendrier, prix, médias, contenu, boîte d'envoi, annulations et remboursements
+- [x] 6. Finition et docs : `docs/DEVELOPPEUR.md`, `docs/GUIDE-PERSONNEL.md`, nouveaux points dans `A-CONFIRMER.md`
 
-Pour tester de bout en bout, Jérémy doit créer un projet Supabase et un compte Stripe (mode test) et remplir `web/.env.local`.
+**Prochaine étape (Jérémy)** : créer un projet Supabase et un compte Stripe en mode test, remplir `web/.env.local`, exécuter la migration et le seed, créer son compte super-admin (`npm run creer-admin`), puis tester chaque flux de bout en bout (voir `docs/DEVELOPPEUR.md`). Rien n'a encore été testé contre une vraie base ni contre Stripe : seuls le typecheck, le lint, le build et le rendu des pages ont été vérifiés.
+
+Notes techniques : le serveur de dev se lance avec `npm run dev` dans `web/` (ajouter Node au PATH si le terminal était ouvert avant l'installation). Captures à 390 px : passer par un iframe (Chrome sans interface impose ~500 px minimum).
 
 ---
 
