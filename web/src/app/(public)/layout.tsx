@@ -1,3 +1,10 @@
+// Feuilles du site statique : chargées seulement pour les pages publiques (pas dans l'admin)
+import "@/styles/base-statique/site.css";
+import "@/styles/base-statique/composants.css";
+import "@/styles/base-statique/pages.css";
+import "@/styles/base-statique/remisage.css";
+import "@/styles/base-statique/theme-grange.css";
+import "@/styles/ajouts.css";
 import Entete from "@/components/site/Entete";
 import Pied from "@/components/site/Pied";
 import Revele from "@/components/site/Revele";

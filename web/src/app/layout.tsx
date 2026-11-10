@@ -1,11 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import "@/styles/base-statique/site.css";
-import "@/styles/base-statique/composants.css";
-import "@/styles/base-statique/pages.css";
-import "@/styles/base-statique/remisage.css";
-import "@/styles/base-statique/theme-grange.css";
-import "@/styles/ajouts.css";
 
 const URL_SITE = process.env.NEXT_PUBLIC_URL_SITE || "http://localhost:3000";
 
@@ -41,7 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preload" href="/fonts/alfa-slab-one-latin-400.woff2" as="font" type="font/woff2" crossOrigin="" />
         <link rel="preload" href="/fonts/barlow-latin-400-normal.woff2" as="font" type="font/woff2" crossOrigin="" />
       </head>
-      <body>{children}</body>
+      <body className="font-corps">{children}</body>
     </html>
   );
 }

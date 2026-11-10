@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+/* Polices locales (Loi 25 : rien de Google). Aussi déclarées dans les feuilles du site public. */
+@font-face{font-family:'Alfa Slab One';font-weight:400;font-display:swap;src:url(/fonts/alfa-slab-one-latin-400.woff2) format('woff2')}
+@font-face{font-family:'Big Shoulders Stencil';font-weight:100 900;font-display:swap;src:url(/fonts/big-shoulders-stencil-latin.woff2) format('woff2')}
+@font-face{font-family:'Barlow';font-weight:400;font-display:swap;src:url(/fonts/barlow-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Barlow';font-weight:600;font-display:swap;src:url(/fonts/barlow-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:'Barlow';font-weight:700;font-display:swap;src:url(/fonts/barlow-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:'Barlow Condensed';font-weight:700;font-display:swap;src:url(/fonts/barlow-condensed-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:'Barlow Condensed';font-weight:800;font-display:swap;src:url(/fonts/barlow-condensed-latin-800-normal.woff2) format('woff2')}
+
 /* Jetons de la direction « Grange & rodéo » (site/css/theme-grange.css fait foi).
    Les feuilles du site statique sont importées après, sans couche : elles gardent la priorité. */
 @theme {

@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  // Téléversement de photos dans la médiathèque (8 Mo au plus, plus l'enveloppe du formulaire)
+  experimental: {
+    serverActions: { bodySizeLimit: "9mb" },
+  },
   images: {
     remotePatterns: [{ protocol: "https", hostname: "*.supabase.co", pathname: "/storage/v1/object/public/**" }],
   },
