@@ -95,7 +95,8 @@ export async function reserverSalle(fd: FormData): Promise<Resultat> {
     }
 
     // Verrou atomique : un seul client peut retenir le créneau (30 min pour payer)
-    const { data: retenu, error: e1 } = await sb.rpc("retenir_creneau", { p_creneau: creneauId, p_minutes: 30 });
+    // 35 min : un peu plus que la session Stripe (30 min), pour qu'un paiement fait à la dernière minute trouve encore la date retenue
+    const { data: retenu, error: e1 } = await sb.rpc("retenir_creneau", { p_creneau: creneauId, p_minutes: 35 });
     if (e1) throw e1;
     if (!retenu) throw new ErreurSaisie("Quelqu'un vient de prendre cette date. Choisissez-en une autre.");
 
