@@ -1,0 +1,151 @@
+-- Données de départ. Généré par un script à partir du site statique; à exécuter après 0001_schema.sql.
+-- Les prix marqués a_confirmer = true sont des valeurs FICTIVES de départ : jamais montrées au public.
+
+insert into public.prix (cle, categorie, libelle, description, montant_cents, unite, a_confirmer, ordre) values
+  ('salle_palais', 'salle', 'Le palais des commerces', 'Location pour un événement (créneau réservé)', 120000, 'créneau', true, 1),
+  ('salle_saloon', 'salle', 'Le Saloon (grange 3)', 'Location pour un événement (créneau réservé)', 60000, 'créneau', true, 2),
+  ('kiosque_interieur', 'kiosque', 'Kiosque intérieur, palais des commerces', 'Emplacement de 10 pi × 10 pi pendant l''Expo', 35000, 'emplacement', true, 1),
+  ('kiosque_exterieur', 'kiosque', 'Kiosque extérieur', 'Terrain extérieur, prix établi selon l''entente', 75000, 'à partir de', true, 2),
+  ('danse_session', 'danse', 'Une session', 'Une soirée de danse country en ligne, de 19 h à 21 h', 2000, 'personne', false, 1),
+  ('danse_mois', 'danse', 'Un mois', 'Toutes les sessions du mois', 7500, 'personne', true, 2),
+  ('danse_saison', 'danse', 'La saison (environ 3 mois)', 'Toutes les sessions de la saison d''été', 18000, 'personne', true, 3),
+  ('remisage_pied', 'remisage', 'Remisage intérieur, par pied de longueur', 'Prix de la saison = longueur × tarif', 1500, 'pied', true, 1),
+  ('remisage_depot_min', 'remisage', 'Dépôt minimum pour garder la place', 'Exigé après l''approbation de la demande', 10000, 'demande', false, 2),
+  ('frais_annulation_salle', 'frais', 'Frais d''annulation, location de salle', 'Retenus sur le remboursement', 5000, 'annulation', true, 1),
+  ('frais_annulation_kiosque', 'frais', 'Frais d''annulation, kiosque', 'Retenus sur le remboursement', 5000, 'annulation', true, 2),
+  ('frais_annulation_remisage', 'frais', 'Frais d''annulation, remisage', 'Retenus sur le remboursement du dépôt', 2500, 'annulation', true, 3);
+
+insert into public.salles (slug, nom, description, cle_prix, ordre) values
+  ('palais', 'Le palais des commerces', 'Grande salle au plafond haut. Pour les grands mariages, les soupers de groupe et les événements d''entreprise. Tables, chaises et ambiance comprises.', 'salle_palais', 1),
+  ('saloon', 'Le Saloon (grange 3)', 'Décor western. Pour les partys de famille, les anniversaires et les soirées qui finissent en danse. Tables, chaises et ambiance comprises.', 'salle_saloon', 2);
+
+-- Créneaux de démonstration : les vendredis et samedis, de 17 h à 1 h, de la fin novembre 2026 à juin 2027.
+-- Le comité les ajuste dans l'admin (Calendrier).
+insert into public.creneaux_salle (salle_id, debut, fin)
+select s.id,
+       (d::date + time '17:00') at time zone 'America/Toronto',
+       (d::date + interval '1 day' + time '01:00') at time zone 'America/Toronto'
+  from public.salles s,
+       generate_series(date '2026-11-20', date '2027-06-26', interval '1 day') d
+ where extract(isodow from d) in (5, 6);
+
+-- Plan INDICATIF du palais des commerces (grille de 24 × 14). À remplacer par le plan officiel.
+insert into public.emplacements_kiosque (code, x, y, largeur, hauteur) values
+  ('A1', 2, 0, 2, 2),
+  ('A2', 4, 0, 2, 2),
+  ('A3', 6, 0, 2, 2),
+  ('A4', 8, 0, 2, 2),
+  ('A5', 10, 0, 2, 2),
+  ('A6', 12, 0, 2, 2),
+  ('A7', 14, 0, 2, 2),
+  ('A8', 16, 0, 2, 2),
+  ('A9', 18, 0, 2, 2),
+  ('A10', 20, 0, 2, 2),
+  ('B1', 2, 12, 2, 2),
+  ('B2', 4, 12, 2, 2),
+  ('B3', 6, 12, 2, 2),
+  ('B4', 8, 12, 2, 2),
+  ('B7', 14, 12, 2, 2),
+  ('B8', 16, 12, 2, 2),
+  ('B9', 18, 12, 2, 2),
+  ('B10', 20, 12, 2, 2),
+  ('C1', 4, 5, 2, 2),
+  ('D1', 4, 7, 2, 2),
+  ('C2', 6, 5, 2, 2),
+  ('D2', 6, 7, 2, 2),
+  ('C3', 8, 5, 2, 2),
+  ('D3', 8, 7, 2, 2),
+  ('C4', 10, 5, 2, 2),
+  ('D4', 10, 7, 2, 2),
+  ('C5', 12, 5, 2, 2),
+  ('D5', 12, 7, 2, 2),
+  ('C6', 14, 5, 2, 2),
+  ('D6', 14, 7, 2, 2),
+  ('C7', 16, 5, 2, 2),
+  ('D7', 16, 7, 2, 2);
+
+-- Programmation 2026 (archive), reprise de site/programmation.html
+insert into public.evenements (annee, jour, heure, titre, lieu, prix, description, categories, ordre) values
+  (2026, '2026-07-14', '19 h', 'Bingo', 'Aréna', 'Payant sur place', 'Plus de 3 000 $ en prix, en argent et en cartes-cadeaux.', array['autres']::text[], 0),
+  (2026, '2026-07-16', '10 h 30', 'Jugement des jeunes éleveurs', 'Tente de jugement', '', '', array['animaux']::text[], 0),
+  (2026, '2026-07-16', '16 h', 'Ouverture des kiosques', 'Aréna', '', '', array['kiosques']::text[], 1),
+  (2026, '2026-07-16', '17 h à 21 h', 'Place de la famille', 'Place de la famille Desjardins', 'Jeux gratuits', 'Jeux gonflables gratuits, mini-golf (payant), maquillage et kiosque de popsicles.', array['famille']::text[], 2),
+  (2026, '2026-07-16', '19 h à minuit', 'Danse country : Winslow Dancers', 'Aréna', '15 $', '', array['spectacles']::text[], 3),
+  (2026, '2026-07-16', '19 h', 'Bar Country', 'Bâtiment 3', '', '', array['autres']::text[], 4),
+  (2026, '2026-07-16', '19 h à 21 h', 'Cinéma extérieur familial', 'Place de la famille Desjardins', 'Gratuit', '', array['famille']::text[], 5),
+  (2026, '2026-07-16', '20 h', 'Show Lex Roses', 'Grand chapiteau', '', '', array['spectacles']::text[], 6),
+  (2026, '2026-07-16', '22 h', 'Feux d''artifice', 'Place de la famille Desjardins', '', '', array['famille', 'spectacles']::text[], 7),
+  (2026, '2026-07-17', '10 h à 21 h', 'Place de la famille', 'Place de la famille Desjardins', 'Jeux gratuits', 'Jeux gonflables gratuits, mini-golf (payant), maquillage et popsicles.', array['famille']::text[], 0),
+  (2026, '2026-07-17', '10 h 30 à 15 h', 'Parcel-O-Champs', 'Grand chapiteau', 'Gratuit', 'Journée parcelle. Dîner inclus pour les participants.', array['kiosques']::text[], 1),
+  (2026, '2026-07-17', '14 h', 'Concours de tonte', 'Tente de jugement', '', '', array['animaux']::text[], 2),
+  (2026, '2026-07-17', '15 h 30', 'Ouverture des kiosques', 'Aréna', '', 'Kiosques intérieurs du palais des commerces.', array['kiosques']::text[], 3),
+  (2026, '2026-07-17', '18 h à minuit', 'Danse country : The Hurricane Dancers', 'Aréna', '15 $', '', array['spectacles']::text[], 4),
+  (2026, '2026-07-17', '18 h 30', 'Tire de tracteurs ASTTQ', 'Terrain de tire', '30 $ adulte', '4x4, Hot Farm, Pro Farm, Pro Stock, Super Stock et semi-remorques. Prix et détails de la tire', array['tire']::text[], 5),
+  (2026, '2026-07-17', '19 h', 'Bar Country', 'Bâtiment 3', '', '', array['autres']::text[], 6),
+  (2026, '2026-07-17', '19 h 30', 'Social de club', 'Bâtiment 3 (grange 9)', '', 'Réservé aux membres des clubs Holstein.', array['animaux']::text[], 7),
+  (2026, '2026-07-17', '21 h à minuit', 'Soirée latino', 'Bâtiment 2 (grange 2)', 'Gratuit', 'Cours de danse, puis soirée.', array['spectacles']::text[], 8),
+  (2026, '2026-07-17', '22 h à minuit', 'Show That''s Hit', 'Grand chapiteau', 'Gratuit', 'Rock des années 60 à 2000.', array['spectacles']::text[], 9),
+  (2026, '2026-07-17', 'Minuit', 'Beach Party D.James', 'Grand chapiteau', 'Gratuit', '', array['spectacles']::text[], 10),
+  (2026, '2026-07-18', '10 h', 'Jugement des bovins laitiers', 'Tente de jugement', '', '', array['animaux']::text[], 0),
+  (2026, '2026-07-18', '10 h à 21 h', 'Place de la famille', 'Place de la famille Desjardins', 'Jeux gratuits', 'Jeux gonflables gratuits, mini-golf (payant), maquillage et popsicles.', array['famille']::text[], 1),
+  (2026, '2026-07-18', '12 h à 18 h', 'Agri''Culture', 'Bâtiment 2 (grange 2)', '', 'Présenté par le Cégep de Lévis.', array['kiosques']::text[], 2),
+  (2026, '2026-07-18', '12 h 30', 'Ouverture des kiosques', 'Aréna', '', '', array['kiosques']::text[], 3),
+  (2026, '2026-07-18', '13 h à 1 h', '12 heures de danse country avec Mathieu Gagné', 'Aréna', '15 $', '', array['spectacles']::text[], 4),
+  (2026, '2026-07-18', '18 h', 'Tire de tracteurs ASTTQ', 'Terrain de tire', '30 $ adulte', '4x4, Hot Farm, Pro Farm, Pro Stock et semi-remorques. Prix et détails de la tire', array['tire']::text[], 5),
+  (2026, '2026-07-18', '18 h à 20 h', 'Dégustation BBQ Grill Together', 'Grand chapiteau', '35 $', 'Une consommation incluse. Profits remis à Entraide-secours.', array['kiosques']::text[], 6),
+  (2026, '2026-07-18', '19 h', 'Bar Country', 'Bâtiment 3', '', '', array['autres']::text[], 7),
+  (2026, '2026-07-18', '20 h', 'La Championne se paie la traite', '', '', 'Pour les éleveurs du jugement, sur invitation.', array['animaux']::text[], 8),
+  (2026, '2026-07-18', '22 h 30 à minuit', 'La Grand-Messe', 'Grand chapiteau', 'Gratuit', 'Hommage aux succès des Cowboys Fringants.', array['spectacles']::text[], 9),
+  (2026, '2026-07-18', 'Minuit à 2 h 30', 'Hit the Road Country', 'Grand chapiteau', 'Gratuit', 'Country et danse en ligne, débutants bienvenus.', array['spectacles']::text[], 10),
+  (2026, '2026-07-19', '10 h à 16 h', 'Place de la famille', 'Place de la famille Desjardins', 'Jeux gratuits', 'Jeux gonflables gratuits, mini-golf (payant), maquillage et popsicles.', array['famille']::text[], 0),
+  (2026, '2026-07-19', '10 h et 13 h', 'Chiens de berger', 'Terrain de tire', 'Gratuit', 'Présentation de travail au troupeau (herding), une heure chaque fois.', array['animaux', 'famille']::text[], 1),
+  (2026, '2026-07-19', '10 h 30', 'Ouverture des kiosques', 'Aréna', '', '', array['kiosques']::text[], 2),
+  (2026, '2026-07-19', '11 h', 'Messe', 'Aréna', 'Gratuit', '', array['autres']::text[], 3),
+  (2026, '2026-07-19', '11 h 30 à 17 h', 'Agri''Culture', 'Bâtiment 2 (grange 2)', '', 'Présenté par le Cégep de Lévis.', array['kiosques']::text[], 4),
+  (2026, '2026-07-19', '11 h 30 à 14 h 30', 'Mascottes', 'Place de la famille Desjardins', '', '', array['famille']::text[], 5),
+  (2026, '2026-07-19', '12 h à 13 h', 'Pique-nique familial', 'Grand chapiteau', '20 $ par famille', '8 hot-dogs, 4 breuvages, 4 desserts et du fromage. Hot-dogs supplémentaires en vente.', array['famille']::text[], 6),
+  (2026, '2026-07-19', '14 h', 'Tire de mini-tracteurs Gérard Larochelle', 'Aréna', 'Inscription payante', '', array['tire', 'famille']::text[], 7);
+
+-- Galerie de départ : photos déjà présentes sur le site (droits à confirmer, voir A-CONFIRMER.md)
+insert into public.medias (chemin, url, alt, categorie, ordre) values
+  ('statique/tire-foule', '/images/photos/tire-foule.webp', 'Tracteur vert qui tire le traîneau devant des estrades remplies, en plein jour', 'tire', 1),
+  ('statique/tire-nuit', '/images/photos/tire-nuit.webp', 'Tracteur vert crachant une fumée noire, le soir, sous les projecteurs', 'tire', 2),
+  ('statique/tire-giroux-express', '/images/photos/tire-giroux-express.webp', 'Giroux Express, John Deere vert de classe Super Stock, en pleine tire', 'tire', 3),
+  ('statique/tire-semi-racicot', '/images/photos/tire-semi-racicot.webp', 'Camion semi Freightliner rouge de Mario Racicot dans un nuage de fumée, au Grand National de St-Hyacinthe (2018)', 'tire', 4),
+  ('statique/tire-semi-nuit', '/images/photos/tire-semi-nuit.webp', 'Camion semi sous les projecteurs, le soir, devant la foule', 'tire', 5),
+  ('statique/tire-pro-farm', '/images/photos/tire-pro-farm.webp', 'Tracteur rouge de classe Pro Farm qui tire, fumée noire, foule en arrière-plan', 'tire', 6),
+  ('statique/tire-rouge', '/images/photos/tire-rouge.webp', 'Tracteur rouge qui avance avec le traîneau, en plein jour', 'tire', 7),
+  ('statique/tire-poussiere', '/images/photos/tire-poussiere.webp', 'Tracteur vert qui soulève la terre de la piste', 'tire', 8),
+  ('statique/tire-modifie', '/images/photos/tire-modifie.webp', 'Tracteur modifié bleu aux roues géantes devant les estrades', 'tire', 9),
+  ('statique/tire-mini', '/images/photos/tire-mini.webp', 'Mini tracteur modifié qui projette de la terre', 'tire', 10),
+  ('statique/tire-pickups', '/images/photos/tire-pickups.webp', 'Pick-up modifié qui tire le traîneau, spectateurs en arrière-plan', 'tire', 11),
+  ('statique/tire-toy-farmer', '/images/photos/tire-toy-farmer.webp', 'Tracteur Toy Farmer en action, fumée noire', 'tire', 12),
+  ('statique/tire-sgt-slaughter', '/images/photos/tire-sgt-slaughter.webp', 'Mini tracteur Sgt. Slaughter, roues avant levées, sous les projecteurs', 'tire', 13),
+  ('statique/holstein-championne', '/images/photos/holstein-championne.webp', 'Éleveuses en blanc avec une vache Holstein primée, devant l''affiche de l''Expo', 'animaux', 14),
+  ('statique/holstein-jugement', '/images/photos/holstein-jugement.webp', 'Éleveurs en blanc qui présentent leurs vaches Holstein dans l''arène', 'animaux', 15),
+  ('statique/holstein-alignement', '/images/photos/holstein-alignement.webp', 'Rangée de vaches Holstein sous le chapiteau, devant le public', 'animaux', 16),
+  ('statique/holstein-rubans', '/images/photos/holstein-rubans.webp', 'Rosettes et rubans de champion alignés sur une table', 'animaux', 17),
+  ('statique/holstein-rosettes', '/images/photos/holstein-rosettes.webp', 'Rosettes de l''Expo St-Isidore, rouge, blanc et bleu', 'animaux', 18),
+  ('statique/jugement-volailles', '/images/photos/jugement-volailles.webp', 'Juge et exposantes discutent près des cages, dans une grange', 'animaux', 19),
+  ('statique/petits-animaux', '/images/photos/petits-animaux.webp', 'Bovin brun et chèvres dans un enclos de la grange des petits animaux', 'animaux', 20),
+  ('statique/spectacle-scene', '/images/photos/spectacle-scene.webp', 'Chanteur sur scène sous des lumières rouges, foule devant', 'soirees', 21),
+  ('statique/spectacle-foule', '/images/photos/spectacle-foule.webp', 'Foule les bras levés devant la scène du grand chapiteau', 'soirees', 22),
+  ('statique/spectacle-chapiteau', '/images/photos/spectacle-chapiteau.webp', 'Chanteuse sur la scène du chapiteau, éclairage de spectacle', 'soirees', 23),
+  ('statique/danse-country', '/images/photos/danse-country.webp', 'Danseurs de country en ligne dans l''aréna décoré', 'soirees', 24),
+  ('statique/chapiteau-foule', '/images/photos/chapiteau-foule.webp', 'Foule dense sous le grand chapiteau blanc', 'soirees', 25),
+  ('statique/chapiteau-public', '/images/photos/chapiteau-public.webp', 'Messe du dimanche sous le grand chapiteau, public assis', 'soirees', 26),
+  ('statique/soiree-saloon', '/images/photos/soiree-saloon.webp', 'Façade de saloon illuminée, le soir, avec des visiteurs', 'soirees', 27),
+  ('statique/kiosques-interieurs', '/images/photos/kiosques-interieurs.webp', 'Allée de kiosques intérieurs animée dans le palais des commerces', 'kiosques', 28),
+  ('statique/machinerie-exterieure', '/images/photos/machinerie-exterieure.webp', 'Allée de machinerie agricole neuve exposée à l''extérieur', 'kiosques', 29),
+  ('statique/kiosques-exterieurs', '/images/photos/kiosques-exterieurs.webp', 'Tentes et machinerie colorée sous les arbres', 'kiosques', 30),
+  ('statique/agroalimentaire', '/images/photos/agroalimentaire.webp', 'Exposante qui présente ses produits à un kiosque agroalimentaire', 'kiosques', 31),
+  ('statique/kiosques-allee', '/images/photos/kiosques-allee.webp', 'Longue allée de kiosques intérieurs, vue en hauteur', 'kiosques', 32);
+
+insert into public.contenus (cle, libelle, valeur) values
+  ('accueil_annonce', 'Accueil : bandeau d''annonce (vide = caché)', ''),
+  ('danse_horaire', 'Danse : horaire', 'Grange 2, de 19 h à 21 h, l''été.'),
+  ('danse_dates', 'Danse : dates de la saison', 'Les dates sont annoncées sur Facebook et au bureau, au 418 882-5649.'),
+  ('location_avis', 'Location : phrase sous le calendrier', 'Tables, chaises et ambiance comprises. Une date qui n''apparaît pas? Appelez le bureau au 418 882-5649.'),
+  ('kiosques_intro', 'Kiosques intérieurs : introduction', 'Choisissez un emplacement sur le plan du palais des commerces, puis envoyez votre demande. L''emplacement vous est confirmé à l''approbation, avec le lien de paiement.'),
+  ('kiosques_exterieurs_intro', 'Kiosques extérieurs : introduction', 'Machinerie, véhicules, grands kiosques : le terrain extérieur se réserve avec le comité. Envoyez votre demande, on vous appelle pour préparer l''entente.'),
+  ('remisage_saison', 'Remisage : saison en cours', '2026-2027');

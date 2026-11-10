@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+/* Jetons de la direction « Grange & rodéo » (site/css/theme-grange.css fait foi).
+   Les feuilles du site statique sont importées après, sans couche : elles gardent la priorité. */
+@theme {
+  --color-creme: #F3EAD8;
+  --color-kraft: #E8D9BA;
+  --color-planche: #2A1D14;
+  --color-planche-2: #3B2A1E;
+  --color-encre: #1E140D;
+  --color-rouge: #8E2A1E;
+  --color-rouge-fonce: #6E1F15;
+  --color-moutarde: #D9A441;
+  --color-olive: #8A9A4B;
+  --color-olive-fonce: #4F5A24;
+  --color-jean: #6A97A3;
+  --color-jean-fonce: #2F5C68;
+  --color-rouille: #C8622A;
+  --color-gris-brun: #5C4A39;
+  --font-affiche: "Alfa Slab One", Georgia, serif;
+  --font-pochoir: "Big Shoulders Stencil", "Barlow Condensed", sans-serif;
+  --font-corps: "Barlow", system-ui, sans-serif;
+  --font-etiquette: "Barlow Condensed", "Barlow", sans-serif;
+  --shadow-affiche: 6px 6px 0 #1E140D;
+  --shadow-affiche-sm: 3px 3px 0 #1E140D;
+}
+
+/* Cadre d'affiche réutilisable par les nouveaux composants (calendrier, plan, admin) */
+@utility cadre-affiche {
+  border: 3px solid var(--color-encre);
+  box-shadow: var(--shadow-affiche);
+  border-radius: 3px;
+}
+
+/* Apparition au défilement des nouveaux blocs (les anciens utilisent .revele) */
+@keyframes monter {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes glisser-gauche {
+  from { opacity: 0; transform: translateX(32px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes glisser-droite {
+  from { opacity: 0; transform: translateX(-32px); }
+  to { opacity: 1; transform: none; }
+}
+.anim-monter { animation: monter .45s cubic-bezier(.2,.7,.2,1) both; }
+.anim-mois-suivant { animation: glisser-gauche .35s cubic-bezier(.2,.7,.2,1) both; }
+.anim-mois-precedent { animation: glisser-droite .35s cubic-bezier(.2,.7,.2,1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-monter, .anim-mois-suivant, .anim-mois-precedent { animation: none; }
+  *, *::before, *::after { transition-duration: .01ms !important; }
+}

@@ -1,0 +1,542 @@
+/* =========================================================
+   Thème « Grange & rodéo »
+   Chargé APRÈS les autres feuilles : il ne fait que redéfinir.
+   Pour revenir au thème « plein été », retirer la ligne
+   <link rel="stylesheet" href="css/theme-grange.css"> des pages.
+   ========================================================= */
+
+/* ---------- Polices d'affiche (hébergées localement, Loi 25) ---------- */
+@font-face{font-family:'Alfa Slab One';font-weight:400;font-style:normal;font-display:swap;src:url(/fonts/alfa-slab-one-latin-400.woff2) format('woff2')}
+@font-face{font-family:'Rye';font-weight:400;font-style:normal;font-display:swap;src:url(/fonts/rye-latin-400.woff2) format('woff2')}
+
+/* ---------- Palette : bois, crème, rouge grange, moutarde ---------- */
+:root{
+  --marine-fonce:#2A1D14;  /* brun planche foncé */
+  --marine:#3B2A1E;        /* brun planche */
+  --nuit:#1E140D;          /* encre brune (texte) */
+  --nuit-2:#160F09;
+  --orange:#C8622A;        /* rouille */
+  --jaune:#D9A441;         /* moutarde */
+  --vert:#8A9A4B;          /* foin, olive */
+  --bleu:#6A97A3;          /* jean délavé */
+  --rouge:#8E2A1E;         /* rouge grange : bouton principal */
+  --rouge-vif:#A8321F;
+  --creme:#F3EAD8;
+  --orange-fonce:#8E2A1E;
+  --orange-titre:#8E2A1E;
+  --bleu-pied:#2A1D14;
+  --papier:#F3EAD8;        /* crème */
+  --papier-2:#E8D9BA;      /* papier kraft */
+  --texte-clair:#5A4636;
+  --lien:#8E2A1E;
+  --trait-nuit:#5A4636;
+  --texte-nuit:#E8DCC6;
+  --affiche:'Alfa Slab One', Rockwell, 'Roboto Slab', Georgia, serif;
+  --western:'Rye', 'Alfa Slab One', Georgia, serif;
+  --ombre-affiche:6px 6px 0 var(--nuit);
+  /* Planches de grange : bandes verticales très discrètes */
+  --planches:repeating-linear-gradient(90deg,rgba(0,0,0,0) 0 118px,rgba(0,0,0,.22) 118px 120px,rgba(255,255,255,.025) 120px 122px);
+}
+html{font-synthesis:none}
+body{background-color:var(--papier);color:var(--nuit)}
+a:hover{color:var(--rouge-vif)}
+::selection{background:var(--jaune);color:var(--nuit)}
+:focus-visible{outline-color:var(--rouge)}
+
+/* Grain de papier, très léger, sur les sections claires */
+.section-papier,.section-papier-2{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .25 0 0 0 0 .15 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E")}
+
+/* ---------- Grands titres : lettrage d'affiche de rodéo ---------- */
+.titre-affiche,.heros__titre,.une__titre,.porte h3,.nouveaute__texte h3,.choix__texte h3,
+.archives__citation,.annees strong,.salle__texte h3,.galerie-section__titre h2,.jour__titre,
+.merci h3,.ligne-temps__date,.personnes--vedette strong,.tarifs__liste dd,.legal h2,
+.venir__adresse,.chiffres dd{
+  font-family:var(--affiche);font-style:normal;font-weight:400;letter-spacing:.005em;
+}
+.titre-affiche{font-size:clamp(36px,4.6vw,64px);line-height:1}
+.une__titre{font-size:clamp(42px,6.4vw,100px);line-height:.95;text-shadow:0 3px 0 rgba(0,0,0,.35)}
+.heros__titre{font-size:clamp(44px,6vw,84px);line-height:.95}
+.heros__titre .contour{font-size:clamp(70px,9vw,124px);-webkit-text-stroke:2px var(--jaune)}
+.porte h3,.choix__texte h3{font-size:clamp(30px,3.2vw,46px);line-height:1}
+.porte--remisage h3{font-size:clamp(38px,4.2vw,62px)}
+.nouveaute__texte h3{font-size:clamp(32px,3.6vw,52px);line-height:1}
+.annees strong{font-size:clamp(34px,3.4vw,50px)}
+.archives__citation{font-size:clamp(30px,3.8vw,50px);line-height:1.05}
+.salle__texte h3{font-size:clamp(26px,2.6vw,36px)}
+.venir__adresse{font-size:clamp(24px,2.4vw,32px)}
+.chiffres dd{font-size:40px}
+.ligne-temps__date{font-size:36px}
+.tarifs__liste dd{font-size:32px}
+.merci h3{font-size:36px}
+.legal h2{font-size:26px}
+.galerie-section__titre h2{font-size:clamp(28px,3.4vw,44px)}
+.jour__titre{font-size:32px}
+.personnes--vedette strong{font-size:26px}
+
+/* Petits titres en lettres condensées, droites (pas d'italique) */
+.surtitre,.porte__saison,.choix__onglet,.nav,.menu-bouton,.choix__quand,.billet,
+.liste-questions dt,.onglet__jour,.evenement__heure,.filtre,.etiquette{font-style:normal}
+.surtitre,.porte .porte__saison{font-family:var(--western);font-weight:400;letter-spacing:.04em;text-transform:none;font-size:19px}
+
+/* ---------- Boutons : rouge grange, coins carrés ---------- */
+.bouton{border-radius:3px;font-family:var(--titre);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:18px}
+.bouton--orange{background:var(--rouge);color:var(--creme);box-shadow:0 3px 0 var(--nuit)}
+.bouton--orange:hover{background:var(--rouge-vif);color:var(--creme)}
+.bouton--marine{background:var(--nuit);color:var(--creme)}
+.bouton--marine:hover{background:var(--rouge);color:var(--creme)}
+.bouton--contour{box-shadow:inset 0 0 0 2px var(--creme);color:var(--creme)}
+.bouton--contour:hover{background:var(--creme);color:var(--nuit)}
+.bouton--blanc{background:var(--creme);color:var(--nuit)}
+.bouton:active{transform:translateY(2px)}
+
+/* ---------- En-tête : crème, double filet brun ---------- */
+.entete{background:var(--papier);border-bottom:3px solid var(--nuit);box-shadow:0 3px 0 var(--papier),0 5px 0 var(--nuit)}
+.entete.est-defile{box-shadow:0 3px 0 var(--papier),0 5px 0 var(--nuit),0 12px 24px rgba(30,20,13,.18)}
+.nav a{color:var(--nuit)}
+.nav a:not(.nav__remisage)::after{background:var(--rouge)}
+.nav a[aria-current="page"]{color:var(--rouge)}
+.nav .nav__remisage{background:var(--rouge);color:var(--creme);border-radius:3px}
+.nav .nav__remisage:hover{background:var(--rouge-vif);color:var(--creme)}
+.nav .nav__remisage[aria-current="page"]{background:var(--nuit);color:var(--creme)}
+.menu-bouton{background:var(--nuit);color:var(--creme);border-radius:3px}
+@media (max-width:1240px){.nav a{border-top-color:#D8C7A4}}
+
+/* ---------- Sections foncées : planches de grange ---------- */
+.section-nuit,.heros,.porte--remisage{background-color:var(--marine-fonce);background-image:var(--planches)}
+.une{background:var(--nuit)}
+.une::before{background:linear-gradient(90deg,rgba(30,20,13,.9) 0%,rgba(30,20,13,.62) 45%,rgba(30,20,13,.1) 80%),linear-gradient(0deg,rgba(30,20,13,.75) 0%,rgba(30,20,13,0) 42%)}
+@media (max-width:760px){.une::before{background:linear-gradient(0deg,rgba(30,20,13,.94) 0%,rgba(30,20,13,.72) 50%,rgba(30,20,13,.25) 100%)}}
+.une__titre span,.heros__titre .jaune,.section-nuit .titre-affiche span{color:var(--jaune)}
+.une__intro,.heros__intro{color:var(--texte-nuit)}
+.une__point[aria-current="true"]::before{background:var(--jaune)}
+
+/* Billet « Entrée gratuite | depuis 1983 » : moutarde, lettrage western */
+.billet{background:var(--jaune);color:var(--nuit);border-radius:2px;font-family:var(--western);font-weight:400;text-transform:none;letter-spacing:.02em;box-shadow:0 3px 0 var(--nuit)}
+
+/* ---------- Bandeau défilant : rouge grange, étoiles ---------- */
+.bandeau{background:var(--rouge);color:var(--creme);border-top:3px solid var(--nuit);border-bottom:3px solid var(--nuit)}
+.bandeau__piste{font-family:var(--western);font-style:normal;font-weight:400;text-transform:none;font-size:clamp(24px,2.4vw,32px)}
+.bandeau svg{display:none}
+.bandeau__groupe li::after{content:"★";color:var(--jaune);font-family:var(--texte);font-size:.7em}
+
+/* ---------- Cartes : cadres d'affiche avec ombre décalée ---------- */
+.porte,.nouveaute,.choix__panneau,.salle,.billet-remisage,.annees li{border-radius:4px;border:3px solid var(--nuit);box-shadow:var(--ombre-affiche)}
+.portes{gap:22px}
+.nouveaute{margin-top:22px;background:var(--rouge);color:var(--creme)}
+.nouveaute__etiquette{background:var(--jaune);color:var(--nuit)}
+.nouveaute .bouton--marine{background:var(--creme);color:var(--nuit)}
+.nouveaute .bouton--marine:hover{background:var(--jaune)}
+.porte--remisage .porte__saison{color:var(--jaune)}
+.porte__faits dd{color:var(--jaune)}
+.porte__photo,.nouveaute__photo,.choix__photo{border-right:3px solid var(--nuit)}
+@media (max-width:900px){.porte__photo,.nouveaute__photo,.choix__photo{border-right:0;border-bottom:3px solid var(--nuit)}}
+
+/* Onglets « Six jours » : étiquettes de concours */
+.choix__onglet{border-radius:3px;background:var(--papier);box-shadow:inset 0 0 0 2px var(--nuit);color:var(--nuit)}
+.choix__onglet[aria-selected="true"]{background:var(--c);box-shadow:inset 0 0 0 2px var(--nuit),0 3px 0 var(--nuit)}
+.choix__onglet--marine[aria-selected="true"],.choix__panneau.c-marine{color:var(--creme)}
+.choix__liste li{border-top-color:rgba(30,20,13,.25)}
+
+/* Grandes dates */
+.annees li{border-radius:4px}
+.annees .c-marine{color:var(--creme)}
+
+/* Photos : tirages crème, légère chaleur pour unifier les sources */
+.tirage,.archive-photo__papier{background:#FBF5E9}
+.mosaique li{border-radius:3px;border:3px solid var(--nuit)}
+.mosaique img,.choix__photo img,.porte__photo img,.salle__photo img,.venir__photo img{filter:sepia(.12) saturate(1.05)}
+.mosaique span{background:var(--rouge);color:var(--creme);font-family:var(--western);font-weight:400;text-transform:none}
+.venir__photo{border-radius:4px;border:3px solid var(--nuit);box-shadow:var(--ombre-affiche)}
+.archive-photo__ruban{background:rgba(217,164,65,.85)}
+
+/* Billet de remisage, formulaires et encadrés */
+.billet-remisage{background:#FBF5E9}
+.salle{background:var(--papier-2)}
+.formulaire input,.formulaire select,.formulaire textarea{background:#FFFCF5;border-color:#8A7358}
+
+/* ---------- Pied de page : planches foncées ---------- */
+.pied{background-color:var(--nuit);background-image:var(--planches);border-top:5px solid var(--rouge)}
+.pied a:hover{color:var(--jaune)}
+.pied__bloc strong{font-family:var(--western);font-weight:400;text-transform:none;letter-spacing:.02em}
+.pied__bas{border-top-color:rgba(232,220,198,.25)}
+
+/* ---------- Pages intérieures : héros sur planches ---------- */
+.heros--photo{background:linear-gradient(90deg,rgba(30,20,13,.92) 0%,rgba(30,20,13,.72) 45%,rgba(30,20,13,.15) 100%),url(/images/photos/tire-foule.webp) center/cover no-repeat}
+@media (max-width:600px){.heros--photo{background:linear-gradient(180deg,rgba(30,20,13,.55) 0%,rgba(30,20,13,.92) 55%),url(/images/photos/tire-foule-800.webp) center top/cover no-repeat}}
+
+/* ---------- Téléphone : le lettrage d'affiche est large, on le resserre ---------- */
+.heros__titre,.une__titre,.titre-affiche{overflow-wrap:break-word}
+@media (max-width:600px){
+  .heros__titre{font-size:clamp(28px,8.2vw,44px)}
+  .heros__titre .contour{font-size:clamp(40px,12vw,70px)}
+  .une__titre{font-size:clamp(32px,9.4vw,46px)}
+  .titre-affiche{font-size:clamp(28px,8vw,40px)}
+  .chiffres dd{font-size:26px}
+  .billet{font-size:15px}
+  .porte h3,.choix__texte h3,.nouveaute__texte h3{font-size:clamp(26px,7.6vw,34px)}
+  .annees strong{font-size:30px}
+}
+@media (max-width:900px){.porte--remisage{align-items:stretch}}
+.heros--page .heros__titre{font-size:clamp(40px,4vw,56px)}
+@media (max-width:600px){.heros--page .heros__titre{font-size:clamp(26px,7.6vw,40px)}}
+
+/* =========================================================
+   Formulaires et horaire : même monde que la vitrine
+   (cartes d'inscription de concours, cocardes, talons de billet)
+   ========================================================= */
+
+/* Étapes du formulaire : fiches d'inscription */
+.etape{background:#FBF6EC;border:3px solid var(--nuit);border-radius:4px;box-shadow:var(--ombre-affiche)}
+.etape__titre{font-family:var(--affiche);font-style:normal;font-weight:400;text-transform:uppercase;font-size:clamp(24px,2.4vw,30px);letter-spacing:.01em;color:var(--nuit)}
+/* Numéro d'étape : cocarde de concours (rond rouge, double anneau) */
+.etape__num{background:var(--rouge);color:var(--creme);font-family:var(--affiche);font-size:24px;box-shadow:0 0 0 3px #FBF6EC,0 0 0 5px var(--rouge)}
+
+/* Champs */
+.champ input,.champ textarea,.champ select,.champ__unite input{border:2px solid #8A7358;border-radius:3px;background:#FFFCF5;color:var(--nuit)}
+.champ input:hover,.champ textarea:hover,.champ select:hover{border-color:var(--nuit)}
+.champ input:focus,.champ textarea:focus,.champ select:focus,.champ__unite input:focus{border-color:var(--rouge);outline:3px solid rgba(142,42,30,.22);outline-offset:0}
+.champ input[aria-invalid="true"],.champ select[aria-invalid="true"],.champ textarea[aria-invalid="true"],.champ__unite input[aria-invalid="true"]{border-color:var(--rouge);background:#FBEDE8}
+.champ__erreur{color:var(--rouge)}
+::placeholder{color:#76604B;opacity:1;font-weight:400}
+.champ__unite input::placeholder{font-weight:400}
+.consentement input{accent-color:var(--rouge)}
+.champ__etiquette{color:var(--nuit)}
+
+/* Cartes de véhicule : étiquettes d'inscription */
+.choix__carte{border:2px solid #8A7358;border-radius:3px;background:#FFFCF5}
+.choix__carte::after{border:2px solid var(--nuit);border-radius:2px;background:#FFFCF5}
+.choix__nom{font-style:normal;font-weight:800;color:var(--nuit);letter-spacing:.01em}
+.choix__ex{color:var(--texte-clair)}
+.choix:hover .choix__carte{border-color:var(--nuit)}
+.choix input:checked + .choix__carte{border:2px solid var(--nuit);background:var(--jaune);box-shadow:4px 4px 0 var(--nuit);transform:rotate(-1deg)}
+.choix input:checked + .choix__carte::after{border:2px solid var(--nuit);background:var(--nuit);box-shadow:inset 0 0 0 3px var(--jaune)}
+.choix input:focus-visible + .choix__carte{outline:3px solid var(--rouge);outline-offset:3px}
+
+/* Pieds / mètres : interrupteur à deux cases carrées */
+.unites__choix span{border:2px solid var(--nuit);border-radius:3px;background:#FFFCF5;font-style:normal;color:var(--nuit)}
+.unites__choix input:checked + span{background:var(--nuit);border-color:var(--nuit);color:var(--creme)}
+.unites__choix input:focus-visible + span{outline:3px solid var(--rouge)}
+.dimension-ligne .champ__etiquette{font-style:normal;font-weight:800;color:var(--nuit)}
+.dimensions,.dimension-ligne{border-color:#D8C7A4}
+.champ__unite span{color:var(--texte-clair)}
+
+/* Encadré du prix : plus de bordure de côté, une note simple sous un filet pointillé */
+.avis-mesure{border-left:0;border-top:2px dashed #B39B78;border-radius:0;background:none;padding:14px 0 0;color:var(--texte-clair)}
+
+/* Billet résumé */
+.resume,.resume__ligne--prix{border-color:#B39B78}
+.resume dt,.resume__avis{color:var(--texte-clair)}
+.resume dd{font-style:normal;color:#76604B}
+.resume dd.est-rempli{color:var(--nuit)}
+/* Tampon « Demande reçue » : encre rouge grange */
+.tampon{border:4px solid var(--rouge);border-radius:3px;color:var(--rouge);font-family:var(--affiche);font-style:normal;font-weight:400;background:rgba(251,246,236,.88)}
+
+/* Message de confirmation */
+.merci{background-color:var(--marine-fonce);background-image:var(--planches);border:3px solid var(--nuit);border-radius:4px;box-shadow:var(--ombre-affiche)}
+.merci h3{font-style:normal;color:var(--jaune)}
+.merci a{color:var(--jaune)}
+.merci .bouton{background:var(--creme);color:var(--nuit)}
+
+/* ---------- Horaire : talons de billet et étiquettes ---------- */
+.onglet{border:2px solid var(--nuit);border-radius:3px;background:#FFFCF5;color:var(--nuit);position:relative}
+.onglet__jour{font-family:var(--affiche);font-style:normal;font-weight:400;font-size:22px}
+.onglet[aria-selected="true"]{background:var(--rouge);border-color:var(--nuit);color:var(--creme);box-shadow:4px 4px 0 var(--nuit)}
+.onglet[aria-selected="true"] .onglet__date{color:#F3DCCF}
+.onglet:focus-visible,.filtre:focus-visible{outline:3px solid var(--rouge)}
+.filtre{border:2px solid var(--nuit);border-radius:3px;background:#FFFCF5;color:var(--nuit);font-style:normal}
+.filtre[aria-pressed="true"]{background:var(--jaune);border-color:var(--nuit);box-shadow:3px 3px 0 var(--nuit)}
+.evenement__heure{font-family:var(--affiche);font-style:normal;font-weight:400;font-size:26px;color:var(--nuit)}
+.evenement__prix--gratuit{color:#4F5D22}
+.etiquette{border-radius:2px;border:1px solid rgba(30,20,13,.35)}
+.etiquette--spectacles{background:#F1CDB6}
+.etiquette--animaux{background:#D9DDB8}
+.etiquette--famille{background:#CFE0E4}
+.etiquette--tire{background:#F1DCA8}
+.avis-bandeau{border-radius:4px;box-shadow:var(--ombre-affiche)}
+.avis-bandeau strong{font-family:var(--affiche);font-style:normal;font-weight:400}
+
+/* =========================================================
+   Ton « foire agricole » : le western (Rye) seulement pour le
+   Saloon, la danse country et le rodéo; ailleurs, le pochoir
+   des sacs de moulée et des caisses de ferme.
+   ========================================================= */
+@font-face{font-family:'Big Shoulders Stencil';font-weight:100 900;font-style:normal;font-display:swap;src:url(/fonts/big-shoulders-stencil-latin.woff2) format('woff2')}
+:root{--pochoir:'Big Shoulders Stencil','Alfa Slab One',Georgia,sans-serif}
+
+.surtitre,.billet,.bandeau__piste,.mosaique span,.pied__bloc strong{font-family:var(--pochoir);font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+.surtitre{font-size:22px}
+.billet{font-size:21px}
+.bandeau__piste{font-size:clamp(30px,3.2vw,42px);letter-spacing:.04em}
+.pied__bloc strong{font-size:21px}
+.mosaique span{font-size:18px}
+@media (max-width:600px){.billet{font-size:17px}}
+
+/* Western réservé : danse country, rodéo, le Saloon */
+.porte--danse:not(.porte--location) h3,.nouveaute__texte h3,.salles .salle:last-child h3{font-family:var(--western);text-transform:none;letter-spacing:0}
+.porte--danse:not(.porte--location) h3{font-size:clamp(32px,3.4vw,48px)}
+.nouveaute__texte h3{font-size:clamp(32px,3.6vw,50px)}
+
+/* Séparateurs du bandeau : losanges moutarde dessinés (plus de glyphe ★) */
+.bandeau__groupe li::after{content:"";width:12px;height:12px;background:var(--jaune);transform:rotate(45deg);flex:none;font-size:0}
+
+/* Grandes dates : chaque carte porte sa cocarde de concours */
+.annees li{position:relative}
+.annees li::after{content:"";position:absolute;top:-16px;right:16px;width:42px;height:42px;border-radius:50%;
+  background:radial-gradient(circle,var(--c) 0 30%,var(--nuit) 31% 36%,transparent 37%),repeating-conic-gradient(var(--nuit) 0 9deg,#FBF6EC 9deg 18deg);
+  box-shadow:0 0 0 2px var(--nuit)}
+.annees li::before{content:"";position:absolute;top:18px;right:24px;width:26px;height:30px;background:var(--rouge);clip-path:polygon(0 0,100% 0,100% 100%,50% 78%,0 100%);border:0}
+.annees li > *{position:relative;z-index:1}
+
+/* =========================================================
+   Téléphone et robustesse (adapt + harden)
+   ========================================================= */
+/* Message d'erreur sous le champ fautif */
+.champ__erreur--champ{margin:6px 0 0;font-size:15px}
+.dimension-ligne + .champ__erreur--champ{margin:-4px 0 10px}
+.consentement + .champ__erreur--champ{margin-top:8px}
+
+/* Mini-billet : invisible sur ordinateur (le vrai billet suit la page) */
+.mini-billet{display:none}
+@media (max-width:980px){
+  .mini-billet{display:flex;flex-wrap:wrap;align-items:center;gap:4px 14px;position:sticky;bottom:10px;z-index:20;padding:10px 14px;
+    background:#FBF6EC;border:3px solid var(--nuit);border-radius:4px;box-shadow:4px 4px 0 var(--nuit),0 -8px 24px rgba(30,20,13,.15);
+    font-family:var(--titre);font-weight:800;text-transform:uppercase;font-size:17px;line-height:1.2;color:var(--nuit)}
+  .mini-billet__ligne{min-width:0}
+  .mini-billet [data-resume]:not(.est-rempli){color:#76604B}
+  .mini-billet__etat{margin-left:auto;padding:4px 10px;border:2px dashed var(--nuit);border-radius:2px;background:var(--jaune);white-space:nowrap}
+  .mini-billet__etat.est-pret{background:var(--rouge);color:var(--creme);border-style:solid}
+}
+
+/* Horaire sur téléphone : les six jours visibles, sur deux rangées */
+@media (max-width:600px){
+  .onglets{flex-wrap:wrap;overflow:visible;margin:0 0 8px;padding:0 0 6px}
+  .onglet{flex:1 1 calc(33.333% - 8px);min-width:0;padding:8px 10px}
+  .onglet__jour{font-size:19px}
+}
+/* Onglets « Six jours » de l'accueil : un fondu à droite montre qu'on peut glisser */
+@media (max-width:600px){
+  .choix__onglets{-webkit-mask-image:linear-gradient(90deg,#000 82%,transparent);mask-image:linear-gradient(90deg,#000 82%,transparent);padding-right:40px}
+}
+
+/* Distill : le moulinet quatre couleurs volait l'attention au bouton principal; retiré dans ce thème */
+.moulinet{display:none}
+
+/* =========================================================
+   Layout : location (formulaire + « Ce qui arrive ensuite »),
+   longueur de ligne, citation
+   ========================================================= */
+.demande-salle{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:48px;align-items:start}
+.demande-salle > form,.demande-salle > .merci{grid-column:1;grid-row:1}
+.demande-salle > .ensuite{grid-column:2;grid-row:1;position:sticky;top:124px}
+.ensuite{padding:26px 26px 22px;background-color:var(--marine-fonce);background-image:var(--planches);color:var(--texte-nuit);border:3px solid var(--nuit);border-radius:4px;box-shadow:var(--ombre-affiche)}
+.ensuite h3{margin:0 0 16px;font-family:var(--affiche);font-weight:400;text-transform:uppercase;font-size:24px;line-height:1.05;color:var(--jaune)}
+.ensuite ol{list-style:none;margin:0;padding:0;counter-reset:etape;display:flex;flex-direction:column;gap:16px}
+.ensuite li{counter-increment:etape;position:relative;padding-left:50px;min-height:36px;font-size:16px;line-height:1.45}
+.ensuite li::before{content:counter(etape);position:absolute;left:2px;top:-2px;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--rouge);color:var(--creme);font-family:var(--affiche);font-size:18px;box-shadow:0 0 0 2px var(--marine-fonce),0 0 0 4px var(--rouge)}
+.ensuite strong{color:var(--creme)}
+.ensuite p{margin:18px 0 0;padding-top:14px;border-top:1px dashed var(--trait-nuit);font-size:15px}
+.ensuite a{color:var(--jaune)}
+@media (max-width:980px){
+  .demande-salle{grid-template-columns:minmax(0,1fr);gap:28px}
+  .demande-salle > form,.demande-salle > .merci,.demande-salle > .ensuite{grid-column:1;grid-row:auto;position:static}
+}
+
+/* Lignes de texte trop longues dans les FAQ (106 caractères relevés) */
+.liste-questions dd{max-width:68ch}
+/* Citation de l'histoire : pleine encre, plus l'air désactivée */
+.archives__citation,.archives__citation p{color:var(--nuit)}
+
+/* =========================================================
+   Corrections mineures (critique du 4 novembre 2026)
+   ========================================================= */
+/* Survol de lien sur fond moutarde : 3,0:1 relevé; l'encre brune garde 8:1 */
+.c-jaune a:not(.bouton):hover,.avis-bandeau a:not(.bouton):hover,.billet a:hover{color:var(--nuit)}
+/* « D'HIVER » en lettres contour : difficile à lire en basse vision; lettres pleines */
+.heros__titre .contour{color:var(--jaune);-webkit-text-stroke:0}
+/* Mots seuls en fin de paragraphe et titres mal équilibrés */
+p,dd,li,figcaption{text-wrap:pretty}
+h1,h2,h3,h4,.titre-affiche{text-wrap:balance}
+/* Pastilles de « Venir à l'Expo » : une seule couleur, elles ne codaient rien */
+.venir__faits li::before{background:var(--rouge)}
+/* Bandeau défilant : il s'arrête quand on le survole ou qu'on y place le focus */
+.bandeau:hover .bandeau__piste,.bandeau:focus-within .bandeau__piste{animation-play-state:paused}
+/* Hiérarchie des tailles sur téléphone : écarts plus francs entre h2, h3 et texte */
+@media (max-width:600px){
+  .titre-affiche{font-size:clamp(31px,9vw,40px)}
+  .porte h3,.choix__texte h3,.salle__texte h3{font-size:clamp(23px,6.4vw,28px)}
+  .porte--danse:not(.porte--location) h3,.nouveaute__texte h3{font-size:clamp(25px,7vw,30px)}
+}
+
+/* =========================================================
+   Ronde 2 (2e critique, 5 novembre 2026)
+   ========================================================= */
+/* Cartes de véhicule : un seul choix = un indicateur ROND (le carré faisait « case à cocher ») */
+.choix__carte::after{border-radius:50%}
+/* Focus clavier : pointillé brun, pour ne pas ressembler à une erreur (rouge) ni à un choix */
+.choix input:focus-visible + .choix__carte{outline:3px dashed var(--nuit);outline-offset:4px}
+/* Téléphone : deux cartes par rangée, plus compactes (6 cartes = 3 rangées au lieu de 6) */
+@media (max-width:600px){
+  .choix-grille{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .choix__carte{min-height:76px;padding:10px 34px 10px 12px}
+  .choix__carte::after{top:12px;right:10px;margin-top:0;width:18px;height:18px}
+  .choix__nom{font-size:20px}
+  .choix__ex{font-size:13px;line-height:1.25}
+  .etape__titre{font-size:21px;gap:10px}
+  .etape__num{width:40px;height:40px;font-size:20px}
+  .mini-billet{font-size:15px;padding:8px 12px;bottom:8px}
+}
+/* Location : trois cartes de salle, « Ce qui arrive ensuite » en bande sous le formulaire */
+.choix-grille--salles{grid-template-columns:repeat(3,minmax(0,1fr));margin:8px 0 4px}
+#etiquette-salle{margin:0 0 4px}
+.salle__texte .bouton{align-self:flex-start;margin-top:6px}
+.ensuite--bande{margin-top:40px;position:static}
+.ensuite--bande ol{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px 28px}
+@media (max-width:900px){.ensuite--bande ol{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:600px){.choix-grille--salles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* Un seul rôle par police : tous les titres de cartes en lettrage d'affiche (Alfa Slab),
+   le western Rye ne reste que dans les petits billets et étiquettes du rodéo */
+.porte--danse:not(.porte--location) h3,.nouveaute__texte h3,.salles .salle:last-child h3{font-family:var(--affiche);text-transform:uppercase;letter-spacing:.005em}
+.porte--danse:not(.porte--location) h3{font-size:clamp(30px,3.2vw,46px)}
+.nouveaute__etiquette{font-family:var(--western);font-weight:400;text-transform:none;letter-spacing:.02em}
+/* Pas de mots d'affiche criés au milieu d'une phrase */
+.avis-bandeau p strong{font-family:inherit;font-weight:700;text-transform:none;font-size:inherit;letter-spacing:0}
+/* Horaire : l'archive 2026 parle moins fort que l'annonce 2027; heures jamais coupées */
+.titre-archive{font-size:clamp(26px,3vw,40px)}
+.evenement__heure{white-space:nowrap}
+.note-avant{margin:-8px 0 20px;font-size:15px;color:var(--texte-clair)}
+.note-avant strong{color:var(--nuit)}
+.etiquette--kiosques{background:#E3D3B4}
+@media (max-width:600px){
+  .filtres{flex-wrap:nowrap;overflow-x:auto;margin-left:-20px;margin-right:-20px;padding:2px 20px 8px;scrollbar-width:none}
+  .filtre{flex:none}
+  .filtres__titre{flex:none}
+}
+/* Hiérarchie des tailles sur téléphone : h1 nettement au-dessus de h2 */
+@media (max-width:600px){
+  .une__titre{font-size:clamp(36px,10.6vw,48px)}
+  .heros--page .heros__titre{font-size:clamp(28px,7.6vw,38px)}
+  .titre-affiche{font-size:clamp(25px,6.8vw,32px)}
+  .une__intro,.heros__intro{font-size:18px}
+}
+/* FAQ : environ 70 caractères par ligne (la limite en ch laissait passer 89 avec cette police) */
+.liste-questions dd{max-width:58ch}
+@media (max-width:600px){
+  .evenement{grid-template-columns:110px minmax(0,1fr);column-gap:12px}
+  .evenement__heure{font-size:19px}
+}
+
+/* =========================================================
+   Ronde 3 (3e critique) : la typographie se calme
+   - Alfa Slab : SEULEMENT les grands titres (h1, h2 d'affiche)
+   - Barlow Condensed droit, en minuscules normales : cartes, étapes, événements, questions
+   - Un seul accent : le pochoir (Rye n'est plus utilisé)
+   - Jamais d'italique
+   ========================================================= */
+body *:not(em):not(i):not(cite){font-style:normal}
+
+.porte h3,.choix__texte h3,.nouveaute__texte h3,.salle__texte h3,.annees strong,.etape__titre,.merci h3,
+.onglet__jour,.evenement__heure,.chiffres dd,.porte__faits dd,.billet-remisage__dates dd,.tarifs__liste dd,
+.ligne-temps__date,.personnes--vedette strong,.legal h2,.jour__titre,.venir__adresse,.ensuite h3,.avis-bandeau strong{
+  font-family:var(--titre);font-weight:800;letter-spacing:0}
+.porte h3,.choix__texte h3,.nouveaute__texte h3,.salle__texte h3,.etape__titre,.merci h3,.ensuite h3,
+.evenement h4,.liste-questions dt,.choix__nom,.dimension-ligne .champ__etiquette,.avis-bandeau strong,.venir__adresse{text-transform:none}
+
+.porte h3,.choix__texte h3,.porte--danse:not(.porte--location) h3,.nouveaute__texte h3{font-size:clamp(30px,2.8vw,40px);line-height:1.02;letter-spacing:-.005em}
+.porte--remisage h3{font-size:clamp(34px,3.2vw,46px)}
+.salle__texte h3{font-size:clamp(26px,2.2vw,32px)}
+.etape__titre{font-size:clamp(24px,2vw,28px)}
+.merci h3,.ensuite h3{font-size:30px}
+.annees strong{font-size:clamp(36px,3.2vw,46px);line-height:.95}
+.evenement h4{font-size:23px;letter-spacing:0}
+.evenement__heure{font-size:24px}
+.onglet__jour{font-size:21px;text-transform:uppercase}
+.liste-questions dt{font-size:24px}
+.choix__nom{font-size:22px}
+.dimension-ligne .champ__etiquette{font-size:22px}
+.avis-bandeau strong{font-size:26px}
+.venir__adresse{font-size:clamp(26px,2.4vw,32px)}
+/* Héros du remisage : les chiffres ne concurrencent plus le titre; le prix inconnu n'est plus en or */
+.chiffres dd{font-size:26px}
+.chiffres .jaune{color:inherit}
+/* Pochoir, seul accent : billets, bandeau, étiquette du rodéo, pied de page */
+.nouveaute__etiquette{font-family:var(--pochoir);font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+@media (max-width:600px){
+  .porte h3,.choix__texte h3,.porte--danse:not(.porte--location) h3,.nouveaute__texte h3{font-size:clamp(25px,7vw,30px)}
+  .etape__titre{font-size:21px}
+  .evenement h4{font-size:20px}
+  .evenement__heure{font-size:20px}
+  .chiffres dd{font-size:22px}
+  .choix__ex{font-size:14px}
+}
+/* Accueil d'hiver : « comment ça marche », carte de juillet, pas de photo en double */
+.porte.porte--etapes{grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:center}
+.porte.porte--etapes > h3{grid-column:1;grid-row:1}
+.porte.porte--etapes > .groupe-boutons{grid-column:1;grid-row:2;align-self:start}
+.porte.porte--etapes > .etapes-remisage{grid-column:2;grid-row:1 / span 2;list-style:none;margin:0;padding:0;counter-reset:e;display:flex;flex-direction:column;gap:18px}
+.etapes-remisage li{counter-increment:e;position:relative;padding-left:54px;min-height:38px;font-size:18px;line-height:1.45;color:var(--texte-nuit)}
+.etapes-remisage li::before{content:counter(e);position:absolute;left:2px;top:-2px;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--rouge);color:var(--creme);font-family:var(--affiche);font-size:20px;box-shadow:0 0 0 2px var(--marine-fonce),0 0 0 4px var(--rouge)}
+.etapes-remisage strong{color:var(--creme)}
+@media (max-width:900px){.saison-hiver .porte--etapes{display:flex}}
+.juillet{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:48px;align-items:center}
+.juillet__photo{margin:0;border:3px solid var(--nuit);border-radius:4px;box-shadow:var(--ombre-affiche);overflow:hidden}
+.juillet__photo img{display:block;width:100%;height:auto;filter:sepia(.12) saturate(1.05)}
+.juillet__texte{display:flex;flex-direction:column;gap:18px}
+.juillet__texte p{margin:0;font-size:18px;max-width:52ch;color:var(--texte-clair)}
+.bouton--contour-fonce{box-shadow:inset 0 0 0 2px var(--nuit);color:var(--nuit)}
+.bouton--contour-fonce:hover{background:var(--nuit);color:var(--creme)}
+@media (max-width:900px){.juillet{grid-template-columns:1fr;gap:24px}}
+.saison-hiver .venir__photo{display:none}
+.saison-hiver .venir{grid-template-columns:minmax(0,1fr)}
+/* Alternance des fonds en hiver (deux sections de moins) */
+.saison-hiver section[aria-labelledby="titre-histoire"]{background-color:var(--papier)}
+.saison-hiver section[aria-labelledby="titre-venir"]{background-color:var(--papier-2)}
+/* Horaire : filtre = toute la semaine, le nom du jour réapparaît au-dessus de chaque groupe */
+.js .mode-semaine .jour__titre{position:static;width:auto;height:auto;overflow:visible;clip:auto;margin:28px 0 10px;font-size:22px;text-transform:none}
+.mode-semaine .jour:first-of-type .jour__titre{margin-top:4px}
+.mode-semaine .onglet[aria-selected="true"]{background:#FFFCF5;color:var(--nuit);box-shadow:none}
+.mode-semaine .onglet[aria-selected="true"] .onglet__date{color:var(--texte-clair)}
+@media (max-width:600px){.filtres{-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent);padding-right:44px}}
+/* Fin du remisage : récapitulatif dans le message, tampon dans le coin vide du billet */
+.merci__recap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 18px;margin:4px 0;padding:14px 0;border-top:1px dashed var(--trait-nuit);border-bottom:1px dashed var(--trait-nuit)}
+.merci__recap dt{font-size:14px;color:var(--texte-nuit)}
+.merci__recap dd{margin:0;font-family:var(--titre);font-weight:800;font-size:20px;color:var(--creme);overflow-wrap:anywhere}
+.merci__garder{font-size:17px}
+@media (max-width:600px){.merci__recap{grid-template-columns:minmax(0,1fr)}}
+.tampon{right:auto;left:50%;bottom:auto;top:42%;font-size:22px}
+.billet-remisage.est-envoye .tampon{transform:translateX(-60%) rotate(-12deg) scale(1)}
+.tampon{transform:translateX(-60%) rotate(-12deg) scale(1.6)}
+/* Location sur téléphone : trois cartes de salle l'une sous l'autre (plus d'orpheline) */
+@media (max-width:600px){.choix-grille--salles{grid-template-columns:minmax(0,1fr)}.choix-grille--salles .choix__carte{min-height:60px}}
+/* Ruban adhésif de la photo d'archive : ne cache plus la date de la légende sur téléphone */
+@media (max-width:600px){.archive-photo__ruban--2{bottom:auto;top:46%;right:-8px}}
+.tampon{background:none;mix-blend-mode:multiply;top:58%}
+/* Danse country : même voix que les autres cartes (la règle de la ronde 2 était plus spécifique) */
+.porte.porte--danse:not(.porte--location) h3,.nouveaute .nouveaute__texte h3,.salles .salle:last-child h3{font-family:var(--titre);font-weight:800;text-transform:none;letter-spacing:-.005em}
+.merci:focus{outline:none}
+/* Dernière ronde : « Faire une autre demande » en simple lien (l'utilisateur a fini) */
+.lien-action{align-self:flex-start;padding:6px 0;border:0;background:none;color:var(--jaune);font:inherit;font-weight:700;text-decoration:underline;text-underline-offset:4px;cursor:pointer;min-height:44px}
+.lien-action:hover{color:var(--creme)}
+.lien-action:focus-visible{outline:3px solid var(--jaune);outline-offset:3px}
+/* Entrée souhaitée : deux choix sur une ligne */
+.entree-souhaitee{border:0;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 24px;align-items:center}
+.entree-souhaitee legend{float:left;width:100%;margin-bottom:6px;padding:0}
+.entree-souhaitee__choix{display:inline-flex;align-items:center;gap:8px;min-height:44px;cursor:pointer}
+.entree-souhaitee__choix input{width:20px;height:20px;accent-color:var(--rouge);margin:0}
+/* Mini-billet : minuscules normales (« — PI » se lisait comme π) */
+.mini-billet{text-transform:none}
+/* Horaire sur téléphone : filtres sur plusieurs rangées plutôt que coupés sur une ligne */
+@media (max-width:600px){
+  .filtres{flex-wrap:wrap;overflow:visible;margin-left:0;margin-right:0;padding:0 0 6px;-webkit-mask-image:none;mask-image:none}
+  .filtre{min-height:44px;padding:0 12px;font-size:17px}
+}
+/* Héros d'hiver sur téléphone : voile plus léger, on voit les bâtiments */
+@media (max-width:760px){
+  .saison-hiver .une::before{background:linear-gradient(0deg,rgba(30,20,13,.94) 0%,rgba(30,20,13,.7) 48%,rgba(30,20,13,.18) 78%,rgba(30,20,13,.05) 100%)}
+}
+/* « Venir à l'Expo » en hiver : sans photo, le texte occupe la largeur sur deux colonnes */
+@media (min-width:901px){
+  .saison-hiver .venir__texte{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:56px;row-gap:18px;align-items:start}
+  .saison-hiver .venir__texte > h2,.saison-hiver .venir__texte > .venir__adresse{grid-column:1}
+  .saison-hiver .venir__texte > .venir__faits{grid-column:2;grid-row:1 / span 2}
+  .saison-hiver .venir__texte > .groupe-boutons{grid-column:2}
+}
