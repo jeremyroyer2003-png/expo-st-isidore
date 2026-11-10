@@ -1,0 +1,74 @@
+"use client";
+
+import Link from "next/link";
+import { useState } from "react";
+import FormulaireSimple from "@/components/formulaires/FormulaireSimple";
+import { inscrireDanse } from "@/actions/reservations";
+
+export type Forfait = { cle: string; libelle: string; description: string; prix: number | null; fictif: boolean };
+
+const argent = (c: number) =>
+  new Intl.NumberFormat("fr-CA", { style: "currency", currency: "CAD", minimumFractionDigits: c % 100 ? 2 : 0 }).format(c / 100);
+
+export default function FormulaireDanse({ forfaits }: { forfaits: Forfait[] }) {
+  const achetables = forfaits.filter((f) => f.prix != null);
+  const [cle, setCle] = useState(achetables[0]?.cle ?? "");
+  const [personnes, setPersonnes] = useState(1);
+  const f = forfaits.find((x) => x.cle === cle);
+  const total = f?.prix != null ? f.prix * personnes : null;
+
+  return (
+    <div className="grid gap-8">
+      <div role="radiogroup" aria-label="Forfaits" className="grid gap-5 md:grid-cols-3">
+        {forfaits.map((x, i) => {
+          const actif = x.cle === cle;
+          const dispo = x.prix != null;
+          return (
+            <button
+              key={x.cle}
+              type="button"
+              role="radio"
+              aria-checked={actif}
+              disabled={!dispo}
+              onClick={() => setCle(x.cle)}
+              className={`relative text-left p-5 border-[3px] border-encre transition-all duration-200 motion-reduce:transition-none
+                ${actif ? "bg-rouge text-creme shadow-affiche -translate-y-1" : dispo ? "bg-creme text-encre shadow-affiche-sm hover:-translate-y-0.5 hover:bg-kraft" : "bg-kraft/60 text-encre/70"}`}
+            >
+              {i === forfaits.length - 1 && dispo && (
+                <span className="absolute -top-3 right-4 bg-moutarde text-encre border-2 border-encre px-2 font-etiquette font-bold uppercase text-[13px]">Meilleur prix</span>
+              )}
+              <span className="block font-etiquette font-bold uppercase tracking-widest text-[15px]">{x.libelle}</span>
+              <span className="block font-affiche text-[44px] leading-none my-2">{dispo ? argent(x.prix!) : "—"}</span>
+              <span className="block text-[16px]">{dispo ? "par personne" : "Prix sur demande"}{x.fictif && dispo ? " · prix fictif (test)" : ""}</span>
+              <span className="block mt-2 text-[15px] opacity-90">{x.description}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {achetables.length === 0 ? (
+        <div className="avis-bandeau" role="note"><p>L&apos;inscription en ligne ouvre bientôt. D&apos;ici là, appelez le bureau au <a href="tel:+14188825649">418 882-5649</a>.</p></div>
+      ) : (
+        <FormulaireSimple action={inscrireDanse} id="form-danse" className="formulaire formulaire--etroit" bouton={total != null ? `Payer ${argent(total)}` : "Continuer"}>
+          <input type="hidden" name="forfait" value={cle} />
+          <fieldset className="etape">
+            <legend className="etape__titre">Votre inscription</legend>
+            <div className="coordonnees">
+              <label className="champ"><span className="champ__etiquette">Nom complet</span><input type="text" name="nom" required autoComplete="name" /></label>
+              <label className="champ"><span className="champ__etiquette">Nombre de personnes</span>
+                <input type="number" name="personnes" min={1} max={10} required inputMode="numeric" value={personnes}
+                  onChange={(e) => setPersonnes(Math.max(1, Math.min(10, Number(e.target.value) || 1)))} data-erreur="Entre 1 et 10 personnes." /></label>
+              <label className="champ"><span className="champ__etiquette">Téléphone</span><input type="tel" name="telephone" required autoComplete="tel" inputMode="tel" placeholder="418 555-1234" /></label>
+              <label className="champ"><span className="champ__etiquette">Courriel (pour le reçu)</span><input type="email" name="courriel" required autoComplete="email" /></label>
+            </div>
+            <label className="consentement">
+              <input type="checkbox" name="consentement" value="oui" required />
+              <span>J&apos;accepte que l&apos;Expo St-Isidore utilise ces renseignements pour mon inscription, selon sa <Link href="/confidentialite">politique de confidentialité</Link>.</span>
+            </label>
+          </fieldset>
+          <p className="note">Paiement sécurisé par Stripe.</p>
+        </FormulaireSimple>
+      )}
+    </div>
+  );
+}

@@ -54,7 +54,11 @@ export function afficherErreur(el: Champ, visible: boolean) {
 /** Marque les champs invalides et renvoie la liste (le premier reçoit le focus). */
 export function marquerInvalides(form: HTMLFormElement): Champ[] {
   form.querySelectorAll<HTMLInputElement>('input[type="tel"]').forEach(verifierTelephone);
-  const champs = Array.from(form.elements).filter(
+  return marquerChamps(Array.from(form.elements));
+}
+
+export function marquerChamps(liste: Iterable<Element>): Champ[] {
+  const champs = Array.from(liste).filter(
     (e): e is Champ => e instanceof HTMLInputElement || e instanceof HTMLSelectElement || e instanceof HTMLTextAreaElement,
   );
   return champs.filter((el) => {

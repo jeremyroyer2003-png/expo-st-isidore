@@ -3,9 +3,12 @@ import Link from "next/link";
 
 export const meta = { titre: "Remisage intérieur d'hiver – roulottes, VR, autos, bateaux | Expo St-Isidore", description: "Remisage intérieur et assuré pour roulottes, VR, autos, pick-ups, bateaux, motos et Spyder à Saint-Isidore, en Beauce. Entrée mi-octobre, sortie mi-mai. Envoyez vos dimensions, on vous rappelle." };
 
-export default function PageRemisage() {
+import ComportementsRemisage from "@/components/remisage/ComportementsRemisage";
+
+export default function PageRemisage({ prixParPied, depotMin }: { prixParPied: number | null; depotMin: string | null }) {
   return (
     <>
+      <ComportementsRemisage />
 
 
     {/* ===== Héros ===== */}
@@ -69,10 +72,8 @@ export default function PageRemisage() {
         </div>
 
         <div className="demande">
-          {/* Netlify Forms : l'attribut data-netlify suffit une fois le site en ligne */}
-          {/* TARIF : inscrire le prix par pied de longueur ici (ex. data-prix-par-pied="45"). Vide = « à confirmer ». */}
-          <form id="form-remisage" className="formulaire" data-prix-par-pied="" name="remisage" method="POST" action="remisage.html#merci" noValidate>
-            <input type="hidden" name="form-name" value="remisage" />
+          {/* Le tarif au pied vient de l'admin (Prix > remisage_pied); vide tant qu'il est « à confirmer » */}
+          <form id="form-remisage" className="formulaire" data-prix-par-pied={prixParPied ?? ""} noValidate>
             <p className="visuellement-cache"><label>Ne pas remplir&nbsp;: <input name="champ-robot" tabIndex={-1} autoComplete="off" /></label></p>
 
             {/* Étape 1 */}
@@ -171,8 +172,8 @@ export default function PageRemisage() {
                   <input type="tel" name="telephone" required autoComplete="tel" inputMode="tel" placeholder="418 555-1234" />
                 </label>
                 <label className="champ champ--large">
-                  <span className="champ__etiquette">Courriel <span className="facultatif">(facultatif)</span></span>
-                  <input type="email" name="courriel" autoComplete="email" />
+                  <span className="champ__etiquette">Courriel</span>
+                  <input type="email" name="courriel" required autoComplete="email" data-erreur="Entrez votre courriel : c'est là qu'on vous envoie le prix et le lien du dépôt." />
                 </label>
                 <fieldset className="champ champ--large entree-souhaitee">
                   <legend className="champ__etiquette">Entrée souhaitée</legend>
@@ -206,7 +207,7 @@ export default function PageRemisage() {
           {/* Message après l'envoi : prend la place du formulaire, à côté du billet tamponné */}
           <div className="merci" id="merci" tabIndex={-1} hidden>
             <h3>Merci, c&apos;est reçu!</h3>
-            <p>On regarde l&apos;espace disponible pour votre véhicule et on vous rappelle au <strong data-resume="telephone"></strong>.</p>
+            <p>On regarde l&apos;espace disponible pour votre véhicule. Si on a de la place, vous recevez par courriel le prix de la saison et le lien pour payer le dépôt{depotMin ? <> (au moins {depotMin})</> : null} qui garde votre place. On peut aussi vous rappeler au <strong data-resume="telephone"></strong>.</p>
             <dl className="merci__recap">
               <div><dt>Véhicule</dt><dd data-resume="type">—</dd></div>
               <div><dt>Longueur</dt><dd data-resume="longueur">—</dd></div>
@@ -247,7 +248,7 @@ export default function PageRemisage() {
           <h3 id="titre-ensuite">Ce qui arrive ensuite</h3>
           <ol>
             <li><strong>On vérifie l&apos;espace</strong> pour votre véhicule, selon ses dimensions.</li>
-            <li><strong>On vous rappelle</strong> avec le tarif au pied et votre date d&apos;entrée.</li>
+            <li><strong>Vous recevez le prix par courriel</strong>, avec le lien pour payer le dépôt qui garde votre place.</li>
             <li><strong>Vous arrivez, on mesure</strong>, et votre véhicule dort au sec jusqu&apos;à la mi-mai.</li>
           </ol>
           <p>Pressé? Le remisage répond au <a href="tel:+14188829619">418 882-9619</a>.</p>
