@@ -20,6 +20,10 @@ Les prix ci-dessous sont des **valeurs fictives de départ**, marquées « à co
 - [ ] Courriel d'envoi (domaine expobassinchaudiere.com à vérifier dans Resend)
 - [ ] Loi 25 : Supabase, Stripe et Netlify hébergent les données hors Québec. Évaluation des facteurs relatifs à la vie privée et mise à jour de la politique de confidentialité avant la mise en ligne
 - [ ] Photos de la page Facebook : récupérées de la page publique (le comité est admin, mais l'accès n'est pas encore donné), importées **non publiées** par `web/scripts/importer-photos-fb.py`. Avant de publier chaque photo : droits du photographe nommé dans le crédit, aucun enfant reconnaissable. Quand le comité donnera l'accès, l'export officiel de la page remplacera ces copies.
+  - 31 photos importées le 11 novembre 2026, dont les crédits ont été lus dans les filigranes : **Lyse Neuville Photography** (jugements 2024-2025), **Cynthia Fillion Photographe** (BBQ, saloon), **Gagné Photographie** (tracteur en balles de foin), **ELZEPHOTO** (2018). Les autres photos (tire 2015, quelques photos de 2016 et 2018) n'ont pas de filigrane : il faut retrouver qui les a prises.
+  - Écartées : photos avec enfants ou jeunes éleveurs reconnaissables, affiches et visuels de programmation.
+- [ ] **Année de fondation** : la page Facebook dit « Créée en 1982 », le site dit « depuis 1983 ». Laquelle est la bonne?
+- [ ] Un **plan papier du palais des commerces** a été publié sur Facebook le 1er février 2017 (copie gardée dans le dépôt privé `expo-fb-photos`). C'est un point de départ pour le plan officiel des kiosques, à faire valider par le comité.
 - [ ] Cahier Beauce Média 2010 (archives BAnQ) : copie gardée dans `docs/archives/`, citée dans Notre histoire; ne pas la publier en ligne sans permission
 
 ## Soulevé par la critique de design (4 novembre 2026)
