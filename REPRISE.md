@@ -2,7 +2,7 @@
 
 > **Pour Claude, au début de la prochaine conversation** : lis ce fichier en entier, puis `PROGRESS.md` et `CLAUDE.md`. Le travail se fait sur la branche **`rebuild`**, pas sur `main`. Reprends à la section « Prochaine étape ».
 
-Dernière mise à jour : 10 novembre 2026, fin de journée (poste du travail).
+Dernière mise à jour : 11 novembre 2026 (poste du travail).
 La prochaine séance aura lieu sur le **PC personnel de Jérémy**, où Node.js est disponible.
 
 ---
@@ -20,6 +20,21 @@ La prochaine séance aura lieu sur le **PC personnel de Jérémy**, où Node.js 
 - **Ce qui a été vérifié :** le contrôle des types, le lint et le build passent, et les pages publiques s'affichent correctement à 1440 px et à 390 px.
 - **Ce qui n'a jamais été testé :** rien n'a roulé contre une vraie base Supabase ni contre Stripe, parce que les comptes n'existent pas encore. Les réservations, les paiements et l'admin sont écrits, pas essayés. Il faut s'attendre à quelques bogues.
 - **Règle absolue :** aucun déploiement Netlify et aucune fusion dans `main` sans l'approbation explicite de Jérémy. Stripe reste en mode test.
+
+## 1 b. Fait le 11 novembre 2026
+
+- **Comptes branchés en local** : Supabase (schéma et données de départ exécutés), Stripe en mode test, super-admin créé. Le webhook Stripe n'est pas encore branché (il faut la CLI Stripe).
+- **Stripe revu** : les remboursements et les factures ne peuvent plus partir en double, et une confirmation interrompue est reprise. Le flux facture, paiement et remboursement partiel a été vérifié contre Stripe en mode test.
+- **Photos Facebook** :
+  - 31 photos de la page de l'Expo sont importées **non publiées** dans Admin > Médiathèque ;
+  - un éditeur les publie après avoir vérifié les droits (voir `A-CONFIRMER.md`) ;
+  - les copies brutes sont dans le dépôt **privé** `expo-fb-photos` (branche `scrape-raw`), jamais dans ce dépôt public ;
+  - script d'import : `web/scripts/importer-photos-fb.py`.
+- **Accueil version 2** à http://localhost:3000/accueil-v2 :
+  - seul le héros change : un tracteur de tire en profondeur et un rideau de poussière qui dévoile le message de la saison ;
+  - images faites avec Higgsfield à partir d'une vraie photo ELZEPHOTO ;
+  - la page n'est pas indexée et n'est pas dans le menu ; l'accueil `/` reste identique ;
+  - **Jérémy compare `/` et `/accueil-v2`, puis décide** (garder, ajuster ou abandonner).
 
 ## 2. Ce soir sur le PC personnel : mise en route
 
