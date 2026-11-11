@@ -5,12 +5,13 @@ export const meta = { titre: "Expo St-Isidore – Exposition agricole gratuite e
 
 import ComportementsAccueil from "@/components/site/ComportementsAccueil";
 
-export default function PageAccueil() {
+// heros : remplace le héros d'origine (diaporama), pour comparer une autre version (/accueil-v2)
+export default function PageAccueil({ heros }: { heros?: React.ReactNode } = {}) {
   return (
     <>
       <ComportementsAccueil />
 
-
+    {heros ?? (<>
     {/* ===== Héros : diaporama de vraies photos de l'Expo ===== */}
     <div className="une-zone">
       <section className="une" aria-label="À la une">
@@ -72,6 +73,7 @@ export default function PageAccueil() {
         <div className="moulinet__pales"><img src="/images/moulinet.webp" alt="" width="360" height="360" /></div>
       </div>
     </div>
+    </>)}
 
     {/* ===== Bandeau défilant ===== */}
     <div className="bandeau">

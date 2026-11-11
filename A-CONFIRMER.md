@@ -19,7 +19,7 @@ Les prix ci-dessous sont des **valeurs fictives de départ**, marquées « à co
 - [ ] Noms et courriels des 3 éditeurs et des lecteurs de l'administration
 - [ ] Courriel d'envoi (domaine expobassinchaudiere.com à vérifier dans Resend)
 - [ ] Loi 25 : Supabase, Stripe et Netlify hébergent les données hors Québec. Évaluation des facteurs relatifs à la vie privée et mise à jour de la politique de confidentialité avant la mise en ligne
-- [ ] Photos de la page Facebook : Jérémy les télécharge (droits à confirmer avec chaque photographe) puis les ajoute dans Admin > Médiathèque
+- [ ] Photos de la page Facebook : récupérées de la page publique (le comité est admin, mais l'accès n'est pas encore donné), importées **non publiées** par `web/scripts/importer-photos-fb.py`. Avant de publier chaque photo : droits du photographe nommé dans le crédit, aucun enfant reconnaissable. Quand le comité donnera l'accès, l'export officiel de la page remplacera ces copies.
 - [ ] Cahier Beauce Média 2010 (archives BAnQ) : copie gardée dans `docs/archives/`, citée dans Notre histoire; ne pas la publier en ligne sans permission
 
 ## Soulevé par la critique de design (4 novembre 2026)
