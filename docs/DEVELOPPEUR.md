@@ -88,9 +88,13 @@ Sans `.env.local`, le site public s'affiche quand même avec les données de dé
   3. Copier le secret `whsec_…` dans `STRIPE_WEBHOOK_SECRET`.
 - Événements traités :
   - `checkout.session.completed` et `checkout.session.async_payment_succeeded` : paiement confirmé;
-  - `checkout.session.expired` : la date est libérée;
+  - `checkout.session.expired` et `checkout.session.async_payment_failed` : la date ou l'inscription est libérée;
   - `invoice.paid` : facture de kiosque extérieur payée.
 - La finalisation est idempotente (`lib/paiements.ts`) : le webhook et la page de retour peuvent tous deux passer sans double courriel.
+  Si la confirmation échoue en cours de route, le paiement repasse « en attente » et le prochain essai refait tout.
+- Les remboursements et les factures envoient une clé d'idempotence à Stripe : un double clic dans l'admin ne rembourse pas deux fois et ne crée pas deux factures.
+- Mise en ligne : créer le webhook de production avec la **même version d'API** que le SDK `stripe` (le SDK fixe la sienne), et y cocher les 5 événements ci-dessus.
+- Taxes (TPS/TVQ) : pas encore calculées, en attente de la réponse du comité (`A-CONFIRMER.md`). Quand ce sera décidé : taux fixes (`tax_rates` sur les lignes Checkout et la facture) ou Stripe Tax (`automatic_tax`).
 
 ## 6. Courriels
 

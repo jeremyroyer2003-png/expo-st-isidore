@@ -5,7 +5,7 @@ let instance: Stripe | null = null;
 
 /** Client Stripe en MODE TEST seulement (env.stripeSecret refuse toute clé réelle). */
 export function stripe(): Stripe {
-  if (!instance) instance = new Stripe(env.stripeSecret);
+  if (!instance) instance = new Stripe(env.stripeSecret, { maxNetworkRetries: 2 });
   return instance;
 }
 

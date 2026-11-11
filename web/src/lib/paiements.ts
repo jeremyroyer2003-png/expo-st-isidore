@@ -68,7 +68,8 @@ async function appliquer(p: { id: string; objet_type: string; objet_id: string; 
   if (p.objet_type === "salle") {
     const { data: r } = await sb.from("reservations_salle").select("*, creneaux_salle(id, debut, fin, statut, salles(nom))").eq("id", p.objet_id).single();
     const c = r.creneaux_salle as { id: string; debut: string; fin: string; statut: string; salles: { nom: string } };
-    if (r.statut !== "en_paiement") {
+    // « confirmee » : un essai précédent a été interrompu en cours de route, on le termine
+    if (r.statut !== "en_paiement" && r.statut !== "confirmee") {
       // Paiement arrivé après l'expiration de la retenue et la date reprise : remboursement complet
       if (paymentIntent) await stripe().refunds.create({ payment_intent: paymentIntent, reason: "duplicate" });
       await sb.from("paiements").update({ statut: "rembourse", rembourse_cents: p.montant_cents }).eq("id", p.id);
@@ -105,6 +106,19 @@ async function appliquer(p: { id: string; objet_type: string; objet_id: string; 
   }
 }
 
+/**
+ * Applique les effets d'un paiement. En cas d'erreur, le paiement repasse « en attente » :
+ * le prochain essai (webhook réessayé par Stripe, ou rechargement de /paiement/merci) refait tout.
+ */
+async function appliquerOuAnnuler(p: { id: string; objet_type: string; objet_id: string; montant_cents: number }, paymentIntent: string | null) {
+  try {
+    await appliquer(p, paymentIntent);
+  } catch (e) {
+    await supabaseService().from("paiements").update({ statut: "en_attente" }).eq("id", p.id);
+    throw e;
+  }
+}
+
 /** Session Checkout payée : confirme (une seule fois) et renvoie le récapitulatif. */
 export async function finaliserSession(sessionId: string): Promise<Recapitulatif | null> {
   const session = await stripe().checkout.sessions.retrieve(sessionId);
@@ -116,14 +130,17 @@ export async function finaliserSession(sessionId: string): Promise<Recapitulatif
   }
   const pi = typeof session.payment_intent === "string" ? session.payment_intent : session.payment_intent?.id ?? null;
   const p = await marquerPaye(session.id, pi);
-  if (p) await appliquer(p, pi);
+  if (p) await appliquerOuAnnuler(p, pi);
   return recapitulatif(type, objet);
 }
 
-/** Session abandonnée (expirée) : libère la date ou l'inscription retenue. */
-export async function expirerSession(session: Stripe.Checkout.Session) {
+/**
+ * Session abandonnée (expirée) ou paiement différé refusé (statut « echec ») :
+ * libère la date ou l'inscription retenue.
+ */
+export async function expirerSession(session: Stripe.Checkout.Session, statut: "expire" | "echec" = "expire") {
   const sb = supabaseService();
-  const { data } = await sb.from("paiements").update({ statut: "expire" }).eq("stripe_session_id", session.id).eq("statut", "en_attente").select("objet_type, objet_id");
+  const { data } = await sb.from("paiements").update({ statut }).eq("stripe_session_id", session.id).eq("statut", "en_attente").select("objet_type, objet_id");
   const p = data?.[0];
   if (!p) return;
   if (p.objet_type === "salle") {
@@ -139,5 +156,5 @@ export async function expirerSession(session: Stripe.Checkout.Session) {
 export async function factureePayee(facture: Stripe.Invoice) {
   const sb = supabaseService();
   const { data } = await sb.from("paiements").update({ statut: "paye" }).eq("stripe_facture_id", facture.id).neq("statut", "paye").select("id, objet_type, objet_id, montant_cents");
-  if (data?.[0]) await appliquer(data[0], null);
+  if (data?.[0]) await appliquerOuAnnuler(data[0], null);
 }

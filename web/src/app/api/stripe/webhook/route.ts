@@ -26,6 +26,9 @@ export async function POST(request: Request) {
       case "checkout.session.expired":
         await expirerSession(evenement.data.object);
         break;
+      case "checkout.session.async_payment_failed":
+        await expirerSession(evenement.data.object, "echec");
+        break;
       case "invoice.paid":
         await factureePayee(evenement.data.object);
         break;
