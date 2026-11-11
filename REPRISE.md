@@ -38,6 +38,7 @@ La prochaine séance aura lieu sur le **PC personnel de Jérémy**, où Node.js 
   - vidéos dans `web/public/videos/` (7 à 8 Mo chacune) : **à compresser** avant toute mise en ligne (il faut `ffmpeg`, absent du poste du travail);
   - **Jérémy compare `/` et `/accueil-v2`, puis décide**.
 - **Photos Facebook dans l'app** : 20 nouvelles photos dans `web/public/images/photos/` remplacent les doublons (accueil, programmation, exposants). ⚠ Elles sont maintenant dans ce dépôt **public** : ne pas pousser sur GitHub avant que Jérémy décide (droits à confirmer, voir `A-CONFIRMER.md`).
+- **Programmation : une photo par activité** (bingo = carte de bingo, feux = feux d'artifice, messe = la vraie messe sous le chapiteau, etc.), choisie par le titre dans `Programmation.tsx`; le bandeau de chaque jour montre son activité vedette. 11 photos libres de Wikimedia Commons comblent les trous, créditées au bas de la page et dans `docs/CREDITS-PHOTOS.md`.
 - **À faire ensuite** :
   - Ajustements du héros vidéo selon les commentaires de Jérémy (crédits Higgsfield restants : 120).
   - Puis les tests de bout en bout de la section 3.

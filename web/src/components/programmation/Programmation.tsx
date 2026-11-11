@@ -24,14 +24,81 @@ const STYLE: Record<string, { fond: string; texte: string; photo: string }> = {
   autres: { fond: "bg-kraft", texte: "text-encre", photo: "/images/photos/tracteur-balles-foin-400.webp" },
 };
 
-const BANDEAU_JOUR = [
-  "/images/photos/tire-wild-thing-800.webp",
-  "/images/photos/holstein-alignement-800.webp",
-  "/images/photos/tire-bleu-nuit-800.webp",
-  "/images/photos/estrades-jugement-800.webp",
-  "/images/photos/tire-chrome-800.webp",
-  "/images/photos/holstein-rangee-800.webp",
+// Photo propre à chaque activité, reconnue par son titre (la photo réglée dans l'admin a priorité,
+// la photo de catégorie ne sert qu'en dernier recours). L'ordre compte : le premier motif gagne
+// (« La Grand-Messe » est un spectacle, pas la messe du dimanche).
+// Photos de l'Expo (page Facebook, ancien site) quand elles existent; sinon photos libres de
+// Wikimedia Commons, créditées dans docs/CREDITS-PHOTOS.md. Plusieurs fichiers = une par jour.
+const PHOTOS_ACTIVITE: [RegExp, string[]][] = [
+  [/bingo/, ["bingo-carte"]],
+  [/feux d.artifice/, ["feux-artifice"]],
+  [/cin[ée]ma/, ["cinema-exterieur"]],
+  [/chiens? de berger/, ["chiens-berger"]],
+  [/tonte/, ["preparation-genisse"]],
+  [/latino/, ["danse-latino"]],
+  [/pique-nique/, ["pique-nique"]],
+  [/mascotte/, ["jeux-gonflables-coq"]],
+  [/place de la famille/, ["jeux-gonflables"]],
+  [/parcel/, ["parcelles-essai"]],
+  [/mini-tracteur/, ["tracteur-pedales"]],
+  [/tire de tracteurs/, ["tire-bleu-nuit", "tire-wild-thing", "tire-flammes", "tire-chrome"]],
+  [/grand-messe/, ["spectacle-scene"]],
+  [/\bmesse\b/, ["chapiteau-public"]],
+  [/danse country|dancers/, ["danse-country"]],
+  [/bar country/, ["soiree-saloon"]],
+  [/social/, ["bbq-saucisses"]],
+  [/jeunes [ée]leveurs/, ["holstein-arene"]],
+  [/championne/, ["holstein-championne"]],
+  [/jugement/, ["holstein-jugement"]],
+  [/kiosques/, ["kiosques-interieurs", "kiosques-allee"]],
+  [/agri.?culture/, ["agroalimentaire"]],
+  [/grill|bbq/, ["bbq-poulet"]],
+  [/beach/, ["spectacle-bras-leves"]],
+  [/lex roses/, ["spectacle-chapiteau"]],
+  [/that.?s hit/, ["spectacle-foule"]],
+  [/hit the road/, ["chapiteau-foule"]],
+  [/show|spectacle/, ["spectacle-scene"]],
 ];
+
+// Photos libres (Wikimedia Commons) : le crédit est obligatoire (licences CC BY / CC BY-SA)
+const CREDITS_ILLUSTRATION = [
+  { sujet: "Feux d'artifice", auteur: "Andrew Kelly", licence: "domaine public", page: "https://commons.wikimedia.org/wiki/File:Fireworks_over_North_Carolina_State_Fair_2009.jpg" },
+  { sujet: "Chiens de berger", auteur: "Scot Campbell", licence: "CC BY-SA 2.0", page: "https://commons.wikimedia.org/wiki/File:Border_Collie_sheepdog_trial.jpg" },
+  { sujet: "Parcelles d'essai", auteur: "Michael Trolove", licence: "CC BY-SA 2.0", page: "https://commons.wikimedia.org/wiki/File:Cereal_trial_plot,_Cereals_2010_-_geograph.org.uk_-_1910647.jpg" },
+  { sujet: "Bingo", auteur: "Abbey Hendrickson", licence: "CC BY 2.0", page: "https://commons.wikimedia.org/wiki/File:Bingo_card.jpg" },
+  { sujet: "Cinéma extérieur", auteur: "Bdx", licence: "CC0", page: "https://commons.wikimedia.org/wiki/File:Luxembourg_City_Open_Air_Cinema,_July_2025,_Knuedler.jpg" },
+  { sujet: "Danse latino", auteur: "Edil Villa", licence: "CC BY-SA 3.0", page: "https://commons.wikimedia.org/wiki/File:CCMDonation99.jpg" },
+  { sujet: "Pique-nique", auteur: "Benjamin D. Esham", licence: "CC BY-SA 4.0", page: "https://commons.wikimedia.org/wiki/File:Picnic_table.jpg" },
+  { sujet: "Jeux gonflables", auteur: "Arpingstone", licence: "domaine public", page: "https://commons.wikimedia.org/wiki/File:Bouncy.castle.arp.jpg" },
+  { sujet: "Jeux gonflables (coq)", auteur: "Acabashi", licence: "CC BY-SA 4.0", page: "https://commons.wikimedia.org/wiki/File:Bouncy_Castle_at_Abridge_Village_Weekend_2022,_Essex_2.jpg" },
+  { sujet: "Préparation d'une génisse", auteur: "Lorie Shaull", licence: "CC BY 2.0", page: "https://commons.wikimedia.org/wiki/File:Participants_in_the_Open_Class_Dairy_Cattle_Show_at_the_Crow_Wing_County_Fair_in_Brainerd,_MN.jpg" },
+  { sujet: "Tracteur à pédales", auteur: "inkknife_2000", licence: "CC BY-SA 2.0", page: "https://commons.wikimedia.org/wiki/File:Green_Spot_Farm,_Pedal_Tractor_10-26-13_(10561276776).jpg" },
+];
+
+function photoActivite(e: Evenement, taille: 400 | 800): string | null {
+  const titre = e.titre.toLowerCase();
+  const regle = PHOTOS_ACTIVITE.find(([motif]) => motif.test(titre));
+  if (!regle) return null;
+  const fichiers = regle[1];
+  const fichier = fichiers[new Date(e.jour + "T12:00:00").getDate() % fichiers.length];
+  return `/images/photos/${fichier}-${taille}.webp`;
+}
+
+// Bandeau du jour : la photo de l'activité vedette de la journée (dans cet ordre de priorité)
+const VEDETTES = [/feux d.artifice/, /tire de tracteurs/, /jugement des bovins/, /chiens? de berger/, /bingo/, /danse country/];
+
+function photoDuJour(liste: Evenement[]): string {
+  for (const motif of VEDETTES) {
+    const e = liste.find((x) => motif.test(x.titre.toLowerCase()));
+    const photo = e && photoActivite(e, 800);
+    if (photo) return photo;
+  }
+  for (const e of liste) {
+    const photo = photoActivite(e, 800);
+    if (photo) return photo;
+  }
+  return "/images/photos/chapiteau-foule-800.webp";
+}
 
 function infosJour(iso: string) {
   const d = new Date(iso + "T12:00:00");
@@ -72,7 +139,7 @@ function Carte({ e, rang }: { e: Evenement; rang: number }) {
       <div className="hidden sm:block relative overflow-hidden border-l-[3px] border-encre">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={e.photo || s.photo}
+          src={e.photo || photoActivite(e, 400) || s.photo}
           alt=""
           loading="lazy"
           className="absolute inset-0 h-full w-full object-cover sepia-[.25] transition duration-500 group-hover:scale-110 group-hover:sepia-0 motion-reduce:group-hover:scale-100"
@@ -169,7 +236,7 @@ export default function Programmation({ annee, evenements }: { annee: number; ev
           const liste = evenements.filter((e) => e.jour === j && filtres(e));
           if (!liste.length) return null;
           const d = infosJour(j);
-          const photo = BANDEAU_JOUR[jours.indexOf(j) % BANDEAU_JOUR.length];
+          const photo = photoDuJour(liste);
           return (
             <section key={`${j}-${filtre}`} className={semaine ? "mb-12 anim-monter" : sens === "suivant" ? "anim-mois-suivant" : "anim-mois-precedent"} aria-label={`${d.nom} ${d.num} ${d.mois}`}>
               {/* Bandeau du jour : photo + grande date d'affiche */}
@@ -195,6 +262,18 @@ export default function Programmation({ annee, evenements }: { annee: number; ev
         })}
         {semaine && total === 0 && <p className="text-[18px]">Aucune activité de ce type cette année-là.</p>}
       </div>
+
+      <details className="mt-10 text-[15px] text-gris-brun">
+        <summary className="cursor-pointer font-etiquette font-bold uppercase tracking-wide min-h-[44px] inline-flex items-center">Crédits des photos d&apos;illustration</summary>
+        <p className="mt-2">Les photos de l&apos;Expo viennent de ses photographes et de sa page Facebook. Quand l&apos;Expo n&apos;a pas de photo d&apos;une activité, une photo libre d&apos;ailleurs l&apos;illustre&nbsp;:</p>
+        <ul className="mt-2 grid gap-1">
+          {CREDITS_ILLUSTRATION.map((c) => (
+            <li key={c.sujet}>
+              {c.sujet}&nbsp;: <a className="underline" href={c.page} rel="noopener noreferrer">{c.auteur}</a>, {c.licence}, Wikimedia Commons
+            </li>
+          ))}
+        </ul>
+      </details>
     </div>
   );
 }
