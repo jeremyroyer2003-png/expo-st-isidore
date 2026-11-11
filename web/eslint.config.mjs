@@ -17,6 +17,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Code tiers copié tel quel (moteur Scrollcraft, licence MIT) : on ne le modifie pas
+    "public/vendor/**",
   ]),
 ]);
 
