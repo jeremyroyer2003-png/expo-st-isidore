@@ -33,14 +33,14 @@ export default async function Page() {
   if (supabaseConfigure()) {
     const sb = supabasePublic();
     const [{ data: emps }, { data: etats }, prix] = await Promise.all([
-      sb.from("emplacements_kiosque").select("id, code, x, y, largeur, hauteur, dimensions, prix_cents").order("code"),
+      sb.from("emplacements_kiosque").select("id, code, x, y, largeur, hauteur, dimensions, note, prix_cents").order("code"),
       sb.rpc("etat_emplacements", { p_annee: annee }),
       prixPublics("kiosque"),
     ]);
     const base = prix.find((p) => p.cle === "kiosque_interieur");
     const occupes = new Set(((etats ?? []) as { id: string; occupe: boolean }[]).filter((e) => e.occupe).map((e) => e.id));
     const liste: EmplacementPublic[] = (emps ?? []).map((e) => ({
-      id: e.id, code: e.code, x: e.x, y: e.y, largeur: e.largeur, hauteur: e.hauteur, dimensions: e.dimensions,
+      id: e.id, code: e.code, x: e.x, y: e.y, largeur: e.largeur, hauteur: e.hauteur, dimensions: e.dimensions, note: e.note ?? "",
       occupe: occupes.has(e.id), prix: e.prix_cents ?? (base?.visible ? base.montant_cents : null),
     }));
     plan = <PlanPalais emplacements={liste} annee={annee} fictif={!!base?.a_confirmer} />;

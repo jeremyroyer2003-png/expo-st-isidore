@@ -7,11 +7,23 @@ import { demanderKiosqueInterieur } from "@/actions/reservations";
 
 export type EmplacementPublic = {
   id: string; code: string; x: number; y: number; largeur: number; hauteur: number;
-  dimensions: string; occupe: boolean; prix: number | null;
+  dimensions: string; note: string; occupe: boolean; prix: number | null;
 };
 
-const LARGEUR = 24;
-const HAUTEUR = 14;
+// Plan du comité (kiosques intérieurs 2017) : grille de 11 × 9 cases, 2 unités par case
+const LARGEUR = 22;
+const HAUTEUR = 18;
+const C = 2;
+/** Repères du plan papier (non réservables) : [colonne, ligne, largeur en cases, texte, grisé] */
+const REPERES: [number, number, number, string, boolean][] = [
+  [5, 0, 1, "Entrée aréna", false],
+  [7, 0, 4, "Escalier", true],
+  [0, 1, 1, "Porte latérale", false],
+  [10, 1, 1, "Porte latérale", false],
+  [0, 8, 1, "", true],
+  [5, 8, 1, "Entrée principale", false],
+  [7, 8, 4, "Réfrigérateur", true],
+];
 const argent = (c: number) =>
   new Intl.NumberFormat("fr-CA", { style: "currency", currency: "CAD", minimumFractionDigits: c % 100 ? 2 : 0 }).format(c / 100);
 
@@ -33,14 +45,27 @@ export default function PlanPalais({ emplacements, annee, fictif }: { emplacemen
     <div className="grid gap-8">
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] items-start">
         <figure className="bg-creme cadre-affiche p-3 sm:p-5">
-          <svg viewBox={`-1 -1 ${LARGEUR + 2} ${HAUTEUR + 3}`} className="w-full h-auto" role="group" aria-label={`Plan du palais des commerces : ${libres} emplacements libres`}>
-            {/* Murs et porte */}
-            <rect x={0} y={-0.5} width={LARGEUR} height={HAUTEUR + 1} fill="#E8D9BA" stroke="#1E140D" strokeWidth={0.18} />
-            <rect x={10.2} y={HAUTEUR + 0.3} width={3.6} height={0.4} fill="#F3EAD8" />
-            <text x={12} y={HAUTEUR + 1.7} textAnchor="middle" fontSize={0.62} fontWeight={700} fill="#1E140D" fontFamily="Barlow Condensed, sans-serif">ENTRÉE PRINCIPALE</text>
+          <svg viewBox={`-0.5 -0.5 ${LARGEUR + 1} ${HAUTEUR + 1}`} className="w-full h-auto" role="group" aria-label={`Plan du palais des commerces : ${libres} emplacements libres`}>
+            {/* Murs */}
+            <rect x={0} y={0} width={LARGEUR} height={HAUTEUR} fill="#E8D9BA" stroke="#1E140D" strokeWidth={0.18} />
+            {/* Repères du plan */}
+            {REPERES.map(([col, lig, l, texte, gris]) => (
+              <g key={`${col}-${lig}`} aria-hidden="true">
+                <rect x={col * C + 0.08} y={lig * C + 0.08} width={l * C - 0.16} height={C - 0.16} fill={gris ? "#B9A88A" : "#F3EAD8"} stroke="#5C4A39" strokeWidth={0.08} strokeDasharray={gris ? undefined : "0.25 0.18"} />
+                {texte.split(" ").length > 1 && l === 1 ? (
+                  <text x={col * C + C / 2} y={lig * C + C / 2 - 0.1} textAnchor="middle" fontSize={0.42} fontWeight={700} fill="#5C4A39" fontFamily="Barlow Condensed, sans-serif">
+                    <tspan x={col * C + C / 2}>{texte.split(" ")[0]}</tspan>
+                    <tspan x={col * C + C / 2} dy={0.5}>{texte.split(" ").slice(1).join(" ")}</tspan>
+                  </text>
+                ) : (
+                  <text x={col * C + (l * C) / 2} y={lig * C + C / 2 + 0.18} textAnchor="middle" fontSize={0.5} fontWeight={700} fill="#5C4A39" fontFamily="Barlow Condensed, sans-serif" letterSpacing={0.06}>{texte.toUpperCase()}</text>
+                )}
+              </g>
+            ))}
             {/* Allées */}
-            <text x={12} y={3.5} textAnchor="middle" fontSize={0.5} fill="#5C4A39" fontFamily="Barlow Condensed, sans-serif" letterSpacing={0.1}>ALLÉE</text>
-            <text x={12} y={10.9} textAnchor="middle" fontSize={0.5} fill="#5C4A39" fontFamily="Barlow Condensed, sans-serif" letterSpacing={0.1}>ALLÉE</text>
+            {[1, 4, 7].map((lig) => (
+              <text key={lig} x={12} y={lig * C + C / 2 + 0.18} textAnchor="middle" fontSize={0.5} fill="#5C4A39" fontFamily="Barlow Condensed, sans-serif" letterSpacing={0.1} aria-hidden="true">ALLÉE</text>
+            ))}
             {emplacements.map((k) => {
               const actif = k.id === choisi;
               const sur = k.id === survol;
@@ -52,7 +77,7 @@ export default function PlanPalais({ emplacements, annee, fictif }: { emplacemen
                   tabIndex={k.occupe ? -1 : 0}
                   aria-disabled={k.occupe}
                   aria-pressed={actif}
-                  aria-label={`Emplacement ${k.code}, ${k.dimensions}${k.occupe ? ", déjà attribué" : ", libre"}`}
+                  aria-label={`Emplacement ${k.code}${k.note ? ` (${k.note})` : ""}, ${k.dimensions}${k.occupe ? ", déjà attribué" : ", libre"}`}
                   onClick={() => !k.occupe && choisir(k.id)}
                   onKeyDown={(ev) => { if (!k.occupe && (ev.key === "Enter" || ev.key === " ")) { ev.preventDefault(); choisir(k.id); } }}
                   onMouseEnter={() => setSurvol(k.id)}
@@ -61,8 +86,12 @@ export default function PlanPalais({ emplacements, annee, fictif }: { emplacemen
                   style={{ transition: "transform .18s", transformOrigin: `${k.x + k.largeur / 2}px ${k.y + k.hauteur / 2}px`, transform: (sur || actif) && !k.occupe ? "scale(1.06)" : undefined }}
                 >
                   <rect x={k.x + 0.08} y={k.y + 0.08} width={k.largeur - 0.16} height={k.hauteur - 0.16} fill={fond} stroke="#1E140D" strokeWidth={0.12} rx={0.1} />
-                  <text x={k.x + k.largeur / 2} y={k.y + k.hauteur / 2 + 0.22} textAnchor="middle" fontSize={0.62} fontWeight={800}
+                  <text x={k.x + k.largeur / 2} y={k.y + k.hauteur / 2 + (k.note ? 0.05 : 0.25)} textAnchor="middle" fontSize={0.72} fontWeight={800}
                     fill={actif ? "#F3EAD8" : k.occupe ? "#5C4A39" : "#1E140D"} fontFamily="Barlow Condensed, sans-serif" pointerEvents="none">{k.code}</text>
+                  {k.note && (
+                    <text x={k.x + k.largeur / 2} y={k.y + k.hauteur / 2 + 0.62} textAnchor="middle" fontSize={0.4} fontWeight={700}
+                      fill={actif ? "#F3EAD8" : "#5C4A39"} fontFamily="Barlow Condensed, sans-serif" pointerEvents="none">{k.note}</text>
+                  )}
                 </g>
               );
             })}
@@ -77,7 +106,7 @@ export default function PlanPalais({ emplacements, annee, fictif }: { emplacemen
             <span className="flex items-center gap-2"><span className="h-4 w-4 border-2 border-encre bg-moutarde" aria-hidden="true" />Libre</span>
             <span className="flex items-center gap-2"><span className="h-4 w-4 border-2 border-encre bg-[repeating-linear-gradient(45deg,#E8D9BA_0_3px,#5C4A39_3px_5px)]" aria-hidden="true" />Déjà attribué</span>
             <span className="flex items-center gap-2"><span className="h-4 w-4 border-2 border-encre bg-rouge" aria-hidden="true" />Votre choix</span>
-            <span className="text-gris-brun font-normal">Plan indicatif, Expo {annee}</span>
+            <span className="text-gris-brun font-normal">Plan du comité (2017), Expo {annee} : numéros et dimensions confirmés à l&apos;approbation</span>
           </figcaption>
         </figure>
 
@@ -95,7 +124,7 @@ export default function PlanPalais({ emplacements, annee, fictif }: { emplacemen
           {e && (
             <div className="anim-monter bg-creme cadre-affiche p-4">
               <p className="font-etiquette font-bold uppercase text-[15px] text-gris-brun">Votre choix</p>
-              <p className="font-affiche text-[34px] text-rouge leading-none">{e.code}</p>
+              <p className="font-affiche text-[34px] text-rouge leading-none">{e.code}{e.note && <span className="ml-2 font-etiquette text-[18px] font-extrabold uppercase text-gris-brun tracking-wide">{e.note}</span>}</p>
               <p className="font-semibold">{e.dimensions}{e.prix != null ? ` · ${argent(e.prix)}${fictif ? " (prix fictif, test)" : ""}` : " · prix confirmé à l'approbation"}</p>
             </div>
           )}

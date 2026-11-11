@@ -1,7 +1,7 @@
 // Converti automatiquement depuis site/histoire.html (contenu d'origine du site statique)
 import Link from "next/link";
 
-export const meta = { titre: "Notre histoire – 28 producteurs, une expo depuis 1983 | Expo St-Isidore", description: "L'histoire de l'Expo St-Isidore : fondée en 1983 par 28 producteurs de la Beauce, de Lévis et de Dorchester. Ligne du temps, bâtisseurs, distinctions et activités d'autrefois." };
+export const meta = { titre: "Notre histoire – 28 producteurs, une expo depuis 1982 | Expo St-Isidore", description: "L'histoire de l'Expo St-Isidore : fondée en 1982 par 28 producteurs de la Beauce, de Lévis et de Dorchester. Ligne du temps, bâtisseurs, distinctions et activités d'autrefois." };
 
 export default function PageHistoire() {
   return (
@@ -11,7 +11,7 @@ export default function PageHistoire() {
     <section className="heros heros--page" aria-labelledby="titre-heros">
       <div className="contenu heros__grille heros__grille--texte">
         <div className="heros__texte">
-          <p className="billet"><span>Fondée en</span><span>1983</span></p>
+          <p className="billet"><span>Fondée en</span><span>1982</span></p>
           <h1 id="titre-heros" className="heros__titre">
             <span>«&nbsp;Créée par</span>
             <span className="jaune">28 producteurs</span>

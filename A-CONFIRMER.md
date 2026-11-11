@@ -13,7 +13,7 @@ Les prix ci-dessous sont des **valeurs fictives de départ**, marquées « à co
   - L'Expo est-elle inscrite aux fichiers de la TPS et de la TVQ, ou « petit fournisseur » (moins de 30 000 $ de ventes taxables par année; seuil différent pour un organisme de bienfaisance ou un OBNL : à vérifier avec le comptable)?
   - Si elle est inscrite : quels services sont taxables (location de salle, kiosques, danse, remisage)? Les prix affichés sont-ils taxes incluses ou en sus? Numéros de TPS et de TVQ (à afficher sur les reçus et les factures)
   - Taux fixes dans Stripe (gratuit, suffisant pour le Québec) ou Stripe Tax (calcul automatique, frais d'environ 0,5 % par transaction)?
-- [ ] **Plan officiel du palais des commerces** : le plan en ligne est indicatif (32 emplacements de 10 pi × 10 pi, généré)
+- [ ] **Plan du palais des commerces** : le plan en ligne reprend le plan papier du comité de 2017 (51 emplacements, avec Cabane, Agro et Maison). Est-il encore bon pour 2027? Quelles sont les dimensions des emplacements?
 - [ ] Capacité des salles (pour l'afficher au calendrier)
 - [ ] Compte Stripe de l'Expo (au nom du comité) pour la mise en ligne; qui reçoit les virements
 - [ ] Noms et courriels des 3 éditeurs et des lecteurs de l'administration
@@ -22,8 +22,8 @@ Les prix ci-dessous sont des **valeurs fictives de départ**, marquées « à co
 - [ ] Photos de la page Facebook : récupérées de la page publique (le comité est admin, mais l'accès n'est pas encore donné), importées **non publiées** par `web/scripts/importer-photos-fb.py`. Avant de publier chaque photo : droits du photographe nommé dans le crédit, aucun enfant reconnaissable. Quand le comité donnera l'accès, l'export officiel de la page remplacera ces copies.
   - 31 photos importées le 11 novembre 2026, dont les crédits ont été lus dans les filigranes : **Lyse Neuville Photography** (jugements 2024-2025), **Cynthia Fillion Photographe** (BBQ, saloon), **Gagné Photographie** (tracteur en balles de foin), **ELZEPHOTO** (2018). Les autres photos (tire 2015, quelques photos de 2016 et 2018) n'ont pas de filigrane : il faut retrouver qui les a prises.
   - Écartées : photos avec enfants ou jeunes éleveurs reconnaissables, affiches et visuels de programmation.
-- [ ] **Année de fondation** : la page Facebook dit « Créée en 1982 », le site dit « depuis 1983 ». Laquelle est la bonne?
-- [ ] Un **plan papier du palais des commerces** a été publié sur Facebook le 1er février 2017 (copie gardée dans le dépôt privé `expo-fb-photos`). C'est un point de départ pour le plan officiel des kiosques, à faire valider par le comité.
+- [x] **Année de fondation** : 1982, comme sur la page Facebook (Jérémy, 11 novembre 2026). Le site dit maintenant « depuis 1982 »; la ligne du temps garde les lettres patentes et la 1re édition en 1983.
+- [x] Le **plan papier du palais des commerces** publié sur Facebook le 1er février 2017 est maintenant le plan en ligne (décision de Jérémy, 11 novembre 2026). L'autre plan publié ce jour-là est celui de l'aréna (kiosques d'artisanat, 66 places) : il n'est pas encore en ligne.
 - [ ] Cahier Beauce Média 2010 (archives BAnQ) : copie gardée dans `docs/archives/`, citée dans Notre histoire; ne pas la publier en ligne sans permission
 
 ## Soulevé par la critique de design (4 novembre 2026)

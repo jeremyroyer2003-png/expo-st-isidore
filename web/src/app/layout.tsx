@@ -6,7 +6,7 @@ const URL_SITE = process.env.NEXT_PUBLIC_URL_SITE || "http://localhost:3000";
 export const metadata: Metadata = {
   metadataBase: new URL(URL_SITE),
   title: {
-    default: "Expo St-Isidore – Exposition agricole gratuite en Beauce depuis 1983",
+    default: "Expo St-Isidore – Exposition agricole gratuite en Beauce depuis 1982",
     template: "%s | Expo St-Isidore",
   },
   description:

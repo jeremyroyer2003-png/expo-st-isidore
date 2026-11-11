@@ -134,7 +134,8 @@ Pour chaque flux, noter ce qui casse, puis corriger avec Claude. Carte de test S
 - Éditeurs : ils peuvent aussi approuver les demandes et rembourser. Le super-admin gère en plus les comptes.
 - Dépôt minimum de 100 $ : seulement pour le remisage. La danse n'a pas de frais d'annulation par défaut.
 - Courriel obligatoire au remisage : il sert à envoyer le lien de dépôt.
-- Plan du palais : indicatif (32 emplacements générés) en attendant le plan officiel.
+- Plan du palais : celui du comité de 2017 (51 emplacements), transcrit depuis la page Facebook. Les dimensions restent à confirmer.
+- Année de fondation : 1982 (« depuis 1982 »). La ligne du temps garde les lettres patentes et la 1re édition en 1983.
 - Dépendances ajoutées : `@supabase/supabase-js`, `@supabase/ssr` et `stripe`. Signaler à Jérémy toute autre dépendance avant de l'ajouter.
 
 ## 7. Après les tests (à décider avec Jérémy)

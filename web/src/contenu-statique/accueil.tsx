@@ -1,7 +1,7 @@
 // Converti automatiquement depuis site/index.html (contenu d'origine du site statique)
 import Link from "next/link";
 
-export const meta = { titre: "Expo St-Isidore – Exposition agricole gratuite en Beauce depuis 1983", description: "Expo agricole gratuite à Saint-Isidore, en Beauce : jugements d'animaux, tire de tracteurs, spectacles et activités familiales. Merci pour 2026, on se revoit en juillet 2027. Toute l'année : remisage d'hiver intérieur, location de salle et danse country." };
+export const meta = { titre: "Expo St-Isidore – Exposition agricole gratuite en Beauce depuis 1982", description: "Expo agricole gratuite à Saint-Isidore, en Beauce : jugements d'animaux, tire de tracteurs, spectacles et activités familiales. Merci pour 2026, on se revoit en juillet 2027. Toute l'année : remisage d'hiver intérieur, location de salle et danse country." };
 
 import ComportementsAccueil from "@/components/site/ComportementsAccueil";
 
@@ -49,7 +49,7 @@ export default function PageAccueil({ heros }: { heros?: React.ReactNode } = {})
           </div>
         </div>
         <div className="contenu une__contenu une__saison une__saison--ete">
-          <p className="billet"><span>Entrée gratuite</span><span>depuis 1983</span></p>
+          <p className="billet"><span>Entrée gratuite</span><span>depuis 1982</span></p>
           <h1 className="une__titre">On se revoit <span>en juillet 2027</span></h1>
           <p className="une__intro">Six jours d&apos;agriculture, de tracteurs et de fête à Saint-Isidore, en Beauce. Les dates 2027 seront annoncées au printemps.</p>
           <div className="groupe-boutons">
@@ -222,7 +222,7 @@ export default function PageAccueil({ heros }: { heros?: React.ReactNode } = {})
             </figure>
             <div className="choix__texte">
               <h3>Les animaux</h3>
-              <p>La raison d&apos;être de l&apos;Expo depuis 1983&nbsp;: les éleveurs de la région viennent comparer leur bétail sous la tente de jugement.</p>
+              <p>La raison d&apos;être de l&apos;Expo depuis 1982&nbsp;: les éleveurs de la région viennent comparer leur bétail sous la tente de jugement.</p>
               <ul className="choix__liste">
                 <li><span className="choix__quand">Jeu. 10&nbsp;h&nbsp;30</span><span className="choix__quoi">Jugement des jeunes éleveurs<small>Tente de jugement</small></span></li>
                 <li><span className="choix__quand">Ven. 14&nbsp;h</span><span className="choix__quoi">Concours de tonte<small>Tente de jugement</small></span></li>

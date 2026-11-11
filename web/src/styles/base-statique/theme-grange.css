@@ -110,7 +110,7 @@ a:hover{color:var(--rouge-vif)}
 .une__intro,.heros__intro{color:var(--texte-nuit)}
 .une__point[aria-current="true"]::before{background:var(--jaune)}
 
-/* Billet « Entrée gratuite | depuis 1983 » : moutarde, lettrage western */
+/* Billet « Entrée gratuite | depuis 1982 » : moutarde, lettrage western */
 .billet{background:var(--jaune);color:var(--nuit);border-radius:2px;font-family:var(--western);font-weight:400;text-transform:none;letter-spacing:.02em;box-shadow:0 3px 0 var(--nuit)}
 
 /* ---------- Bandeau défilant : rouge grange, étoiles ---------- */

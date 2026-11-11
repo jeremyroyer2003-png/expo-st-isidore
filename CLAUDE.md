@@ -48,7 +48,7 @@ La référence est `maquettes/accueil-v2.html`. Ouvre-la dans un navigateur avan
 - **Motifs signature** :
   - ~~Le moulinet du logo qui tourne dans le héros~~ : en attente du SVG officiel (voir retours plus bas). Le bandeau défilant utilise un simple point comme séparateur.
   - Photos présentées comme des tirages imprimés penchés, avec légende.
-  - Billet « Entrée gratuite | depuis 1983 » avec ligne perforée.
+  - Billet « Entrée gratuite | depuis 1982 » (année confirmée par Jérémy le 11 novembre 2026 : Facebook dit « Créée en 1982 »; lettres patentes et 1re édition en 1983) avec ligne perforée.
   - Bandeau orange défilant des activités.
   - Rubans de champion (rosettes) pour les grandes dates.
   - Photo d'archive en sépia avec ruban adhésif.

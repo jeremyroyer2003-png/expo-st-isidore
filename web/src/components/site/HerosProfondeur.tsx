@@ -111,7 +111,7 @@ export default function HerosProfondeur() {
               </div>
             </div>
             <div className="seulement-ete">
-              <p className="billet"><span>Entrée gratuite</span><span>depuis 1983</span></p>
+              <p className="billet"><span>Entrée gratuite</span><span>depuis 1982</span></p>
               <h2 className="hv2-messageTitre">On se revoit <span>en juillet 2027</span></h2>
               <p className="hv2-intro">Six jours d&apos;agriculture, de tracteurs et de fête à Saint-Isidore, en Beauce. Les dates 2027 seront annoncées au printemps.</p>
               <div className="groupe-boutons">
