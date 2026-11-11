@@ -235,8 +235,8 @@ export default function PageAccueil({ heros }: { heros?: React.ReactNode } = {})
 
           <article className="choix__panneau c-orange" id="ambiance-tire" role="tabpanel" aria-labelledby="onglet-tire">
             <figure className="choix__photo">
-              <img src="/images/photos/tire-semi-nuit-800.webp" srcSet="/images/photos/tire-semi-nuit-800.webp 800w, /images/photos/tire-semi-nuit.webp 1400w" sizes="(max-width: 900px) 100vw, 720px" alt="Camion semi-remorque sous les projecteurs, le soir, devant les estrades pleines" width="800" height="533" loading="lazy" />
-              <figcaption>Les semis, à la nuit tombée</figcaption>
+              <img src="/images/photos/tire-fumee-soir-800.webp" srcSet="/images/photos/tire-fumee-soir-800.webp 800w, /images/photos/tire-fumee-soir.webp 1600w" sizes="(max-width: 900px) 100vw, 720px" alt="Tracteur rouge qui crache une colonne de fumée noire dans le ciel du soir, devant les estrades" width="800" height="534" loading="lazy" />
+              <figcaption>Une colonne de fumée, à la nuit tombée</figcaption>
             </figure>
             <div className="choix__texte">
               <h3>La tire</h3>
@@ -288,8 +288,8 @@ export default function PageAccueil({ heros }: { heros?: React.ReactNode } = {})
 
           <article className="choix__panneau c-marine" id="ambiance-kiosques" role="tabpanel" aria-labelledby="onglet-kiosques">
             <figure className="choix__photo">
-              <img src="/images/photos/machinerie-exterieure-800.webp" srcSet="/images/photos/machinerie-exterieure-800.webp 800w, /images/photos/machinerie-exterieure.webp 1400w" sizes="(max-width: 900px) 100vw, 720px" alt="Allée de machinerie agricole neuve exposée à l'extérieur" width="800" height="533" loading="lazy" />
-              <figcaption>L&apos;allée de la machinerie</figcaption>
+              <img src="/images/photos/tracteur-balles-foin-800.webp" srcSet="/images/photos/tracteur-balles-foin-800.webp 800w, /images/photos/tracteur-balles-foin.webp 1600w" sizes="(max-width: 900px) 100vw, 720px" alt="Tracteur géant fait de balles de foin enrubannées jaunes, devant de la machinerie sous un ciel orageux" width="800" height="533" loading="lazy" />
+              <figcaption>Le tracteur en balles de foin</figcaption>
             </figure>
             <div className="choix__texte">
               <h3>Les kiosques</h3>
@@ -315,10 +315,10 @@ export default function PageAccueil({ heros }: { heros?: React.ReactNode } = {})
           <Link className="bouton bouton--marine" href="/photos">Tous les albums <span className="fleche" aria-hidden="true">→</span></Link>
         </div>
         <ul className="mosaique">
-          <li><Link href="/photos#album-animaux"><img src="/images/photos/holstein-jugement-800.webp" srcSet="/images/photos/holstein-jugement-800.webp 800w, /images/photos/holstein-jugement.webp 1400w" sizes="(max-width: 700px) 100vw, 620px" alt="Juge et éleveurs devant une rangée de vaches Holstein sous la tente" width="800" height="533" loading="lazy" /><span>Jugement Holstein</span></Link></li>
-          <li><Link href="/photos#album-soirees"><img src="/images/photos/danse-country-400.webp" srcSet="/images/photos/danse-country-400.webp 400w, /images/photos/danse-country-800.webp 800w" sizes="(max-width: 700px) 50vw, 310px" alt="Danseurs en ligne sous les lumières d'une grange décorée" width="400" height="266" loading="lazy" /><span>Danse country</span></Link></li>
-          <li><Link href="/photos#album-tire"><img src="/images/photos/tire-pickups-400.webp" srcSet="/images/photos/tire-pickups-400.webp 400w, /images/photos/tire-pickups-800.webp 800w" sizes="(max-width: 700px) 50vw, 310px" alt="Pick-up modifié en pleine tire sur la piste de terre" width="400" height="267" loading="lazy" /><span>Tire de pick-ups</span></Link></li>
-          <li><Link href="/photos#album-animaux"><img src="/images/photos/holstein-rosettes-800.webp" srcSet="/images/photos/holstein-rosettes-800.webp 800w, /images/photos/holstein-rosettes.webp 1400w" sizes="(max-width: 700px) 50vw, 620px" alt="Plaques et rubans de champion aux couleurs de l'Expo" width="800" height="533" loading="lazy" /><span>Rubans de champion</span></Link></li>
+          <li><Link href="/photos#album-animaux"><img src="/images/photos/holstein-arene-800.webp" srcSet="/images/photos/holstein-arene-800.webp 800w, /images/photos/holstein-arene.webp 1600w" sizes="(max-width: 700px) 100vw, 620px" alt="Rangée de vaches Holstein vues de dos dans l'arène de jugement, public assis autour" width="800" height="496" loading="lazy" /><span>Jugement Holstein</span></Link></li>
+          <li><Link href="/photos#album-soirees"><img src="/images/photos/spectacle-bras-leves-400.webp" srcSet="/images/photos/spectacle-bras-leves-400.webp 400w, /images/photos/spectacle-bras-leves-800.webp 800w" sizes="(max-width: 700px) 50vw, 310px" alt="Foule les bras levés devant la scène pendant un spectacle, sous les projecteurs" width="400" height="300" loading="lazy" /><span>Les soirées</span></Link></li>
+          <li><Link href="/photos#album-tire"><img src="/images/photos/tire-the-rock-400.webp" srcSet="/images/photos/tire-the-rock-400.webp 400w, /images/photos/tire-the-rock-800.webp 800w" sizes="(max-width: 700px) 50vw, 310px" alt="Pick-up bleu « The Rock » au moteur surélevé qui tire le traîneau" width="400" height="267" loading="lazy" /><span>Tire de pick-ups</span></Link></li>
+          <li><Link href="/photos#album-animaux"><img src="/images/photos/holstein-rosettes-rouges-800.webp" srcSet="/images/photos/holstein-rosettes-rouges-800.webp 800w, /images/photos/holstein-rosettes-rouges.webp 1600w" sizes="(max-width: 700px) 50vw, 620px" alt="Vache Holstein noire et blanche portant ses rosettes rouges, tenue par son éleveur" width="800" height="487" loading="lazy" /><span>Rubans de champion</span></Link></li>
           <li><Link href="/photos#album-kiosques"><img src="/images/photos/agroalimentaire-400.webp" srcSet="/images/photos/agroalimentaire-400.webp 400w, /images/photos/agroalimentaire-800.webp 800w" sizes="(max-width: 700px) 50vw, 310px" alt="Animation agroalimentaire : visiteurs autour d'une table d'activités" width="400" height="267" loading="lazy" /><span>Agroalimentaire</span></Link></li>
           <li><Link href="/photos#album-soirees"><img src="/images/photos/chapiteau-foule-400.webp" srcSet="/images/photos/chapiteau-foule-400.webp 400w, /images/photos/chapiteau-foule-800.webp 800w" sizes="(max-width: 700px) 100vw, 310px" alt="Foule rassemblée sous le grand chapiteau, le soir" width="400" height="267" loading="lazy" /><span>Le chapiteau</span></Link></li>
         </ul>

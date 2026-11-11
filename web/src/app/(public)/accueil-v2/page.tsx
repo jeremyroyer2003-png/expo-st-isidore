@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import HerosProfondeur from "@/components/site/HerosProfondeur";
+import HerosVideo from "@/components/site/HerosVideo";
+import PelliculePhotos from "@/components/site/PelliculePhotos";
 import Contenu, { meta } from "@/contenu-statique/accueil";
 
-// Version 2 de l'accueil, pour comparer en local avec / (seul le héros change).
+// Version 2 de l'accueil, pour comparer en local avec / : héros vidéo (photo animée par IA)
+// et pellicule de photos de la page Facebook. Le reste de la page est identique.
 // Pas dans le menu, pas indexée. À supprimer ou à promouvoir après la décision de Jérémy.
 export const metadata: Metadata = {
   title: { absolute: `${meta.titre} (version 2, essai)` },
@@ -11,5 +13,14 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <Contenu heros={<HerosProfondeur />} />;
+  return (
+    <Contenu
+      heros={
+        <>
+          <HerosVideo />
+          <PelliculePhotos />
+        </>
+      }
+    />
+  );
 }

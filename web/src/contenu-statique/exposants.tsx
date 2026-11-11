@@ -68,7 +68,7 @@ export default function PageExposants() {
         <div className="rangee-photos">
           <figure className="tirage"><img src="/images/photos/machinerie-exterieure-800.webp" alt="Allée de machinerie agricole neuve exposée à l'extérieur" width="800" height="533" loading="lazy" /><figcaption>Kiosques extérieurs</figcaption></figure>
           <figure className="tirage"><img src="/images/photos/agroalimentaire-800.webp" alt="Exposante qui présente ses produits à un kiosque agroalimentaire" width="800" height="533" loading="lazy" /><figcaption>Agroalimentaire</figcaption></figure>
-          <figure className="tirage"><img src="/images/photos/holstein-jugement-800.webp" alt="Vaches Holstein alignées devant le juge dans l'arène de jugement" width="800" height="533" loading="lazy" /><figcaption>Jugement Holstein</figcaption></figure>
+          <figure className="tirage"><img src="/images/photos/jugement-chapiteau-800.webp" alt="Le juge commente le classement au centre de l'arène, devant des estrades pleines sous le chapiteau" width="800" height="485" loading="lazy" /><figcaption>Jugement Holstein</figcaption></figure>
         </div>
       </div>
     </section>

@@ -30,14 +30,16 @@ La prochaine séance aura lieu sur le **PC personnel de Jérémy**, où Node.js 
   - un éditeur les publie après avoir vérifié les droits (voir `A-CONFIRMER.md`) ;
   - les copies brutes sont dans le dépôt **privé** `expo-fb-photos` (branche `scrape-raw`), jamais dans ce dépôt public ;
   - script d'import : `web/scripts/importer-photos-fb.py`.
-- **Accueil version 2** à http://localhost:3000/accueil-v2 :
-  - seul le héros change : un tracteur de tire en profondeur et un rideau de poussière qui dévoile le message de la saison ;
-  - images faites avec Higgsfield à partir d'une vraie photo ELZEPHOTO ;
-  - la page n'est pas indexée et n'est pas dans le menu ; l'accueil `/` reste identique ;
-  - **Jérémy compare `/` et `/accueil-v2`, puis décide** (garder, ajuster ou abandonner).
+- **Accueil version 2** à http://localhost:3000/accueil-v2 (refait le 11 novembre en fin de journée, à la demande de Jérémy : il n'aimait pas le héros à défilement) :
+  - héros **vidéo** : une vraie photo animée par IA (Higgsfield, Kling 3.0, clips de 5 s) joue en fond; deux lecteurs se relaient avec un fondu pour boucler. Hiver = survol de drone du site (photo aérienne agrandie en 4K par Higgsfield); été = tire de nuit (photo ELZEPHOTO). Le message de la saison est visible tout de suite, bouton « Arrêter la vidéo », photo fixe si « réduire les animations »;
+  - sur téléphone, la vidéo devient un bandeau 3:2 (scène entière) et le texte passe dessous;
+  - **pellicule** « L'Expo en images » sous le héros : 10 photos de la page Facebook qui défilent (pause au survol et bouton);
+  - tester l'autre saison avec `?saison=ete` ou `?saison=hiver` dans l'adresse;
+  - vidéos dans `web/public/videos/` (7 à 8 Mo chacune) : **à compresser** avant toute mise en ligne (il faut `ffmpeg`, absent du poste du travail);
+  - **Jérémy compare `/` et `/accueil-v2`, puis décide**.
+- **Photos Facebook dans l'app** : 20 nouvelles photos dans `web/public/images/photos/` remplacent les doublons (accueil, programmation, exposants). ⚠ Elles sont maintenant dans ce dépôt **public** : ne pas pousser sur GitHub avant que Jérémy décide (droits à confirmer, voir `A-CONFIRMER.md`).
 - **À faire ensuite** :
-  - ~~Version téléphone du héros~~ **faite** : plaque portrait 9:16 (`plaque-portrait.webp`), la même photo dont le ciel et la piste ont été prolongés par l'outpaint Higgsfield (2 crédits). Servie sous 860 px avec `<picture>`; le tracteur est entier dès 360 px (très légèrement rogné à 320 px).
-  - Ajustements du héros v2 selon les commentaires de Jérémy.
+  - Ajustements du héros vidéo selon les commentaires de Jérémy (crédits Higgsfield restants : 120).
   - Puis les tests de bout en bout de la section 3.
 - **Serveur local** : il s'arrête quand la conversation se ferme. Le relancer dans `web/` avec `npm run dev`.
 

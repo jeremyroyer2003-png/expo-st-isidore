@@ -25,7 +25,7 @@ export const viewport: Viewport = { themeColor: "#F3EAD8" };
 
 // Saison : hiver du 15 octobre au 14 mai (remisage en avant), été le reste de l'année (Expo).
 // Exécuté avant l'affichage pour éviter un saut de contenu.
-const SCRIPT_SAISON = `(function(){var h=document.documentElement;h.classList.add('js');var d=new Date(),m=d.getMonth()+1,j=d.getDate();var hiver=m>10||m<5||(m===10&&j>=15)||(m===5&&j<15);h.classList.add(hiver?'saison-hiver':'saison-ete');})();`;
+const SCRIPT_SAISON = `(function(){var h=document.documentElement;h.classList.add('js');var d=new Date(),m=d.getMonth()+1,j=d.getDate();var hiver=m>10||m<5||(m===10&&j>=15)||(m===5&&j<15);var q=/[?&]saison=(ete|hiver)/.exec(location.search);if(q)hiver=q[1]==='hiver';h.classList.add(hiver?'saison-hiver':'saison-ete');})();`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

@@ -13,23 +13,24 @@ const CATEGORIES = [
   { cle: "autres", nom: "Autres" },
 ] as const;
 
-// Couleur et photo d'ambiance par catégorie (photos déjà sur le site, aucun enfant identifiable)
+// Couleur et photo d'ambiance par catégorie. Photos propres à la programmation (page Facebook de l'Expo,
+// droits à confirmer) pour ne pas répéter celles de l'accueil; aucun enfant identifiable.
 const STYLE: Record<string, { fond: string; texte: string; photo: string }> = {
-  animaux: { fond: "bg-olive", texte: "text-encre", photo: "/images/photos/holstein-jugement-400.webp" },
-  tire: { fond: "bg-rouille", texte: "text-encre", photo: "/images/photos/tire-foule-400.webp" },
-  spectacles: { fond: "bg-rouge", texte: "text-creme", photo: "/images/photos/spectacle-scene-400.webp" },
-  famille: { fond: "bg-jean", texte: "text-encre", photo: "/images/photos/chapiteau-foule-400.webp" },
-  kiosques: { fond: "bg-moutarde", texte: "text-encre", photo: "/images/photos/kiosques-interieurs-400.webp" },
-  autres: { fond: "bg-kraft", texte: "text-encre", photo: "/images/photos/soiree-saloon-400.webp" },
+  animaux: { fond: "bg-olive", texte: "text-encre", photo: "/images/photos/jugement-ayrshire-400.webp" },
+  tire: { fond: "bg-rouille", texte: "text-encre", photo: "/images/photos/tire-flammes-400.webp" },
+  spectacles: { fond: "bg-rouge", texte: "text-creme", photo: "/images/photos/spectacle-bras-leves-400.webp" },
+  famille: { fond: "bg-jean", texte: "text-encre", photo: "/images/photos/paon-400.webp" },
+  kiosques: { fond: "bg-moutarde", texte: "text-encre", photo: "/images/photos/bbq-poulet-400.webp" },
+  autres: { fond: "bg-kraft", texte: "text-encre", photo: "/images/photos/tracteur-balles-foin-400.webp" },
 };
 
 const BANDEAU_JOUR = [
-  "/images/photos/spectacle-foule-800.webp",
+  "/images/photos/tire-wild-thing-800.webp",
   "/images/photos/holstein-alignement-800.webp",
-  "/images/photos/tire-nuit-800.webp",
-  "/images/photos/chapiteau-foule-800.webp",
-  "/images/photos/tire-poussiere-800.webp",
-  "/images/photos/holstein-rosettes-800.webp",
+  "/images/photos/tire-bleu-nuit-800.webp",
+  "/images/photos/estrades-jugement-800.webp",
+  "/images/photos/tire-chrome-800.webp",
+  "/images/photos/holstein-rangee-800.webp",
 ];
 
 function infosJour(iso: string) {

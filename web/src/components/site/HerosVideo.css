@@ -1,0 +1,285 @@
+/* Héros v2 (essai /accueil-v2) : vidéo réaliste en fond, message visible tout de suite.
+   Ordinateur : la vidéo couvre le héros, le texte se lit sur un voile foncé à gauche.
+   Téléphone : la vidéo devient un bandeau 3:2 (la scène entière, tracteur compris), le texte dessous. */
+
+.hvid {
+  position: relative;
+  display: grid;
+  align-items: end;
+  min-height: clamp(560px, calc(100svh - 88px), 820px);
+  overflow: hidden;
+  background: var(--color-planche);
+  color: var(--color-creme);
+  isolation: isolate;
+}
+
+.hvid__media {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+.hvid__affiche,
+.hvid__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 45% 50%;
+  display: block;
+}
+.hvid__video {
+  opacity: 0;
+  transition: opacity 1.2s linear;
+}
+.hvid__video.est-visible {
+  opacity: 1;
+}
+.hvid__voile {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgb(30 20 13 / 0.82) 0%, rgb(30 20 13 / 0.55) 38%, rgb(30 20 13 / 0) 68%),
+    linear-gradient(0deg, rgb(30 20 13 / 0.7) 0%, rgb(30 20 13 / 0) 35%);
+}
+
+.hvid__contenu {
+  position: relative;
+  padding-top: 72px;
+  padding-bottom: 96px;
+  display: grid;
+  gap: 20px;
+  max-width: 1200px;
+}
+/* Un seul bloc visible selon la saison (sans JavaScript : l'hiver, comme le reste du site) */
+.hvid__contenu > .seulement-ete,
+.saison-ete .hvid__contenu > .seulement-hiver {
+  display: none;
+}
+.hvid__contenu > .seulement-hiver,
+.saison-ete .hvid__contenu > .seulement-ete {
+  display: grid;
+  gap: 22px;
+  justify-items: start;
+}
+.hvid__surtitre {
+  margin: 0;
+  font-family: var(--font-etiquette);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: clamp(0.95rem, 0.85rem + 0.4vw, 1.2rem);
+  color: var(--color-moutarde);
+  text-shadow: 0 1px 6px rgb(0 0 0 / 0.6);
+}
+.hvid__titre {
+  color: var(--color-creme);
+  max-width: 14ch;
+  text-shadow: 0 3px 0 rgb(0 0 0 / 0.35), 0 8px 28px rgb(0 0 0 / 0.45);
+}
+.hvid__titre span {
+  display: block;
+  color: var(--color-moutarde);
+}
+.hvid__intro {
+  color: var(--color-creme);
+  max-width: 40ch;
+  text-shadow: 0 1px 8px rgb(0 0 0 / 0.6);
+}
+.hvid__contour {
+  color: var(--color-creme);
+  border-color: var(--color-creme);
+}
+
+.hvid__pied {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px max(5vw, 20px);
+}
+.hvid__legende {
+  margin: 0;
+  font-family: var(--font-etiquette);
+  font-size: 0.95rem;
+  color: rgb(243 234 216 / 0.9);
+  text-shadow: 0 1px 4px rgb(0 0 0 / 0.8);
+}
+.hvid__pause {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 2px solid var(--color-creme);
+  border-radius: 4px;
+  background: rgb(30 20 13 / 0.6);
+  color: var(--color-creme);
+  font-family: var(--font-etiquette);
+  font-weight: 800;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.hvid__pause svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+.hvid__pause:hover {
+  background: var(--color-encre);
+}
+.hvid__pause:focus-visible {
+  outline: 3px solid var(--color-moutarde);
+  outline-offset: 2px;
+}
+
+/* Téléphone et petite tablette : bandeau vidéo entier, puis le message sur les planches */
+@media (max-width: 760px) {
+  .hvid {
+    display: block;
+    min-height: 0;
+  }
+  .hvid__media {
+    position: relative;
+    inset: auto;
+    z-index: 0;
+    aspect-ratio: 3 / 2;
+  }
+  .hvid__affiche,
+  .hvid__video {
+    object-position: 50% 50%;
+  }
+  .hvid__voile {
+    background: linear-gradient(0deg, var(--color-planche) 0%, rgb(42 29 20 / 0) 30%);
+  }
+  .hvid__contenu {
+    padding-top: 8px;
+    padding-bottom: 28px;
+  }
+  .hvid__pied {
+    position: relative;
+    flex-wrap: wrap;
+    padding: 0 20px 24px;
+    background: var(--color-planche);
+  }
+  .hvid__legende {
+    font-size: 0.85rem;
+  }
+}
+
+/* ===== Pellicule : vraies photos de l'Expo (page Facebook) qui défilent ===== */
+.pellicule {
+  background: var(--color-encre);
+  color: var(--color-creme);
+  padding: 28px 0 22px;
+  overflow: hidden;
+  border-top: 3px solid var(--color-encre);
+}
+.pellicule__entete {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.pellicule__titre {
+  margin: 0;
+  font-family: var(--font-affiche);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.4rem);
+  color: var(--color-creme);
+}
+.pellicule__actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.pellicule__lien {
+  color: var(--color-moutarde);
+  font-family: var(--font-etiquette);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.pellicule__piste {
+  display: flex;
+  width: max-content;
+  animation: pellicule-defile 70s linear infinite;
+}
+.pellicule:hover .pellicule__piste,
+.pellicule:focus-within .pellicule__piste,
+.pellicule.est-arretee .pellicule__piste {
+  animation-play-state: paused;
+}
+.pellicule__groupe {
+  display: flex;
+  gap: 18px;
+  padding-right: 18px;
+  margin: 0;
+  list-style: none;
+}
+.pellicule__photo {
+  margin: 0;
+  width: clamp(220px, 24vw, 340px);
+  background: var(--color-creme);
+  padding: 8px 8px 10px;
+  box-shadow: 4px 4px 0 rgb(0 0 0 / 0.45);
+}
+.pellicule__groupe > li:nth-child(odd) .pellicule__photo {
+  transform: rotate(-1.2deg);
+}
+.pellicule__groupe > li:nth-child(even) .pellicule__photo {
+  transform: rotate(1deg) translateY(6px);
+}
+.pellicule__photo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+.pellicule__photo figcaption {
+  margin-top: 8px;
+  font-family: var(--font-etiquette);
+  font-size: 0.95rem;
+  line-height: 1.25;
+  color: var(--color-encre);
+}
+.pellicule__photo figcaption small {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--color-gris-brun);
+}
+
+@keyframes pellicule-defile {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Mouvement réduit : rien ne bouge, la pellicule se parcourt à la main */
+@media (prefers-reduced-motion: reduce) {
+  .hvid__video {
+    display: none;
+  }
+  .pellicule {
+    overflow-x: auto;
+  }
+  .pellicule__piste {
+    animation: none;
+  }
+  .pellicule__groupe[aria-hidden="true"] {
+    display: none;
+  }
+}
