@@ -9,7 +9,11 @@ Les prix ci-dessous sont des **valeurs fictives de départ**, marquées « à co
 - [ ] Danse : forfait mensuel (75 $, donné en exemple par Jérémy) et forfait saison d'environ 3 mois (fictif : 180 $). La session à 20 $ est confirmée.
 - [ ] Remisage : tarif au pied (fictif : 15 $); le dépôt minimum de 100 $ est confirmé. Comment se paie le solde?
 - [ ] Frais d'annulation : salle (fictif : 50 $), kiosque (fictif : 50 $), remisage (fictif : 25 $); politique d'annulation (délais)
-- [ ] **Plan officiel du palais des commerces** : le plan en ligne est indicatif (36 emplacements de 10 pi × 10 pi, généré)
+- [ ] **Taxes (TPS 5 % et TVQ 9,975 %)** : aucune taxe n'est calculée pour l'instant dans les paiements en ligne. À demander au comité :
+  - L'Expo est-elle inscrite aux fichiers de la TPS et de la TVQ, ou « petit fournisseur » (moins de 30 000 $ de ventes taxables par année; seuil différent pour un organisme de bienfaisance ou un OBNL : à vérifier avec le comptable)?
+  - Si elle est inscrite : quels services sont taxables (location de salle, kiosques, danse, remisage)? Les prix affichés sont-ils taxes incluses ou en sus? Numéros de TPS et de TVQ (à afficher sur les reçus et les factures)
+  - Taux fixes dans Stripe (gratuit, suffisant pour le Québec) ou Stripe Tax (calcul automatique, frais d'environ 0,5 % par transaction)?
+- [ ] **Plan officiel du palais des commerces** : le plan en ligne est indicatif (32 emplacements de 10 pi × 10 pi, généré)
 - [ ] Capacité des salles (pour l'afficher au calendrier)
 - [ ] Compte Stripe de l'Expo (au nom du comité) pour la mise en ligne; qui reçoit les virements
 - [ ] Noms et courriels des 3 éditeurs et des lecteurs de l'administration

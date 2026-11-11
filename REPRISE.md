@@ -119,7 +119,7 @@ Pour chaque flux, noter ce qui casse, puis corriger avec Claude. Carte de test S
 - Éditeurs : ils peuvent aussi approuver les demandes et rembourser. Le super-admin gère en plus les comptes.
 - Dépôt minimum de 100 $ : seulement pour le remisage. La danse n'a pas de frais d'annulation par défaut.
 - Courriel obligatoire au remisage : il sert à envoyer le lien de dépôt.
-- Plan du palais : indicatif (36 emplacements générés) en attendant le plan officiel.
+- Plan du palais : indicatif (32 emplacements générés) en attendant le plan officiel.
 - Dépendances ajoutées : `@supabase/supabase-js`, `@supabase/ssr` et `stripe`. Signaler à Jérémy toute autre dépendance avant de l'ajouter.
 
 ## 7. Après les tests (à décider avec Jérémy)
