@@ -35,6 +35,11 @@ La prochaine séance aura lieu sur le **PC personnel de Jérémy**, où Node.js 
   - images faites avec Higgsfield à partir d'une vraie photo ELZEPHOTO ;
   - la page n'est pas indexée et n'est pas dans le menu ; l'accueil `/` reste identique ;
   - **Jérémy compare `/` et `/accueil-v2`, puis décide** (garder, ajuster ou abandonner).
+- **À faire ensuite** :
+  - Higgsfield est maintenant branché comme connecteur MCP. S'en servir pour une version téléphone du héros où l'on voit le tracteur en entier.
+  - Ajustements du héros v2 selon les commentaires de Jérémy.
+  - Puis les tests de bout en bout de la section 3.
+- **Serveur local** : il s'arrête quand la conversation se ferme. Le relancer dans `web/` avec `npm run dev`.
 
 ## 2. Ce soir sur le PC personnel : mise en route
 
