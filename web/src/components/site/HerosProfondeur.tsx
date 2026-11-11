@@ -53,15 +53,26 @@ export default function HerosProfondeur() {
         <div className="hv2-scene" data-sc-stage>
           {/* Plan 1 : la piste et les estrades (plaque propre) */}
           <div className="hv2-cadre hv2-fond" aria-hidden="true">
-            <img
-              src="/images/heros-v2/plaque.webp"
-              srcSet="/images/heros-v2/plaque-1280.webp 1280w, /images/heros-v2/plaque.webp 2048w"
-              sizes="(max-width: 860px) 200vw, 110vw"
-              alt=""
-              width={2048}
-              height={1360}
-              fetchPriority="high"
-            />
+            {/* Téléphone : plaque en portrait (même photo, ciel et piste prolongés par Higgsfield)
+                pour que le tracteur entre en entier dans l'écran */}
+            <picture>
+              <source
+                media="(max-width: 860px)"
+                srcSet="/images/heros-v2/plaque-portrait-800.webp 800w, /images/heros-v2/plaque-portrait.webp 1536w"
+                sizes="120vw"
+                width={1536}
+                height={2752}
+              />
+              <img
+                src="/images/heros-v2/plaque.webp"
+                srcSet="/images/heros-v2/plaque-1280.webp 1280w, /images/heros-v2/plaque.webp 2048w"
+                sizes="110vw"
+                alt=""
+                width={2048}
+                height={1360}
+                fetchPriority="high"
+              />
+            </picture>
           </div>
 
           {/* Plan 2 : le titre, entre la piste et le tracteur */}
@@ -122,7 +133,7 @@ export default function HerosProfondeur() {
           </div>
 
           <p className="hv2-legende">
-            Tire de tracteurs à Saint-Isidore. Photo&nbsp;: ELZEPHOTO, retouchée; fumée générée par IA (image d&apos;illustration).
+            Tire de tracteurs à Saint-Isidore. Photo&nbsp;: ELZEPHOTO, retouchée et prolongée par IA; fumée générée par IA (image d&apos;illustration).
           </p>
         </div>
       </section>

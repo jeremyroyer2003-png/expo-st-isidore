@@ -36,7 +36,7 @@ La prochaine séance aura lieu sur le **PC personnel de Jérémy**, où Node.js 
   - la page n'est pas indexée et n'est pas dans le menu ; l'accueil `/` reste identique ;
   - **Jérémy compare `/` et `/accueil-v2`, puis décide** (garder, ajuster ou abandonner).
 - **À faire ensuite** :
-  - Higgsfield est maintenant branché comme connecteur MCP. S'en servir pour une version téléphone du héros où l'on voit le tracteur en entier.
+  - ~~Version téléphone du héros~~ **faite** : plaque portrait 9:16 (`plaque-portrait.webp`), la même photo dont le ciel et la piste ont été prolongés par l'outpaint Higgsfield (2 crédits). Servie sous 860 px avec `<picture>`; le tracteur est entier dès 360 px (très légèrement rogné à 320 px).
   - Ajustements du héros v2 selon les commentaires de Jérémy.
   - Puis les tests de bout en bout de la section 3.
 - **Serveur local** : il s'arrête quand la conversation se ferme. Le relancer dans `web/` avec `npm run dev`.
