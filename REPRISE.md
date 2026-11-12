@@ -142,10 +142,12 @@ Le plan complet est dans `PLAN-AMELIORATIONS.md` (30 points, 3 lots). Le **lot 1
 - Fait dans le dépôt : `netlify.toml` de la branche `rebuild` bâtit `web/` (base `web`, `npm run build`, Node 22).
 - À faire par Jérémy dans Netlify (Claude ne saisit pas les clés) :
   1. ~~Activer les branch deploys pour `rebuild`~~ : fait le 12 novembre 2026 (la branche de production reste `main`).
-  2. Site configuration > Environment variables : `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `STRIPE_SECRET_KEY` (clé de **test**), `NEXT_PUBLIC_URL_SITE` (l'adresse du branch deploy), `COURRIEL_FOURNISSEUR=console`, `COURRIEL_ADMIN`. Ne pas définir `AFFICHER_PRIX_FICTIFS`.
+  2. ~~Variables d'environnement~~ : entrées par Jérémy le 12 novembre 2026 (5 visibles, 2 secrètes : `SUPABASE_SERVICE_ROLE_KEY` et `STRIPE_SECRET_KEY`). Les `NEXT_PUBLIC_…` ne doivent **pas** être marquées secrètes, sinon le build échoue. Liste : `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `STRIPE_SECRET_KEY` (clé de **test**), `NEXT_PUBLIC_URL_SITE` (l'adresse du branch deploy), `COURRIEL_FOURNISSEUR=console`, `COURRIEL_ADMIN`. Ne pas définir `AFFICHER_PRIX_FICTIFS`.
   3. Pousser `rebuild`, puis suivre le build dans l'onglet Deploys.
 - À savoir : en ligne, les prix « À confirmer » sont cachés (« Prix sur demande »), donc seuls la danse à la session et le dépôt de remisage se paient. La version en ligne utilise la même base de test que le poste local. Les photos Facebook deviennent visibles sur le Web.
-- Pas encore vérifié : que le runtime Next.js de Netlify bâtit bien cette version de Next. À regarder au premier build.
+- Adresse d'essai : https://rebuild--celebrated-sorbet-3dce34.netlify.app
+- Le premier build publiait les fichiers bruts (404 partout) : corrigé en déclarant `@netlify/plugin-nextjs` dans `netlify.toml`. Depuis, les pages publiques répondent et l'ancien site n'a pas bougé.
+- Après un changement de variable dans Netlify, il faut un nouveau build (un push ou « Trigger deploy ») : les `NEXT_PUBLIC_…` sont figées au build.
 
 ## 3. Prochaine étape : tester chaque flux de bout en bout
 
