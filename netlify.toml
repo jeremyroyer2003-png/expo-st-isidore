@@ -1,3 +1,11 @@
-# Netlify : publier seulement le dossier du site (les autres dossiers sont des notes de projet)
+# Netlify, branche `rebuild` : bâtit l'application Next.js du dossier web/.
+# La branche `main` garde son propre netlify.toml (site statique, publish = "site") : le site en ligne actuel ne change pas
+# tant que `rebuild` n'est pas fusionnée dans `main`.
+# Les clés (Supabase, Stripe de test) se règlent dans Netlify > Site configuration > Environment variables, jamais ici.
 [build]
-  publish = "site"
+  base = "web"
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"

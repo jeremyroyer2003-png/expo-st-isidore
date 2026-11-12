@@ -136,6 +136,17 @@ Le plan complet est dans `PLAN-AMELIORATIONS.md` (30 points, 3 lots). Le **lot 1
 - **Pour le comité** : `docs/PRESENTATION-COMITE.md` résume ce que le site fait pour les visiteurs et pour le bureau, ce qui a été vérifié et ce qu'il attend d'eux.
 - **Vérifié** : types, lint et compilation sans erreur; recherche, exports et plan testés dans le navigateur à 390 px et sur ordinateur.
 
+## 2 f. Mise en ligne d'essai sur Netlify (demandée par Jérémy le 12 novembre 2026)
+
+- But : voir la nouvelle application sur Internet **sans remplacer** le site statique en ligne. On utilise un « branch deploy » de `rebuild`; `main` n'est pas touchée.
+- Fait dans le dépôt : `netlify.toml` de la branche `rebuild` bâtit `web/` (base `web`, `npm run build`, Node 22).
+- À faire par Jérémy dans Netlify (Claude ne saisit pas les clés) :
+  1. Site configuration > Build & deploy > Branches and deploy contexts : activer les branch deploys pour `rebuild`.
+  2. Site configuration > Environment variables : `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `STRIPE_SECRET_KEY` (clé de **test**), `NEXT_PUBLIC_URL_SITE` (l'adresse du branch deploy), `COURRIEL_FOURNISSEUR=console`, `COURRIEL_ADMIN`. Ne pas définir `AFFICHER_PRIX_FICTIFS`.
+  3. Pousser `rebuild`, puis suivre le build dans l'onglet Deploys.
+- À savoir : en ligne, les prix « À confirmer » sont cachés (« Prix sur demande »), donc seuls la danse à la session et le dépôt de remisage se paient. La version en ligne utilise la même base de test que le poste local. Les photos Facebook deviennent visibles sur le Web.
+- Pas encore vérifié : que le runtime Next.js de Netlify bâtit bien cette version de Next. À regarder au premier build.
+
 ## 3. Prochaine étape : tester chaque flux de bout en bout
 
 Pour chaque flux, noter ce qui casse, puis corriger avec Claude. Carte de test Stripe : `4242 4242 4242 4242`, une date future et n'importe quel CVC.
