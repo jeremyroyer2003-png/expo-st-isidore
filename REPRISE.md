@@ -2,8 +2,9 @@
 
 > **Pour Claude, au début de la prochaine conversation** : lis ce fichier en entier, puis `PROGRESS.md` et `CLAUDE.md`. Le travail se fait sur la branche **`rebuild`**, pas sur `main`. Reprends à la section « Prochaine étape ».
 
-Dernière mise à jour : 11 novembre 2026 (poste du travail).
-La prochaine séance aura lieu sur le **PC personnel de Jérémy**, où Node.js est disponible.
+Dernière mise à jour : 12 novembre 2026 (poste du travail).
+Tout est poussé sur GitHub (branche `rebuild`). Le dépôt est **privé** depuis le 12 novembre 2026.
+Sur un autre ordinateur : `git pull origin rebuild`, puis remplir `web/.env.local` (il n'est pas dans GitHub).
 
 ---
 
@@ -17,8 +18,11 @@ La prochaine séance aura lieu sur le **PC personnel de Jérémy**, où Node.js 
   - un back-office avec 3 rôles ;
   - des courriels simulés.
 - Les 6 phases demandées sont faites, avec un commit par phase. Le tag Git `baseline` marque l'état d'avant.
-- **Ce qui a été vérifié :** le contrôle des types, le lint et le build passent, et les pages publiques s'affichent correctement à 1440 px et à 390 px.
-- **Ce qui n'a jamais été testé :** rien n'a roulé contre une vraie base Supabase ni contre Stripe, parce que les comptes n'existent pas encore. Les réservations, les paiements et l'admin sont écrits, pas essayés. Il faut s'attendre à quelques bogues.
+- **Ce qui a été vérifié :**
+  - le contrôle des types, le lint et le build passent;
+  - les pages publiques et l'admin s'affichent sans débordement à 390 px;
+  - les réservations, les paiements, les remboursements et l'annulation roulent contre la vraie base Supabase et contre Stripe en mode test (échantillon de 62 réservations, montants concordants au cent près : sections 2 b à 2 e).
+- **Ce qui reste à essayer à la main :** la liste de la section 3 (surtout le kiosque extérieur avec le webhook Stripe, le rôle « lecteur », la médiathèque et l'affichage d'un prix confirmé).
 - **Règle absolue :** aucun déploiement Netlify et aucune fusion dans `main` sans l'approbation explicite de Jérémy. Stripe reste en mode test.
 
 ## 1 b. Fait le 11 novembre 2026
@@ -28,7 +32,7 @@ La prochaine séance aura lieu sur le **PC personnel de Jérémy**, où Node.js 
 - **Photos Facebook** :
   - 31 photos de la page de l'Expo sont importées **non publiées** dans Admin > Médiathèque ;
   - un éditeur les publie après avoir vérifié les droits (voir `A-CONFIRMER.md`) ;
-  - les copies brutes sont dans le dépôt **privé** `expo-fb-photos` (branche `scrape-raw`), jamais dans ce dépôt public ;
+  - les copies brutes sont dans le dépôt **privé** `expo-fb-photos` (branche `scrape-raw`) ;
   - script d'import : `web/scripts/importer-photos-fb.py`.
 - **Accueil version 2** à http://localhost:3000/accueil-v2 (refait le 11 novembre en fin de journée, à la demande de Jérémy : il n'aimait pas le héros à défilement) :
   - héros **vidéo** : une vraie photo animée par IA (Higgsfield, Kling 3.0, clips de 5 s) joue en fond; deux lecteurs se relaient avec un fondu pour boucler. Hiver = survol de drone du site (photo aérienne agrandie en 4K par Higgsfield); été = tire de nuit (photo ELZEPHOTO). Le message de la saison est visible tout de suite, bouton « Arrêter la vidéo », photo fixe si « réduire les animations »;
@@ -36,15 +40,13 @@ La prochaine séance aura lieu sur le **PC personnel de Jérémy**, où Node.js 
   - **pellicule** « L'Expo en images » sous le héros : 10 photos de la page Facebook qui défilent (pause au survol et bouton);
   - tester l'autre saison avec `?saison=ete` ou `?saison=hiver` dans l'adresse;
   - vidéos dans `web/public/videos/` (7 à 8 Mo chacune) : **à compresser** avant toute mise en ligne (il faut `ffmpeg`, absent du poste du travail);
-  - **Jérémy compare `/` et `/accueil-v2`, puis décide**.
-- **Photos Facebook dans l'app** : 20 nouvelles photos dans `web/public/images/photos/` remplacent les doublons (accueil, programmation, exposants). ⚠ Elles sont maintenant dans ce dépôt **public** : ne pas pousser sur GitHub avant que Jérémy décide (droits à confirmer, voir `A-CONFIRMER.md`).
+  - Décision de Jérémy : la version 2 est gardée, c'est maintenant l'accueil `/` (voir 2 b).
+- **Photos Facebook dans l'app** : 20 nouvelles photos dans `web/public/images/photos/` remplacent les doublons (accueil, programmation, exposants). Elles sont dans ce dépôt, que Jérémy a rendu **privé** le 12 novembre 2026 avant de pousser. ⚠ Ne pas le remettre public tant que les droits des photos ne sont pas confirmés (voir `A-CONFIRMER.md`).
 - **Programmation : une photo par activité** (bingo = carte de bingo, feux = feux d'artifice, messe = la vraie messe sous le chapiteau, etc.), choisie par le titre dans `Programmation.tsx`; le bandeau de chaque jour montre son activité vedette. 11 photos libres de Wikimedia Commons comblent les trous, créditées au bas de la page et dans `docs/CREDITS-PHOTOS.md`.
-- **À faire ensuite** :
-  - Ajustements du héros vidéo selon les commentaires de Jérémy (crédits Higgsfield restants : 120).
-  - Puis les tests de bout en bout de la section 3.
+- **À faire ensuite** : les tests de bout en bout de la section 3, puis le lot 2 de `PLAN-AMELIORATIONS.md`. Crédits Higgsfield restants : 110.
 - **Serveur local** : il s'arrête quand la conversation se ferme. Le relancer dans `web/` avec `npm run dev`.
 
-## 2. Ce soir sur le PC personnel : mise en route
+## 2. Mise en route sur un autre ordinateur
 
 ```bash
 git clone https://github.com/jeremyroyer2003-png/expo-st-isidore.git
