@@ -9,6 +9,7 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "creer-admin": "node --env-file=.env.local scripts/creer-admin.mjs",
+    "verifier-paiements": "node --env-file=.env.local scripts/verifier-paiements.mjs",
     "verifier": "npm run typecheck && npm run lint && npm run build"
   },
   "dependencies": {

@@ -76,6 +76,23 @@ cp .env.example .env.local
 
 > Ne jamais coller les clés dans une conversation avec Claude. Elles restent dans `.env.local`.
 
+## 2 b. Échantillon de test (11 novembre 2026, en soirée)
+
+- **Accueil** : la version 2 (héros vidéo + pellicule) est maintenant l'accueil `/`; `/accueil-v2` redirige vers `/`.
+- **Échantillon** : 62 réservations et demandes de tous les types, créées par le vrai code de l'app (formulaires publics, actions admin, gabarits de courriels) avec de vrais paiements Stripe de **test**. Toutes les adresses sont en `@example.com`.
+  - Salles : 8 confirmées, 2 annulées avec 50 $ de frais, 1 annulée sans frais, 2 abandonnées (retour de Stripe), 1 en cours de paiement.
+  - Kiosques intérieurs : 5 payés (dont un à 700 $ et un à 425 $), 2 approuvés en attente de paiement, 2 en attente, 1 refusé, 1 payé puis annulé avec frais.
+  - Kiosques extérieurs : 2 factures Stripe payées, 1 facture envoyée non payée, 1 entente notée, 1 en attente, 1 refusé.
+  - Danse : 7 payées (session, mois, saison, 1 à 4 personnes), 1 abandonnée, 1 annulée sans frais.
+  - Remisage : 5 dépôts payés (dont un en mètres), 2 approuvés non payés, 2 en attente, 2 refusés, 1 annulé avec 25 $ de frais; un dépôt sous le minimum est bien refusé.
+  - 4 messages (2 traités). 160 courriels dans la boîte d'envoi.
+- **Vérifié** (`npm run verifier-paiements`) : la base et Stripe concordent au cent près. Encaissé 16 190 $, remboursé 2 735 $, frais gardés 175 $, **net 13 455 $**, le même chiffre que le tableau de bord.
+- **Commandes** (serveur `npm run dev` lancé, développement seulement) :
+  - créer l'échantillon : `POST /api/dev/echantillon`, depuis une session admin (les étapes admin passent par la session);
+  - l'effacer : `DELETE /api/dev/echantillon` (efface seulement les adresses `@example.com` et les avis admin envoyés pendant l'échantillon);
+  - vérifier : `npm run verifier-paiements` dans `web/`.
+- **Pas encore testé à la main** : la page Checkout de Stripe elle-même (carte 4242) et le retour sur `/paiement/merci`. Le générateur paie par l'API Stripe à la place. À faire dans le navigateur : une salle et une danse.
+
 ## 3. Prochaine étape : tester chaque flux de bout en bout
 
 Pour chaque flux, noter ce qui casse, puis corriger avec Claude. Carte de test Stripe : `4242 4242 4242 4242`, une date future et n'importe quel CVC.

@@ -152,6 +152,20 @@ export async function expirerSession(session: Stripe.Checkout.Session, statut: "
   // Kiosque et remisage : la demande reste approuvée, le lien de paiement reste valide.
 }
 
+/**
+ * Échantillon de test seulement (/api/dev/echantillon) : le paiement a été fait par un PaymentIntent
+ * Stripe de test (la page Checkout ne se remplit pas par programme). Mêmes effets qu'une session payée.
+ */
+export async function confirmerPaiementTest(paiementId: string, paymentIntent: string) {
+  const { data } = await supabaseService()
+    .from("paiements")
+    .update({ statut: "paye", stripe_payment_intent: paymentIntent })
+    .eq("id", paiementId)
+    .neq("statut", "paye")
+    .select("id, objet_type, objet_id, montant_cents");
+  if (data?.[0]) await appliquerOuAnnuler(data[0], paymentIntent);
+}
+
 /** Facture de kiosque extérieur payée (Stripe Invoicing). */
 export async function factureePayee(facture: Stripe.Invoice) {
   const sb = supabaseService();
