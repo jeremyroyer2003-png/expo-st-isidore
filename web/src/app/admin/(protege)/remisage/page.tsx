@@ -1,8 +1,10 @@
 import Annulation from "@/components/admin/Annulation";
 import FormAction from "@/components/admin/FormAction";
+import LienPaiement from "@/components/admin/LienPaiement";
 import { approuverRemisage, refuserDemande } from "@/actions/admin/gestion";
 import { Carte, champCls, etiquetteCls, LectureSeule, Statut, Titre } from "@/components/admin/ui";
 import { exigerAdmin, peutEditer } from "@/lib/admin";
+import { env } from "@/lib/env";
 import { argent, dateHeure } from "@/lib/format";
 
 export const metadata = { title: "Remisage d'hiver" };
@@ -67,7 +69,12 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ v
                     </details>
                   </div>
                 )}
-                {d.statut === "approuvee" && <p className="text-[15px]">En attente du dépôt. Lien envoyé : <code className="text-[13px] break-all">/payer/{d.jeton_paiement}</code></p>}
+                {d.statut === "approuvee" && (
+                  <div className="grid gap-2">
+                    <p className="text-[15px] font-semibold">En attente du dépôt.</p>
+                    <LienPaiement url={`${env.urlSite}/payer/${d.jeton_paiement}`} type="remisage" id={d.id} edition={edition} />
+                  </div>
+                )}
                 {edition && ["approuvee", "depot_paye"].includes(d.statut) && (
                   <Annulation type="remisage" id={d.id} fraisCents={p.frais_annulation_remisage ?? 0} paye={d.statut === "depot_paye"} />
                 )}

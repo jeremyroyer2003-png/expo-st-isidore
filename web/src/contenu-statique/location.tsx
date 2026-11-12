@@ -3,7 +3,11 @@ import Link from "next/link";
 
 export const meta = { titre: "Location de salle – mariage, party, réunion | Expo St-Isidore", description: "Louez la salle de l'Expo St-Isidore à Saint-Isidore, en Beauce : tables, chaises et ambiance comprises. Mariage, party de famille, réunion, anniversaire. Demandez une date en ligne ou au 418 882-5649." };
 
-export default function PageLocation({ calendrier, avis, fraisAnnulation }: { calendrier: React.ReactNode; avis: string; fraisAnnulation: string | null }) {
+export default function PageLocation({ calendrier, avis, fraisAnnulation, delaiHeures = 48, fraisMenage = null, fraisDepassement = null }: {
+  calendrier: React.ReactNode; avis: string; fraisAnnulation: string | null; delaiHeures?: number;
+  /** Montants des conditions de location; null = pas encore validé par le comité, donc pas affiché. */
+  fraisMenage?: string | null; fraisDepassement?: string | null;
+}) {
   return (
     <>
 
@@ -73,7 +77,7 @@ export default function PageLocation({ calendrier, avis, fraisAnnulation }: { ca
           <div><dt>Les tables et les chaises</dt><dd>Installées pour votre nombre d&apos;invités.</dd></div>
           <div><dt>L&apos;ambiance</dt><dd>La décoration de la salle fait partie de la location.</dd></div>
           <div><dt>Pour quels événements?</dt><dd>Mariages, partys de famille, réunions, anniversaires, soupers de groupe. Pour autre chose, demandez-nous.</dd></div>
-          <div><dt>Le prix</dt><dd>Il dépend de la date et du nombre de personnes. On vous le donne en vous rappelant.</dd></div>
+          <div><dt>Le prix</dt><dd>Il s&apos;affiche dans le calendrier dès que vous choisissez votre salle et votre date. S&apos;il n&apos;y est pas encore, appelez le bureau au <a href="tel:+14188825649">418 882-5649</a>.</dd></div>
           <div><dt>Où?</dt><dd>Au palais des commerces ou au Saloon de la grange 3, sur le site de l&apos;Expo, 132, route Coulombe, Saint-Isidore. Stationnement sur place.</dd></div>
         </dl>
       </div>
@@ -87,12 +91,23 @@ export default function PageLocation({ calendrier, avis, fraisAnnulation }: { ca
           <p>Choisissez la salle, une date libre et vos heures, puis payez en ligne&nbsp;: la date est à vous tout de suite. {avis}</p>
         </div>
         {calendrier}
+        <aside className="ensuite ensuite--bande espace-haut" aria-labelledby="titre-conditions" id="conditions">
+          <h3 id="titre-conditions">Conditions de location</h3>
+          <ol>
+            <li><strong>La salle est rendue dans l&apos;état où vous l&apos;avez prise.</strong> Vous ramassez vos déchets, enlevez votre décoration et repartez avec ce que vous avez apporté.</li>
+            <li><strong>Ménage&nbsp;:</strong> si la salle n&apos;est pas rendue propre, des frais de ménage sont facturés{fraisMenage ? <> (à partir de {fraisMenage})</> : null}.</li>
+            <li><strong>Bris&nbsp;:</strong> un bris au bâtiment ou au matériel (tables, chaises, murs, lumières) est facturé au coût réel de la réparation ou du remplacement.</li>
+            <li><strong>Heure de fin&nbsp;:</strong> un départ après la fin de votre créneau est facturé{fraisDepassement ? <> ({fraisDepassement} par heure entamée)</> : null}.</li>
+          </ol>
+          <p className="note">Chaque frais vous est expliqué par courriel, avec des photos, avant d&apos;être facturé.</p>
+        </aside>
         <aside className="ensuite ensuite--bande espace-haut" aria-labelledby="titre-annulation" id="annulation">
           <h3 id="titre-annulation">Annulation</h3>
           <ol>
-            <li><strong>Appelez le bureau</strong> au <a href="tel:+14188825649">418 882-5649</a> pour annuler ou changer de date.</li>
-            <li><strong>On vous rembourse</strong> le montant payé{fraisAnnulation ? <>, moins des frais d&apos;annulation de {fraisAnnulation}</> : <>, moins des frais d&apos;annulation indiqués par le bureau</>}.</li>
-            <li><strong>Le remboursement</strong> apparaît sur votre carte d&apos;ici 5 à 10 jours ouvrables.</li>
+            <li><strong>Vous annulez vous-même</strong> avec le bouton «&nbsp;Gérer ou annuler ma réservation&nbsp;» de votre courriel de confirmation, jusqu&apos;à {delaiHeures}&nbsp;heures avant l&apos;événement.</li>
+            <li><strong>On vous rembourse</strong> le montant payé{fraisAnnulation ? <>, moins {fraisAnnulation} de frais d&apos;annulation</> : <>, moins les frais d&apos;annulation indiqués par le bureau</>}. Le remboursement apparaît sur votre carte d&apos;ici 5 à 10 jours ouvrables.</li>
+            <li><strong>Si c&apos;est l&apos;Expo qui annule</strong>, vous êtes remboursé au complet, sans frais.</li>
+            <li><strong>Pour changer de date</strong>, ou à moins de {delaiHeures}&nbsp;heures de l&apos;événement, appelez le bureau au <a href="tel:+14188825649">418 882-5649</a>.</li>
           </ol>
         </aside>
       </div>

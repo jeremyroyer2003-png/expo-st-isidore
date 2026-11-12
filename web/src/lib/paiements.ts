@@ -6,10 +6,17 @@ import { envoyerCourriel } from "@/lib/courriel";
 import * as G from "@/lib/courriel/gabarits";
 import { env } from "@/lib/env";
 import { argent, dateLongue, plage } from "@/lib/format";
+import { signerJeton } from "@/lib/jeton";
 import { stripe } from "@/lib/stripe";
 import { supabaseService } from "@/lib/supabase/serveur";
 
-export type Recapitulatif = { titre: string; lignes: [string, string][]; message: string };
+export type Recapitulatif = {
+  titre: string; lignes: [string, string][]; message: string;
+  /** « Et ensuite? » : ce qui se passe après le paiement. */
+  ensuite?: string[];
+  /** Liens utiles (calendrier, annulation). */
+  liens?: { texte: string; url: string }[];
+};
 
 const admin = (g: G.Gabarit) => envoyerCourriel({ a: env.courrielAdmin, ...g });
 
@@ -37,6 +44,15 @@ async function recapitulatif(objetType: string, objetId: string): Promise<Recapi
       titre: "Votre salle est réservée",
       lignes: [["Salle", c.salles.nom], ["Date", dateLongue(c.debut)], ["Heures", plage(c.debut, c.fin)], ["Payé", argent(r.montant_cents)]],
       message: `La confirmation est envoyée à ${r.courriel}.`,
+      ensuite: [
+        "Gardez le courriel de confirmation : il contient le bouton pour annuler vous-même. S'il n'arrive pas, regardez dans les indésirables.",
+        "On vous appelle avant l'événement pour les derniers détails (installation, nombre de tables).",
+        "Le jour venu : 132, route Coulombe, Saint-Isidore. Stationnement sur place.",
+      ],
+      liens: [
+        { texte: "Ajouter à mon calendrier", url: `/api/calendrier/${signerJeton("calendrier-salle", r.id)}` },
+        { texte: "Gérer ou annuler ma réservation", url: `/annuler/${signerJeton("annuler-salle", r.id)}` },
+      ],
     };
   }
   if (objetType === "danse") {
@@ -45,6 +61,7 @@ async function recapitulatif(objetType: string, objetId: string): Promise<Recapi
       titre: "Inscription confirmée",
       lignes: [["Forfait", (i.prix as { libelle: string }).libelle], ["Personnes", String(i.personnes)], ["Payé", argent(i.montant_cents)]],
       message: `Le reçu est envoyé à ${i.courriel}. À bientôt dans la grange 2!`,
+      ensuite: ["À l'entrée, donnez simplement votre nom : votre inscription est sur la liste.", "Les dates des soirées sont annoncées sur la page Facebook de l'Expo."],
     };
   }
   if (objetType === "kiosque") {
@@ -53,6 +70,7 @@ async function recapitulatif(objetType: string, objetId: string): Promise<Recapi
       titre: "Kiosque confirmé",
       lignes: [["Emplacement", (d.emplacements_kiosque as { code: string } | null)?.code ?? "Extérieur"], ["Entreprise", d.entreprise], ["Payé", argent(d.montant_cents)]],
       message: `La confirmation est envoyée à ${d.courriel}.`,
+      ensuite: ["Votre emplacement est maintenant à vous pour l'Expo.", "Le comité vous écrit avant l'Expo pour l'horaire de montage et les consignes."],
     };
   }
   const { data: d } = await sb.from("demandes_remisage").select("*").eq("id", objetId).single();
@@ -60,6 +78,7 @@ async function recapitulatif(objetType: string, objetId: string): Promise<Recapi
     titre: "Votre place est gardée",
     lignes: [["Véhicule", d.type_vehicule + (d.marque_modele ? ` · ${d.marque_modele}` : "")], ["Dépôt payé", argent(d.depot_cents)]],
     message: `La confirmation est envoyée à ${d.courriel}. On vous appelle pour fixer la date d'entrée.`,
+    ensuite: ["Votre place est gardée pour l'hiver.", "On vous appelle pour fixer la date d'entrée. Le véhicule est mesuré à l'arrivée.", "Une question? Remisage : 418 882-9619."],
   };
 }
 

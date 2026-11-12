@@ -42,7 +42,8 @@ export async function creerSessionPaiement(o: {
     // Stripe impose au moins 30 minutes
     expires_at: Math.floor(Date.now() / 1000) + 60 * Math.max(30, o.expireMinutes ?? 30),
     metadata: { objet_type: o.type, objet_id: o.objetId },
-    payment_intent_data: { metadata: { objet_type: o.type, objet_id: o.objetId } },
+    // receipt_email : Stripe envoie aussi son reçu de carte officiel (en mode réel)
+    payment_intent_data: { receipt_email: o.courriel, metadata: { objet_type: o.type, objet_id: o.objetId } },
     success_url: `${env.urlSite}/paiement/merci?session={CHECKOUT_SESSION_ID}`,
     cancel_url: `${env.urlSite}${o.retourAnnulation}`,
   });

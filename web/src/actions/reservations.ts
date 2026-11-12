@@ -83,6 +83,7 @@ export async function reserverSalle(fd: FormData): Promise<Resultat> {
     const personnes = nombre(fd, "personnes", { min: 1, max: 2000 });
     const commentaires = texte(fd, "message", { max: 2000 });
     consentement(fd);
+    if (fd.get("conditions") !== "oui") throw new ErreurSaisie("Cochez la case des conditions de location pour réserver.");
 
     const sb = base();
     const { data: creneau } = await sb.from("creneaux_salle").select("*, salles(*)").eq("id", creneauId).maybeSingle();

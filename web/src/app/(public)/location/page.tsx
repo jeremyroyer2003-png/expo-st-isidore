@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Contenu, { meta } from "@/contenu-statique/location";
 import CalendrierSalles, { type CreneauPublic, type SallePublique } from "@/components/reservation/CalendrierSalles";
 import { libererRetenue } from "@/actions/reservations";
+import { DELAI_ANNULATION_HEURES } from "@/lib/annulation";
 import { contenu, prixPublics } from "@/lib/donnees";
 import { supabaseConfigure } from "@/lib/env";
 import { argent, jourLocal } from "@/lib/format";
@@ -51,12 +52,19 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ s
     // Libre : ouvert, ou retenu par un paiement abandonné dont le délai est passé
     libre: c.statut === "ouvert" || (c.statut === "retenu" && !!c.retenu_jusqua && new Date(c.retenu_jusqua) < maintenant),
   }));
-  const frais = prixFrais.find((p) => p.cle === "frais_annulation_salle");
+  const fraisDe = (cle: string) => {
+    const p = prixFrais.find((x) => x.cle === cle);
+    return p?.visible ? argent(p.montant_cents) : null;
+  };
+  const fraisAnnulation = fraisDe("frais_annulation_salle");
 
   return (
     <Contenu
       avis={avis}
-      fraisAnnulation={frais?.visible ? argent(frais.montant_cents) : null}
+      fraisAnnulation={fraisAnnulation}
+      delaiHeures={DELAI_ANNULATION_HEURES}
+      fraisMenage={fraisDe("frais_menage_salle")}
+      fraisDepassement={fraisDe("frais_depassement_salle")}
       calendrier={
         <CalendrierSalles
           key={salle ?? "defaut"}
@@ -65,6 +73,8 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ s
           verrous={verrous ?? []}
           salleInitiale={salle}
           aujourdhui={jourLocal(maintenant)}
+          fraisAnnulation={fraisAnnulation}
+          delaiHeures={DELAI_ANNULATION_HEURES}
         />
       }
     />

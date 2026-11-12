@@ -131,6 +131,32 @@ export async function majEmplacement(fd: FormData): Promise<Resultat> {
 }
 
 // =====================================================================
+// Renvoyer au client le courriel qui contient son lien de paiement (il l'a perdu, ou il tarde à payer)
+// =====================================================================
+export async function renvoyerLien(fd: FormData): Promise<Resultat> {
+  return traiter(async () => {
+    const { sb } = await exigerRole("editeur");
+    const type = texte(fd, "type", { requis: true, max: 20 });
+    if (type === "remisage") {
+      const { data: d } = await sb.from("demandes_remisage").select("*").eq("id", id(fd)).eq("statut", "approuvee").maybeSingle();
+      if (!d) throw new ErreurSaisie("Cette demande n'attend plus de paiement.");
+      await envoyerCourriel({ a: d.courriel, ...G.remisageApprouve({ nom: d.nom, vehicule: d.type_vehicule, total: d.prix_total_cents, depot: d.depot_cents, lien: lienPaiement(d.jeton_paiement) }) });
+      return { ok: true, message: `Courriel renvoyé à ${d.courriel}.` };
+    }
+    if (type !== "kiosque") throw new ErreurSaisie("Type invalide.");
+    const { data: d } = await sb.from("demandes_kiosque").select("*, emplacements_kiosque(code)").eq("id", id(fd)).in("statut", ["approuvee", "facturee"]).maybeSingle();
+    if (!d) throw new ErreurSaisie("Cette demande n'attend plus de paiement.");
+    if (d.statut === "facturee") {
+      if (!d.url_facture) throw new ErreurSaisie("La facture n'a pas de lien. Ouvrez-la dans Stripe.");
+      await envoyerCourriel({ a: d.courriel, ...G.kiosqueFacture({ nom: d.nom, montant: d.montant_cents, lien: d.url_facture }) });
+    } else {
+      await envoyerCourriel({ a: d.courriel, ...G.kiosqueApprouve({ nom: d.nom, emplacement: d.emplacements_kiosque?.code ?? "", montant: d.montant_cents, lien: lienPaiement(d.jeton_paiement) }) });
+    }
+    return { ok: true, message: `Courriel renvoyé à ${d.courriel}.` };
+  });
+}
+
+// =====================================================================
 // Remisage
 // =====================================================================
 export async function approuverRemisage(fd: FormData): Promise<Resultat> {

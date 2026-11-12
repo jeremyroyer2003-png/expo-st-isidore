@@ -13,7 +13,8 @@ const argent = (c: number) =>
 export default function FormulaireDanse({ forfaits }: { forfaits: Forfait[] }) {
   const achetables = forfaits.filter((f) => f.prix != null);
   const [cle, setCle] = useState(achetables[0]?.cle ?? "");
-  const [personnes, setPersonnes] = useState(1);
+  const [saisie, setSaisie] = useState("1");
+  const personnes = Math.max(1, Math.min(10, Math.floor(Number(saisie)) || 1));
   const f = forfaits.find((x) => x.cle === cle);
   const total = f?.prix != null ? f.prix * personnes : null;
 
@@ -56,8 +57,8 @@ export default function FormulaireDanse({ forfaits }: { forfaits: Forfait[] }) {
             <div className="coordonnees">
               <label className="champ"><span className="champ__etiquette">Nom complet</span><input type="text" name="nom" required autoComplete="name" /></label>
               <label className="champ"><span className="champ__etiquette">Nombre de personnes</span>
-                <input type="number" name="personnes" min={1} max={10} required inputMode="numeric" value={personnes}
-                  onChange={(e) => setPersonnes(Math.max(1, Math.min(10, Number(e.target.value) || 1)))} data-erreur="Entre 1 et 10 personnes." /></label>
+                <input type="number" name="personnes" min={1} max={10} required inputMode="numeric" value={saisie}
+                  onChange={(e) => setSaisie(e.target.value)} data-erreur="Entre 1 et 10 personnes." /></label>
               <label className="champ"><span className="champ__etiquette">Téléphone</span><input type="tel" name="telephone" required autoComplete="tel" inputMode="tel" placeholder="418 555-1234" /></label>
               <label className="champ"><span className="champ__etiquette">Courriel (pour le reçu)</span><input type="email" name="courriel" required autoComplete="email" /></label>
             </div>

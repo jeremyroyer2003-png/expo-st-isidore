@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import FormulaireSimple from "@/components/formulaires/FormulaireSimple";
 import { reserverSalle } from "@/actions/reservations";
 
@@ -27,8 +27,11 @@ function grille(annee: number, mois: number) {
 }
 
 export default function CalendrierSalles({
-  salles, creneaux, verrous, salleInitiale, aujourdhui,
+  salles, creneaux, verrous, salleInitiale, aujourdhui, fraisAnnulation, delaiHeures,
 }: {
+  /** Frais d'annulation affichés (null = pas encore validés) et délai d'annulation en ligne. */
+  fraisAnnulation: string | null;
+  delaiHeures: number;
   salles: SallePublique[];
   creneaux: CreneauPublic[];
   verrous: { jour: string; salle_id: string | null }[];
@@ -71,6 +74,26 @@ export default function CalendrierSalles({
   const premierMois = vue.annee === a0 && vue.mois === m0 - 1;
   const titreMois = new Date(vue.annee, vue.mois, 1).toLocaleDateString("fr-CA", { month: "long", year: "numeric" });
   const libresDuMois = [...parJour.keys()].filter((j) => j.startsWith(`${vue.annee}-${String(vue.mois + 1).padStart(2, "0")}`) && etatJour(j) === "libre").length;
+
+  // Première date libre de la salle choisie : évite de chercher de mois en mois
+  const prochaineLibre = [...parJour.keys()].sort().find((j) => etatJour(j) === "libre") ?? null;
+  const allerA = (j: string) => {
+    const [a, m] = j.split("-").map(Number);
+    setSens("suivant");
+    setVue({ annee: a, mois: m - 1 });
+    setJour(j);
+    setCreneauId(null);
+  };
+
+  // Sur téléphone, l'étape suivante apparaît sous l'écran : on l'amène en vue (sans animation si mouvement réduit)
+  useEffect(() => {
+    const cible = document.getElementById(creneauId ? "formulaire-salle" : jour ? "heures-salle" : "");
+    if (!cible) return;
+    const r = cible.getBoundingClientRect();
+    if (r.top < window.innerHeight - 220 && r.top > 0) return;
+    const doux = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    cible.scrollIntoView({ behavior: doux ? "smooth" : "auto", block: "start" });
+  }, [jour, creneauId]);
 
   const creneauxJour = jour ? (parJour.get(jour) ?? []) : [];
   const choisi = creneaux.find((c) => c.id === creneauId);
@@ -115,6 +138,17 @@ export default function CalendrierSalles({
           <p className="font-etiquette font-semibold text-[16px] text-gris-brun mb-3">
             {libresDuMois ? `${libresDuMois} date${libresDuMois > 1 ? "s" : ""} libre${libresDuMois > 1 ? "s" : ""} ce mois-ci` : "Aucune date libre ce mois-ci"}
           </p>
+          {prochaineLibre && prochaineLibre !== jour && (
+            <p className="mb-4">
+              <button type="button" onClick={() => allerA(prochaineLibre)}
+                className="min-h-[44px] w-full sm:w-auto px-4 py-2 border-[3px] border-encre bg-creme text-encre text-left font-etiquette font-bold text-[17px] hover:bg-kraft transition-colors">
+                Prochaine date libre : <span className="underline">{dateLisible(prochaineLibre)}</span> <span aria-hidden="true">→</span>
+              </button>
+            </p>
+          )}
+          {!prochaineLibre && (
+            <p className="mb-4 text-[16px] text-encre">Aucune date n&apos;est ouverte pour cette salle en ce moment. Appelez le bureau au <a href="tel:+14188825649">418 882-5649</a>.</p>
+          )}
           <div key={`${vue.annee}-${vue.mois}-${salleId}`} className={sens === "suivant" ? "anim-mois-suivant" : "anim-mois-precedent"}>
             <div className="grid grid-cols-7 gap-1.5 mb-1.5" aria-hidden="true">
               {JOURS.map((j) => <span key={j} className="text-center font-etiquette font-bold uppercase text-[14px] text-gris-brun">{j}</span>)}
@@ -162,7 +196,7 @@ export default function CalendrierSalles({
             </div>
           )}
           {jour && (
-            <div className="anim-monter">
+            <div className="anim-monter scroll-mt-28" id="heures-salle">
               <h3 className="font-affiche text-[22px] text-encre mb-3 first-letter:uppercase">{dateLisible(jour)}</h3>
               <div role="radiogroup" aria-label="Heures offertes" className="grid gap-3">
                 {creneauxJour.map((c) => {
@@ -185,7 +219,7 @@ export default function CalendrierSalles({
       </div>
 
       {choisi && (
-        <div className="anim-monter" id="formulaire-salle">
+        <div className="anim-monter scroll-mt-28" id="formulaire-salle">
           {prixChoisi == null ? (
             <div className="avis-bandeau" role="note">
               <div>
@@ -218,10 +252,17 @@ export default function CalendrierSalles({
                 </div>
                 <label className="consentement">
                   <input type="checkbox" name="consentement" value="oui" required />
-                  <span>J&apos;accepte que l&apos;Expo St-Isidore utilise ces renseignements pour ma réservation, selon sa <Link href="/confidentialite">politique de confidentialité</Link>. J&apos;ai lu la <a href="#annulation">politique d&apos;annulation</a>.</span>
+                  <span>J&apos;accepte que l&apos;Expo St-Isidore utilise ces renseignements pour ma réservation, selon sa <Link href="/confidentialite">politique de confidentialité</Link>.</span>
+                </label>
+                <label className="consentement">
+                  <input type="checkbox" name="conditions" value="oui" required data-erreur="Cochez cette case pour accepter les conditions de location." />
+                  <span>J&apos;ai lu et j&apos;accepte les <a href="#conditions">conditions de location</a> (salle rendue propre, bris et dépassement d&apos;heure facturés) et la <a href="#annulation">politique d&apos;annulation</a>.</span>
                 </label>
               </fieldset>
-              <p className="note">Paiement sécurisé par Stripe. La date vous est gardée 30 minutes pendant le paiement.</p>
+              <p className="note">
+                <strong>Annulation :</strong> vous pouvez annuler en ligne jusqu&apos;à {delaiHeures} heures avant l&apos;événement, par le bouton de votre courriel de confirmation{fraisAnnulation ? <> (frais d&apos;annulation : {fraisAnnulation})</> : null}.
+                Paiement sécurisé par Stripe. La date vous est gardée 30 minutes pendant le paiement.
+              </p>
             </FormulaireSimple>
           )}
         </div>

@@ -43,6 +43,7 @@ function form(champs: Record<string, string | number | undefined>) {
   const fd = new FormData();
   for (const [k, v] of Object.entries(champs)) if (v !== undefined) fd.set(k, String(v));
   fd.set("consentement", "oui");
+  fd.set("conditions", "oui");
   return fd;
 }
 const sb = () => supabaseService();

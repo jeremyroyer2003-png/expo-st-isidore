@@ -87,7 +87,7 @@ export function effacerSiValide(e: React.FormEvent<HTMLFormElement>) {
 }
 
 export function resumeErreur(premier: Champ): string {
-  if (premier.type === "checkbox") return "Cochez la case de consentement pour envoyer.";
+  if (premier.type === "checkbox") return premier.dataset.erreur || "Cochez la case de consentement pour envoyer.";
   if (premier.type === "tel") return "Entrez un numéro de téléphone complet, avec l'indicatif régional.";
   if (premier.type === "email") return "Vérifiez l'adresse courriel.";
   return "Remplissez les champs obligatoires.";

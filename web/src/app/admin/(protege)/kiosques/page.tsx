@@ -1,8 +1,10 @@
 import Annulation from "@/components/admin/Annulation";
 import FormAction from "@/components/admin/FormAction";
+import LienPaiement from "@/components/admin/LienPaiement";
 import { approuverKiosque, envoyerFacture, majEmplacement, noterEntente, refuserDemande } from "@/actions/admin/gestion";
 import { Carte, champCls, etiquetteCls, LectureSeule, Statut, Tableau, Titre } from "@/components/admin/ui";
 import { exigerAdmin, peutEditer } from "@/lib/admin";
+import { env } from "@/lib/env";
 import { argent, dateHeure } from "@/lib/format";
 
 export const metadata = { title: "Kiosques" };
@@ -56,30 +58,31 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ v
                     {d.montant_cents != null && <><dt className="text-gris-brun">Montant</dt><dd className="font-semibold">{argent(d.montant_cents)}</dd></>}
                     {d.notes_admin && <><dt className="text-gris-brun">Notes</dt><dd>{d.notes_admin}</dd></>}
                     {d.url_facture && <><dt className="text-gris-brun">Facture</dt><dd><a href={d.url_facture} target="_blank" rel="noopener">Voir la facture Stripe</a></dd></>}
-                    {d.statut === "approuvee" && <><dt className="text-gris-brun">Lien</dt><dd><code className="text-[13px] break-all">/payer/{d.jeton_paiement}</code></dd></>}
                   </dl>
-                  {edition && (
+                  {(edition || d.statut === "approuvee") && (
                     <div className="grid gap-3 content-start">
-                      {d.type === "interieur" && d.statut === "en_attente" && (
+                      {d.statut === "approuvee" && <LienPaiement url={`${env.urlSite}/payer/${d.jeton_paiement}`} type="kiosque" id={d.id} edition={edition} />}
+                      {d.statut === "facturee" && d.url_facture && <LienPaiement url={d.url_facture} type="kiosque" id={d.id} edition={edition} />}
+                      {edition && d.type === "interieur" && d.statut === "en_attente" && (
                         <FormAction action={approuverKiosque} bouton={`Approuver ${code} et envoyer le lien`} style="succes">
                           <input type="hidden" name="id" value={d.id} />
                           <label><span className={etiquetteCls}>Montant à payer ($)</span><input name="montant" type="number" step="0.01" min={0} required defaultValue={(montantDefaut / 100).toFixed(2)} className={champCls} /></label>
                           <label><span className={etiquetteCls}>Notes internes</span><input name="notes" className={champCls} /></label>
                         </FormAction>
                       )}
-                      {d.type === "exterieur" && ["en_attente", "entente"].includes(d.statut) && (
+                      {edition && d.type === "exterieur" && ["en_attente", "entente"].includes(d.statut) && (
                         <FormAction action={noterEntente} bouton={d.statut === "entente" ? "Modifier l'entente" : "Noter l'entente"} style="secondaire">
                           <input type="hidden" name="id" value={d.id} />
                           <label><span className={etiquetteCls}>Montant convenu ($)</span><input name="montant" type="number" step="0.01" min={0} required defaultValue={(montantDefaut / 100).toFixed(2)} className={champCls} /></label>
                           <label><span className={etiquetteCls}>Détails de l&apos;entente</span><input name="notes" defaultValue={d.notes_admin} className={champCls} placeholder="Superficie, emplacement, électricité…" /></label>
                         </FormAction>
                       )}
-                      {d.type === "exterieur" && d.statut === "entente" && (
+                      {edition && d.type === "exterieur" && d.statut === "entente" && (
                         <FormAction action={envoyerFacture} bouton={`Envoyer la facture (${argent(d.montant_cents)})`} style="succes" confirmer="Créer la facture Stripe (mode test) et l'envoyer au client?">
                           <input type="hidden" name="id" value={d.id} />
                         </FormAction>
                       )}
-                      {["en_attente", "entente"].includes(d.statut) && (
+                      {edition && ["en_attente", "entente"].includes(d.statut) && (
                         <details>
                           <summary className="cursor-pointer text-[14px] font-semibold underline">Refuser la demande</summary>
                           <FormAction action={refuserDemande} bouton="Refuser" style="danger" className="mt-2" confirmer="Refuser cette demande?">
@@ -89,7 +92,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ v
                           </FormAction>
                         </details>
                       )}
-                      {["approuvee", "facturee", "confirmee"].includes(d.statut) && (
+                      {edition && ["approuvee", "facturee", "confirmee"].includes(d.statut) && (
                         <Annulation type="kiosque" id={d.id} fraisCents={p.frais_annulation_kiosque ?? 0} paye={d.statut === "confirmee"} />
                       )}
                     </div>

@@ -13,7 +13,11 @@ insert into public.prix (cle, categorie, libelle, description, montant_cents, un
   ('remisage_depot_min', 'remisage', 'Dépôt minimum pour garder la place', 'Exigé après l''approbation de la demande', 10000, 'demande', false, 2),
   ('frais_annulation_salle', 'frais', 'Frais d''annulation, location de salle', 'Retenus sur le remboursement', 5000, 'annulation', true, 1),
   ('frais_annulation_kiosque', 'frais', 'Frais d''annulation, kiosque', 'Retenus sur le remboursement', 5000, 'annulation', true, 2),
-  ('frais_annulation_remisage', 'frais', 'Frais d''annulation, remisage', 'Retenus sur le remboursement du dépôt', 2500, 'annulation', true, 3);
+  ('frais_annulation_remisage', 'frais', 'Frais d''annulation, remisage', 'Retenus sur le remboursement du dépôt', 2500, 'annulation', true, 3),
+  -- Conditions de location de salle (docs/CONDITIONS-LOCATION-SALLE.md), montants fictifs à valider par le comité
+  ('frais_menage_salle', 'frais', 'Frais de ménage, salle', 'Minimum facturé si la salle n''est pas rendue propre', 12000, 'location', true, 4),
+  ('frais_depassement_salle', 'frais', 'Dépassement de l''heure de fin, salle', 'Par heure entamée après la fin de la location', 10000, 'heure', true, 5),
+  ('depot_garantie_salle', 'frais', 'Dépôt de garantie, salle', 'Pas encore perçu par le site : à décider par le comité', 30000, 'location', true, 6);
 
 insert into public.salles (slug, nom, description, cle_prix, ordre) values
   ('palais', 'Le palais des commerces', 'Grande salle au plafond haut. Pour les grands mariages, les soupers de groupe et les événements d''entreprise. Tables, chaises et ambiance comprises.', 'salle_palais', 1),
