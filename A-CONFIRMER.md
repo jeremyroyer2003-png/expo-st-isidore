@@ -105,4 +105,5 @@ Les prix ci-dessous sont des **valeurs fictives de départ**, marquées « à co
 
 - Proposition complète dans `docs/CONDITIONS-LOCATION-SALLE.md`. **Tous les montants sont fictifs.**
 - À valider : la grille de frais (ménage, bris, retard, sécurité), le dépôt de garantie (300 $ proposé), l'alcool (permis de réunion ou bar de l'Expo), l'heure de fin de la musique, la capacité de chaque salle, l'assurance responsabilité.
-- Taxes (TPS/TVQ) : mises de côté pour l'instant par Jérémy. À reprendre avant la mise en service.
+- Taxes (TPS/TVQ) : mises de côté pour l'instant par Jérémy. À reprendre avant la mise en service.- Depuis le 12 novembre, la page Location affiche les conditions (sans montants tant qu'ils sont « À confirmer » dans Admin > Prix) et demande de les accepter avant de payer. Le dépôt de garantie n'est pas perçu par le site.
+- La photo du Saloon de la page Location est animée par IA (Higgsfield), comme le héros de l'accueil : à faire approuver.

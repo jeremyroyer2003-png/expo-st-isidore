@@ -114,3 +114,11 @@ L'antirançongiciel Acronis de l'ordinateur surveille les programmes qui lisent 
 
 - **3 novembre 2026** : maquette complète des 9 pages (commit `d33ff6a`), passe de nettoyage avec 6 agents de revue.
 - **4 novembre 2026** : refonte « plein été » (voir plus haut). La session d'origine (VS Code) a été perdue; reprise à partir des fichiers modifiés et création de ce journal.
+
+## 12 novembre 2026 : audit, lot 1 et conditions de location
+
+- Audit complet du site et de l'admin : `PLAN-AMELIORATIONS.md` (30 points classés en 3 lots).
+- Lot 1 réalisé (12 corrections rapides, admin et public) : détail dans `REPRISE.md`, section 2 d.
+- Conditions de location de salle : proposition dans `docs/CONDITIONS-LOCATION-SALLE.md`, affichée sur la page Location, case à cocher avant le paiement.
+- Photo vivante du Saloon (Higgsfield) sur la page Location.
+- Taxes : mises de côté par Jérémy.

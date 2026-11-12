@@ -17,7 +17,7 @@ Résultat de l'étape A de `PROMPT-FABLE.md`. **Aucun code n'a été modifié.**
 
 ---
 
-## Lot 1 : gains rapides (petit effort chacun)
+## Lot 1 : gains rapides — FAIT le 12 novembre 2026
 
 | # | Problème observé | Correction proposée | Pour qui |
 |---|---|---|---|

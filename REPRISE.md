@@ -101,6 +101,29 @@ cp .env.example .env.local
 - **Testé** : annulation en ligne (1 150 $ remboursés sur 1 200 $, date libérée, 2 courriels), lien rouvert (« déjà annulée », pas de double remboursement), lien modifié refusé, annulation par l'Expo (frais ignorés, 600 $ remboursés au complet). Échantillon régénéré : 127 étapes sans échec.
 - Le courriel de confirmation de la réservation de Jérémy (20 novembre, son Gmail) a été effacé par erreur par l'ancien nettoyage de l'échantillon (corrigé). La réservation elle-même est intacte.
 
+## 2 d. Lot 1 du plan d'améliorations (12 novembre 2026)
+
+Le plan complet est dans `PLAN-AMELIORATIONS.md` (30 points, 3 lots). Le **lot 1 est fait**, ainsi que les conditions de location.
+
+- **Admin**
+  - Sur téléphone, le menu est replié derrière un bouton « Menu ».
+  - Pastilles dans le menu : nombre à traiter pour Kiosques, Remisage et Messages.
+  - Tableau de bord : bloc « À faire maintenant » (nom, depuis quand, bouton), « Prochaines locations de salle », « Paiements qui tardent » (lien envoyé depuis 7 jours ou plus), nom du client dans les derniers paiements.
+  - Kiosques et Remisage : boutons « Copier le lien » et « Renvoyer le courriel » pour le lien de paiement.
+  - Boîte d'envoi : recherche par adresse ou sujet, filtre clients / bureau, aperçu chargé à l'ouverture.
+- **Location de salle**
+  - Bouton « Prochaine date libre » dans le calendrier; sur téléphone, la page défile jusqu'à l'étape suivante.
+  - Nouvelle section « Conditions de location » et case à cocher obligatoire avant le paiement (vérifiée aussi par le serveur). Texte : `docs/CONDITIONS-LOCATION-SALLE.md`.
+  - Les montants (ménage, dépassement, dépôt) sont dans Admin > Prix, cochés « À confirmer » : le public ne les voit pas tant que le comité ne les a pas validés. **Le dépôt de garantie n'est pas encore perçu par le site.**
+  - La section « Annulation » décrit maintenant l'annulation en ligne; le délai et les frais sont rappelés sous le bouton de paiement.
+  - « Photo vivante » du Saloon (vidéo Higgsfield, `web/public/videos/saloon-soir.mp4`, 5,4 Mo, chargée seulement quand elle arrive à l'écran). Composant : `web/src/components/site/PhotoVivante.tsx`.
+- **Page de remerciement** : « Et ensuite? », « Ajouter à mon calendrier » (fichier .ics, lien signé, `/api/calendrier/…`), « Imprimer », lien d'annulation pour une salle.
+- **Danse** : le champ du nombre de personnes ne revient plus à 1 pendant la saisie.
+- **Stripe** : le reçu officiel de carte est demandé (`receipt_email`); Stripe ne l'envoie qu'en mode réel.
+- **Vérifié** : types, lint et compilation sans erreur; réservation de salle testée jusqu'à la page Stripe (puis libérée); `npm run verifier-paiements` : même résultat qu'avant (un seul écart connu, le courriel effacé de la réservation de Jérémy).
+- **Pas refait** : l'échantillon complet n'a pas été régénéré après ces changements.
+- **Suite proposée** (lot 2) : recherche de client avec fiche, export CSV, plan du palais sur téléphone.
+
 ## 3. Prochaine étape : tester chaque flux de bout en bout
 
 Pour chaque flux, noter ce qui casse, puis corriger avec Claude. Carte de test Stripe : `4242 4242 4242 4242`, une date future et n'importe quel CVC.

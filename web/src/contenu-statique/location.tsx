@@ -1,5 +1,6 @@
 // Converti automatiquement depuis site/location.html (contenu d'origine du site statique)
 import Link from "next/link";
+import PhotoVivante from "@/components/site/PhotoVivante";
 
 export const meta = { titre: "Location de salle – mariage, party, réunion | Expo St-Isidore", description: "Louez la salle de l'Expo St-Isidore à Saint-Isidore, en Beauce : tables, chaises et ambiance comprises. Mariage, party de famille, réunion, anniversaire. Demandez une date en ligne ou au 418 882-5649." };
 
@@ -54,7 +55,8 @@ export default function PageLocation({ calendrier, avis, fraisAnnulation, delaiH
           <article className="salle">
             <figure className="salle__photo">
               <img src="/images/photos/soiree-saloon-800.webp" srcSet="/images/photos/soiree-saloon-400.webp 400w, /images/photos/soiree-saloon-800.webp 800w, /images/photos/soiree-saloon.webp 1080w" sizes="(max-width: 900px) 100vw, 600px" alt="Le Saloon de la grange 3, façade en bois illuminée de guirlandes le soir, avec des invités devant l'entrée" width="800" height="640" loading="lazy" />
-              <figcaption>Le Saloon, un soir d&apos;Expo</figcaption>
+              <PhotoVivante video="/videos/saloon-soir.mp4" />
+              <figcaption>Le Saloon, un soir d&apos;Expo. Photo animée par IA.</figcaption>
             </figure>
             <div className="salle__texte">
               <h3>Le Saloon <small>grange 3</small></h3>
