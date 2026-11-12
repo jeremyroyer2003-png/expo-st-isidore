@@ -1,3 +1,4 @@
+import Exporter from "@/components/admin/Exporter";
 import Annulation from "@/components/admin/Annulation";
 import FormAction from "@/components/admin/FormAction";
 import LienPaiement from "@/components/admin/LienPaiement";
@@ -26,11 +27,12 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ v
     <>
       <Titre sous={`Tarif actuel : ${argent(p.remisage_pied)} le pied · dépôt minimum : ${argent(p.remisage_depot_min)}. Approuver envoie au client le prix et le lien pour payer le dépôt.`}>Remisage d&apos;hiver</Titre>
       {!edition && <LectureSeule />}
-      <nav className="flex gap-2 mb-4" aria-label="Filtre">
+      <nav className="flex flex-wrap gap-2 mb-4" aria-label="Filtre">
         {[["actives", "En cours"], ["toutes", "Toutes"]].map(([v, t]) => (
           <a key={v} href={`?voir=${v}`} aria-current={voir === v ? "page" : undefined}
             className={`px-3 min-h-[40px] inline-flex items-center border-2 border-encre font-etiquette font-bold no-underline ${voir === v ? "bg-encre text-creme" : "bg-[#FBF6EC] text-encre"}`}>{t}</a>
         ))}
+        <span className="ml-auto"><Exporter type="remisage" /></span>
       </nav>
       <div className="grid gap-4">
         {!liste.length && <Carte><p className="text-gris-brun">Aucune demande.</p></Carte>}

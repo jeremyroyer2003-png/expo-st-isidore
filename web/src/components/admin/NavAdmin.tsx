@@ -6,7 +6,7 @@ import { useState } from "react";
 import type { Role } from "@/lib/admin";
 
 const GROUPES: { titre: string; liens: { href: string; texte: string; superAdmin?: boolean }[] }[] = [
-  { titre: "Suivi", liens: [{ href: "/admin", texte: "Tableau de bord" }, { href: "/admin/messages", texte: "Messages" }, { href: "/admin/boite-envoi", texte: "Boîte d'envoi" }] },
+  { titre: "Suivi", liens: [{ href: "/admin", texte: "Tableau de bord" }, { href: "/admin/recherche", texte: "Trouver un client" }, { href: "/admin/messages", texte: "Messages" }, { href: "/admin/boite-envoi", texte: "Boîte d'envoi" }] },
   {
     titre: "Réservations",
     liens: [

@@ -1,3 +1,4 @@
+import Exporter from "@/components/admin/Exporter";
 import Annulation from "@/components/admin/Annulation";
 import { Carte, Chiffre, LectureSeule, Statut, Tableau, Titre } from "@/components/admin/ui";
 import { exigerAdmin, peutEditer } from "@/lib/admin";
@@ -21,6 +22,7 @@ export default async function Page() {
         <Chiffre valeur={personnes} libelle="Personnes inscrites" ton="jean" />
         <Chiffre valeur={argent(payees.reduce((s, i) => s + i.montant_cents, 0))} libelle="Total payé" ton="rouge" />
       </div>
+      <p className="mb-4 flex justify-end"><Exporter type="danse" /></p>
       <Carte>
         <Tableau entetes={["Quand", "Nom", "Forfait", "Pers.", "Montant", "Statut", ""]} vide={!data?.length}>
           {(data ?? []).map((i) => (

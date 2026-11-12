@@ -32,7 +32,9 @@ export default function PlanPalais({ emplacements, annee, fictif }: { emplacemen
   const [choisi, setChoisi] = useState<string | null>(null);
   const [survol, setSurvol] = useState<string | null>(null);
   const e = emplacements.find((x) => x.id === choisi);
-  const libres = emplacements.filter((x) => !x.occupe).length;
+  // Emplacements libres dans l'ordre des numéros (1, 2, 3… et non 1, 10, 11)
+  const listeLibres = emplacements.filter((x) => !x.occupe).sort((a, b) => a.code.localeCompare(b.code, "fr", { numeric: true }));
+  const libres = listeLibres.length;
 
   const choisir = (id: string) => {
     setChoisi(id);
@@ -44,6 +46,7 @@ export default function PlanPalais({ emplacements, annee, fictif }: { emplacemen
   return (
     <div className="grid gap-8">
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] items-start">
+        <div className="grid gap-5 min-w-0">
         <figure className="bg-creme cadre-affiche p-3 sm:p-5">
           <svg viewBox={`-0.5 -0.5 ${LARGEUR + 1} ${HAUTEUR + 1}`} className="w-full h-auto" role="group" aria-label={`Plan du palais des commerces : ${libres} emplacements libres`}>
             {/* Murs */}
@@ -110,6 +113,25 @@ export default function PlanPalais({ emplacements, annee, fictif }: { emplacemen
           </figcaption>
         </figure>
 
+        {/* Téléphone et tablette : les cases du plan sont trop petites pour un doigt, on choisit par numéro */}
+        <div className="lg:hidden">
+          <p className="font-etiquette font-extrabold text-[20px] text-encre">Touchez le numéro de votre emplacement</p>
+          <p className="text-[16px] text-gris-brun mb-3">Le plan ci-dessus montre où il se trouve. Seuls les emplacements libres sont offerts.</p>
+          <ul className="grid grid-cols-[repeat(auto-fill,minmax(64px,1fr))] gap-2">
+            {listeLibres.map((k) => (
+              <li key={k.id}>
+                <button type="button" onClick={() => choisir(k.id)} aria-pressed={k.id === choisi}
+                  aria-label={`Emplacement ${k.code}${k.note ? ` (${k.note})` : ""}, ${k.dimensions}`}
+                  className="w-full min-h-[56px] border-[3px] border-encre bg-moutarde text-encre font-etiquette font-extrabold text-[20px] leading-none aria-pressed:bg-rouge aria-pressed:text-creme active:translate-y-0.5">
+                  {k.code}
+                  {k.note && <span className="block mt-1 text-[12px] font-bold uppercase tracking-wide opacity-80">{k.note}</span>}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+        </div>
+
         <div className="grid gap-4">
           <div className="bg-planche text-creme border-[3px] border-encre shadow-affiche p-5">
             <p className="font-etiquette font-bold uppercase tracking-widest text-moutarde text-[15px]">Palais des commerces · {annee}</p>
@@ -117,7 +139,7 @@ export default function PlanPalais({ emplacements, annee, fictif }: { emplacemen
             <p className="font-etiquette font-bold text-[18px]">emplacement{libres > 1 ? "s" : ""} libre{libres > 1 ? "s" : ""} sur {emplacements.length}</p>
           </div>
           <ol className="grid gap-3 text-[17px] text-encre">
-            <li><strong>1. Choisissez</strong> un emplacement libre (en jaune) sur le plan.</li>
+            <li><strong>1. Choisissez</strong> un emplacement libre (en jaune) : sur le plan, ou par son numéro sur un téléphone.</li>
             <li><strong>2. Envoyez</strong> votre demande : rien à payer pour l&apos;instant.</li>
             <li><strong>3. Le comité approuve</strong> et vous envoie le lien de paiement. L&apos;emplacement est à vous une fois payé.</li>
           </ol>
@@ -132,10 +154,10 @@ export default function PlanPalais({ emplacements, annee, fictif }: { emplacemen
       </div>
 
       {/* Liste accessible pour qui ne peut pas utiliser le plan */}
-      <details className="text-[16px]">
+      <details className="hidden lg:block text-[16px]">
         <summary className="cursor-pointer font-etiquette font-bold text-[18px] min-h-[44px] flex items-center">Voir la liste des emplacements libres</summary>
         <ul className="mt-2 flex flex-wrap gap-2">
-          {emplacements.filter((k) => !k.occupe).map((k) => (
+          {listeLibres.map((k) => (
             <li key={k.id}><button type="button" onClick={() => choisir(k.id)} aria-pressed={k.id === choisi}
               className="min-h-[44px] min-w-[56px] border-[3px] border-encre bg-moutarde font-etiquette font-bold aria-pressed:bg-rouge aria-pressed:text-creme">{k.code}</button></li>
           ))}

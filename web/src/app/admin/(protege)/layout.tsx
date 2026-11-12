@@ -39,7 +39,16 @@ export default async function LayoutAdmin({ children }: { children: React.ReactN
         </NavAdmin>
       </aside>
       <main id="contenu" className="p-4 sm:p-6 lg:p-8 min-w-0">
-        <p className="mb-4 inline-block border-2 border-encre bg-moutarde px-2 py-0.5 font-etiquette font-bold uppercase text-[13px]">Mode test · Stripe test · courriels simulés</p>
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-3 print:hidden">
+          <p className="inline-block border-2 border-encre bg-moutarde px-2 py-0.5 font-etiquette font-bold uppercase text-[13px]">Mode test · Stripe test · courriels simulés</p>
+          <form action="/admin/recherche" method="get" role="search" className="flex grow sm:grow-0 gap-2">
+            <label className="grow">
+              <span className="sr-only">Trouver un client : nom, entreprise, courriel ou téléphone</span>
+              <input type="search" name="q" placeholder="Trouver un client…" className="w-full sm:w-[260px] min-h-[40px] border-2 border-encre bg-white px-2 py-1 text-[15px] text-encre" />
+            </label>
+            <button type="submit" className="min-h-[40px] px-3 border-2 border-encre bg-encre text-creme font-etiquette font-bold uppercase tracking-wide text-[14px] hover:bg-planche-2">Chercher</button>
+          </form>
+        </div>
         {children}
       </main>
     </div>

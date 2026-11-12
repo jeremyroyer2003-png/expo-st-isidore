@@ -38,10 +38,10 @@ Résultat de l'étape A de `PROMPT-FABLE.md`. **Aucun code n'a été modifié.**
 
 | # | Problème observé | Correction proposée | Pour qui |
 |---|---|---|---|
-| 13 | **Impossible de retrouver un client.** Aucune recherche; salles, kiosques, remisage et danse sont quatre listes séparées. | Recherche globale (nom, courriel, téléphone, entreprise) dans l'en-tête de l'admin. Résultat : une **fiche client** avec toutes ses réservations, ses paiements et ses courriels. | Admin |
-| 14 | **Pas d'export pour la comptabilité.** | Bouton « Exporter en CSV » (ouvrable dans Excel) sur chaque liste et sur les paiements, avec filtre par dates. | Admin |
+| 13 | **FAIT (12 nov.)** **Impossible de retrouver un client.** Aucune recherche; salles, kiosques, remisage et danse sont quatre listes séparées. | Recherche globale (nom, courriel, téléphone, entreprise) dans l'en-tête de l'admin. Résultat : une **fiche client** avec toutes ses réservations, ses paiements et ses courriels. | Admin |
+| 14 | **FAIT (12 nov.)** **Pas d'export pour la comptabilité.** | Bouton « Exporter en CSV » (ouvrable dans Excel) sur chaque liste et sur les paiements, avec filtre par dates. | Admin |
 | 15 | **Listes limitées à deux ou trois filtres.** Aucune vue « payé ce mois-ci » ou « en attente de paiement depuis 7 jours ». | Filtres par statut et par période; tri par colonne. | Admin |
-| 16 | **Plan du palais sur téléphone :** les cases font environ 22 px, trop petites pour un doigt (minimum recommandé : 44 px). La liste existe, mais elle est cachée en dessous. | Sur téléphone, montrer la liste des emplacements libres en premier et le plan comme repère, ou permettre de zoomer le plan. | Public |
+| 16 | **FAIT (12 nov.)** **Plan du palais sur téléphone :** les cases font environ 22 px, trop petites pour un doigt (minimum recommandé : 44 px). La liste existe, mais elle est cachée en dessous. | Sur téléphone, montrer la liste des emplacements libres en premier et le plan comme repère, ou permettre de zoomer le plan. | Public |
 | 17 | **Calendrier admin :** une longue liste de dates. Difficile de voir un mois d'un coup d'œil. | Vue en grille mensuelle (libre, réservé, verrouillé), clic sur un jour pour agir. | Admin |
 | 18 | **Aucune relance.** Un lien de paiement non payé reste en attente sans que personne le sache. | Dans « À faire » : « Lien envoyé il y a 7 jours, non payé » avec un bouton « Relancer ». L'envoi automatique viendra avec l'hébergement (lot 3). | Admin |
 | 19 | **Aucun historique.** On ne sait pas qui a approuvé, refusé ou remboursé, ni quand. | Journal par réservation (« Approuvé par Marie le 12 nov. »). Demande une petite migration de la base. | Admin |

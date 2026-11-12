@@ -1,3 +1,4 @@
+import Exporter from "@/components/admin/Exporter";
 import Annulation from "@/components/admin/Annulation";
 import FormAction from "@/components/admin/FormAction";
 import LienPaiement from "@/components/admin/LienPaiement";
@@ -38,7 +39,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ v
     <>
       <Titre sous="Intérieur : approuver tient l'emplacement et envoie le lien de paiement; il est confirmé une fois payé. Extérieur : notez l'entente, puis envoyez la facture Stripe.">Kiosques</Titre>
       {!edition && <LectureSeule />}
-      <nav className="flex gap-2 mb-4" aria-label="Sections">{onglet("demandes", `Demandes (${actives.length})`)}{onglet("plan", "Emplacements du plan")}</nav>
+      <nav className="flex flex-wrap gap-2 mb-4" aria-label="Sections">{onglet("demandes", `Demandes (${actives.length})`)}{onglet("plan", "Emplacements du plan")}<span className="ml-auto"><Exporter type="kiosques" /></span></nav>
 
       {voir === "demandes" && (
         <div className="grid gap-4">

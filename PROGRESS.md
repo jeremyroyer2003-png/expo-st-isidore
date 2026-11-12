@@ -122,3 +122,4 @@ L'antirançongiciel Acronis de l'ordinateur surveille les programmes qui lisent 
 - Conditions de location de salle : proposition dans `docs/CONDITIONS-LOCATION-SALLE.md`, affichée sur la page Location, case à cocher avant le paiement.
 - Photo vivante du Saloon (Higgsfield) sur la page Location.
 - Taxes : mises de côté par Jérémy.
+- Carte blanche : héros de l'accueil plus lisible, recherche de client avec fiche, export Excel, plan du palais par numéro sur téléphone, présentation pour le comité (`docs/PRESENTATION-COMITE.md`). Détail : `REPRISE.md`, section 2 e.

@@ -1,3 +1,4 @@
+import Exporter from "@/components/admin/Exporter";
 import Annulation from "@/components/admin/Annulation";
 import { Carte, LectureSeule, Statut, Tableau, Titre } from "@/components/admin/ui";
 import { exigerAdmin, peutEditer } from "@/lib/admin";
@@ -26,11 +27,12 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ v
     <>
       <Titre sous="Les réservations payées en ligne. Une annulation rembourse le client moins les frais, et rouvre la date.">Salles réservées</Titre>
       {!edition && <LectureSeule />}
-      <nav className="flex gap-2 mb-4" aria-label="Filtre">
+      <nav className="flex flex-wrap gap-2 mb-4" aria-label="Filtre">
         {[["a-venir", "À venir"], ["passees", "Passées"], ["toutes", "Toutes"]].map(([v, t]) => (
           <a key={v} href={`?voir=${v}`} aria-current={voir === v ? "page" : undefined}
             className={`px-3 min-h-[40px] inline-flex items-center border-2 border-encre font-etiquette font-bold no-underline ${voir === v ? "bg-encre text-creme" : "bg-[#FBF6EC] text-encre"}`}>{t}</a>
         ))}
+        <span className="ml-auto"><Exporter type="salles" /></span>
       </nav>
       <Carte>
         <Tableau entetes={["Date", "Salle", "Client", "Événement", "Montant", "Statut", ""]} vide={!liste.length}>

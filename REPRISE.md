@@ -124,6 +124,16 @@ Le plan complet est dans `PLAN-AMELIORATIONS.md` (30 points, 3 lots). Le **lot 1
 - **Pas refait** : l'échantillon complet n'a pas été régénéré après ces changements.
 - **Suite proposée** (lot 2) : recherche de client avec fiche, export CSV, plan du palais sur téléphone.
 
+## 2 e. Carte blanche : ce qui fait vendre le site (12 novembre 2026)
+
+- **Accueil** : le voile du héros est plus foncé (titre plus lisible) et, sur un écran d'ordinateur peu haut, le titre rapetisse pour que les boutons soient visibles sans défiler (`HerosVideo.css`).
+- **Admin > Trouver un client** (`/admin/recherche`, aussi un champ en haut de chaque page) : recherche par nom, entreprise, courriel ou téléphone dans les salles, kiosques, remisage, danse et messages. Une fiche par client, avec le total payé en ligne et un lien vers ses courriels.
+- **Export Excel** (`/admin/export/salles|kiosques|remisage|danse|paiements`) : fichier CSV au format français (point-virgule, virgule décimale). Bouton sur chaque liste et sur le tableau de bord. Vérifié : l'export des paiements donne encaissé 17 390 $, remboursé 2 735 $, frais 175 $, net 14 655 $, comme Stripe.
+- **Plan du palais sur téléphone** : sous le plan, les emplacements libres se choisissent par numéro (gros boutons, dans l'ordre).
+- **Admin sur téléphone** : plus aucun débordement horizontal (les cartes ne s'élargissent plus avec les tableaux).
+- **Pour le comité** : `docs/PRESENTATION-COMITE.md` résume ce que le site fait pour les visiteurs et pour le bureau, ce qui a été vérifié et ce qu'il attend d'eux.
+- **Vérifié** : types, lint et compilation sans erreur; recherche, exports et plan testés dans le navigateur à 390 px et sur ordinateur.
+
 ## 3. Prochaine étape : tester chaque flux de bout en bout
 
 Pour chaque flux, noter ce qui casse, puis corriger avec Claude. Carte de test Stripe : `4242 4242 4242 4242`, une date future et n'importe quel CVC.

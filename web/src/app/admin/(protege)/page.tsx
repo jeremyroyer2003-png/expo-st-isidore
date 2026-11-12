@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Exporter from "@/components/admin/Exporter";
 import { Carte, Chiffre, Statut, Tableau, Titre } from "@/components/admin/ui";
 import { exigerAdmin } from "@/lib/admin";
 import { argent, dateHeure, dateLongue } from "@/lib/format";
@@ -139,7 +140,7 @@ export default async function Page() {
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.4fr_1fr]">
-        <Carte titre="Derniers paiements">
+        <Carte titre="Derniers paiements" action={<Exporter type="paiements" texte="Tous les paiements (Excel)" />}>
           <Tableau entetes={["Quand", "Client", "Pour", "Montant", "Statut"]} vide={!recents.data?.length}>
             {(recents.data ?? []).map((p) => (
               <tr key={p.id}>

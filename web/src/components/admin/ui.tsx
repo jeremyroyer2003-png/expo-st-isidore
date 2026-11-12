@@ -12,7 +12,7 @@ export function Titre({ children, sous }: { children: React.ReactNode; sous?: Re
 
 export function Carte({ titre, children, className = "", action }: { titre?: React.ReactNode; children: React.ReactNode; className?: string; action?: React.ReactNode }) {
   return (
-    <section className={`bg-[#FBF6EC] border-[3px] border-encre shadow-affiche-sm p-4 sm:p-5 ${className}`}>
+    <section className={`min-w-0 bg-[#FBF6EC] border-[3px] border-encre shadow-affiche-sm p-4 sm:p-5 ${className}`}>
       {(titre || action) && (
         <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
           {titre && <h2 className="font-etiquette font-extrabold text-[21px] text-encre">{titre}</h2>}
