@@ -93,6 +93,14 @@ cp .env.example .env.local
   - vérifier : `npm run verifier-paiements` dans `web/`.
 - **Pas encore testé à la main** : la page Checkout de Stripe elle-même (carte 4242) et le retour sur `/paiement/merci`. Le générateur paie par l'API Stripe à la place. À faire dans le navigateur : une salle et une danse.
 
+## 2 c. Annulation des salles (11 novembre 2026, en soirée)
+
+- **Par le client** : le courriel de confirmation de salle a un bouton « Gérer ou annuler ma réservation » (lien signé, `/annuler/…`). La page montre le montant payé, les frais et le remboursement; le client confirme et tout se fait seul : remboursement Stripe moins les frais, date libérée, courriel au client, avis à l'admin. Possible jusqu'à 48 h avant (à confirmer, voir `A-CONFIRMER.md`).
+- **Par l'admin** : « Annuler et rembourser » demande maintenant **qui annule**. Le client : frais retenus. L'Expo : remboursement complet, aucuns frais, courriel d'excuse.
+- Code partagé : `web/src/lib/annulation.ts` (admin et client), liens signés : `web/src/lib/jeton.ts` (aucun changement à la base).
+- **Testé** : annulation en ligne (1 150 $ remboursés sur 1 200 $, date libérée, 2 courriels), lien rouvert (« déjà annulée », pas de double remboursement), lien modifié refusé, annulation par l'Expo (frais ignorés, 600 $ remboursés au complet). Échantillon régénéré : 127 étapes sans échec.
+- Le courriel de confirmation de la réservation de Jérémy (20 novembre, son Gmail) a été effacé par erreur par l'ancien nettoyage de l'échantillon (corrigé). La réservation elle-même est intacte.
+
 ## 3. Prochaine étape : tester chaque flux de bout en bout
 
 Pour chaque flux, noter ce qui casse, puis corriger avec Claude. Carte de test Stripe : `4242 4242 4242 4242`, une date future et n'importe quel CVC.

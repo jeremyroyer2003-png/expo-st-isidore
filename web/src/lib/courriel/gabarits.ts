@@ -77,14 +77,20 @@ export const accuseMessage = (nom: string) =>
   });
 
 // ---------- Salles ----------
-export const salleConfirmee = (o: { nom: string; salle: string; date: string; heures: string; montant: number }) =>
+export const salleConfirmee = (o: { nom: string; salle: string; date: string; heures: string; montant: number; lienAnnulation: string; frais: number; delaiHeures: number }) =>
   mise_en_page({
     gabarit: "salle_confirmee",
     sujet: `Réservation confirmée : ${o.salle}, ${o.date}`,
     titre: "Votre salle est réservée",
     intro: [`Merci, ${o.nom}. Votre paiement est reçu et la date est à vous.`],
     lignes: [["Salle", o.salle], ["Date", o.date], ["Heures", o.heures], ["Payé", argent(o.montant)]],
-    fin: ["Tables, chaises et ambiance sont comprises. On vous appelle avant l'événement pour les derniers détails.", `Pour changer ou annuler : ${BUREAU}.`],
+    fin: [
+      "Tables, chaises et ambiance sont comprises. On vous appelle avant l'événement pour les derniers détails.",
+      `Besoin d'annuler? Faites-le vous-même avec le bouton « Gérer ou annuler ma réservation », jusqu'à ${o.delaiHeures} heures avant l'événement. ` +
+        (o.frais > 0 ? `On vous rembourse le montant payé, moins ${argent(o.frais)} de frais d'annulation.` : "On vous rembourse au complet.") +
+        ` Pour changer de date, ou à moins de ${o.delaiHeures} heures : ${BUREAU}.`,
+    ],
+    bouton: { texte: "Gérer ou annuler ma réservation", url: o.lienAnnulation },
   });
 
 export const salleConfirmeeAdmin = (o: { nom: string; courriel: string; telephone: string; salle: string; date: string; heures: string; montant: number; type: string; personnes: string }) =>
@@ -245,16 +251,28 @@ export const paiementRecuAdmin = (quoi: string, lignes: Ligne[]) =>
     bouton: { texte: "Ouvrir l'admin", url: lienAdmin("") },
   });
 
-export const annulation = (o: { nom: string; quoi: string; paye: number; frais: number; rembourse: number }) =>
+export const annulation = (o: { nom: string; quoi: string; paye: number; frais: number; rembourse: number; parQui: "client" | "expo" }) =>
   mise_en_page({
     gabarit: "annulation",
     sujet: `Annulation : ${o.quoi}`,
-    titre: "Votre réservation est annulée",
-    intro: [`Bonjour ${o.nom}, votre réservation (${o.quoi}) est annulée.`],
+    titre: o.parQui === "expo" ? "Nous devons annuler votre réservation" : "Votre réservation est annulée",
+    intro: o.parQui === "expo"
+      ? [`Bonjour ${o.nom}, nous sommes désolés : l'Expo doit annuler votre réservation (${o.quoi}).`, "Comme l'annulation vient de nous, vous êtes remboursé au complet, sans aucuns frais."]
+      : [`Bonjour ${o.nom}, votre réservation (${o.quoi}) est annulée.`],
     lignes: [
       ["Montant payé", argent(o.paye)],
       ["Frais d'annulation", argent(o.frais)],
       ["Remboursé", argent(o.rembourse)],
     ],
     fin: [o.rembourse > 0 ? "Le remboursement apparaît sur votre carte d'ici 5 à 10 jours ouvrables." : "Aucun montant n'est remboursé.", `Questions : ${BUREAU}.`],
+  });
+
+export const annulationAdmin = (lignes: Ligne[]) =>
+  mise_en_page({
+    gabarit: "annulation_admin",
+    sujet: "Annulation d'une réservation",
+    titre: "Une réservation vient d'être annulée",
+    intro: ["Le remboursement Stripe est déjà fait et la date est de nouveau libre."],
+    lignes,
+    bouton: { texte: "Voir dans l'admin", url: lienAdmin("/reservations") },
   });

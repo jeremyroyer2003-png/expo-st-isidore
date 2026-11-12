@@ -96,3 +96,7 @@ Les prix ci-dessous sont des **valeurs fictives de départ**, marquées « à co
 - [ ] Durée de conservation des demandes reçues par formulaire
 - [ ] Évaluation des facteurs relatifs à la vie privée pour l'hébergement Netlify (serveurs aux États-Unis), puis mention du transfert hors Québec dans les cases de consentement
 - [ ] Faire relire la politique par une personne qualifiée
+
+## Annulation des salles (11 novembre 2026)
+- [ ] **Délai d'annulation en ligne** : le client peut annuler lui-même, par le lien de son courriel de confirmation, jusqu'à **48 heures** avant l'événement (valeur provisoire, `DELAI_ANNULATION_HEURES` dans `web/src/lib/annulation.ts`). Ensuite, il appelle le bureau. Le comité veut-il 48 h, 7 jours, 30 jours?
+- [ ] **Frais d'annulation de salle** : 50 $ (prix fictif « à confirmer », Admin > Prix). Retenus seulement quand c'est le client qui annule; quand l'Expo annule, remboursement complet et courriel d'excuse.

@@ -117,8 +117,8 @@ async function salles() {
     }
     if (suite === "en-cours") { noter(`${etiquette} : laissée en paiement (retenue 35 min)`, { ok: true }); continue; }
     await payer("salle", id, `${etiquette} : paiement`);
-    if (suite === "annuler-frais") noter(`${etiquette} : annulation, 50 $ de frais`, await annulerEtRembourser(form({ type: "salle", id, frais: 50, aviser: "oui" })));
-    if (suite === "annuler-sans-frais") noter(`${etiquette} : annulation sans frais`, await annulerEtRembourser(form({ type: "salle", id, frais: 0, aviser: "oui" })));
+    if (suite === "annuler-frais") noter(`${etiquette} : annulation, 50 $ de frais`, await annulerEtRembourser(form({ type: "salle", id, frais: 50, par: "client", aviser: "oui" })));
+    if (suite === "annuler-sans-frais") noter(`${etiquette} : annulée par l'Expo (sans frais)`, await annulerEtRembourser(form({ type: "salle", id, frais: 50, par: "expo", aviser: "oui" })));
   }
 }
 
@@ -154,7 +154,7 @@ async function kiosquesInterieurs() {
     if (!a) { noter(`${etiquette} : lien de paiement`, { ok: false, erreur: "rien à payer derrière le lien" }); continue; }
     await creerSessionPaiement({ type: a.type, objetId: a.id, libelle: a.libelle, description: a.description, montantCents: a.montant, courriel: a.courriel, retourAnnulation: `/payer/${jeton_paiement}`, expireMinutes: 60 });
     await payer("kiosque", id, `${etiquette} : paiement par le lien`);
-    if (suite === "annuler-frais") noter(`${etiquette} : annulation, 50 $ de frais`, await annulerEtRembourser(form({ type: "kiosque", id, frais: 50, aviser: "oui" })));
+    if (suite === "annuler-frais") noter(`${etiquette} : annulation, 50 $ de frais`, await annulerEtRembourser(form({ type: "kiosque", id, frais: 50, par: "client", aviser: "oui" })));
   }
 }
 
@@ -215,7 +215,7 @@ async function danse() {
       continue;
     }
     await payer("danse", id, `${etiquette} : paiement`);
-    if (suite === "annuler") noter(`${etiquette} : annulation sans frais`, await annulerEtRembourser(form({ type: "danse", id, frais: 0, aviser: "oui" })));
+    if (suite === "annuler") noter(`${etiquette} : annulation sans frais`, await annulerEtRembourser(form({ type: "danse", id, frais: 0, par: "client", aviser: "oui" })));
   }
 }
 
@@ -252,7 +252,7 @@ async function remisage() {
     if (!a) { noter(`${etiquette} : lien de dépôt`, { ok: false, erreur: "rien à payer derrière le lien" }); continue; }
     await creerSessionPaiement({ type: a.type, objetId: a.id, libelle: a.libelle, description: a.description, montantCents: a.montant, courriel: a.courriel, retourAnnulation: `/payer/${jeton_paiement}`, expireMinutes: 60 });
     await payer("remisage", id, `${etiquette} : dépôt payé`);
-    if (suite === "annuler-frais") noter(`${etiquette} : annulation, 25 $ de frais`, await annulerEtRembourser(form({ type: "remisage", id, frais: 25, aviser: "oui" })));
+    if (suite === "annuler-frais") noter(`${etiquette} : annulation, 25 $ de frais`, await annulerEtRembourser(form({ type: "remisage", id, frais: 25, par: "client", aviser: "oui" })));
   }
   // Cas limite : dépôt sous le minimum, refusé par l'app
   const courriel = adresse("Test", "Depotmin");
@@ -319,7 +319,10 @@ export async function DELETE() {
   const { data: admin } = await s.from("courriels_sortants").delete().like("texte", `%@${DOMAINE}%`).select("id");
   compte.courriels_admin = admin?.length ?? 0;
   if (debut) {
-    const { data: avis } = await s.from("courriels_sortants").delete().eq("destinataire", env.courrielAdmin).gte("cree_le", debut).select("id");
+    // Seuls les avis « paiement reçu » n'ont pas l'adresse du client; on ne touche à rien d'autre
+    // (l'adresse de l'admin peut aussi être celle d'un vrai client).
+    const { data: avis } = await s.from("courriels_sortants").delete().eq("destinataire", env.courrielAdmin).eq("gabarit", "paiement_admin")
+      .gte("cree_le", debut).not("texte", "like", "%@%").select("id");
     compte.courriels_admin += avis?.length ?? 0;
   }
   const ids = [...new Set((resas ?? []).map((r) => r.creneau_id))];

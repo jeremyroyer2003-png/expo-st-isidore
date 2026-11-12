@@ -1,6 +1,7 @@
 // Finalisation des paiements Stripe. Appelée par le webhook ET par la page /paiement/merci :
 // tout est idempotent (un paiement n'est confirmé et annoncé qu'une seule fois).
 import type Stripe from "stripe";
+import { DELAI_ANNULATION_HEURES, fraisAnnulation, lienAnnulationSalle } from "@/lib/annulation";
 import { envoyerCourriel } from "@/lib/courriel";
 import * as G from "@/lib/courriel/gabarits";
 import { env } from "@/lib/env";
@@ -79,8 +80,9 @@ async function appliquer(p: { id: string; objet_type: string; objet_id: string; 
     await sb.from("reservations_salle").update({ statut: "confirmee" }).eq("id", r.id);
     await sb.from("creneaux_salle").update({ statut: "reserve", retenu_jusqua: null }).eq("id", c.id);
     const commun = { nom: r.nom, salle: c.salles.nom, date: dateLongue(c.debut), heures: plage(c.debut, c.fin), montant: r.montant_cents };
+    const frais = await fraisAnnulation(sb, "salle");
     await Promise.all([
-      envoyerCourriel({ a: r.courriel, ...G.salleConfirmee(commun) }),
+      envoyerCourriel({ a: r.courriel, ...G.salleConfirmee({ ...commun, lienAnnulation: lienAnnulationSalle(r.id), frais, delaiHeures: DELAI_ANNULATION_HEURES }) }),
       admin(G.salleConfirmeeAdmin({ ...commun, courriel: r.courriel, telephone: r.telephone, type: r.type_evenement, personnes: r.personnes ? String(r.personnes) : "—" })),
     ]);
   } else if (p.objet_type === "danse") {

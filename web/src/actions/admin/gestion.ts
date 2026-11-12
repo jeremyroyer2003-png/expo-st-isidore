@@ -5,8 +5,9 @@ import { exigerRole, verifierEcriture } from "@/lib/admin";
 import { envoyerCourriel } from "@/lib/courriel";
 import * as G from "@/lib/courriel/gabarits";
 import { env } from "@/lib/env";
-import { argent, dateLongue } from "@/lib/format";
-import { creerFacture, rembourser } from "@/lib/stripe-admin";
+import { argent } from "@/lib/format";
+import { annuler, TABLES, type ParQui, type TypeObjet } from "@/lib/annulation";
+import { creerFacture } from "@/lib/stripe-admin";
 import { ErreurSaisie, nombre, texte, traiter, type Resultat } from "@/lib/validation";
 
 const UUID = /^[0-9a-f-]{36}$/;
@@ -23,54 +24,19 @@ function dollars(fd: FormData, nom: string, requis = true): number | null {
 const lienPaiement = (jeton: string) => `${env.urlSite}/payer/${jeton}`;
 
 // =====================================================================
-// Annulation + remboursement (salles, kiosques, remisage : frais; danse : sans frais par défaut)
+// Annulation + remboursement (code partagé avec le lien d'annulation du client : lib/annulation.ts)
+// Qui annule : le client paie les frais d'annulation; l'Expo rembourse au complet.
 // =====================================================================
-type TypeObjet = "salle" | "kiosque" | "remisage" | "danse";
-const TABLES: Record<TypeObjet, string> = { salle: "reservations_salle", kiosque: "demandes_kiosque", remisage: "demandes_remisage", danse: "inscriptions_danse" };
-
 export async function annulerEtRembourser(fd: FormData): Promise<Resultat> {
   return traiter(async () => {
     const { sb } = await exigerRole("editeur");
     const type = texte(fd, "type", { requis: true, max: 10 }) as TypeObjet;
     if (!TABLES[type]) throw new ErreurSaisie("Type inconnu.");
-    const objetId = id(fd);
-    const frais = dollars(fd, "frais", false) ?? 0;
-
-    const { data: objet } = await sb.from(TABLES[type]).select("*").eq("id", objetId).single();
-    if (!objet) throw new ErreurSaisie("Élément introuvable.");
-    if (objet.statut === "annulee") throw new ErreurSaisie("Déjà annulé.");
-
-    // Le paiement (s'il y en a un) est remboursé en premier : si Stripe refuse, rien n'est changé
-    const { data: paiements } = await sb.from("paiements").select("*").eq("objet_type", type).eq("objet_id", objetId).in("statut", ["paye", "rembourse_partiel"]);
-    let paye = 0, retenu = 0, rembourse = 0;
-    for (const p of paiements ?? []) {
-      const r = await rembourser(p, frais - retenu);
-      paye += p.montant_cents;
-      retenu += r.frais;
-      rembourse += r.rembourse;
-      verifierEcriture(await sb.from("paiements").update({
-        statut: r.frais > 0 ? "rembourse_partiel" : "rembourse",
-        frais_annulation_cents: p.frais_annulation_cents + r.frais,
-        rembourse_cents: p.rembourse_cents + r.rembourse,
-      }).eq("id", p.id).select("id"));
-    }
-
-    verifierEcriture(await sb.from(TABLES[type]).update({ statut: "annulee" }).eq("id", objetId).select("id"));
-    let quoi = "";
-    if (type === "salle") {
-      // La date redevient réservable
-      await sb.from("creneaux_salle").update({ statut: "ouvert", retenu_jusqua: null }).eq("id", objet.creneau_id);
-      const { data: c } = await sb.from("creneaux_salle").select("debut, salles(nom)").eq("id", objet.creneau_id).single();
-      quoi = `${(c?.salles as unknown as { nom: string })?.nom ?? "salle"}, ${c ? dateLongue(c.debut) : ""}`;
-    } else if (type === "kiosque") quoi = "votre kiosque";
-    else if (type === "remisage") quoi = "votre place de remisage";
-    else quoi = "votre inscription à la danse";
-
-    if (fd.get("aviser") === "oui") {
-      await envoyerCourriel({ a: objet.courriel, ...G.annulation({ nom: objet.nom, quoi, paye, frais: retenu, rembourse }) });
-    }
+    const parQui: ParQui = fd.get("par") === "expo" ? "expo" : "client";
+    const r = await annuler(sb, { type, objetId: id(fd), parQui, fraisCents: dollars(fd, "frais", false) ?? 0, aviser: fd.get("aviser") === "oui" });
     revalidatePath("/admin", "layout");
-    return { ok: true, message: paye ? `Annulé. Remboursé : ${argent(rembourse)} (frais retenus : ${argent(retenu)}).` : "Annulé (aucun paiement à rembourser)." };
+    const qui = parQui === "expo" ? "par l'Expo, sans frais" : "à la demande du client";
+    return { ok: true, message: r.paye ? `Annulé ${qui}. Remboursé : ${argent(r.rembourse)} (frais retenus : ${argent(r.retenu)}).` : `Annulé ${qui} (aucun paiement à rembourser).` };
   });
 }
 
