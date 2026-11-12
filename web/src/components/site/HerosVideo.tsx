@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import "./HerosVideo.css";
 
-// Héros de l'accueil, version 2 (essai local, page /accueil-v2).
+// Héros de l'accueil (version 2, retenue par Jérémy le 11 novembre 2026).
 // Une vraie photo de l'Expo, animée par IA (Higgsfield, modèle Kling), joue en fond et en boucle.
 // Le message de la saison est visible tout de suite : rien à faire défiler.
 // La boucle est faite dans le navigateur : deux lecteurs du même fichier se relaient avec un fondu

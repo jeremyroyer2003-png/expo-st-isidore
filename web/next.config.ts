@@ -15,6 +15,10 @@ const nextConfig: NextConfig = {
   experimental: {
     serverActions: { bodySizeLimit: "9mb" },
   },
+  // L'essai /accueil-v2 est devenu l'accueil (11 novembre 2026)
+  async redirects() {
+    return [{ source: "/accueil-v2", destination: "/", permanent: true }];
+  },
   images: {
     remotePatterns: [{ protocol: "https", hostname: "*.supabase.co", pathname: "/storage/v1/object/public/**" }],
   },

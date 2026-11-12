@@ -4,76 +4,17 @@ import Link from "next/link";
 export const meta = { titre: "Expo St-Isidore – Exposition agricole gratuite en Beauce depuis 1982", description: "Expo agricole gratuite à Saint-Isidore, en Beauce : jugements d'animaux, tire de tracteurs, spectacles et activités familiales. Merci pour 2026, on se revoit en juillet 2027. Toute l'année : remisage d'hiver intérieur, location de salle et danse country." };
 
 import ComportementsAccueil from "@/components/site/ComportementsAccueil";
+import HerosVideo from "@/components/site/HerosVideo";
+import PelliculePhotos from "@/components/site/PelliculePhotos";
 
-// heros : remplace le héros d'origine (diaporama), pour comparer une autre version (/accueil-v2)
-export default function PageAccueil({ heros }: { heros?: React.ReactNode } = {}) {
+export default function PageAccueil() {
   return (
     <>
       <ComportementsAccueil />
 
-    {heros ?? (<>
-    {/* ===== Héros : diaporama de vraies photos de l'Expo ===== */}
-    <div className="une-zone">
-      <section className="une" aria-label="À la une">
-        {/* Photos de l'ancien site (droits à confirmer) : remplacer le fichier dans images/photos/ */}
-        {/* Hiver : une seule image fixe, les bâtiments où dorment les véhicules (le diaporama d'été est caché) */}
-        <figure className="une__fixe">
-          <img src="/images/photos/terrain-aerien.webp" srcSet="/images/photos/terrain-aerien-800.webp 800w, /images/photos/terrain-aerien.webp 1280w" sizes="100vw" alt="Vue aérienne du site de l'Expo : les bâtiments, les stationnements et les champs autour" width="1280" height="720" />
-          <figcaption>Les bâtiments de l&apos;Expo, vus du ciel</figcaption>
-        </figure>
-        <ul className="une__diapos" aria-label="Photos de l'Expo">
-          <li className="une__diapo est-active">
-            <img src="/images/photos/tire-poussiere.webp" srcSet="/images/photos/tire-poussiere-800.webp 800w, /images/photos/tire-poussiere.webp 1400w" sizes="100vw" alt="Tracteur vert qui tire la luge dans un nuage de poussière, devant les estrades" width="1600" height="1067" data-legende="Tire de tracteurs ASTTQ, Saint-Isidore" />
-          </li>
-          <li className="une__diapo">
-            <img src="/images/photos/holstein-rubans.webp" srcSet="/images/photos/holstein-rubans-800.webp 800w, /images/photos/holstein-rubans.webp 1400w" sizes="100vw" alt="Des dizaines de rosettes de jugement multicolores alignées sur une table" width="1600" height="1067" loading="lazy" data-legende="Les rosettes du jugement Holstein" />
-          </li>
-          <li className="une__diapo">
-            <img src="/images/photos/spectacle-scene.webp" srcSet="/images/photos/spectacle-scene-800.webp 800w, /images/photos/spectacle-scene.webp 1400w" sizes="100vw" alt="Foule en silhouette devant une scène baignée de lumière rouge" width="1600" height="1065" loading="lazy" data-legende="Spectacle sous le grand chapiteau" />
-          </li>
-          <li className="une__diapo">
-            <img src="/images/photos/kiosques-exterieurs.webp" srcSet="/images/photos/kiosques-exterieurs-800.webp 800w, /images/photos/kiosques-exterieurs.webp 1400w" sizes="100vw" alt="Tracteurs neufs et kiosques d'exposants sous le soleil d'été" width="1600" height="1067" loading="lazy" data-legende="Kiosques extérieurs et machinerie" />
-          </li>
-        </ul>
-
-        {/* Le héros suit la saison (classe posée dans le <head>) :
-             hiver = de la mi-octobre à la mi-mai, le remisage d'abord; été = l'Expo d'abord.
-             Sans JavaScript, c'est la version d'hiver qui s'affiche. */}
-        <div className="contenu une__contenu une__saison une__saison--hiver">
-          <p className="billet"><span>Remisage intérieur</span><span>Entrées en cours</span></p>
-          <h1 className="une__titre">Votre roulotte, <span>au sec cet hiver</span></h1>
-          <p className="une__intro">Roulottes, VR, autos, bateaux et motos, à l&apos;intérieur des bâtiments de l&apos;Expo. Assuré, plus de 20 ans d&apos;expérience. Il est encore temps cet hiver&nbsp;: envoyez vos dimensions, on regarde l&apos;espace. <strong>Et on se revoit en juillet 2027</strong> pour la 45<sup>e</sup> Expo.</p>
-          <div className="groupe-boutons">
-            <Link className="bouton bouton--orange" href="/remisage">Envoyer mes dimensions <span className="fleche" aria-hidden="true">→</span></Link>
-            <a className="bouton bouton--contour" href="tel:+14188829619">418 882-9619</a>
-          </div>
-        </div>
-        <div className="contenu une__contenu une__saison une__saison--ete">
-          <p className="billet"><span>Entrée gratuite</span><span>depuis 1982</span></p>
-          <h1 className="une__titre">On se revoit <span>en juillet 2027</span></h1>
-          <p className="une__intro">Six jours d&apos;agriculture, de tracteurs et de fête à Saint-Isidore, en Beauce. Les dates 2027 seront annoncées au printemps.</p>
-          <div className="groupe-boutons">
-            <Link className="bouton bouton--orange" href="/programmation">Voir la programmation <span className="fleche" aria-hidden="true">→</span></Link>
-            <Link className="bouton bouton--contour" href="/photos">Revivre 2026 en photos</Link>
-          </div>
-        </div>
-
-        <div className="une__legende" hidden>
-          <p className="une__legende-texte" aria-live="polite"></p>
-          <div className="une__points"></div>
-          <button className="une__pause" type="button" aria-pressed="false" aria-label="Arrêter le défilement des photos">
-            <svg className="icone-pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12" rx="1" /><rect x="9.5" y="2" width="3.5" height="12" rx="1" /></svg>
-            <svg className="icone-lecture" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11a.8.8 0 0 0 1.2.7l9-5.5a.8.8 0 0 0 0-1.4l-9-5.5A.8.8 0 0 0 4 2.5z" /></svg>
-          </button>
-        </div>
-      </section>
-
-      {/* Moulinet découpé du logo officiel (PNG du site actuel) */}
-      <div className="moulinet" aria-hidden="true">
-        <div className="moulinet__pales"><img src="/images/moulinet.webp" alt="" width="360" height="360" /></div>
-      </div>
-    </div>
-    </>)}
+    {/* ===== Héros : vraie photo animée par IA (Higgsfield) + pellicule de photos de l'Expo ===== */}
+    <HerosVideo />
+    <PelliculePhotos />
 
     {/* ===== Bandeau défilant ===== */}
     <div className="bandeau">

@@ -84,8 +84,6 @@ export default function PageExposants() {
           <li><div><strong>Formulaire de réservation de kiosque</strong><span>Édition 2027</span></div><span className="etat etat--a-venir">À venir</span></li>
           <li><div><strong>Invitation kiosques extérieurs</strong><span>Édition 2027</span></div><span className="etat etat--a-venir">À venir</span></li>
           <li><div><strong>Invitation kiosques intérieurs</strong><span>Édition 2027</span></div><span className="etat etat--a-venir">À venir</span></li>
-          <li><div><strong>Invitation kiosques agroalimentaires</strong><span>Édition 2027</span></div><span className="etat etat--a-venir">À venir</span></li>
-          <li><div><strong>Invitation artisanat</strong><span>Édition 2027</span></div><span className="etat etat--a-venir">À venir</span></li>
           <li><div><strong>Plan du site et des kiosques</strong><span>Édition 2027</span></div><span className="etat etat--a-venir">À venir</span></li>
           <li><div><strong>Normes des bovins laitiers</strong><span>Version 2018, la plus récente publiée</span></div><a className="etat" href="https://expobassinchaudiere.com/wp-content/uploads/2018/07/NORMES-DES-BOVINS-LAITIERS-2018.pdf" rel="noopener">PDF 2018<span className="visuellement-cache"> : normes des bovins laitiers</span></a></li>
           <li><div><strong>Règlements généraux, bovins</strong><span>Version 2018, la plus récente publiée</span></div><a className="etat" href="https://expobassinchaudiere.com/wp-content/uploads/2018/07/R%C3%A8glements-g%C3%A9n%C3%A9raux-bovin-2018.pdf" rel="noopener">PDF 2018<span className="visuellement-cache"> : règlements généraux, bovins</span></a></li>
