@@ -141,7 +141,7 @@ Le plan complet est dans `PLAN-AMELIORATIONS.md` (30 points, 3 lots). Le **lot 1
 - But : voir la nouvelle application sur Internet **sans remplacer** le site statique en ligne. On utilise un « branch deploy » de `rebuild`; `main` n'est pas touchée.
 - Fait dans le dépôt : `netlify.toml` de la branche `rebuild` bâtit `web/` (base `web`, `npm run build`, Node 22).
 - À faire par Jérémy dans Netlify (Claude ne saisit pas les clés) :
-  1. Site configuration > Build & deploy > Branches and deploy contexts : activer les branch deploys pour `rebuild`.
+  1. ~~Activer les branch deploys pour `rebuild`~~ : fait le 12 novembre 2026 (la branche de production reste `main`).
   2. Site configuration > Environment variables : `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `STRIPE_SECRET_KEY` (clé de **test**), `NEXT_PUBLIC_URL_SITE` (l'adresse du branch deploy), `COURRIEL_FOURNISSEUR=console`, `COURRIEL_ADMIN`. Ne pas définir `AFFICHER_PRIX_FICTIFS`.
   3. Pousser `rebuild`, puis suivre le build dans l'onglet Deploys.
 - À savoir : en ligne, les prix « À confirmer » sont cachés (« Prix sur demande »), donc seuls la danse à la session et le dépôt de remisage se paient. La version en ligne utilise la même base de test que le poste local. Les photos Facebook deviennent visibles sur le Web.
