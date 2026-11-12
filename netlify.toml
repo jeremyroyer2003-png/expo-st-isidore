@@ -9,3 +9,8 @@
 
 [build.environment]
   NODE_VERSION = "22"
+
+# Runtime Next.js de Netlify : sans lui, Netlify publie les fichiers bruts de .next et toutes les pages répondent 404.
+# Netlify l'installe lui-même au build; ce n'est pas une dépendance du projet.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
