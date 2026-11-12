@@ -54,8 +54,8 @@ Résultat de l'étape A de `PROMPT-FABLE.md`. **Aucun code n'a été modifié.**
 
 | # | Sujet | Détail |
 |---|---|---|
-| 24 | **Taxes (TPS/TVQ)** | Aucun montant du site ne mentionne les taxes. Un OBNL doit s'inscrire et percevoir les taxes si ses ventes taxables dépassent 50 000 $ sur quatre trimestres ([Revenu Québec](https://www.revenuquebec.ca/fr/entreprises/taxes/tpstvh-et-tvq/inscription-aux-fichiers-de-la-tps-et-de-la-tvq/organismes-de-services-publics/)). **Question au comité :** l'Expo est-elle inscrite, et quels services sont taxables? Selon la réponse : prix « taxes en sus », détail sur les reçus, numéros de taxes. À ajouter dans `A-CONFIRMER.md`. |
-| 25 | **Contrat de location de salle** | Aujourd'hui le client paie sans accepter de conditions (heures, ménage, alcool, bris). Proposer : conditions à cocher avant le paiement, copie jointe au courriel, et au besoin un dépôt de garantie. Le texte vient du comité. |
+| 24 | **Taxes (TPS/TVQ)** | **Mis de côté** (décision de Jérémy, 11 novembre 2026) : à gérer plus tard, avant la mise en service. |
+| 25 | **Conditions de location et frais supplémentaires** | Proposition rédigée dans `docs/CONDITIONS-LOCATION-SALLE.md` : dépôt de garantie, grille de frais par type de dommage, règles de la salle, marche à suivre. Montants fictifs, à valider par le comité. Ensuite : case à cocher avant le paiement, dépôt Stripe, bouton « Retenir des frais » dans l'admin. |
 | 26 | **Acompte et solde** | Payer une salle à 1 200 $ d'un coup peut freiner. Option : acompte à la réservation, solde payable en ligne avant la date, rappel automatique. |
 | 27 | **Liste d'attente et dates non offertes** | Quand une date est prise ou absente : « Avisez-moi si elle se libère » ou « Demander cette date ». |
 | 28 | **Remisage : renouvellement** | Chaque automne, inviter les clients de l'an dernier à reprendre leur place en un clic (dimensions déjà connues). Solde payable en ligne à l'entrée. |
@@ -68,7 +68,7 @@ Résultat de l'étape A de `PROMPT-FABLE.md`. **Aucun code n'a été modifié.**
 
 1. **Faire le lot 1 au complet d'abord.** Douze petites corrections, visibles tout de suite, sans risque pour les paiements.
 2. **Ensuite, dans le lot 2 :** la recherche avec fiche client (13), l'export CSV (14) et le plan sur téléphone (16). Ce sont les trois qui évitent le plus d'appels et de temps perdu.
-3. **Poser dès maintenant au comité** les questions 24 (taxes) et 25 (contrat) : elles changent ce qui s'affiche avant le paiement.
+3. **Faire valider par le comité** les conditions de location et la grille de frais (25). Les taxes (24) sont mises de côté pour l'instant.
 
 ## Sources consultées
 

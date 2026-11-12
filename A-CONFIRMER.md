@@ -100,3 +100,9 @@ Les prix ci-dessous sont des **valeurs fictives de départ**, marquées « à co
 ## Annulation des salles (11 novembre 2026)
 - [ ] **Délai d'annulation en ligne** : le client peut annuler lui-même, par le lien de son courriel de confirmation, jusqu'à **48 heures** avant l'événement (valeur provisoire, `DELAI_ANNULATION_HEURES` dans `web/src/lib/annulation.ts`). Ensuite, il appelle le bureau. Le comité veut-il 48 h, 7 jours, 30 jours?
 - [ ] **Frais d'annulation de salle** : 50 $ (prix fictif « à confirmer », Admin > Prix). Retenus seulement quand c'est le client qui annule; quand l'Expo annule, remboursement complet et courriel d'excuse.
+
+## Conditions de location et frais supplémentaires (11 novembre 2026)
+
+- Proposition complète dans `docs/CONDITIONS-LOCATION-SALLE.md`. **Tous les montants sont fictifs.**
+- À valider : la grille de frais (ménage, bris, retard, sécurité), le dépôt de garantie (300 $ proposé), l'alcool (permis de réunion ou bar de l'Expo), l'heure de fin de la musique, la capacité de chaque salle, l'assurance responsabilité.
+- Taxes (TPS/TVQ) : mises de côté pour l'instant par Jérémy. À reprendre avant la mise en service.
