@@ -153,7 +153,7 @@ Le plan complet est dans `PLAN-AMELIORATIONS.md` (30 points, 3 lots). Le **lot 1
 
 Fait à la demande de Jérémy (« fais tout ce que tu es capable de faire, en local »). Points 15 et 17 à 22 de `PLAN-AMELIORATIONS.md`.
 
-- **⚠ À faire par Jérémy, une fois :** dans Supabase > SQL Editor, exécuter `web/supabase/migrations/0002_journal.sql`.
+- **Fait le 17 novembre 2026 par Jérémy :** exécution de `web/supabase/migrations/0002_journal.sql` dans Supabase > SQL Editor (table de l'historique). Sur un nouveau projet Supabase, l'exécuter après 0001.
   - Elle crée la table de l'historique.
   - Sans elle, tout fonctionne quand même : l'historique reste vide, et la console du serveur affiche « [journal] non enregistré ».
 - **20. « Ma demande »** (`/ma-demande/kiosque|remisage/<lien signé>`) :
