@@ -19,6 +19,8 @@ export const metadata: Metadata = {
     images: [{ url: "/images/partage/index.jpg", width: 1200, height: 630 }],
   },
   twitter: { card: "summary_large_image" },
+  // Site d'essai : pas d'indexation tant que PERMETTRE_INDEXATION n'est pas « true » (voir lib/referencement.ts)
+  robots: process.env.PERMETTRE_INDEXATION === "true" ? undefined : { index: false, follow: false },
 };
 
 export const viewport: Viewport = { themeColor: "#F3EAD8" };

@@ -8,6 +8,9 @@ import { env } from "@/lib/env";
 import { argent } from "@/lib/format";
 import { annuler, TABLES, type ParQui, type TypeObjet } from "@/lib/annulation";
 import { creerFacture } from "@/lib/stripe-admin";
+import { lienSuivi } from "@/lib/suivi";
+import { auteurAdmin, journaliser, type TypeJournal } from "@/lib/journal";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { ErreurSaisie, nombre, texte, traiter, type Resultat } from "@/lib/validation";
 
 const UUID = /^[0-9a-f-]{36}$/;
@@ -23,17 +26,25 @@ function dollars(fd: FormData, nom: string, requis = true): number | null {
 }
 const lienPaiement = (jeton: string) => `${env.urlSite}/payer/${jeton}`;
 
+/** Note l'action dans l'historique, au nom de l'admin connecté. */
+async function noter(sb: SupabaseClient, userId: string, type: TypeJournal, objetId: string, action: string, details = "") {
+  await journaliser(sb, type, objetId, action, await auteurAdmin(sb, userId), details);
+}
+
 // =====================================================================
 // Annulation + remboursement (code partagé avec le lien d'annulation du client : lib/annulation.ts)
 // Qui annule : le client paie les frais d'annulation; l'Expo rembourse au complet.
 // =====================================================================
 export async function annulerEtRembourser(fd: FormData): Promise<Resultat> {
   return traiter(async () => {
-    const { sb } = await exigerRole("editeur");
+    const { sb, userId } = await exigerRole("editeur");
     const type = texte(fd, "type", { requis: true, max: 10 }) as TypeObjet;
     if (!TABLES[type]) throw new ErreurSaisie("Type inconnu.");
     const parQui: ParQui = fd.get("par") === "expo" ? "expo" : "client";
-    const r = await annuler(sb, { type, objetId: id(fd), parQui, fraisCents: dollars(fd, "frais", false) ?? 0, aviser: fd.get("aviser") === "oui" });
+    const objetId = id(fd);
+    const r = await annuler(sb, { type, objetId, parQui, fraisCents: dollars(fd, "frais", false) ?? 0, aviser: fd.get("aviser") === "oui" });
+    await noter(sb, userId, type, objetId, parQui === "expo" ? "Annulé par l'Expo" : "Annulé à la demande du client",
+      r.paye ? `Remboursé ${argent(r.rembourse)}, frais retenus ${argent(r.retenu)}` : "Aucun paiement à rembourser");
     revalidatePath("/admin", "layout");
     const qui = parQui === "expo" ? "par l'Expo, sans frais" : "à la demande du client";
     return { ok: true, message: r.paye ? `Annulé ${qui}. Remboursé : ${argent(r.rembourse)} (frais retenus : ${argent(r.retenu)}).` : `Annulé ${qui} (aucun paiement à rembourser).` };
@@ -45,7 +56,7 @@ export async function annulerEtRembourser(fd: FormData): Promise<Resultat> {
 // =====================================================================
 export async function approuverKiosque(fd: FormData): Promise<Resultat> {
   return traiter(async () => {
-    const { sb } = await exigerRole("editeur");
+    const { sb, userId } = await exigerRole("editeur");
     const demandeId = id(fd);
     const montant = dollars(fd, "montant")!;
     if (montant <= 0) throw new ErreurSaisie("Entrez le montant à payer.");
@@ -54,7 +65,8 @@ export async function approuverKiosque(fd: FormData): Promise<Resultat> {
     if (r.error?.code === "23505") throw new ErreurSaisie("Cet emplacement est déjà attribué à une autre demande cette année.");
     verifierEcriture(r);
     const d = r.data![0];
-    await envoyerCourriel({ a: d.courriel, ...G.kiosqueApprouve({ nom: d.nom, emplacement: d.emplacements_kiosque.code, montant, lien: lienPaiement(d.jeton_paiement) }) });
+    await envoyerCourriel({ a: d.courriel, ...G.kiosqueApprouve({ nom: d.nom, emplacement: d.emplacements_kiosque.code, montant, lien: lienPaiement(d.jeton_paiement), suivi: lienSuivi("kiosque", d.id) }) });
+    await noter(sb, userId, "kiosque", demandeId, "Approuvée", `Montant ${argent(montant)}, lien de paiement envoyé`);
     revalidatePath("/admin/kiosques");
     return { ok: true, message: "Approuvée. Le lien de paiement est envoyé." };
   });
@@ -62,7 +74,7 @@ export async function approuverKiosque(fd: FormData): Promise<Resultat> {
 
 export async function refuserDemande(fd: FormData): Promise<Resultat> {
   return traiter(async () => {
-    const { sb } = await exigerRole("editeur");
+    const { sb, userId } = await exigerRole("editeur");
     const type = texte(fd, "type", { requis: true }) as "kiosque" | "remisage";
     const table = type === "kiosque" ? "demandes_kiosque" : "demandes_remisage";
     const raison = texte(fd, "raison", { max: 1000 });
@@ -72,6 +84,7 @@ export async function refuserDemande(fd: FormData): Promise<Resultat> {
     if (fd.get("aviser") === "oui") {
       await envoyerCourriel({ a: d.courriel, ...(type === "kiosque" ? G.kiosqueRefuse({ nom: d.nom, raison }) : G.remisageRefuse({ nom: d.nom, raison })) });
     }
+    await noter(sb, userId, type, d.id, "Refusée", [raison, fd.get("aviser") === "oui" ? "client avisé par courriel" : "client non avisé"].filter(Boolean).join(" · "));
     revalidatePath(`/admin/${type === "kiosque" ? "kiosques" : "remisage"}`);
     return { ok: true, message: "Demande refusée." };
   });
@@ -80,10 +93,12 @@ export async function refuserDemande(fd: FormData): Promise<Resultat> {
 /** Kiosque extérieur : l'admin note l'entente conclue avec l'entreprise. */
 export async function noterEntente(fd: FormData): Promise<Resultat> {
   return traiter(async () => {
-    const { sb } = await exigerRole("editeur");
+    const { sb, userId } = await exigerRole("editeur");
     const montant = dollars(fd, "montant")!;
+    const demandeId = id(fd);
     verifierEcriture(await sb.from("demandes_kiosque").update({ statut: "entente", montant_cents: montant, notes_admin: texte(fd, "notes", { max: 2000 }) })
-      .eq("id", id(fd)).eq("type", "exterieur").in("statut", ["en_attente", "entente"]).select("id"));
+      .eq("id", demandeId).eq("type", "exterieur").in("statut", ["en_attente", "entente"]).select("id"));
+    await noter(sb, userId, "kiosque", demandeId, "Entente notée", `Montant ${argent(montant)}`);
     revalidatePath("/admin/kiosques");
     return { ok: true, message: "Entente notée." };
   });
@@ -92,14 +107,15 @@ export async function noterEntente(fd: FormData): Promise<Resultat> {
 /** Kiosque extérieur : crée la facture Stripe (test) et l'envoie par courriel. */
 export async function envoyerFacture(fd: FormData): Promise<Resultat> {
   return traiter(async () => {
-    const { sb } = await exigerRole("editeur");
+    const { sb, userId } = await exigerRole("editeur");
     const demandeId = id(fd);
     const { data: d } = await sb.from("demandes_kiosque").select("*").eq("id", demandeId).eq("type", "exterieur").eq("statut", "entente").single();
     if (!d?.montant_cents) throw new ErreurSaisie("Notez d'abord l'entente avec son montant.");
     const f = await creerFacture({ courriel: d.courriel, nom: d.nom, entreprise: d.entreprise, montantCents: d.montant_cents, description: `Kiosque extérieur, Expo ${d.annee}`, demandeId });
     verifierEcriture(await sb.from("demandes_kiosque").update({ statut: "facturee", stripe_facture_id: f.id, url_facture: f.url }).eq("id", demandeId).select("id"));
     verifierEcriture(await sb.from("paiements").insert({ objet_type: "kiosque", objet_id: demandeId, stripe_facture_id: f.id, montant_cents: d.montant_cents, courriel: d.courriel }).select("id"));
-    await envoyerCourriel({ a: d.courriel, ...G.kiosqueFacture({ nom: d.nom, montant: d.montant_cents, lien: f.url }) });
+    await envoyerCourriel({ a: d.courriel, ...G.kiosqueFacture({ nom: d.nom, montant: d.montant_cents, lien: f.url, suivi: lienSuivi("kiosque", d.id) }) });
+    await noter(sb, userId, "kiosque", demandeId, "Facture envoyée", argent(d.montant_cents));
     revalidatePath("/admin/kiosques");
     return { ok: true, message: "Facture créée et envoyée." };
   });
@@ -135,24 +151,40 @@ export async function majEmplacement(fd: FormData): Promise<Resultat> {
 // =====================================================================
 export async function renvoyerLien(fd: FormData): Promise<Resultat> {
   return traiter(async () => {
-    const { sb } = await exigerRole("editeur");
+    const { sb, userId } = await exigerRole("editeur");
     const type = texte(fd, "type", { requis: true, max: 20 });
+    // « Relancer » (tableau de bord) : un courriel de rappel plutôt que le courriel d'origine
+    const rappel = fd.get("rappel") === "oui";
+    const objetId = id(fd);
     if (type === "remisage") {
-      const { data: d } = await sb.from("demandes_remisage").select("*").eq("id", id(fd)).eq("statut", "approuvee").maybeSingle();
+      const { data: d } = await sb.from("demandes_remisage").select("*").eq("id", objetId).eq("statut", "approuvee").maybeSingle();
       if (!d) throw new ErreurSaisie("Cette demande n'attend plus de paiement.");
-      await envoyerCourriel({ a: d.courriel, ...G.remisageApprouve({ nom: d.nom, vehicule: d.type_vehicule, total: d.prix_total_cents, depot: d.depot_cents, lien: lienPaiement(d.jeton_paiement) }) });
-      return { ok: true, message: `Courriel renvoyé à ${d.courriel}.` };
+      const lien = lienPaiement(d.jeton_paiement), suivi = lienSuivi("remisage", d.id);
+      await envoyerCourriel({ a: d.courriel, ...(rappel
+        ? G.rappelPaiement({ nom: d.nom, quoi: `dépôt de remisage (${d.type_vehicule})`, montant: d.depot_cents, lien, telephone: "418 882-9619", suivi })
+        : G.remisageApprouve({ nom: d.nom, vehicule: d.type_vehicule, total: d.prix_total_cents, depot: d.depot_cents, lien, suivi })) });
+      await noter(sb, userId, "remisage", d.id, rappel ? "Rappel de paiement envoyé" : "Lien de paiement renvoyé", d.courriel);
+      revalidatePath("/admin", "layout");
+      return { ok: true, message: `${rappel ? "Rappel envoyé" : "Courriel renvoyé"} à ${d.courriel}.` };
     }
     if (type !== "kiosque") throw new ErreurSaisie("Type invalide.");
-    const { data: d } = await sb.from("demandes_kiosque").select("*, emplacements_kiosque(code)").eq("id", id(fd)).in("statut", ["approuvee", "facturee"]).maybeSingle();
+    const { data: d } = await sb.from("demandes_kiosque").select("*, emplacements_kiosque(code)").eq("id", objetId).in("statut", ["approuvee", "facturee"]).maybeSingle();
     if (!d) throw new ErreurSaisie("Cette demande n'attend plus de paiement.");
+    const suivi = lienSuivi("kiosque", d.id);
+    const code: string = d.emplacements_kiosque?.code ?? "";
+    let lien: string;
     if (d.statut === "facturee") {
       if (!d.url_facture) throw new ErreurSaisie("La facture n'a pas de lien. Ouvrez-la dans Stripe.");
-      await envoyerCourriel({ a: d.courriel, ...G.kiosqueFacture({ nom: d.nom, montant: d.montant_cents, lien: d.url_facture }) });
-    } else {
-      await envoyerCourriel({ a: d.courriel, ...G.kiosqueApprouve({ nom: d.nom, emplacement: d.emplacements_kiosque?.code ?? "", montant: d.montant_cents, lien: lienPaiement(d.jeton_paiement) }) });
-    }
-    return { ok: true, message: `Courriel renvoyé à ${d.courriel}.` };
+      lien = d.url_facture;
+    } else lien = lienPaiement(d.jeton_paiement);
+    await envoyerCourriel({ a: d.courriel, ...(rappel
+      ? G.rappelPaiement({ nom: d.nom, quoi: code ? `kiosque ${code}` : "kiosque extérieur", montant: d.montant_cents, lien, telephone: "418 386-0484", suivi })
+      : d.statut === "facturee"
+        ? G.kiosqueFacture({ nom: d.nom, montant: d.montant_cents, lien, suivi })
+        : G.kiosqueApprouve({ nom: d.nom, emplacement: code, montant: d.montant_cents, lien, suivi })) });
+    await noter(sb, userId, "kiosque", d.id, rappel ? "Rappel de paiement envoyé" : d.statut === "facturee" ? "Facture renvoyée" : "Lien de paiement renvoyé", d.courriel);
+    revalidatePath("/admin", "layout");
+    return { ok: true, message: `${rappel ? "Rappel envoyé" : "Courriel renvoyé"} à ${d.courriel}.` };
   });
 }
 
@@ -161,7 +193,7 @@ export async function renvoyerLien(fd: FormData): Promise<Resultat> {
 // =====================================================================
 export async function approuverRemisage(fd: FormData): Promise<Resultat> {
   return traiter(async () => {
-    const { sb } = await exigerRole("editeur");
+    const { sb, userId } = await exigerRole("editeur");
     const total = dollars(fd, "total")!;
     const depot = dollars(fd, "depot")!;
     const { data: min } = await sb.from("prix").select("montant_cents").eq("cle", "remisage_depot_min").single();
@@ -172,7 +204,8 @@ export async function approuverRemisage(fd: FormData): Promise<Resultat> {
       .eq("id", id(fd)).eq("statut", "en_attente").select("*");
     verifierEcriture(r);
     const d = r.data![0];
-    await envoyerCourriel({ a: d.courriel, ...G.remisageApprouve({ nom: d.nom, vehicule: d.type_vehicule, total, depot, lien: lienPaiement(d.jeton_paiement) }) });
+    await envoyerCourriel({ a: d.courriel, ...G.remisageApprouve({ nom: d.nom, vehicule: d.type_vehicule, total, depot, lien: lienPaiement(d.jeton_paiement), suivi: lienSuivi("remisage", d.id) }) });
+    await noter(sb, userId, "remisage", d.id, "Approuvée", `Prix ${argent(total)}, dépôt ${argent(depot)}, lien envoyé`);
     revalidatePath("/admin/remisage");
     return { ok: true, message: "Approuvée. Le lien du dépôt est envoyé." };
   });

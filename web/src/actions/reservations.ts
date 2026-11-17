@@ -5,6 +5,7 @@ import * as G from "@/lib/courriel/gabarits";
 import { env, supabaseConfigure } from "@/lib/env";
 import { argent, dateLongue, plage } from "@/lib/format";
 import { creerSessionPaiement } from "@/lib/stripe";
+import { lienSuivi } from "@/lib/suivi";
 import { supabaseService } from "@/lib/supabase/serveur";
 import {
   consentement, courriel, ErreurSaisie, estRobot, nombre, telephone, texte, traiter, type Resultat,
@@ -52,14 +53,14 @@ export async function demanderRemisage(fd: FormData): Promise<Resultat> {
 
     const sb = base();
     const { data: saison } = await sb.from("contenus").select("valeur").eq("cle", "remisage_saison").maybeSingle();
-    const { error } = await sb.from("demandes_remisage").insert({
+    const { data: dem, error } = await sb.from("demandes_remisage").insert({
       saison: saison?.valeur ?? "", type_vehicule: type, marque_modele: modele, longueur_pi: longueur,
       largeur_pi: largeur, hauteur_pi: hauteur, entree_souhaitee: entree, nom, courriel: c, telephone: tel, commentaires,
-    });
+    }).select("id").single();
     if (error) throw error;
     const vehicule = type + (modele ? ` · ${modele}` : "");
     await Promise.all([
-      envoyerCourriel({ a: c, ...G.remisageRecu({ nom, vehicule, longueur: `${longueur} pi` }) }),
+      envoyerCourriel({ a: c, ...G.remisageRecu({ nom, vehicule, longueur: `${longueur} pi`, suivi: lienSuivi("remisage", dem.id) }) }),
       admin(G.remisageRecuAdmin([
         ["Véhicule", vehicule], ["Dimensions", `${longueur} × ${largeur} × ${hauteur} pi`], ["Entrée", entree || "—"],
         ["Nom", nom], ["Téléphone", tel], ["Courriel", c], ["Commentaires", commentaires || "—"],
@@ -160,12 +161,12 @@ export async function demanderKiosqueInterieur(fd: FormData): Promise<Resultat> 
       .eq("annee", annee).in("statut", ["approuvee", "confirmee"]).limit(1);
     if (pris?.length) throw new ErreurSaisie(`L'emplacement ${emp.code} vient d'être attribué. Choisissez-en un autre sur le plan.`);
 
-    const { error } = await sb.from("demandes_kiosque").insert({
+    const { data: dem, error } = await sb.from("demandes_kiosque").insert({
       type: "interieur", annee, emplacement_id: emplacementId, entreprise, nom, courriel: c, telephone: tel, description, besoins,
-    });
+    }).select("id").single();
     if (error) throw error;
     await Promise.all([
-      envoyerCourriel({ a: c, ...G.kiosqueRecu({ nom, type: "interieur", emplacement: emp.code }) }),
+      envoyerCourriel({ a: c, ...G.kiosqueRecu({ nom, type: "interieur", emplacement: emp.code, suivi: lienSuivi("kiosque", dem.id) }) }),
       admin(G.kiosqueRecuAdmin([
         ["Type", "Intérieur (palais des commerces)"], ["Emplacement", emp.code], ["Entreprise", entreprise],
         ["Contact", nom], ["Téléphone", tel], ["Courriel", c], ["Produits", description], ["Besoins", besoins || "—"],
@@ -190,12 +191,12 @@ export async function demanderKiosqueExterieur(fd: FormData): Promise<Resultat> 
     consentement(fd);
     const annee = Number(texte(fd, "annee", { requis: true, max: 4 }));
 
-    const { error } = await base().from("demandes_kiosque").insert({
+    const { data: dem, error } = await base().from("demandes_kiosque").insert({
       type: "exterieur", annee, entreprise, nom, courriel: c, telephone: tel, description, besoins,
-    });
+    }).select("id").single();
     if (error) throw error;
     await Promise.all([
-      envoyerCourriel({ a: c, ...G.kiosqueRecu({ nom, type: "exterieur" }) }),
+      envoyerCourriel({ a: c, ...G.kiosqueRecu({ nom, type: "exterieur", suivi: lienSuivi("kiosque", dem.id) }) }),
       admin(G.kiosqueRecuAdmin([
         ["Type", "Extérieur"], ["Entreprise", entreprise], ["Contact", nom], ["Téléphone", tel], ["Courriel", c],
         ["Ce qui sera exposé", description], ["Espace et besoins", besoins || "—"],

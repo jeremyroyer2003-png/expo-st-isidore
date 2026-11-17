@@ -36,6 +36,13 @@ export default function LienPaiement({ url, type, id, edition }: { url: string; 
             <input type="hidden" name="type" value={type} />
           </FormAction>
         )}
+        {edition && (
+          <FormAction action={renvoyerLien} bouton="Envoyer un rappel" style="secondaire" enLigne confirmer="Envoyer au client un courriel de rappel de paiement?">
+            <input type="hidden" name="id" value={id} />
+            <input type="hidden" name="type" value={type} />
+            <input type="hidden" name="rappel" value="oui" />
+          </FormAction>
+        )}
         <span role="status" className="sr-only">{copie ? "Lien copié" : ""}</span>
       </div>
     </div>

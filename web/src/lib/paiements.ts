@@ -7,6 +7,8 @@ import * as G from "@/lib/courriel/gabarits";
 import { env } from "@/lib/env";
 import { argent, dateLongue, plage } from "@/lib/format";
 import { signerJeton } from "@/lib/jeton";
+import { lienSuivi } from "@/lib/suivi";
+import { journaliser, type TypeJournal } from "@/lib/journal";
 import { stripe } from "@/lib/stripe";
 import { supabaseService } from "@/lib/supabase/serveur";
 
@@ -115,13 +117,13 @@ async function appliquer(p: { id: string; objet_type: string; objet_id: string; 
     const { data: d } = await sb.from("demandes_kiosque").update({ statut: "confirmee" }).eq("id", p.objet_id).select("*, emplacements_kiosque(code)").single();
     const code = (d.emplacements_kiosque as { code: string } | null)?.code;
     await Promise.all([
-      envoyerCourriel({ a: d.courriel, ...G.kiosqueConfirme({ nom: d.nom, quoi: code ? `l'emplacement ${code}` : "votre kiosque extérieur", montant: p.montant_cents }) }),
+      envoyerCourriel({ a: d.courriel, ...G.kiosqueConfirme({ nom: d.nom, quoi: code ? `l'emplacement ${code}` : "votre kiosque extérieur", montant: p.montant_cents, suivi: lienSuivi("kiosque", d.id) }) }),
       admin(G.paiementRecuAdmin(`kiosque ${code ?? "extérieur"}`, [["Entreprise", d.entreprise], ["Contact", d.nom], ["Payé", argent(p.montant_cents)]])),
     ]);
   } else if (p.objet_type === "remisage") {
     const { data: d } = await sb.from("demandes_remisage").update({ statut: "depot_paye" }).eq("id", p.objet_id).select("*").single();
     await Promise.all([
-      envoyerCourriel({ a: d.courriel, ...G.remisageDepotPaye({ nom: d.nom, depot: p.montant_cents }) }),
+      envoyerCourriel({ a: d.courriel, ...G.remisageDepotPaye({ nom: d.nom, depot: p.montant_cents, suivi: lienSuivi("remisage", d.id) }) }),
       admin(G.paiementRecuAdmin("dépôt de remisage", [["Nom", d.nom], ["Véhicule", d.type_vehicule], ["Téléphone", d.telephone], ["Dépôt", argent(p.montant_cents)]])),
     ]);
   }
@@ -134,6 +136,7 @@ async function appliquer(p: { id: string; objet_type: string; objet_id: string; 
 async function appliquerOuAnnuler(p: { id: string; objet_type: string; objet_id: string; montant_cents: number }, paymentIntent: string | null) {
   try {
     await appliquer(p, paymentIntent);
+    await journaliser(supabaseService(), p.objet_type as TypeJournal, p.objet_id, "Paiement reçu", { nom: "Client, en ligne (Stripe)" }, argent(p.montant_cents));
   } catch (e) {
     await supabaseService().from("paiements").update({ statut: "en_attente" }).eq("id", p.id);
     throw e;

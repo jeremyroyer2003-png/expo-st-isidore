@@ -3,8 +3,9 @@
 import { redirect } from "next/navigation";
 import { annuler, DELAI_ANNULATION_HEURES, fraisAnnulation } from "@/lib/annulation";
 import { supabaseConfigure } from "@/lib/env";
-import { dateLongue, heure, plage } from "@/lib/format";
+import { argent, dateLongue, heure, plage } from "@/lib/format";
 import { lireJeton } from "@/lib/jeton";
+import { journaliser } from "@/lib/journal";
 import { supabaseService } from "@/lib/supabase/serveur";
 import { ErreurSaisie } from "@/lib/validation";
 
@@ -41,7 +42,8 @@ export async function annulerParClient(fd: FormData) {
   if (info.etat !== "annulable" || fd.get("confirme") !== "oui") redirect(lien);
   const id = lireJeton("annuler-salle", jeton)!;
   try {
-    await annuler(supabaseService(), { type: "salle", objetId: id, parQui: "client", fraisCents: info.frais, aviser: true, aviserAdmin: true });
+    const r = await annuler(supabaseService(), { type: "salle", objetId: id, parQui: "client", fraisCents: info.frais, aviser: true, aviserAdmin: true });
+    await journaliser(supabaseService(), "salle", id, "Annulé par le client (lien en ligne)", { nom: "Client" }, `Remboursé ${argent(r.rembourse)}, frais retenus ${argent(r.retenu)}`);
   } catch (e) {
     if (!(e instanceof ErreurSaisie)) console.error("[annulation client]", e);
     redirect(`${lien}?erreur=1`);

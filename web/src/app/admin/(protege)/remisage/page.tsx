@@ -1,4 +1,6 @@
 import Exporter from "@/components/admin/Exporter";
+import Filtres from "@/components/admin/Filtres";
+import Historique from "@/components/admin/Historique";
 import Annulation from "@/components/admin/Annulation";
 import FormAction from "@/components/admin/FormAction";
 import LienPaiement from "@/components/admin/LienPaiement";
@@ -7,33 +9,46 @@ import { Carte, champCls, etiquetteCls, LectureSeule, Statut, Titre } from "@/co
 import { exigerAdmin, peutEditer } from "@/lib/admin";
 import { env } from "@/lib/env";
 import { argent, dateHeure } from "@/lib/format";
+import { choix, dansPeriode, PERIODES, trier, type Option } from "@/lib/filtres";
+import { lireJournal } from "@/lib/journal";
+import { cheminSuivi } from "@/lib/suivi";
 
 export const metadata = { title: "Remisage d'hiver" };
 
-export default async function Page({ searchParams }: { searchParams: Promise<{ voir?: string }> }) {
+const STATUTS: Option[] = [
+  ["actives", "En cours (à approuver, à payer, payées)"], ["en_attente", "À approuver"], ["approuvee", "Approuvées, dépôt à payer"],
+  ["depot_paye", "Dépôt payé"], ["refusee", "Refusées"], ["annulee", "Annulées"], ["toutes", "Toutes"],
+];
+const TRIS: Option[] = [["a-traiter", "À traiter d'abord"], ["recent", "Plus récentes"], ["ancien", "Plus anciennes"], ["montant", "Prix de la saison"], ["nom", "Nom du client"]];
+
+export default async function Page({ searchParams }: { searchParams: Promise<{ statut?: string; periode?: string; tri?: string; voir?: string }> }) {
   const { sb, profil } = await exigerAdmin();
-  const { voir = "actives" } = await searchParams;
+  const params = await searchParams;
+  const statut = choix(params.statut ?? (params.voir === "toutes" ? "toutes" : undefined), STATUTS, "actives");
+  const periode = choix(params.periode, PERIODES, "tout");
+  const tri = choix(params.tri, TRIS, "a-traiter");
   const edition = peutEditer(profil);
   const [{ data: demandes }, { data: prix }] = await Promise.all([
     sb.from("demandes_remisage").select("*").order("cree_le", { ascending: false }).limit(500),
     sb.from("prix").select("cle, montant_cents").in("cle", ["remisage_pied", "remisage_depot_min", "frais_annulation_remisage"]),
   ]);
   const p = Object.fromEntries((prix ?? []).map((x) => [x.cle, x.montant_cents])) as Record<string, number>;
-  const liste = (demandes ?? []).filter((d) => voir === "toutes" || ["en_attente", "approuvee", "depot_paye"].includes(d.statut));
+  const filtrees = (demandes ?? []).filter((d) =>
+    (statut === "toutes" || (statut === "actives" ? ["en_attente", "approuvee", "depot_paye"].includes(d.statut) : d.statut === statut))
+    && dansPeriode(d.maj_le ?? d.cree_le, periode));
   const ordre = { en_attente: 0, approuvee: 1, depot_paye: 2 } as Record<string, number>;
-  liste.sort((a, b) => (ordre[a.statut] ?? 9) - (ordre[b.statut] ?? 9));
+  const liste = tri === "a-traiter"
+    ? [...filtrees].sort((a, b) => (ordre[a.statut] ?? 9) - (ordre[b.statut] ?? 9))
+    : trier(filtrees, tri, { date: (d) => d.maj_le ?? d.cree_le, montant: (d) => d.prix_total_cents, nom: (d) => d.nom });
+  const journal = await lireJournal(sb, liste.map((d) => d.id));
 
   return (
     <>
       <Titre sous={`Tarif actuel : ${argent(p.remisage_pied)} le pied · dépôt minimum : ${argent(p.remisage_depot_min)}. Approuver envoie au client le prix et le lien pour payer le dépôt.`}>Remisage d&apos;hiver</Titre>
       {!edition && <LectureSeule />}
-      <nav className="flex flex-wrap gap-2 mb-4" aria-label="Filtre">
-        {[["actives", "En cours"], ["toutes", "Toutes"]].map(([v, t]) => (
-          <a key={v} href={`?voir=${v}`} aria-current={voir === v ? "page" : undefined}
-            className={`px-3 min-h-[40px] inline-flex items-center border-2 border-encre font-etiquette font-bold no-underline ${voir === v ? "bg-encre text-creme" : "bg-[#FBF6EC] text-encre"}`}>{t}</a>
-        ))}
-        <span className="ml-auto"><Exporter type="remisage" /></span>
-      </nav>
+      <Filtres statuts={STATUTS} statut={statut} periode={periode} tri={tri} tris={TRIS} libellePeriode="Dernière activité" total={liste.length}
+        raccourcis={[["Dépôts payés ce mois-ci", "?statut=depot_paye&periode=mois&tri=recent"], ["Dépôt à payer depuis plus de 7 jours", "?statut=approuvee&periode=plus-7j&tri=ancien"]]}
+        autres={<Exporter type="remisage" />} />
       <div className="grid gap-4">
         {!liste.length && <Carte><p className="text-gris-brun">Aucune demande.</p></Carte>}
         {liste.map((d) => {
@@ -50,6 +65,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ v
                   {d.commentaires && <><dt className="text-gris-brun">Commentaires</dt><dd>{d.commentaires}</dd></>}
                   {d.prix_total_cents != null && <><dt className="text-gris-brun">Prix / dépôt</dt><dd>{argent(d.prix_total_cents)} · dépôt {argent(d.depot_cents)}</dd></>}
                   {d.notes_admin && <><dt className="text-gris-brun">Notes</dt><dd>{d.notes_admin}</dd></>}
+                  <dd className="col-span-2 mt-1"><Historique entrees={journal.get(d.id)} recue={d.cree_le} suivi={cheminSuivi("remisage", d.id)} /></dd>
                 </dl>
                 {edition && d.statut === "en_attente" && (
                   <div className="grid gap-3">

@@ -1,4 +1,6 @@
 import Exporter from "@/components/admin/Exporter";
+import Filtres from "@/components/admin/Filtres";
+import Historique from "@/components/admin/Historique";
 import Annulation from "@/components/admin/Annulation";
 import FormAction from "@/components/admin/FormAction";
 import LienPaiement from "@/components/admin/LienPaiement";
@@ -7,18 +9,34 @@ import { Carte, champCls, etiquetteCls, LectureSeule, Statut, Tableau, Titre } f
 import { exigerAdmin, peutEditer } from "@/lib/admin";
 import { env } from "@/lib/env";
 import { argent, dateHeure } from "@/lib/format";
+import { choix, dansPeriode, PERIODES, trier, type Option } from "@/lib/filtres";
+import { lireJournal } from "@/lib/journal";
+import { cheminSuivi } from "@/lib/suivi";
 
 export const metadata = { title: "Kiosques" };
 
+const STATUTS: Option[] = [
+  ["actives", "En cours (sans refusées ni annulées)"], ["en_attente", "À traiter"], ["entente", "Entente notée (extérieur)"],
+  ["a_payer", "Approuvées ou facturées, à payer"], ["confirmee", "Payées, confirmées"], ["refusee", "Refusées"], ["annulee", "Annulées"], ["toutes", "Toutes"],
+];
+const TRIS: Option[] = [["a-traiter", "À traiter d'abord"], ["recent", "Plus récentes"], ["ancien", "Plus anciennes"], ["montant", "Montant"], ["nom", "Entreprise"]];
+const garder = (statut: string, d: { statut: string }) =>
+  statut === "toutes" || (statut === "actives" ? !["refusee", "annulee"].includes(d.statut)
+    : statut === "a_payer" ? ["approuvee", "facturee"].includes(d.statut) : d.statut === statut);
+
 type Demande = {
   id: string; type: string; annee: number; statut: string; entreprise: string; nom: string; courriel: string; telephone: string;
-  description: string; besoins: string; montant_cents: number | null; notes_admin: string; url_facture: string | null; cree_le: string;
+  description: string; besoins: string; montant_cents: number | null; notes_admin: string; url_facture: string | null; cree_le: string; maj_le: string | null;
   jeton_paiement: string; emplacements_kiosque: { code: string; prix_cents: number | null } | null;
 };
 
-export default async function Page({ searchParams }: { searchParams: Promise<{ voir?: string }> }) {
+export default async function Page({ searchParams }: { searchParams: Promise<{ voir?: string; statut?: string; periode?: string; tri?: string }> }) {
   const { sb, profil } = await exigerAdmin();
-  const { voir = "demandes" } = await searchParams;
+  const params = await searchParams;
+  const voir = params.voir === "plan" ? "plan" : "demandes";
+  const statut = choix(params.statut, STATUTS, "actives");
+  const periode = choix(params.periode, PERIODES, "tout");
+  const tri = choix(params.tri, TRIS, "a-traiter");
   const edition = peutEditer(profil);
   const [{ data: demandes }, { data: emps }, { data: prix }] = await Promise.all([
     sb.from("demandes_kiosque").select("*, emplacements_kiosque(code, prix_cents)").order("cree_le", { ascending: false }).limit(500),
@@ -26,9 +44,14 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ v
     sb.from("prix").select("cle, montant_cents").in("cle", ["kiosque_interieur", "kiosque_exterieur", "frais_annulation_kiosque"]),
   ]);
   const p = Object.fromEntries((prix ?? []).map((x) => [x.cle, x.montant_cents])) as Record<string, number>;
-  const actives = ((demandes ?? []) as Demande[]).filter((d) => !["refusee", "annulee"].includes(d.statut));
+  const toutes = (demandes ?? []) as Demande[];
+  const nbActives = toutes.filter((d) => !["refusee", "annulee"].includes(d.statut)).length;
+  const filtrees = toutes.filter((d) => garder(statut, d) && dansPeriode(d.maj_le ?? d.cree_le, periode));
   const ordre = { en_attente: 0, entente: 1, approuvee: 2, facturee: 3, confirmee: 4 } as Record<string, number>;
-  actives.sort((a, b) => (ordre[a.statut] ?? 9) - (ordre[b.statut] ?? 9));
+  const actives = tri === "a-traiter"
+    ? [...filtrees].sort((a, b) => (ordre[a.statut] ?? 9) - (ordre[b.statut] ?? 9))
+    : trier(filtrees, tri, { date: (d) => d.maj_le ?? d.cree_le, montant: (d) => d.montant_cents, nom: (d) => d.entreprise });
+  const journal = voir === "demandes" ? await lireJournal(sb, actives.map((d) => d.id)) : new Map();
 
   const onglet = (v: string, t: string) => (
     <a href={`?voir=${v}`} aria-current={voir === v ? "page" : undefined}
@@ -39,11 +62,16 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ v
     <>
       <Titre sous="Intérieur : approuver tient l'emplacement et envoie le lien de paiement; il est confirmé une fois payé. Extérieur : notez l'entente, puis envoyez la facture Stripe.">Kiosques</Titre>
       {!edition && <LectureSeule />}
-      <nav className="flex flex-wrap gap-2 mb-4" aria-label="Sections">{onglet("demandes", `Demandes (${actives.length})`)}{onglet("plan", "Emplacements du plan")}<span className="ml-auto"><Exporter type="kiosques" /></span></nav>
+      <nav className="flex flex-wrap gap-2 mb-4" aria-label="Sections">{onglet("demandes", `Demandes en cours (${nbActives})`)}{onglet("plan", "Emplacements du plan")}</nav>
 
       {voir === "demandes" && (
+        <Filtres statuts={STATUTS} statut={statut} periode={periode} tri={tri} tris={TRIS} libellePeriode="Dernière activité" total={actives.length}
+          raccourcis={[["Payées ce mois-ci", "?statut=confirmee&periode=mois&tri=recent"], ["À payer depuis plus de 7 jours", "?statut=a_payer&periode=plus-7j&tri=ancien"]]}
+          autres={<Exporter type="kiosques" />} />
+      )}
+      {voir === "demandes" && (
         <div className="grid gap-4">
-          {!actives.length && <Carte><p className="text-gris-brun">Aucune demande en cours.</p></Carte>}
+          {!actives.length && <Carte><p className="text-gris-brun">Aucune demande ne correspond.</p></Carte>}
           {actives.map((d) => {
             const code = d.emplacements_kiosque?.code;
             const montantDefaut = d.montant_cents ?? (d.type === "interieur" ? d.emplacements_kiosque?.prix_cents ?? p.kiosque_interieur : p.kiosque_exterieur) ?? 0;
@@ -59,6 +87,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ v
                     {d.montant_cents != null && <><dt className="text-gris-brun">Montant</dt><dd className="font-semibold">{argent(d.montant_cents)}</dd></>}
                     {d.notes_admin && <><dt className="text-gris-brun">Notes</dt><dd>{d.notes_admin}</dd></>}
                     {d.url_facture && <><dt className="text-gris-brun">Facture</dt><dd><a href={d.url_facture} target="_blank" rel="noopener">Voir la facture Stripe</a></dd></>}
+                    <dd className="col-span-2 mt-1"><Historique entrees={journal.get(d.id)} recue={d.cree_le} suivi={cheminSuivi("kiosque", d.id)} /></dd>
                   </dl>
                   {(edition || d.statut === "approuvee") && (
                     <div className="grid gap-3 content-start">

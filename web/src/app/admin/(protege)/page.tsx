@@ -1,12 +1,19 @@
 import Link from "next/link";
 import Exporter from "@/components/admin/Exporter";
+import FormAction from "@/components/admin/FormAction";
+import { renvoyerLien } from "@/actions/admin/gestion";
+import { lireJournal } from "@/lib/journal";
 import { Carte, Chiffre, Statut, Tableau, Titre } from "@/components/admin/ui";
-import { exigerAdmin } from "@/lib/admin";
+import { exigerAdmin, peutEditer } from "@/lib/admin";
 import { argent, dateHeure, dateLongue } from "@/lib/format";
 
 export const metadata = { title: "Tableau de bord" };
 
-type Tache = { cle: string; quoi: string; qui: string; depuis: string; href: string; action: string; urgent?: boolean };
+type Tache = {
+  cle: string; quoi: string; qui: string; depuis: string; href: string; action: string; urgent?: boolean;
+  /** Paiement qui tarde : on peut envoyer un rappel directement d'ici. */
+  relance?: { type: "kiosque" | "remisage"; id: string; dernier?: string };
+};
 
 /** « depuis 3 jours », « depuis hier », « aujourd'hui » */
 function age(iso: string): { texte: string; jours: number } {
@@ -46,7 +53,7 @@ export default async function Page() {
       taches.push({ cle: k.id, quoi, qui: k.entreprise || k.nom, depuis: age(k.maj_le ?? k.cree_le).texte, href: "/admin/kiosques", action: "Envoyer la facture" });
     } else {
       const a = age(k.maj_le ?? k.cree_le);
-      if (a.jours >= SEUIL_RELANCE) relances.push({ cle: k.id, quoi, qui: k.entreprise || k.nom, depuis: a.texte, href: "/admin/kiosques", action: "Relancer" });
+      if (a.jours >= SEUIL_RELANCE) relances.push({ cle: k.id, quoi, qui: k.entreprise || k.nom, depuis: a.texte, href: "/admin/kiosques?statut=a_payer", action: "Voir", relance: { type: "kiosque", id: k.id } });
     }
   }
   for (const r of remisages.data ?? []) {
@@ -55,13 +62,21 @@ export default async function Page() {
       taches.push({ cle: r.id, quoi: `Remisage · ${r.type_vehicule}`, qui: r.nom, depuis: a.texte, href: "/admin/remisage", action: "Approuver", urgent: a.jours >= 3 });
     } else {
       const a = age(r.maj_le ?? r.cree_le);
-      if (a.jours >= SEUIL_RELANCE) relances.push({ cle: r.id, quoi: `Remisage · ${r.type_vehicule}`, qui: r.nom, depuis: a.texte, href: "/admin/remisage", action: "Relancer" });
+      if (a.jours >= SEUIL_RELANCE) relances.push({ cle: r.id, quoi: `Remisage · ${r.type_vehicule}`, qui: r.nom, depuis: a.texte, href: "/admin/remisage?statut=approuvee", action: "Voir", relance: { type: "remisage", id: r.id } });
     }
   }
   for (const m of messages.data ?? []) {
     const a = age(m.cree_le);
     taches.push({ cle: m.id, quoi: `Message · ${m.sujet || (m.formulaire === "contact" ? "Contact" : "Exposants")}`, qui: m.nom, depuis: a.texte, href: "/admin/messages", action: "Répondre", urgent: a.jours >= 3 });
   }
+  // Dernier rappel envoyé pour chaque paiement qui tarde (historique, migration 0002)
+  const journal = await lireJournal(sb, relances.map((t) => t.cle));
+  for (const t of relances) {
+    const rappels = (journal.get(t.cle) ?? []).filter((e) => e.action === "Rappel de paiement envoyé");
+    if (rappels.length && t.relance) t.relance.dernier = age(rappels[rappels.length - 1].cree_le).texte.replace("depuis", "il y a").replace("il y a hier", "hier");
+  }
+  const edition = peutEditer(profil);
+
   const nbKiosques = (kiosques.data ?? []).filter((k) => ["en_attente", "entente"].includes(k.statut)).length;
   const nbRemisages = (remisages.data ?? []).filter((r) => r.statut === "en_attente").length;
   const nbMessages = messages.data?.length ?? 0;
@@ -88,10 +103,20 @@ export default async function Page() {
       <p className="min-w-0">
         <strong className="text-[16px]">{t.qui}</strong>
         <span className="block text-[14px] text-gris-brun">{t.quoi} · <span className={t.urgent ? "font-semibold text-rouge" : ""}>{t.depuis}</span></span>
+        {t.relance?.dernier && <span className="block text-[13px] text-gris-brun">Dernier rappel : {t.relance.dernier}</span>}
       </p>
-      <Link href={t.href} className="min-h-[40px] inline-flex items-center px-3 border-2 border-encre bg-moutarde text-encre no-underline font-etiquette font-bold uppercase tracking-wide text-[14px] hover:bg-kraft">
-        {t.action} <span aria-hidden="true" className="ml-1">→</span>
-      </Link>
+      <span className="flex flex-wrap items-start gap-2">
+        {t.relance && edition && (
+          <FormAction action={renvoyerLien} bouton="Envoyer un rappel" style="secondaire" enLigne confirmer={`Envoyer un courriel de rappel de paiement à ${t.qui}?`}>
+            <input type="hidden" name="id" value={t.relance.id} />
+            <input type="hidden" name="type" value={t.relance.type} />
+            <input type="hidden" name="rappel" value="oui" />
+          </FormAction>
+        )}
+        <Link href={t.href} className="min-h-[40px] inline-flex items-center px-3 border-2 border-encre bg-moutarde text-encre no-underline font-etiquette font-bold uppercase tracking-wide text-[14px] hover:bg-kraft">
+          {t.action} <span aria-hidden="true" className="ml-1">→</span>
+        </Link>
+      </span>
     </li>
   );
 
@@ -132,7 +157,7 @@ export default async function Page() {
           </Carte>
           {relances.length > 0 && (
             <Carte titre={`Paiements qui tardent (${relances.length})`}>
-              <p className="text-[14px] text-gris-brun mb-1">Lien ou facture envoyé il y a {SEUIL_RELANCE} jours ou plus, toujours impayé.</p>
+              <p className="text-[14px] text-gris-brun mb-1">Lien ou facture envoyé il y a {SEUIL_RELANCE} jours ou plus, toujours impayé. « Envoyer un rappel » écrit au client avec son lien de paiement.</p>
               <ul>{relances.slice(0, 6).map(ligne)}</ul>
             </Carte>
           )}

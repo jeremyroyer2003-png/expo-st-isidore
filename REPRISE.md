@@ -2,7 +2,7 @@
 
 > **Pour Claude, au début de la prochaine conversation** : lis ce fichier en entier, puis `PROGRESS.md` et `CLAUDE.md`. Le travail se fait sur la branche **`rebuild`**, pas sur `main`. Reprends à la section « Prochaine étape ».
 
-Dernière mise à jour : 12 novembre 2026 (poste du travail).
+Dernière mise à jour : 17 novembre 2026 (poste du travail). Le travail du 17 novembre est commité en local, **pas poussé** sur GitHub.
 Tout est poussé sur GitHub (branche `rebuild`). Le dépôt est **privé** depuis le 12 novembre 2026.
 Sur un autre ordinateur : `git pull origin rebuild`, puis remplir `web/.env.local` (il n'est pas dans GitHub).
 
@@ -148,6 +148,58 @@ Le plan complet est dans `PLAN-AMELIORATIONS.md` (30 points, 3 lots). Le **lot 1
 - Adresse d'essai : https://rebuild--celebrated-sorbet-3dce34.netlify.app
 - Le premier build publiait les fichiers bruts (404 partout) : corrigé en déclarant `@netlify/plugin-nextjs` dans `netlify.toml`. Depuis, les pages publiques répondent et l'ancien site n'a pas bougé.
 - Après un changement de variable dans Netlify, il faut un nouveau build (un push ou « Trigger deploy ») : les `NEXT_PUBLIC_…` sont figées au build.
+
+## 2 g. Lot 2 du plan d'améliorations (17 novembre 2026, en local)
+
+Fait à la demande de Jérémy (« fais tout ce que tu es capable de faire, en local »). Points 15 et 17 à 22 de `PLAN-AMELIORATIONS.md`.
+
+- **⚠ À faire par Jérémy, une fois :** dans Supabase > SQL Editor, exécuter `web/supabase/migrations/0002_journal.sql`.
+  - Elle crée la table de l'historique.
+  - Sans elle, tout fonctionne quand même : l'historique reste vide, et la console du serveur affiche « [journal] non enregistré ».
+- **20. « Ma demande »** (`/ma-demande/kiosque|remisage/<lien signé>`) :
+  - Le client voit les étapes de sa demande (faite, en cours, à venir) et le bouton pour payer quand c'est le moment.
+  - Si sa demande est refusée ou annulée, la page le lui dit.
+  - Le lien est dans tous les courriels de kiosque et de remisage : réception, approbation, facture, paiement et rappel.
+  - Aucune colonne n'a été ajoutée dans la base : le lien est signé comme celui de l'annulation (`web/src/lib/suivi.ts`).
+  - Les demandes envoyées avant ce changement n'ont pas reçu le lien dans leur courriel. L'admin peut ouvrir leur page depuis la carte de la demande (Historique > « Voir la page Ma demande du client »).
+- **15. Filtres des listes** (Salles, Kiosques, Remisage, Danse) :
+  - Filtres par statut et par période, et tri.
+  - Vues toutes prêtes, par exemple « Payées ce mois-ci » et « À payer depuis plus de 7 jours ».
+  - Les filtres sont dans l'adresse de la page : on peut garder la vue en favori.
+  - Code : `web/src/lib/filtres.ts` et `web/src/components/admin/Filtres.tsx`.
+- **17. Calendrier admin** : la grille du mois montre les créneaux de chaque jour en couleur, et les dates verrouillées sont hachurées. Un clic sur un jour montre ses créneaux en dessous et règle les formulaires « Ajouter » et « Verrouiller » sur cette date.
+- **18. Relance** :
+  - Un bouton « Envoyer un rappel » est sur le tableau de bord (bloc « Paiements qui tardent ») et sous chaque lien de paiement.
+  - Le rappel est un courriel distinct, avec le lien de paiement et le lien « Ma demande ».
+  - Le tableau de bord affiche la date du dernier rappel.
+- **19. Historique** : chaque réservation et demande a un bloc « Historique », qui dit qui a fait quoi et quand.
+  - Côté admin : approuvée, refusée, entente, facture, lien renvoyé, rappel, annulation et remboursement.
+  - Côté client : paiement reçu par Stripe, annulation en ligne.
+  - Le journal ne peut pas être modifié ni effacé. Code : `web/src/lib/journal.ts`.
+- **21. Programmation pendant l'Expo** :
+  - L'onglet du jour s'ouvre de lui-même.
+  - Un bloc « En ce moment / Plus tard aujourd'hui » s'affiche.
+  - Un bouton « Ajouter à mon calendrier » (fichier .ics) apparaît sur chaque activité à venir.
+  - Pour l'essayer hors saison : `/programmation?simuler=2026-07-16T19:30`.
+- **22. Référencement** :
+  - `/sitemap.xml` et `/robots.txt` sont en place.
+  - Données structurées pour Google : l'organisme (adresse, téléphones, Facebook) et l'Expo de l'année (seulement quand ses dates sont connues et à venir).
+  - **Le site demande aux moteurs de ne pas l'indexer** (maquette et site d'essai). Pour le vrai site seulement, ajouter `PERMETTRE_INDEXATION=true` dans Netlify.
+- **Pas fait :**
+  - **23 (vidéos)** : `ffmpeg` est absent du poste du travail.
+  - **31 (remisage par grange)** : il faut la liste de l'an dernier.
+- **Vérifié :**
+  - le contrôle des types, le lint et le build;
+  - « Ma demande » pour les 15 combinaisons de type et de statut de l'échantillon (étapes, bouton payer, lien modifié refusé);
+  - les filtres du remisage dans le navigateur;
+  - la grille du calendrier et le choix d'un jour;
+  - un rappel envoyé (courriel simulé à une adresse `@example.com`);
+  - le bloc « En ce moment » avec `?simuler`;
+  - robots.txt, sitemap.xml et les données structurées de l'accueil.
+- **Pas vérifié :**
+  - l'affichage à 390 px des nouveaux écrans admin (la fenêtre Chrome ne se réduisait pas);
+  - l'historique rempli (la migration 0002 n'est pas encore exécutée).
+- **Piège rencontré :** lancer `npm run build` pendant que `npm run dev` tourne fait recharger les pages en boucle dans le navigateur. Il faut arrêter le serveur de dev, puis le relancer.
 
 ## 3. Prochaine étape : tester chaque flux de bout en bout
 

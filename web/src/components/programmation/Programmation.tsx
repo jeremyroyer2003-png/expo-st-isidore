@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Evenement } from "@/lib/donnees";
+import { enCeMoment, instantQuebec, telechargerIcs } from "./horaire";
 
 const CATEGORIES = [
   { cle: "tout", nom: "Tout" },
@@ -110,7 +111,16 @@ function infosJour(iso: string) {
   };
 }
 
-function Carte({ e, rang }: { e: Evenement; rang: number }) {
+function BoutonCalendrier({ e, petit = false }: { e: Evenement; petit?: boolean }) {
+  return (
+    <button type="button" onClick={() => telechargerIcs(e)}
+      className={`min-h-[40px] px-3 border-2 border-encre bg-creme hover:bg-moutarde font-etiquette font-bold uppercase tracking-wide ${petit ? "text-[13px]" : "text-[14px]"} text-encre`}>
+      Ajouter à mon calendrier<span className="visuellement-cache"> : {e.titre}</span>
+    </button>
+  );
+}
+
+function Carte({ e, rang, aVenir }: { e: Evenement; rang: number; aVenir: boolean }) {
   const cat = e.categories[0] ?? "autres";
   const s = STYLE[cat] ?? STYLE.autres;
   const [debut, fin] = e.heure.split(" à ");
@@ -135,6 +145,7 @@ function Carte({ e, rang }: { e: Evenement; rang: number }) {
             <span key={c} className="font-etiquette uppercase tracking-wide text-[13px] text-gris-brun">{CATEGORIES.find((x) => x.cle === c)?.nom ?? c}</span>
           ))}
         </p>
+        {aVenir && <p className="mt-2"><BoutonCalendrier e={e} petit /></p>}
       </div>
       <div className="hidden sm:block relative overflow-hidden border-l-[3px] border-encre">
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -155,6 +166,28 @@ export default function Programmation({ annee, evenements }: { annee: number; ev
   const [filtre, setFiltre] = useState<string>("tout");
   const [sens, setSens] = useState<"suivant" | "precedent">("suivant");
   const onglets = useRef<(HTMLButtonElement | null)[]>([]);
+  // Jour et heure au Québec, connus seulement dans le navigateur. ?simuler=2026-07-16T19:30 pour essayer.
+  const [ici, setIci] = useState<{ jour: string; minute: number } | null>(null);
+  const placeSurAujourdhui = useRef(false);
+
+  useEffect(() => {
+    const simule = new URLSearchParams(window.location.search).get("simuler");
+    const maj = () => setIci(instantQuebec(simule));
+    maj();
+    if (simule) return;
+    const minuterie = setInterval(maj, 60_000);
+    return () => clearInterval(minuterie);
+  }, []);
+
+  const pendantExpo = !!ici && jours.includes(ici.jour);
+  // Pendant l'Expo, l'onglet du jour s'ouvre de lui-même (une seule fois)
+  useEffect(() => {
+    if (pendantExpo && ici && !placeSurAujourdhui.current) {
+      placeSurAujourdhui.current = true;
+      setJour(ici.jour);
+    }
+  }, [pendantExpo, ici]);
+  const direct = pendantExpo && ici ? enCeMoment(evenements, ici.jour, ici.minute) : null;
 
   const choisirJour = (j: string, focus = false) => {
     setSens(jours.indexOf(j) >= jours.indexOf(jour) ? "suivant" : "precedent");
@@ -177,6 +210,43 @@ export default function Programmation({ annee, evenements }: { annee: number; ev
 
   return (
     <div>
+      {/* Pendant l'Expo : ce qui se passe en ce moment et ce qui s'en vient ce soir */}
+      {direct && (
+        <section aria-labelledby="titre-direct" className="mb-8 border-[3px] border-encre bg-planche text-creme shadow-affiche p-4 sm:p-6">
+          <h3 id="titre-direct" className="font-affiche text-[28px] sm:text-[34px] leading-none flex items-center gap-3">
+            <span aria-hidden="true" className="inline-block h-3.5 w-3.5 rounded-full bg-rouille motion-safe:animate-pulse" />
+            En ce moment
+          </h3>
+          {direct.maintenant.length ? (
+            <ul className="mt-3 grid gap-2">
+              {direct.maintenant.map((e) => (
+                <li key={e.id} className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                  <strong className="font-etiquette text-[21px]">{e.titre}</strong>
+                  <span className="text-[16px] text-kraft">{e.heure} · {e.lieu}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="mt-3 text-[17px] text-kraft">Rien à l&apos;horaire à cette heure-ci. Les kiosques et les animaux restent à voir sur le terrain.</p>
+          )}
+          {direct.plusTard.length > 0 && (
+            <>
+              <h4 className="mt-5 font-etiquette font-bold uppercase tracking-widest text-[15px] text-moutarde">Plus tard aujourd&apos;hui</h4>
+              <ul className="mt-2 grid gap-2">
+                {direct.plusTard.slice(0, 4).map((e) => (
+                  <li key={e.id} className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                    <span className="font-pochoir font-extrabold text-[20px] text-moutarde min-w-[64px]">{e.heure.split(" à ")[0]}</span>
+                    <strong className="font-etiquette text-[19px]">{e.titre}</strong>
+                    <span className="text-[15px] text-kraft">{e.lieu}</span>
+                    <BoutonCalendrier e={e} petit />
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+        </section>
+      )}
+
       {/* Jours : des billets d'entrée */}
       <div role="tablist" aria-label="Jours de l'Expo" className="grid grid-cols-3 sm:grid-cols-[repeat(auto-fit,minmax(110px,1fr))] gap-3 mb-6">
         {jours.map((j, i) => {
@@ -255,7 +325,7 @@ export default function Programmation({ annee, evenements }: { annee: number; ev
                 </div>
               </div>
               <ul className="grid gap-4">
-                {liste.map((e, i) => <Carte key={e.id} e={e} rang={i} />)}
+                {liste.map((e, i) => <Carte key={e.id} e={e} rang={i} aVenir={!!ici && e.jour >= ici.jour} />)}
               </ul>
             </section>
           );

@@ -2,13 +2,22 @@ import FormAction from "@/components/admin/FormAction";
 import { ajouterCreneaux, basculerCreneau, deverrouillerDate, verrouillerDate } from "@/actions/admin/gestion";
 import { Carte, champCls, etiquetteCls, LectureSeule, Statut, Titre } from "@/components/admin/ui";
 import { exigerAdmin, peutEditer } from "@/lib/admin";
-import { argent, dateLongue, jourLocal, plage } from "@/lib/format";
+import { argent, dateLongue, heure, jourLocal, plage } from "@/lib/format";
 
 export const metadata = { title: "Calendrier des salles" };
 
 const JOURS = [["1", "lun"], ["2", "mar"], ["3", "mer"], ["4", "jeu"], ["5", "ven"], ["6", "sam"], ["0", "dim"]];
 
-export default async function Page({ searchParams }: { searchParams: Promise<{ mois?: string; salle?: string }> }) {
+// Couleur de chaque créneau dans la grille du mois (mêmes couleurs que les étiquettes de statut)
+const TEINTE: Record<string, string> = {
+  ouvert: "bg-moutarde text-encre",
+  retenu: "bg-kraft text-encre",
+  reserve: "bg-olive text-encre",
+  verrouille: "bg-encre text-creme",
+};
+const LEGENDE: [string, string][] = [["ouvert", "Libre (offert au public)"], ["retenu", "Paiement en cours"], ["reserve", "Réservé"], ["verrouille", "Verrouillé"]];
+
+export default async function Page({ searchParams }: { searchParams: Promise<{ mois?: string; salle?: string; jour?: string }> }) {
   const { sb, profil } = await exigerAdmin();
   const edition = peutEditer(profil);
   const params = await searchParams;
@@ -26,11 +35,23 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ m
     sb.from("dates_verrouillees").select("*, salles(nom)").gte("jour", auj).order("jour"),
   ]);
   const filtre = params.salle;
+  const jourChoisi = /^\d{4}-\d{2}-\d{2}$/.test(params.jour ?? "") && params.jour!.startsWith(mois) ? params.jour! : undefined;
   const liste = (creneaux ?? []).filter((c) => !filtre || c.salle_id === filtre);
   const parJour = new Map<string, typeof liste>();
   liste.forEach((c) => { const j = jourLocal(c.debut); parJour.set(j, [...(parJour.get(j) ?? []), c]); });
   const titreMois = new Date(a, m - 1, 1).toLocaleDateString("fr-CA", { month: "long", year: "numeric" });
-  const lien = (o: Record<string, string | undefined>) => "?" + new URLSearchParams(Object.entries({ mois, salle: filtre, ...o }).filter(([, v]) => v) as [string, string][]).toString();
+  const lien = (o: Record<string, string | undefined>) => "?" + new URLSearchParams(Object.entries({ mois, salle: filtre, jour: jourChoisi, ...o }).filter(([, v]) => v) as [string, string][]).toString();
+
+  // Grille du mois : semaines du lundi au dimanche
+  const decalage = (new Date(Date.UTC(a, m - 1, 1, 12)).getUTCDay() + 6) % 7;
+  const nbJours = new Date(Date.UTC(a, m, 0, 12)).getUTCDate();
+  const cases: (string | null)[] = [
+    ...Array<null>(decalage).fill(null),
+    ...Array.from({ length: nbJours }, (_, i) => `${mois}-${String(i + 1).padStart(2, "0")}`),
+  ];
+  while (cases.length % 7) cases.push(null);
+  const verrouille = (j: string) => (verrous ?? []).some((v) => v.jour === j && (!filtre || !v.salle_id || v.salle_id === filtre));
+  const jours = jourChoisi ? [[jourChoisi, parJour.get(jourChoisi) ?? []] as const] : [...parJour.entries()];
 
   return (
     <>
@@ -41,16 +62,59 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ m
           titre={<span className="capitalize">{titreMois}</span>}
           action={
             <div className="flex flex-wrap gap-2 items-center">
-              <a href={lien({ mois: precedent })} className="px-3 min-h-[40px] inline-flex items-center border-2 border-encre bg-kraft font-bold no-underline">← Mois précédent</a>
-              <a href={lien({ mois: suivant })} className="px-3 min-h-[40px] inline-flex items-center border-2 border-encre bg-kraft font-bold no-underline">Mois suivant →</a>
+              <a href={lien({ mois: precedent, jour: "" })} className="px-3 min-h-[40px] inline-flex items-center border-2 border-encre bg-kraft font-bold no-underline">← Mois précédent</a>
+              <a href={lien({ mois: suivant, jour: "" })} className="px-3 min-h-[40px] inline-flex items-center border-2 border-encre bg-kraft font-bold no-underline">Mois suivant →</a>
               <a href={lien({ salle: "" })} className={`px-2 underline ${!filtre ? "font-bold" : ""}`}>Toutes</a>
               {(salles ?? []).map((s) => <a key={s.id} href={lien({ salle: s.id })} className={`px-2 underline ${filtre === s.id ? "font-bold" : ""}`}>{s.nom}</a>)}
             </div>
           }>
-          {!parJour.size && <p className="text-gris-brun">Aucun créneau ce mois-ci. Ajoutez-en avec le formulaire.</p>}
+          {/* Grille du mois : un clic sur un jour montre ses créneaux en dessous */}
+          <div className="grid grid-cols-7 gap-1 sm:gap-1.5">
+            {JOURS.map(([v, t]) => <div key={v} className="text-center font-etiquette font-bold uppercase text-[12px] sm:text-[13px] text-gris-brun">{t}</div>)}
+            {cases.map((j, i) => {
+              if (!j) return <div key={`vide-${i}`} aria-hidden="true" />;
+              const cs = parJour.get(j) ?? [];
+              const bloque = verrouille(j);
+              const passe = j < auj;
+              const choisi = j === jourChoisi;
+              const resume = cs.length ? `${cs.length} créneau${cs.length > 1 ? "x" : ""}` : "aucun créneau";
+              return (
+                <a key={j} href={lien({ jour: choisi ? "" : j })} aria-current={choisi ? "date" : undefined}
+                  aria-label={`${dateLongue(j + "T12:00:00")} : ${resume}${bloque ? ", date verrouillée" : ""}`}
+                  className={`min-h-[64px] sm:min-h-[92px] border-2 p-1 sm:p-1.5 no-underline text-encre flex flex-col gap-0.5 transition-colors hover:border-rouge
+                    ${choisi ? "border-rouge ring-2 ring-rouge" : "border-encre"} ${passe ? "opacity-55" : ""}
+                    ${bloque ? "bg-[repeating-linear-gradient(135deg,#FBF6EC_0_6px,#E8D9BA_6px_10px)]" : j === auj ? "bg-[#FFF3D1]" : "bg-white"}`}>
+                  <span className={`font-etiquette font-extrabold text-[15px] leading-none ${j === auj ? "text-rouge" : ""}`}>{Number(j.slice(8))}</span>
+                  {/* Téléphone : des pastilles; ordinateur : la salle et le statut */}
+                  <span className="flex flex-wrap gap-0.5 sm:hidden" aria-hidden="true">
+                    {cs.slice(0, 4).map((c) => <span key={c.id} className={`h-2.5 w-2.5 border border-encre ${TEINTE[c.statut] ?? "bg-kraft"}`} />)}
+                  </span>
+                  <span className="hidden sm:grid gap-0.5" aria-hidden="true">
+                    {cs.slice(0, 3).map((c) => (
+                      <span key={c.id} className={`truncate px-1 text-[11px] font-semibold leading-tight ${TEINTE[c.statut] ?? "bg-kraft"}`}>
+                        {(c.salles as { nom: string }).nom.split(" ")[0]} · {heure(c.debut)}
+                      </span>
+                    ))}
+                    {cs.length > 3 && <span className="text-[11px] text-gris-brun">+{cs.length - 3}</span>}
+                  </span>
+                </a>
+              );
+            })}
+          </div>
+          <ul className="mt-3 mb-5 flex flex-wrap gap-x-4 gap-y-1 text-[13px]" aria-label="Légende">
+            {LEGENDE.map(([s, t]) => <li key={s} className="flex items-center gap-1.5"><span className={`h-3 w-3 border border-encre ${TEINTE[s]}`} aria-hidden="true" />{t}</li>)}
+            <li className="flex items-center gap-1.5"><span className="h-3 w-3 border border-encre bg-[repeating-linear-gradient(135deg,#FBF6EC_0_3px,#E8D9BA_3px_5px)]" aria-hidden="true" />Date verrouillée</li>
+          </ul>
+
+          <h3 className="font-etiquette font-extrabold text-[19px] mb-2 first-letter:uppercase">
+            {jourChoisi ? dateLongue(jourChoisi + "T12:00:00") : "Tous les créneaux du mois"}
+            {jourChoisi && <a href={lien({ jour: "" })} className="ml-3 text-[14px] font-normal underline">Voir tout le mois</a>}
+          </h3>
+          {!parJour.size && !jourChoisi && <p className="text-gris-brun">Aucun créneau ce mois-ci. Ajoutez-en avec le formulaire.</p>}
+          {jourChoisi && !parJour.get(jourChoisi)?.length && <p className="text-gris-brun">Aucun créneau ce jour-là.{edition && " Le formulaire « Ajouter des créneaux » est déjà réglé sur cette date."}</p>}
           <ul className="grid gap-3">
-            {[...parJour.entries()].map(([j, cs]) => {
-              const bloque = (verrous ?? []).some((v) => v.jour === j);
+            {jours.filter(([, cs]) => cs.length).map(([j, cs]) => {
+              const bloque = verrouille(j);
               return (
                 <li key={j} className={`border-2 border-encre p-3 ${bloque ? "bg-[repeating-linear-gradient(135deg,#FBF6EC_0_8px,#E8D9BA_8px_12px)]" : "bg-white"}`}>
                   <p className="font-etiquette font-extrabold text-[18px] first-letter:uppercase">{dateLongue(cs[0].debut)} {bloque && <Statut s="verrouille" />}</p>
@@ -94,7 +158,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ m
                   </div>
                 </fieldset>
                 <div className="grid grid-cols-2 gap-3">
-                  <label><span className={etiquetteCls}>Du</span><input type="date" name="du" required min={auj} className={champCls} /></label>
+                  <label><span className={etiquetteCls}>Du</span><input key={jourChoisi} type="date" name="du" required min={auj} defaultValue={jourChoisi && jourChoisi >= auj ? jourChoisi : undefined} className={champCls} /></label>
                   <label><span className={etiquetteCls}>Au (facultatif)</span><input type="date" name="au" min={auj} className={champCls} /></label>
                   <label><span className={etiquetteCls}>De</span><input type="time" name="debut" required defaultValue="17:00" className={champCls} /></label>
                   <label><span className={etiquetteCls}>À</span><input type="time" name="fin" required defaultValue="01:00" className={champCls} /></label>
@@ -122,7 +186,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ m
             {edition && (
               <FormAction action={verrouillerDate} bouton="Verrouiller la date" style="danger">
                 <div className="grid grid-cols-2 gap-3">
-                  <label><span className={etiquetteCls}>Date</span><input type="date" name="jour" required min={auj} className={champCls} /></label>
+                  <label><span className={etiquetteCls}>Date</span><input key={jourChoisi} type="date" name="jour" required min={auj} defaultValue={jourChoisi && jourChoisi >= auj ? jourChoisi : undefined} className={champCls} /></label>
                   <label><span className={etiquetteCls}>Salle</span>
                     <select name="salle" className={champCls} defaultValue=""><option value="">Toutes</option>{(salles ?? []).map((s) => <option key={s.id} value={s.id}>{s.nom}</option>)}</select>
                   </label>

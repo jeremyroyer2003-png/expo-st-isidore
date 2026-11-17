@@ -21,7 +21,10 @@ function mise_en_page(o: {
   lignes?: Ligne[];
   bouton?: { texte: string; url: string };
   fin?: string[];
+  /** Page « Ma demande » du client : bouton principal s'il n'y en a pas d'autre, sinon petit lien sous le bouton. */
+  suivi?: string;
 }): Gabarit {
+  if (o.suivi && !o.bouton) o = { ...o, bouton: { texte: "Suivre ma demande", url: o.suivi }, suivi: undefined };
   const lignesHtml = (o.lignes ?? [])
     .map(([k, v]) => `<tr><td style="padding:6px 12px 6px 0;color:#5C4A39;font-size:14px;white-space:nowrap;vertical-align:top">${echapper(k)}</td><td style="padding:6px 0;color:#1E140D;font-size:15px;font-weight:600">${echapper(v)}</td></tr>`)
     .join("");
@@ -35,6 +38,7 @@ function mise_en_page(o: {
 ${o.intro.map(para).join("")}
 ${lignesHtml ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:8px 0 18px;border-top:2px dashed #1E140D;border-bottom:2px dashed #1E140D;width:100%">${lignesHtml}</table>` : ""}
 ${o.bouton ? `<p style="margin:8px 0 22px"><a href="${echapper(o.bouton.url)}" style="display:inline-block;background:#8E2A1E;color:#F3EAD8;text-decoration:none;font-weight:bold;padding:14px 22px;border:3px solid #1E140D">${echapper(o.bouton.texte)}</a></p>` : ""}
+${o.suivi ? `<p style="margin:0 0 14px;font-size:14px;color:#5C4A39">Voir où en est votre demande en tout temps : <a href="${echapper(o.suivi)}" style="color:#8E2A1E;font-weight:bold">Ma demande</a></p>` : ""}
 ${(o.fin ?? []).map(para).join("")}
 </td></tr>
 <tr><td style="padding:16px 24px;border-top:3px solid #1E140D;font-size:13px;color:#5C4A39;line-height:1.5">Expo St-Isidore · 132, route Coulombe, Saint-Isidore (Québec) G0S 2S0<br>Bureau : ${BUREAU} · Remisage : ${REMISAGE} · info@expobassinchaudiere.com</td></tr>
@@ -46,6 +50,7 @@ ${(o.fin ?? []).map(para).join("")}
     "",
     ...(o.lignes ?? []).map(([k, v]) => `${k} : ${v}`),
     ...(o.bouton ? ["", `${o.bouton.texte} : ${o.bouton.url}`] : []),
+    ...(o.suivi ? ["", `Ma demande (où en est votre demande) : ${o.suivi}`] : []),
     "",
     ...(o.fin ?? []),
     "",
@@ -104,8 +109,9 @@ export const salleConfirmeeAdmin = (o: { nom: string; courriel: string; telephon
   });
 
 // ---------- Kiosques ----------
-export const kiosqueRecu = (o: { nom: string; type: "interieur" | "exterieur"; emplacement?: string }) =>
+export const kiosqueRecu = (o: { nom: string; type: "interieur" | "exterieur"; emplacement?: string; suivi?: string }) =>
   mise_en_page({
+    suivi: o.suivi,
     gabarit: "kiosque_recu",
     sujet: "Demande de kiosque reçue",
     titre: "On a bien reçu votre demande de kiosque",
@@ -128,8 +134,9 @@ export const kiosqueRecuAdmin = (lignes: Ligne[]) =>
     bouton: { texte: "Traiter la demande", url: lienAdmin("/kiosques") },
   });
 
-export const kiosqueApprouve = (o: { nom: string; emplacement: string; montant: number; lien: string }) =>
+export const kiosqueApprouve = (o: { nom: string; emplacement: string; montant: number; lien: string; suivi?: string }) =>
   mise_en_page({
+    suivi: o.suivi,
     gabarit: "kiosque_approuve",
     sujet: `Kiosque ${o.emplacement} approuvé : il reste à payer`,
     titre: "Votre demande est approuvée",
@@ -139,8 +146,9 @@ export const kiosqueApprouve = (o: { nom: string; emplacement: string; montant: 
     fin: ["Le lien reste valide tant que la demande est approuvée."],
   });
 
-export const kiosqueFacture = (o: { nom: string; montant: number; lien: string }) =>
+export const kiosqueFacture = (o: { nom: string; montant: number; lien: string; suivi?: string }) =>
   mise_en_page({
+    suivi: o.suivi,
     gabarit: "kiosque_facture",
     sujet: "Votre facture de kiosque extérieur",
     titre: "Votre facture est prête",
@@ -149,8 +157,9 @@ export const kiosqueFacture = (o: { nom: string; montant: number; lien: string }
     bouton: { texte: "Voir et payer la facture", url: o.lien },
   });
 
-export const kiosqueConfirme = (o: { nom: string; quoi: string; montant: number }) =>
+export const kiosqueConfirme = (o: { nom: string; quoi: string; montant: number; suivi?: string }) =>
   mise_en_page({
+    suivi: o.suivi,
     gabarit: "kiosque_confirme",
     sujet: "Kiosque confirmé",
     titre: "Votre kiosque est confirmé",
@@ -190,8 +199,9 @@ export const danseAdmin = (lignes: Ligne[]) =>
   });
 
 // ---------- Remisage ----------
-export const remisageRecu = (o: { nom: string; vehicule: string; longueur: string }) =>
+export const remisageRecu = (o: { nom: string; vehicule: string; longueur: string; suivi?: string }) =>
   mise_en_page({
+    suivi: o.suivi,
     gabarit: "remisage_recu",
     sujet: "Demande de remisage reçue",
     titre: "On a bien reçu vos dimensions",
@@ -210,8 +220,9 @@ export const remisageRecuAdmin = (lignes: Ligne[]) =>
     bouton: { texte: "Traiter la demande", url: lienAdmin("/remisage") },
   });
 
-export const remisageApprouve = (o: { nom: string; vehicule: string; total: number; depot: number; lien: string }) =>
+export const remisageApprouve = (o: { nom: string; vehicule: string; total: number; depot: number; lien: string; suivi?: string }) =>
   mise_en_page({
+    suivi: o.suivi,
     gabarit: "remisage_approuve",
     sujet: "Remisage approuvé : dépôt pour garder votre place",
     titre: "On a de la place pour vous",
@@ -221,8 +232,9 @@ export const remisageApprouve = (o: { nom: string; vehicule: string; total: numb
     fin: ["Chaque véhicule est mesuré à l'arrivée; le prix final se base sur cette mesure.", `Questions : ${REMISAGE}.`],
   });
 
-export const remisageDepotPaye = (o: { nom: string; depot: number }) =>
+export const remisageDepotPaye = (o: { nom: string; depot: number; suivi?: string }) =>
   mise_en_page({
+    suivi: o.suivi,
     gabarit: "remisage_depot_paye",
     sujet: "Dépôt reçu : votre place de remisage est gardée",
     titre: "Votre place est gardée",
@@ -238,6 +250,19 @@ export const remisageRefuse = (o: { nom: string; raison: string }) =>
     titre: "On n'a pas de place cette fois-ci",
     intro: [`Bonjour ${o.nom}, malheureusement on ne peut pas accepter votre véhicule cet hiver.`, ...(o.raison ? [o.raison] : [])],
     fin: [`Pour en parler : ${REMISAGE}.`],
+  });
+
+// ---------- Rappel : lien de paiement envoyé, toujours impayé ----------
+export const rappelPaiement = (o: { nom: string; quoi: string; montant: number; lien: string; telephone: string; suivi?: string }) =>
+  mise_en_page({
+    gabarit: "rappel_paiement",
+    suivi: o.suivi,
+    sujet: `Rappel : ${o.quoi}, il reste à payer`,
+    titre: "Petit rappel",
+    intro: [`Bonjour ${o.nom}, votre demande est approuvée, mais le paiement n'est pas encore fait. Votre place n'est confirmée qu'une fois payée.`],
+    lignes: [["Pour", o.quoi], ["Montant", argent(o.montant)]],
+    bouton: { texte: "Payer maintenant", url: o.lien },
+    fin: [`Déjà payé, ou vous avez changé d'idée? Dites-le-nous au ${o.telephone} et on met votre dossier à jour.`],
   });
 
 // ---------- Paiement reçu (admin), annulation et remboursement ----------
