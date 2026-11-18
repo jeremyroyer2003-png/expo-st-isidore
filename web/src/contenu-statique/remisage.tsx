@@ -68,7 +68,7 @@ export default function PageRemisage({ prixParPied, depotMin }: { prixParPied: n
       <div className="contenu section-espacee">
         <div className="entete-section">
           <h2 id="titre-demande" className="titre-affiche">Votre place<br />en 3 étapes</h2>
-          <p>L&apos;espace dépend de la taille de chaque véhicule. Avec vos dimensions, l&apos;équipe vérifie l&apos;espace avant de vous rappeler. Comptez deux minutes, ruban à mesurer en main.</p>
+          <p>L&apos;espace dépend de la taille de chaque véhicule. Avec vos dimensions, l&apos;équipe vérifie l&apos;espace, puis vous répond par courriel. Comptez deux minutes, ruban à mesurer en main.</p>
         </div>
 
         <div className="demande">
@@ -77,10 +77,10 @@ export default function PageRemisage({ prixParPied, depotMin }: { prixParPied: n
             <p className="visuellement-cache"><label>Ne pas remplir&nbsp;: <input name="champ-robot" tabIndex={-1} autoComplete="off" /></label></p>
 
             {/* Étape 1 */}
-            <fieldset className="etape">
+            <fieldset className="etape" aria-describedby="erreur-type">
               <legend className="etape__titre"><span className="etape__num" aria-hidden="true">1</span>Quel véhicule?</legend>
               <p className="champ__erreur" id="erreur-type" hidden>Choisissez d&apos;abord le type de véhicule.</p>
-              <div className="choix-grille" role="radiogroup" aria-describedby="erreur-type">
+              <div className="choix-grille">
                 <label className="choix">
                   <input type="radio" name="type" value="Roulotte" required data-schema="roulotte" />
                   <span className="choix__carte">
@@ -207,7 +207,7 @@ export default function PageRemisage({ prixParPied, depotMin }: { prixParPied: n
           {/* Message après l'envoi : prend la place du formulaire, à côté du billet tamponné */}
           <div className="merci" id="merci" tabIndex={-1} hidden>
             <h3>Merci, c&apos;est reçu!</h3>
-            <p>On regarde l&apos;espace disponible pour votre véhicule. Si on a de la place, vous recevez par courriel le prix de la saison et le lien pour payer le dépôt{depotMin ? <> (au moins {depotMin})</> : null} qui garde votre place. On peut aussi vous rappeler au <strong data-resume="telephone"></strong>.</p>
+            <p>On regarde l&apos;espace disponible pour votre véhicule. Si on a de la place, vous recevez par courriel le prix de la saison et le lien pour payer le dépôt{depotMin ? <> (au moins {depotMin})</> : null} qui garde votre place. On vous appelle ensuite au <strong data-resume="telephone"></strong> pour fixer la date d&apos;entrée.</p>
             <dl className="merci__recap">
               <div><dt>Véhicule</dt><dd data-resume="type">—</dd></div>
               <div><dt>Longueur</dt><dd data-resume="longueur">—</dd></div>
@@ -234,7 +234,7 @@ export default function PageRemisage({ prixParPied, depotMin }: { prixParPied: n
                 </dl>
                 <p className="resume__avis">Prix final selon la longueur mesurée à l&apos;arrivée.</p>
                 <dl className="billet-remisage__dates">
-                  <div><dt>Entrée</dt><dd>mi-octobre</dd></div>
+                  <div><dt>Entrée</dt><dd><span className="seulement-hiver-ligne">en cours</span><span className="seulement-ete-ligne">mi-octobre</span></dd></div>
                   <div><dt>Sortie</dt><dd>mi-mai</dd></div>
                 </dl>
               </div>
@@ -262,7 +262,7 @@ export default function PageRemisage({ prixParPied, depotMin }: { prixParPied: n
       <div className="contenu section-espacee savoir">
         <h2 id="titre-savoir" className="titre-affiche">Bon<br />à savoir</h2>
         <dl className="liste-questions">
-          <div><dt>Combien ça coûte?</dt><dd>Le prix se calcule selon la longueur hors tout, attache comprise&nbsp;: <strong data-tarif>on vous donne le tarif au pied en vous rappelant</strong>.<span data-si-tarif hidden> Votre estimation apparaît sur le billet dès que vous entrez la longueur.</span> On mesure chaque véhicule à son arrivée et le prix final se base sur cette mesure.</dd></div>
+          <div><dt>Combien ça coûte?</dt><dd>Le prix se calcule selon la longueur hors tout, attache comprise&nbsp;: <strong data-tarif>le tarif au pied vous est donné avec votre prix, par courriel</strong>.<span data-si-tarif hidden> Votre estimation apparaît sur le billet dès que vous entrez la longueur.</span> On mesure chaque véhicule à son arrivée et le prix final se base sur cette mesure.</dd></div>
           <div><dt>Reste-t-il de la place?</dt><dd>Ça dépend de la taille de votre véhicule&nbsp;: une moto se case plus facilement qu&apos;une roulotte de 35 pieds. Envoyez vos dimensions et on vous répond franchement.</dd></div>
           <div><dt>Quand entrer et sortir?</dt><dd>Les entrées commencent vers la mi-octobre et les sorties se font vers la mi-mai. On fixe votre date au téléphone.</dd></div>
           <div><dt>Est-ce assuré?</dt><dd>Oui. Le remisage se fait à l&apos;intérieur des bâtiments de l&apos;Expo et il est assuré. L&apos;équipe fait ça depuis plus de 20 ans.</dd></div>

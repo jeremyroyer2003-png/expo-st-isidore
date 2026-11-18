@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import FormulaireDanse, { type Forfait } from "@/components/reservation/FormulaireDanse";
 import { contenu, prixPublics } from "@/lib/donnees";
+import { argent } from "@/lib/format";
+import { estHiver } from "@/lib/saison";
 
 export const metadata: Metadata = {
   title: "Danse country en ligne – grange 2, l'été",
@@ -19,6 +21,11 @@ export default async function Page() {
     ? prix.map((p) => ({ cle: p.cle, libelle: p.libelle, description: p.description, prix: p.visible ? p.montant_cents : null, fictif: p.a_confirmer }))
     // Sans base de données : seul le prix confirmé (20 $ la session) est connu
     : [{ cle: "danse_session", libelle: "Une session", description: "Une soirée de danse country en ligne, de 19 h à 21 h", prix: null, fictif: false }];
+  // Prix de la session : celui de la base s'il est confirmé, sinon le tarif connu (20 $)
+  const session = forfaits.find((f) => f.cle === "danse_session" && f.prix != null && !f.fictif);
+  const prixSession = session ? argent(session.prix!) : "20 $";
+  // Hors saison : pas de paiement en ligne sans dates
+  const fermee = estHiver();
 
   return (
     <>
@@ -29,9 +36,9 @@ export default async function Page() {
             <h1 id="titre-heros" className="heros__titre"><span>Danse</span> <span className="jaune">country</span></h1>
           </div>
           <div className="heros__cote">
-            <p className="heros__intro">Danse country en ligne. {horaire} <strong>20&nbsp;$ la session</strong>, ou un forfait pour le mois ou la saison. {dates}</p>
+            <p className="heros__intro">Danse country en ligne. {horaire} <strong>{prixSession.replace(" ", "\u00a0")} la session</strong>, ou un forfait pour le mois ou la saison. {dates}</p>
             <div className="groupe-boutons">
-              <a className="bouton bouton--orange" href="#forfaits">Choisir un forfait <span className="fleche" aria-hidden="true">→</span></a>
+              <a className="bouton bouton--orange" href="#forfaits">{fermee ? "Voir les forfaits" : "Choisir un forfait"} <span className="fleche" aria-hidden="true">→</span></a>
               <a className="bouton bouton--contour" href="https://www.facebook.com/expostisidorebassinchaudiere/" rel="noopener">Les dates sur Facebook</a>
             </div>
           </div>
@@ -51,7 +58,7 @@ export default async function Page() {
               <p>Payez en ligne et présentez votre nom à l&apos;entrée. La saison dure environ trois mois; il n&apos;y a pas de forfait à l&apos;année.</p>
             </div>
           </div>
-          <FormulaireDanse forfaits={forfaits} />
+          <FormulaireDanse forfaits={forfaits} fermee={fermee} />
         </div>
       </section>
     </>

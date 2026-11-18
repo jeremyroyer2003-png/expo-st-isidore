@@ -4,3 +4,25 @@
 .tampon-paye{position:absolute;top:18px;right:18px;margin:0;padding:4px 14px;border:4px solid #8E2A1E;border-radius:3px;color:#8E2A1E;font-family:"Alfa Slab One",Georgia,serif;font-size:24px;text-transform:uppercase;transform:rotate(-12deg);background:rgba(251,246,236,.9);animation:tamponner .4s cubic-bezier(.2,.7,.2,1) .3s both}
 @keyframes tamponner{from{opacity:0;transform:rotate(-12deg) scale(1.8)}to{opacity:1;transform:rotate(-12deg) scale(1)}}
 @media (prefers-reduced-motion: reduce){.tampon-paye{animation:none}}
+
+/* =========================================================
+   Critique du 18 novembre 2026 (application Next.js)
+   ========================================================= */
+/* Grands titres en colonne étroite : coupure entre les syllabes (français), jamais au milieu d'une lettre au hasard */
+.bloc .titre-affiche{font-size:clamp(38px,4.3vw,60px);overflow-wrap:break-word;hyphens:auto;-webkit-hyphens:auto}
+/* La taille suit la largeur de la colonne du titre : le plus long mot (« DOCUMENTS ») tient toujours sur une ligne */
+.bloc__titre,.bloc > :first-child:has(> .titre-affiche){container-type:inline-size}
+@supports (font-size:1cqi){.bloc__titre .titre-affiche,.bloc > :first-child > .titre-affiche{font-size:clamp(30px,12.5cqi,60px)}}
+/* Note sous une bande sombre (« Ce qui arrive ensuite », conditions) : texte clair, plus jamais brun sur brun (1,8:1) */
+.ensuite .note{color:var(--texte-nuit)}
+/* Lien téléphone sur une carte moutarde : encre brune (8:1) au lieu du rouge (3,7:1) */
+.c-jaune p a:not(.bouton),.avis-bandeau a:not(.bouton){color:var(--nuit);text-decoration-thickness:2px}
+/* Pied de page : cibles de 44 px au doigt */
+.pied__bloc a{min-height:44px}
+/* Sélection du texte et curseur aux couleurs de la grange */
+::selection{background:var(--jaune);color:var(--nuit)}
+input,textarea{caret-color:var(--rouge)}
+/* Exemples dans un champ en erreur : ils restent des exemples (gris, normal), pas des valeurs */
+input::placeholder,textarea::placeholder{font-weight:400;color:#7A6656;opacity:1}
+/* Téléphone : l'intertitre d'une bande (« Ce qui arrive ensuite », 30 px) ne dépasse plus le titre de section (26,5 px) */
+@media (max-width:600px){.ensuite h3{font-size:22px}}

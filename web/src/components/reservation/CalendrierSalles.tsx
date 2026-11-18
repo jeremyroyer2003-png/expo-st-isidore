@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import FormulaireSimple from "@/components/formulaires/FormulaireSimple";
+import { arretTab, flechesRadio } from "@/lib/clavier";
 import { reserverSalle } from "@/actions/reservations";
 
 export type SallePublique = { id: string; slug: string; nom: string; description: string; prix: number | null; fictif: boolean };
@@ -103,8 +104,10 @@ export default function CalendrierSalles({
   return (
     <div className="grid gap-8">
       {/* 1. La salle */}
-      <div role="radiogroup" aria-label="Salle" className="grid gap-4 sm:grid-cols-2">
-        {salles.map((s) => {
+      <div className="grid gap-3">
+      <h3 className="etape__titre" id="etape-salle"><span className="etape__num" aria-hidden="true">1</span>La salle</h3>
+      <div role="radiogroup" aria-labelledby="etape-salle" onKeyDown={flechesRadio} className="grid gap-4 sm:grid-cols-2">
+        {salles.map((s, i) => {
           const actif = s.id === salleId;
           return (
             <button
@@ -112,6 +115,7 @@ export default function CalendrierSalles({
               type="button"
               role="radio"
               aria-checked={actif}
+              tabIndex={arretTab(actif, i === 0, !salleId)}
               onClick={() => { setSalleId(s.id); setJour(null); setCreneauId(null); }}
               className={`text-left px-5 py-4 border-[3px] border-encre transition-all duration-200 motion-reduce:transition-none
                 ${actif ? "bg-planche text-creme shadow-affiche -translate-y-1" : "bg-creme text-encre shadow-affiche-sm hover:-translate-y-0.5 hover:bg-kraft"}`}
@@ -124,26 +128,35 @@ export default function CalendrierSalles({
           );
         })}
       </div>
+      </div>
 
+      <div className="grid gap-3">
+      <h3 className="etape__titre"><span className="etape__num" aria-hidden="true">2</span>La date et les heures</h3>
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] items-start">
         {/* 2. Le calendrier */}
         <div className="bg-creme cadre-affiche p-4 sm:p-6">
           <div className="flex items-center justify-between gap-3 mb-4">
             <button type="button" onClick={() => changerMois(-1)} disabled={premierMois} aria-label="Mois précédent"
               className="min-h-[44px] min-w-[44px] border-[3px] border-encre bg-kraft font-bold text-[20px] disabled:opacity-30 hover:bg-moutarde transition-colors">←</button>
-            <h3 className="font-affiche text-[24px] sm:text-[28px] capitalize text-encre" aria-live="polite">{titreMois}</h3>
+            <h4 className="font-affiche text-[24px] sm:text-[28px] capitalize text-encre" aria-live="polite">{titreMois}</h4>
             <button type="button" onClick={() => changerMois(1)} aria-label="Mois suivant"
               className="min-h-[44px] min-w-[44px] border-[3px] border-encre bg-kraft font-bold text-[20px] hover:bg-moutarde transition-colors">→</button>
           </div>
           <p className="font-etiquette font-semibold text-[16px] text-gris-brun mb-3">
             {libresDuMois ? `${libresDuMois} date${libresDuMois > 1 ? "s" : ""} libre${libresDuMois > 1 ? "s" : ""} ce mois-ci` : "Aucune date libre ce mois-ci"}
           </p>
-          {prochaineLibre && prochaineLibre !== jour && (
+          {prochaineLibre && (
             <p className="mb-4">
-              <button type="button" onClick={() => allerA(prochaineLibre)}
-                className="min-h-[44px] w-full sm:w-auto px-4 py-2 border-[3px] border-encre bg-creme text-encre text-left font-etiquette font-bold text-[17px] hover:bg-kraft transition-colors">
-                Prochaine date libre : <span className="underline">{dateLisible(prochaineLibre)}</span> <span aria-hidden="true">→</span>
-              </button>
+              {prochaineLibre !== jour ? (
+                <button type="button" onClick={() => allerA(prochaineLibre)}
+                  className="min-h-[44px] w-full sm:w-auto px-4 py-2 border-[3px] border-encre bg-creme text-encre text-left font-etiquette font-bold text-[17px] hover:bg-kraft transition-colors">
+                  Prochaine date libre : <span className="underline">{dateLisible(prochaineLibre)}</span> <span aria-hidden="true">→</span>
+                </button>
+              ) : (
+                <span className="min-h-[44px] inline-flex items-center px-4 py-2 border-[3px] border-dashed border-encre/40 font-etiquette font-bold text-[17px] text-gris-brun">
+                  C&apos;est la prochaine date libre.
+                </span>
+              )}
             </p>
           )}
           {!prochaineLibre && (
@@ -168,7 +181,7 @@ export default function CalendrierSalles({
                     aria-pressed={actif}
                     aria-label={libelle}
                     onClick={() => { setJour(j); setCreneauId(null); }}
-                    className={`relative aspect-square min-h-[40px] border-2 font-etiquette font-bold text-[18px] transition-all duration-150 motion-reduce:transition-none
+                    className={`relative aspect-square min-h-[44px] border-2 font-etiquette font-bold text-[18px] transition-all duration-150 motion-reduce:transition-none
                       ${e === "libre" ? (actif ? "bg-rouge text-creme border-encre shadow-affiche-sm -translate-y-0.5" : "bg-moutarde text-encre border-encre hover:-translate-y-0.5 hover:shadow-affiche-sm") : ""}
                       ${e === "pris" ? "border-encre/40 text-encre/50 bg-[repeating-linear-gradient(135deg,transparent_0_5px,rgba(30,20,13,.18)_5px_7px)]" : ""}
                       ${e === "aucun" ? "border-transparent text-encre/60" : ""}
@@ -184,6 +197,7 @@ export default function CalendrierSalles({
             <li className="flex items-center gap-2"><span className="h-4 w-4 border-2 border-encre bg-moutarde" aria-hidden="true" />Libre</li>
             <li className="flex items-center gap-2"><span className="h-4 w-4 border-2 border-encre/40 bg-[repeating-linear-gradient(135deg,transparent_0_3px,rgba(30,20,13,.25)_3px_5px)]" aria-hidden="true" />Réservé</li>
             <li className="flex items-center gap-2"><span className="h-4 w-4 border-2 border-encre bg-rouge" aria-hidden="true" />Votre choix</li>
+            <li className="flex items-center gap-2 text-gris-brun"><span className="h-4 w-4 border-2 border-dashed border-encre/30" aria-hidden="true" />Pas offerte (chiffre pâle)</li>
           </ul>
         </div>
 
@@ -197,13 +211,14 @@ export default function CalendrierSalles({
           )}
           {jour && (
             <div className="anim-monter scroll-mt-28" id="heures-salle">
-              <h3 className="font-affiche text-[22px] text-encre mb-3 first-letter:uppercase">{dateLisible(jour)}</h3>
-              <div role="radiogroup" aria-label="Heures offertes" className="grid gap-3">
-                {creneauxJour.map((c) => {
+              <h4 className="font-affiche text-[22px] text-encre mb-3 first-letter:uppercase">{dateLisible(jour)}</h4>
+              <div role="radiogroup" aria-label="Heures offertes" onKeyDown={flechesRadio} className="grid gap-3">
+                {creneauxJour.map((c, i) => {
                   const p = c.prix_cents ?? salle.prix;
                   const actif = c.id === creneauId;
                   return (
                     <button key={c.id} type="button" role="radio" aria-checked={actif} disabled={!c.libre}
+                      tabIndex={arretTab(actif, i === creneauxJour.findIndex((x) => x.libre), !creneauId)}
                       onClick={() => setCreneauId(c.id)}
                       className={`flex items-center justify-between gap-4 px-4 min-h-[56px] border-[3px] border-encre font-etiquette font-bold text-[19px] transition-all
                         ${!c.libre ? "opacity-50 line-through" : actif ? "bg-rouge text-creme shadow-affiche-sm" : "bg-creme hover:bg-kraft"}`}>
@@ -217,6 +232,7 @@ export default function CalendrierSalles({
           )}
         </div>
       </div>
+      </div>
 
       {choisi && (
         <div className="anim-monter scroll-mt-28" id="formulaire-salle">
@@ -228,7 +244,7 @@ export default function CalendrierSalles({
               </div>
             </div>
           ) : (
-            <FormulaireSimple action={reserverSalle} id="form-salle" className="formulaire" bouton={`Réserver et payer ${argent(prixChoisi)}`}>
+            <FormulaireSimple action={reserverSalle} id="form-salle" className="formulaire" bouton={`Réserver et payer ${argent(prixChoisi)}`} boutonEnCours="Ouverture du paiement sécurisé…">
               <input type="hidden" name="creneau" value={choisi.id} />
               <fieldset className="etape">
                 <legend className="etape__titre"><span className="etape__num" aria-hidden="true">3</span>Votre événement</legend>

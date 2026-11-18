@@ -6,6 +6,7 @@ import { env, supabaseConfigure } from "@/lib/env";
 import { argent, dateLongue, plage } from "@/lib/format";
 import { creerSessionPaiement } from "@/lib/stripe";
 import { lienSuivi } from "@/lib/suivi";
+import { estHiver } from "@/lib/saison";
 import { supabaseService } from "@/lib/supabase/serveur";
 import {
   consentement, courriel, ErreurSaisie, estRobot, nombre, telephone, texte, traiter, type Resultat,
@@ -221,6 +222,8 @@ export async function inscrireDanse(fd: FormData): Promise<Resultat> {
     if (!Number.isInteger(personnes)) throw new ErreurSaisie("Le nombre de personnes doit être un nombre entier.");
     consentement(fd);
 
+    // Hors saison, pas de paiement sans dates (comme la page /danse). Permis en développement pour les tests.
+    if (estHiver() && process.env.NODE_ENV === "production") throw new ErreurSaisie("Les inscriptions en ligne ouvrent à la mi-mai. Appelez le bureau au 418 882-5649.");
     const prix = await prixPayable(cle);
     if (!prix) throw new ErreurSaisie("Ce forfait n'est pas encore en vente en ligne. Appelez le bureau au 418 882-5649.");
     const sb = base();

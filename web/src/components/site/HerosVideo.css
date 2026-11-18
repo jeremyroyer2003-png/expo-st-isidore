@@ -305,3 +305,14 @@
     font-size: 1.05rem;
   }
 }
+
+/* Téléphone : bandeau photo plus bas, pour que le bouton principal arrive au-dessus du pli (critique du 18 nov. 2026) */
+@media (max-width: 600px) {
+  .hvid__media {
+    aspect-ratio: 2 / 1;
+  }
+  .hvid__contenu > .seulement-hiver,
+  .saison-ete .hvid__contenu > .seulement-ete {
+    gap: 14px;
+  }
+}

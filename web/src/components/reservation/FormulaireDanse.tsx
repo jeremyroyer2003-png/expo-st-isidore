@@ -4,13 +4,15 @@ import Link from "next/link";
 import { useState } from "react";
 import FormulaireSimple from "@/components/formulaires/FormulaireSimple";
 import { inscrireDanse } from "@/actions/reservations";
+import { arretTab, flechesRadio } from "@/lib/clavier";
 
 export type Forfait = { cle: string; libelle: string; description: string; prix: number | null; fictif: boolean };
 
 const argent = (c: number) =>
   new Intl.NumberFormat("fr-CA", { style: "currency", currency: "CAD", minimumFractionDigits: c % 100 ? 2 : 0 }).format(c / 100);
 
-export default function FormulaireDanse({ forfaits }: { forfaits: Forfait[] }) {
+/** `fermee` : hors saison, les forfaits restent affichés pour information, mais on ne paie pas en ligne sans date. */
+export default function FormulaireDanse({ forfaits, fermee = false }: { forfaits: Forfait[]; fermee?: boolean }) {
   const achetables = forfaits.filter((f) => f.prix != null);
   const [cle, setCle] = useState(achetables[0]?.cle ?? "");
   const [saisie, setSaisie] = useState("1");
@@ -20,7 +22,7 @@ export default function FormulaireDanse({ forfaits }: { forfaits: Forfait[] }) {
 
   return (
     <div className="grid gap-8">
-      <div role="radiogroup" aria-label="Forfaits" className="grid gap-5 md:grid-cols-3">
+      <div role="radiogroup" aria-label="Forfaits" onKeyDown={flechesRadio} className="grid gap-5 md:grid-cols-3">
         {forfaits.map((x, i) => {
           const actif = x.cle === cle;
           const dispo = x.prix != null;
@@ -30,14 +32,12 @@ export default function FormulaireDanse({ forfaits }: { forfaits: Forfait[] }) {
               type="button"
               role="radio"
               aria-checked={actif}
+              tabIndex={arretTab(actif, i === 0, !cle)}
               disabled={!dispo}
               onClick={() => setCle(x.cle)}
               className={`relative text-left p-5 border-[3px] border-encre transition-all duration-200 motion-reduce:transition-none
                 ${actif ? "bg-rouge text-creme shadow-affiche -translate-y-1" : dispo ? "bg-creme text-encre shadow-affiche-sm hover:-translate-y-0.5 hover:bg-kraft" : "bg-kraft/60 text-encre/70"}`}
             >
-              {i === forfaits.length - 1 && dispo && (
-                <span className="absolute -top-3 right-4 bg-moutarde text-encre border-2 border-encre px-2 font-etiquette font-bold uppercase text-[13px]">Meilleur prix</span>
-              )}
               <span className="block font-etiquette font-bold uppercase tracking-widest text-[15px]">{x.libelle}</span>
               <span className="block font-affiche text-[44px] leading-none my-2">{dispo ? argent(x.prix!) : "—"}</span>
               <span className="block text-[16px]">{dispo ? "par personne" : "Prix sur demande"}{x.fictif && dispo ? " · prix fictif (test)" : ""}</span>
@@ -47,10 +47,17 @@ export default function FormulaireDanse({ forfaits }: { forfaits: Forfait[] }) {
         })}
       </div>
 
-      {achetables.length === 0 ? (
+      {fermee ? (
+        <div className="avis-bandeau" role="note">
+          <div>
+            <strong>Les inscriptions en ligne ouvrent à la mi-mai</strong>
+            <p>On paie en ligne seulement quand les dates de la saison sont connues. D&apos;ici là, les prix ci-dessus sont donnés à titre d&apos;information. Questions : bureau, <a href="tel:+14188825649">418 882-5649</a>.</p>
+          </div>
+        </div>
+      ) : achetables.length === 0 ? (
         <div className="avis-bandeau" role="note"><p>L&apos;inscription en ligne ouvre bientôt. D&apos;ici là, appelez le bureau au <a href="tel:+14188825649">418 882-5649</a>.</p></div>
       ) : (
-        <FormulaireSimple action={inscrireDanse} id="form-danse" className="formulaire formulaire--etroit" bouton={total != null ? `Payer ${argent(total)}` : "Continuer"}>
+        <FormulaireSimple action={inscrireDanse} id="form-danse" className="formulaire formulaire--etroit" bouton={total != null ? `Payer ${argent(total)}` : "Continuer"} boutonEnCours="Ouverture du paiement sécurisé…">
           <input type="hidden" name="forfait" value={cle} />
           <fieldset className="etape">
             <legend className="etape__titre">Votre inscription</legend>

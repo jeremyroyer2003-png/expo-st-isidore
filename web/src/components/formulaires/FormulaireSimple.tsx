@@ -14,6 +14,7 @@ export default function FormulaireSimple({
   id,
   className = "formulaire formulaire--etroit",
   bouton,
+  boutonEnCours = "Envoi en cours…",
   merci,
   children,
   onEnvoye,
@@ -22,6 +23,8 @@ export default function FormulaireSimple({
   id: string;
   className?: string;
   bouton: string;
+  /** Texte du bouton pendant l'envoi (ex. « Ouverture du paiement sécurisé… »). */
+  boutonEnCours?: string;
   merci?: React.ReactNode;
   children: React.ReactNode;
   onEnvoye?: (fd: FormData) => void;
@@ -29,6 +32,8 @@ export default function FormulaireSimple({
   const [erreur, setErreur] = useState("");
   const [envoye, setEnvoye] = useState(false);
   const [enCours, demarrer] = useTransition();
+  // Redirection vers Stripe : le bouton reste occupé jusqu'au changement de page
+  const [redirige, setRedirige] = useState(false);
   const merciRef = useRef<HTMLDivElement>(null);
 
   const soumettre = (e: React.FormEvent<HTMLFormElement>) => {
@@ -49,6 +54,7 @@ export default function FormulaireSimple({
         return;
       }
       if (r.redirection) {
+        setRedirige(true);
         window.location.assign(r.redirection);
         return;
       }
@@ -75,8 +81,8 @@ export default function FormulaireSimple({
       {children}
       <p className="champ__erreur formulaire__erreur" role="alert" hidden={!erreur}>{erreur}</p>
       <div className="formulaire__envoi">
-        <button type="submit" className="bouton bouton--orange bouton--grand" disabled={enCours}>
-          {enCours ? "Envoi en cours…" : bouton}
+        <button type="submit" className="bouton bouton--orange bouton--grand" disabled={enCours || redirige} aria-busy={enCours || redirige}>
+          {enCours || redirige ? boutonEnCours : bouton}
         </button>
       </div>
     </form>

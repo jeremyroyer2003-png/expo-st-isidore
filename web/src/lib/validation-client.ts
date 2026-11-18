@@ -16,12 +16,15 @@ function messagePour(el: Champ): string {
   if (el.dataset.erreur) return el.dataset.erreur;
   if (el.type === "checkbox") return "Cochez cette case pour envoyer.";
   if (el.type === "radio") return "Choisissez une option.";
-  if (el.type === "tel") return "Entrez un numéro complet, avec l'indicatif régional (ex. 418 555-1234).";
-  if (el.type === "email") return "Vérifiez le courriel (ex. nom@exemple.com).";
+  const vide = !el.value.trim();
+  if (el.type === "tel") return vide ? "Entrez votre numéro de téléphone (ex. 418 555-1234)." : "Ce numéro semble incomplet : il faut les 10 chiffres, avec l'indicatif régional (ex. 418 555-1234).";
+  if (el.type === "email") return vide ? "Entrez votre courriel : c'est là qu'arrive la confirmation." : "Ce courriel semble incomplet (ex. nom@exemple.com).";
   if (el.type === "date") return "Choisissez une date à venir.";
   if (el.type === "number") return "Entrez un nombre valide.";
   if (el.tagName === "SELECT") return "Choisissez une option dans la liste.";
-  return "Ce champ est obligatoire.";
+  // Champ vide : on nomme ce qui manque, d'après l'étiquette (« À remplir : nom complet. »)
+  const etiquette = el.closest(".champ")?.querySelector(".champ__etiquette")?.childNodes[0]?.textContent?.trim();
+  return vide && etiquette ? `À remplir : ${etiquette.replace(/\s*\(.*$/, "").toLowerCase()}.` : "Ce champ est obligatoire.";
 }
 
 export function afficherErreur(el: Champ, visible: boolean) {
@@ -37,7 +40,7 @@ export function afficherErreur(el: Champ, visible: boolean) {
     msg.id = id;
     const champ = el.closest(".champ");
     const bloc = el.closest(".dimension-ligne, .consentement");
-    const groupe = el.type === "radio" ? el.closest('[role="radiogroup"]') : null;
+    const groupe = el.type === "radio" ? el.closest('.choix-grille, [role="radiogroup"]') : null;
     if (groupe) groupe.parentNode!.insertBefore(msg, groupe);
     else if (champ && !bloc) champ.appendChild(msg);
     else {

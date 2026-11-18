@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { estHiver } from "@/lib/saison";
 
 export const metadata: Metadata = {
   title: "Réserver – salle, kiosque, danse et remisage",
@@ -13,7 +14,12 @@ const SERVICES = [
   { href: "/remisage", titre: "Remisage d'hiver", texte: "Roulottes, VR, autos, bateaux et motos, à l'intérieur. Envoyez vos dimensions; un dépôt garde votre place.", photo: "/images/photos/terrain-aerien-800.webp", alt: "Les bâtiments de l'Expo vus du ciel", couleur: "bg-rouille", action: "Envoyer mes dimensions" },
 ];
 
+// Relue toutes les heures : l'ordre des services suit la saison
+export const revalidate = 3600;
+
 export default function Page() {
+  // Hiver : le remisage d'abord (c'est la saison des entrées); été : la salle, les kiosques et la danse
+  const services = estHiver() ? [SERVICES[3], SERVICES[0], SERVICES[1], SERVICES[2]] : SERVICES;
   return (
     <>
       <section className="heros heros--page heros--compact" aria-labelledby="titre-heros">
@@ -30,7 +36,7 @@ export default function Page() {
       <section className="section-papier" aria-label="Services">
         <div className="contenu section-espacee">
           <ul className="grid gap-6 md:grid-cols-2">
-            {SERVICES.map((s, i) => (
+            {services.map((s, i) => (
               <li key={s.href} className="anim-monter" style={{ animationDelay: `${i * 70}ms` }}>
                 <Link href={s.href} className="group grid grid-cols-[38%_1fr] h-full bg-creme cadre-affiche overflow-hidden no-underline transition-transform duration-200 hover:-translate-y-1 hover:shadow-[9px_9px_0_#1E140D] motion-reduce:hover:translate-y-0">
                   <span className="relative overflow-hidden border-r-[3px] border-encre">

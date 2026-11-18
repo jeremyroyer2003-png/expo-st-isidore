@@ -61,7 +61,7 @@ export default function PageAccueil() {
             <h3>Le remisage, comment ça marche</h3>
             <ol className="etapes-remisage">
               <li><strong>Vous envoyez vos dimensions</strong> en ligne, en deux minutes, ou au téléphone.</li>
-              <li><strong>On vous rappelle</strong> avec la place disponible, le tarif au pied et votre date d&apos;entrée.</li>
+              <li><strong>On vous répond par courriel</strong> avec le prix de la saison et le lien pour payer le dépôt qui garde votre place. On vous appelle pour fixer la date d&apos;entrée.</li>
               <li><strong>Vous arrivez, on mesure</strong>, et votre véhicule dort au sec jusqu&apos;à la mi-mai.</li>
             </ol>
             <div className="groupe-boutons">

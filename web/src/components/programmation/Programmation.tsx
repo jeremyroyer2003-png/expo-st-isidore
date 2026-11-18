@@ -134,7 +134,7 @@ function Carte({ e, rang, aVenir }: { e: Evenement; rang: number; aVenir: boolea
         {fin && <span className="font-etiquette font-bold text-[15px] mt-1">à {fin}</span>}
       </div>
       <div className="px-4 py-3 sm:px-5 sm:py-4 min-w-0">
-        <h4 className="font-etiquette font-extrabold text-[22px] sm:text-[24px] leading-tight text-encre">{e.titre}</h4>
+        <h3 className="font-etiquette font-extrabold text-[22px] sm:text-[24px] leading-tight text-encre">{e.titre}</h3>
         {e.description && <p className="mt-1 text-[16px] leading-snug text-gris-brun">{e.description}</p>}
         <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[15px] font-semibold text-encre">
           <span>{e.lieu}</span>
@@ -162,7 +162,9 @@ function Carte({ e, rang, aVenir }: { e: Evenement; rang: number; aVenir: boolea
 
 export default function Programmation({ annee, evenements }: { annee: number; evenements: Evenement[] }) {
   const jours = useMemo(() => [...new Set(evenements.map((e) => e.jour))].sort(), [evenements]);
-  const [jour, setJour] = useState(jours[0]);
+  // Hors Expo : on ouvre sur la journée la plus remplie (le premier jour n'a parfois qu'une activité)
+  const plusRemplie = useMemo(() => jours.reduce((m, j) => (evenements.filter((e) => e.jour === j).length > evenements.filter((e) => e.jour === m).length ? j : m), jours[0]), [jours, evenements]);
+  const [jour, setJour] = useState(plusRemplie);
   const [filtre, setFiltre] = useState<string>("tout");
   const [sens, setSens] = useState<"suivant" | "precedent">("suivant");
   const onglets = useRef<(HTMLButtonElement | null)[]>([]);

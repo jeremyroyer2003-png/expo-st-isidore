@@ -172,6 +172,7 @@ export default function PlanPalais({ emplacements, annee, fictif }: { emplacemen
             id="form-kiosque"
             className="formulaire"
             bouton={`Demander l'emplacement ${e.code}`}
+            boutonEnCours="Envoi de votre demande…"
             merci={<>
               <h3>Merci, c&apos;est reçu!</h3>
               <p>Votre demande pour l&apos;emplacement <strong>{e.code}</strong> est entre les mains du comité. Vous recevez le lien de paiement par courriel dès qu&apos;elle est approuvée.</p>
@@ -181,7 +182,7 @@ export default function PlanPalais({ emplacements, annee, fictif }: { emplacemen
             <input type="hidden" name="emplacement" value={e.id} />
             <input type="hidden" name="annee" value={annee} />
             <fieldset className="etape">
-              <legend className="etape__titre"><span className="etape__num" aria-hidden="true">{e.code}</span>Votre kiosque</legend>
+              <legend className="etape__titre">Votre demande pour l&apos;emplacement {e.code}</legend>
               <div className="coordonnees">
                 <label className="champ"><span className="champ__etiquette">Entreprise ou ferme</span><input type="text" name="entreprise" required autoComplete="organization" /></label>
                 <label className="champ"><span className="champ__etiquette">Nom du responsable</span><input type="text" name="nom" required autoComplete="name" /></label>
