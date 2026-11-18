@@ -17,7 +17,7 @@ export async function televerserPhoto(fd: FormData): Promise<Resultat> {
     if (!(fichier instanceof File) || !fichier.size) throw new ErreurSaisie("Choisissez une photo.");
     if (!TYPES.includes(fichier.type)) throw new ErreurSaisie("Format accepté : JPEG, PNG ou WebP.");
     if (fichier.size > MAX_OCTETS) throw new ErreurSaisie("La photo dépasse 8 Mo. Réduisez-la avant de la téléverser.");
-    const alt = texte(fd, "alt", { requis: true, max: 300 });
+    const alt = texte(fd, "alt", { requis: true, max: 600 });
     const categorie = texte(fd, "categorie", { requis: true, max: 20 });
     if (!CATEGORIES.includes(categorie)) throw new ErreurSaisie("Album inconnu.");
 
@@ -51,7 +51,7 @@ export async function ajouterVideo(fd: FormData): Promise<Resultat> {
     }
     verifierEcriture(await sb.from("medias").insert({
       chemin: `video/${Date.now()}`, type: "video", url, vignette: texte(fd, "vignette", { max: 500 }),
-      alt: texte(fd, "alt", { requis: true, max: 300 }), credit: texte(fd, "credit", { max: 200 }),
+      alt: texte(fd, "alt", { requis: true, max: 600 }), credit: texte(fd, "credit", { max: 200 }),
       categorie: "galerie", publie: fd.get("publie") === "oui", ordre: 999,
     }).select("id"));
     revalidatePath("/admin/medias");
@@ -67,7 +67,7 @@ export async function majMedia(fd: FormData): Promise<Resultat> {
     const categorie = texte(fd, "categorie", { requis: true, max: 20 });
     if (!CATEGORIES.includes(categorie)) throw new ErreurSaisie("Album inconnu.");
     verifierEcriture(await sb.from("medias").update({
-      alt: texte(fd, "alt", { requis: true, max: 300 }), credit: texte(fd, "credit", { max: 200 }), categorie,
+      alt: texte(fd, "alt", { requis: true, max: 600 }), credit: texte(fd, "credit", { max: 200 }), categorie,
       publie: fd.get("publie") === "oui", ordre: nombre(fd, "ordre", { min: 0, max: 9999 }) ?? 0,
     }).eq("id", texte(fd, "id", { requis: true, max: 40 })).select("id"));
     revalidatePath("/admin/medias");

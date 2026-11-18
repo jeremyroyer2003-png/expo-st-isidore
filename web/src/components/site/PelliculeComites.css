@@ -55,6 +55,10 @@
   border: 1px solid rgba(30, 20, 13, 0.25);
   box-shadow: 5px 6px 0 rgba(30, 20, 13, 0.35);
 }
+/* Peu de photos (pas de défilement) : plus grandes */
+.comites:not(.comites--defile) .comites__photo {
+  width: clamp(280px, 52vw, 680px);
+}
 .comites__groupe > li:nth-child(odd) .comites__photo {
   transform: rotate(-1.4deg);
 }
@@ -73,14 +77,12 @@
 }
 .comites__photo a {
   display: block;
-  background: var(--color-encre);
 }
-/* Photo montrée au complet : pas de recadrage, même pour une photo de groupe très large */
+/* Photo montrée au complet, à ses vraies proportions : jamais recadrée */
 .comites__photo img {
   display: block;
   width: 100%;
-  aspect-ratio: 3 / 2;
-  object-fit: contain;
+  height: auto;
   filter: sepia(0.35) contrast(1.05);
   transition: filter 0.3s;
 }
