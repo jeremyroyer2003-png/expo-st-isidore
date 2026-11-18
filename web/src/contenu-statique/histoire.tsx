@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const meta = { titre: "Notre histoire – 28 producteurs, une expo depuis 1982 | Expo St-Isidore", description: "L'histoire de l'Expo St-Isidore : fondée en 1982 par 28 producteurs de la Beauce, de Lévis et de Dorchester. Ligne du temps, bâtisseurs, distinctions et activités d'autrefois." };
 
-export default function PageHistoire() {
+export default function PageHistoire({ comites }: { comites?: React.ReactNode }) {
   return (
     <>
 
@@ -116,8 +116,21 @@ export default function PageHistoire() {
       </div>
     </section>
 
+    {/* ===== Comités au fil des ans (photos de la médiathèque; section absente tant qu'il n'y en a pas) ===== */}
+    {comites && (
+      <section className="section-papier" aria-labelledby="titre-comites">
+        <div className="contenu section-espacee">
+          <div className="bloc__titre espace-bas">
+            <h2 id="titre-comites" className="titre-affiche">Les comités<br />au fil des ans</h2>
+            <p>Une photo du comité à chaque dizaine d&apos;années. Vous reconnaissez quelqu&apos;un, ou vous avez une photo à nous prêter? <Link href="/contact#ecrire">Écrivez-nous</Link>.</p>
+          </div>
+          {comites}
+        </div>
+      </section>
+    )}
+
     {/* ===== Distinctions ===== */}
-    <section className="section-papier" aria-labelledby="titre-distinctions">
+    <section className={comites ? "section-papier-2" : "section-papier"} aria-labelledby="titre-distinctions">
       <div className="contenu section-espacee bloc">
         <div className="bloc__titre">
           <h2 id="titre-distinctions" className="titre-affiche">Nos<br />ExpoStar</h2>

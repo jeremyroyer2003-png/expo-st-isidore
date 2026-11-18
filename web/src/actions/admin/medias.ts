@@ -1,10 +1,11 @@
 "use server";
 
+import { ALBUMS } from "@/lib/albums";
 import { revalidatePath } from "next/cache";
 import { exigerRole, verifierEcriture } from "@/lib/admin";
 import { ErreurSaisie, nombre, texte, traiter, type Resultat } from "@/lib/validation";
 
-const CATEGORIES = ["tire", "animaux", "soirees", "kiosques", "galerie"];
+const CATEGORIES = Object.keys(ALBUMS);
 const TYPES = ["image/jpeg", "image/png", "image/webp"];
 const MAX_OCTETS = 8 * 1024 * 1024;
 
@@ -35,6 +36,7 @@ export async function televerserPhoto(fd: FormData): Promise<Resultat> {
     verifierEcriture(r);
     revalidatePath("/admin/medias");
     revalidatePath("/photos");
+    revalidatePath("/histoire");
     return { ok: true, message: "Photo ajoutée." };
   });
 }
@@ -54,6 +56,7 @@ export async function ajouterVideo(fd: FormData): Promise<Resultat> {
     }).select("id"));
     revalidatePath("/admin/medias");
     revalidatePath("/photos");
+    revalidatePath("/histoire");
     return { ok: true, message: "Vidéo ajoutée." };
   });
 }
@@ -69,6 +72,7 @@ export async function majMedia(fd: FormData): Promise<Resultat> {
     }).eq("id", texte(fd, "id", { requis: true, max: 40 })).select("id"));
     revalidatePath("/admin/medias");
     revalidatePath("/photos");
+    revalidatePath("/histoire");
     return { ok: true, message: "Enregistré." };
   });
 }
@@ -83,6 +87,7 @@ export async function supprimerMedia(fd: FormData): Promise<Resultat> {
     if (!chemin.startsWith("statique/") && !chemin.startsWith("video/")) await sb.storage.from("medias").remove([chemin]);
     revalidatePath("/admin/medias");
     revalidatePath("/photos");
+    revalidatePath("/histoire");
     return { ok: true, message: "Supprimé." };
   });
 }

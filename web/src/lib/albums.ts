@@ -5,4 +5,6 @@ export const ALBUMS: Record<string, string> = {
   soirees: "Spectacles et soirées",
   kiosques: "Kiosques et machinerie",
   galerie: "Autres photos",
+  // Page Notre histoire seulement (pas dans la galerie Photos). « Ordre » = année de la photo.
+  comites: "Comités au fil des ans",
 };

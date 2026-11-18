@@ -33,10 +33,17 @@ export async function evenements(): Promise<{ annee: number; liste: Evenement[] 
 
 export async function galerie(): Promise<Media[]> {
   if (supabaseConfigure()) {
-    const { data } = await supabasePublic().from("medias").select("*").order("ordre");
+    const { data } = await supabasePublic().from("medias").select("*").neq("categorie", "comites").order("ordre");
     if (data?.length) return data.map((m) => ({ ...m, vignette: m.vignette || m.url })) as Media[];
   }
   return galerieDepart as Media[];
+}
+
+/** Photos des comités (album « comites » de la médiathèque), de la plus récente à la plus ancienne. « ordre » = année. */
+export async function photosComites(): Promise<Media[]> {
+  if (!supabaseConfigure()) return [];
+  const { data } = await supabasePublic().from("medias").select("*").eq("categorie", "comites").eq("type", "photo").order("ordre", { ascending: false });
+  return (data ?? []).map((m) => ({ ...m, vignette: m.vignette || m.url })) as Media[];
 }
 
 /**
