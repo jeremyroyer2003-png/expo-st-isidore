@@ -99,7 +99,7 @@ export default function PageLocation({ calendrier, avis, fraisAnnulation, delaiH
             <li><strong>La salle est rendue dans l&apos;état où vous l&apos;avez prise.</strong> Vous ramassez vos déchets, enlevez votre décoration et repartez avec ce que vous avez apporté.</li>
             <li><strong>Ménage&nbsp;:</strong> si la salle n&apos;est pas rendue propre, des frais de ménage sont facturés{fraisMenage ? <> (à partir de {fraisMenage})</> : null}.</li>
             <li><strong>Bris&nbsp;:</strong> un bris au bâtiment ou au matériel (tables, chaises, murs, lumières) est facturé au coût réel de la réparation ou du remplacement.</li>
-            <li><strong>Heure de fin&nbsp;:</strong> un départ après la fin de votre créneau est facturé{fraisDepassement ? <> ({fraisDepassement} par heure entamée)</> : null}.</li>
+            <li><strong>Heure de fin&nbsp;:</strong> un départ après la fin de vos heures réservées est facturé{fraisDepassement ? <> ({fraisDepassement} par heure entamée)</> : null}.</li>
           </ol>
           <p className="note">Chaque frais vous est expliqué par courriel, avec des photos, avant d&apos;être facturé.</p>
         </aside>

@@ -122,7 +122,7 @@ export default function CalendrierSalles({
             >
               <span className="block font-affiche text-[24px] leading-tight">{s.nom}</span>
               <span className={`block mt-1 font-etiquette font-bold text-[17px] ${actif ? "text-moutarde" : "text-rouge"}`}>
-                {s.prix != null ? <>À partir de {argent(s.prix)} le créneau{s.fictif && " · prix fictif (test)"}</> : "Prix sur demande"}
+                {s.prix != null ? <>À partir de {argent(s.prix)} la réservation{s.fictif && " · prix fictif (test)"}</> : "Prix sur demande"}
               </span>
             </button>
           );

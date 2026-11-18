@@ -26,3 +26,6 @@ input,textarea{caret-color:var(--rouge)}
 input::placeholder,textarea::placeholder{font-weight:400;color:#7A6656;opacity:1}
 /* Téléphone : l'intertitre d'une bande (« Ce qui arrive ensuite », 30 px) ne dépasse plus le titre de section (26,5 px) */
 @media (max-width:600px){.ensuite h3{font-size:22px}}
+/* Grandes dates de l'accueil : un seul papier kraft et l'année en rouge grange (l'arc-en-ciel ne codait rien) */
+.annees > li{--c:#E8D9BA;color:var(--nuit)}
+.annees > li strong{color:var(--rouge)}
