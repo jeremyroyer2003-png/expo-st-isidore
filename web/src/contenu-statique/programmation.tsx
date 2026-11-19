@@ -24,7 +24,7 @@ export default function PageProgrammation({ annee, evenements }: { annee: number
     {/* ===== Horaire ===== */}
     <section id="horaire" className="section-papier" aria-labelledby="titre-horaire">
       <div className="contenu section-espacee">
-        <div className="avis-bandeau" role="note">
+        <div className="avis-bandeau masque-pendant-expo" role="note">
           <div>
             <strong>La programmation 2027 s&apos;en vient</strong>
             <p>Elle sera dévoilée au printemps, avec une nouveauté&nbsp;: <strong>un rodéo, la semaine avant l&apos;Expo</strong>. D&apos;ici là, voici celle de 2026, à titre de référence.</p>
@@ -32,9 +32,9 @@ export default function PageProgrammation({ annee, evenements }: { annee: number
           <a className="bouton bouton--marine" href="https://www.facebook.com/expostisidorebassinchaudiere/" rel="noopener">Suivre l&apos;Expo sur Facebook</a>
         </div>
 
-        <h2 id="titre-horaire" className="titre-affiche titre-archive espace-bas">L&apos;horaire {annee}, pour vous donner une idée</h2>
+        <h2 id="titre-horaire" className="titre-affiche titre-archive espace-bas masque-pendant-expo">L&apos;horaire {annee}, pour vous donner une idée</h2>
 
-        <p className="note-prix">Les prix sont indiqués quand ils avaient été publiés pour 2026. Aucune activité n&apos;avait été publiée le mercredi.</p>
+        <p className="note-prix masque-pendant-expo">Les prix sont indiqués quand ils avaient été publiés pour 2026. Aucune activité n&apos;avait été publiée le mercredi.</p>
 <p className="note-avant"><strong>Avant l&apos;Expo, le samedi 11 juillet 2026&nbsp;:</strong> tournoi de balle Conrad Fauchon, de 8&nbsp;h&nbsp;30 à 18&nbsp;h, au terrain de balle.</p>
         <Programmation annee={annee} evenements={evenements} />
 

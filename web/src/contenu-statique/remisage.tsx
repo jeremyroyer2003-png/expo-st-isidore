@@ -23,7 +23,7 @@ export default function PageRemisage({ prixParPied, depotMin }: { prixParPied: n
           </h1>
         </div>
         <div className="heros__cote">
-          <p className="heros__intro">Votre roulotte, votre auto ou votre bateau à l&apos;abri de la neige tout l&apos;hiver, dans les bâtiments de l&apos;Expo à Saint-Isidore. <span className="seulement-hiver-ligne">Encore de la place cet hiver&nbsp;? Ça dépend de la taille. </span>Envoyez vos dimensions, on regarde l&apos;espace et on vous rappelle.</p>
+          <p className="heros__intro">Votre roulotte, votre auto ou votre bateau à l&apos;abri de la neige tout l&apos;hiver, dans les bâtiments de l&apos;Expo à Saint-Isidore. <span className="seulement-hiver-ligne">Encore de la place cet hiver&nbsp;? Ça dépend de la taille. </span>Envoyez vos dimensions : on regarde l&apos;espace et on vous répond par courriel.</p>
           <div className="groupe-boutons">
             <a className="bouton bouton--orange" href="#demande">Envoyer mes dimensions</a>
             <a className="bouton bouton--contour" href="tel:+14188829619">Appeler le 418 882-9619</a>
@@ -79,7 +79,7 @@ export default function PageRemisage({ prixParPied, depotMin }: { prixParPied: n
             {/* Étape 1 */}
             <fieldset className="etape" aria-describedby="erreur-type">
               <legend className="etape__titre"><span className="etape__num" aria-hidden="true">1</span>Quel véhicule?</legend>
-              <p className="champ__erreur" id="erreur-type" hidden>Choisissez d&apos;abord le type de véhicule.</p>
+              <p className="champ__erreur" id="erreur-type" hidden>Choisissez le type de véhicule.</p>
               <div className="choix-grille">
                 <label className="choix">
                   <input type="radio" name="type" value="Roulotte" required data-schema="roulotte" />
@@ -248,7 +248,7 @@ export default function PageRemisage({ prixParPied, depotMin }: { prixParPied: n
           <h3 id="titre-ensuite">Ce qui arrive ensuite</h3>
           <ol>
             <li><strong>On vérifie l&apos;espace</strong> pour votre véhicule, selon ses dimensions.</li>
-            <li><strong>Vous recevez le prix par courriel</strong>, avec le lien pour payer le dépôt qui garde votre place.</li>
+            <li><strong>Vous recevez le prix par courriel</strong>, avec le lien pour payer le dépôt{depotMin ? <> (au moins {depotMin})</> : null} qui garde votre place. On vous appelle ensuite pour fixer la date d&apos;entrée.</li>
             <li><strong>Vous arrivez, on mesure</strong>, et votre véhicule dort au sec jusqu&apos;à la mi-mai.</li>
           </ol>
           <p>Pressé? Le remisage répond au <a href="tel:+14188829619">418 882-9619</a>.</p>

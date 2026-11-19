@@ -178,7 +178,7 @@ export default function ComportementsRemisage() {
       const premier = type ? invalides[0] : form.querySelector<HTMLInputElement>('input[name="type"]');
       if (!type) erreurType.scrollIntoView({ block: "center", behavior: calme() ? "auto" : "smooth" });
       if (!premier) { erreurEnvoi.hidden = true; return true; }
-      erreurEnvoi.textContent = !type ? "Choisissez d'abord le type de véhicule."
+      erreurEnvoi.textContent = !type ? "Choisissez le type de véhicule (étape 1)."
         : premier.name === "consentement" ? "Cochez la case de consentement pour envoyer la demande."
         : premier.classList.contains("dimension") ? `Entrez les trois dimensions, en ${enMetres() ? "mètres." : "pieds."}`
         : premier.name === "telephone" ? "Entrez un numéro de téléphone complet, avec l'indicatif régional."

@@ -93,7 +93,7 @@ export default function PageLocation({ calendrier, avis, fraisAnnulation, delaiH
           <p>Choisissez la salle, une date libre et vos heures, puis payez en ligne&nbsp;: la date est à vous tout de suite. {avis}</p>
         </div>
         {calendrier}
-        <aside className="ensuite ensuite--bande espace-haut" aria-labelledby="titre-conditions" id="conditions">
+        <aside className="ensuite ensuite--bande ensuite--puces espace-haut" aria-labelledby="titre-conditions" id="conditions">
           <h3 id="titre-conditions">Conditions de location</h3>
           <ol>
             <li><strong>La salle est rendue dans l&apos;état où vous l&apos;avez prise.</strong> Vous ramassez vos déchets, enlevez votre décoration et repartez avec ce que vous avez apporté.</li>
@@ -103,7 +103,7 @@ export default function PageLocation({ calendrier, avis, fraisAnnulation, delaiH
           </ol>
           <p className="note">Chaque frais vous est expliqué par courriel, avec des photos, avant d&apos;être facturé.</p>
         </aside>
-        <aside className="ensuite ensuite--bande espace-haut" aria-labelledby="titre-annulation" id="annulation">
+        <aside className="ensuite ensuite--bande ensuite--puces espace-haut" aria-labelledby="titre-annulation" id="annulation">
           <h3 id="titre-annulation">Annulation</h3>
           <ol>
             <li><strong>Vous annulez vous-même</strong> avec le bouton «&nbsp;Gérer ou annuler ma réservation&nbsp;» de votre courriel de confirmation, jusqu&apos;à {delaiHeures}&nbsp;heures avant l&apos;événement.</li>

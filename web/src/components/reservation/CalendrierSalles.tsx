@@ -83,7 +83,7 @@ export default function CalendrierSalles({
     setSens("suivant");
     setVue({ annee: a, mois: m - 1 });
     setJour(j);
-    setCreneauId(null);
+    setCreneauId(seuleLibre(j));
   };
 
   // Sur téléphone, l'étape suivante apparaît sous l'écran : on l'amène en vue (sans animation si mouvement réduit)
@@ -97,6 +97,11 @@ export default function CalendrierSalles({
   }, [jour, creneauId]);
 
   const creneauxJour = jour ? (parJour.get(jour) ?? []) : [];
+  // Une seule plage libre ce jour-là : elle est choisie d'office (un clic de moins)
+  function seuleLibre(j: string) {
+    const libres = (parJour.get(j) ?? []).filter((c) => c.libre);
+    return libres.length === 1 ? libres[0].id : null;
+  }
   const choisi = creneaux.find((c) => c.id === creneauId);
   const prixChoisi = choisi ? (choisi.prix_cents ?? salle.prix) : null;
   const dateLisible = (j: string) => new Date(j + "T12:00:00").toLocaleDateString("fr-CA", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
@@ -180,7 +185,7 @@ export default function CalendrierSalles({
                     disabled={e !== "libre"}
                     aria-pressed={actif}
                     aria-label={libelle}
-                    onClick={() => { setJour(j); setCreneauId(null); }}
+                    onClick={() => { setJour(j); setCreneauId(seuleLibre(j)); }}
                     className={`relative aspect-square min-h-[44px] border-2 font-etiquette font-bold text-[18px] transition-all duration-150 motion-reduce:transition-none
                       ${e === "libre" ? (actif ? "bg-rouge text-creme border-encre shadow-affiche-sm -translate-y-0.5" : "bg-moutarde text-encre border-encre hover:-translate-y-0.5 hover:shadow-affiche-sm") : ""}
                       ${e === "pris" ? "border-encre/40 text-encre/50 bg-[repeating-linear-gradient(135deg,transparent_0_5px,rgba(30,20,13,.18)_5px_7px)]" : ""}
@@ -197,7 +202,8 @@ export default function CalendrierSalles({
             <li className="flex items-center gap-2"><span className="h-4 w-4 border-2 border-encre bg-moutarde" aria-hidden="true" />Libre</li>
             <li className="flex items-center gap-2"><span className="h-4 w-4 border-2 border-encre/40 bg-[repeating-linear-gradient(135deg,transparent_0_3px,rgba(30,20,13,.25)_3px_5px)]" aria-hidden="true" />Réservé</li>
             <li className="flex items-center gap-2"><span className="h-4 w-4 border-2 border-encre bg-rouge" aria-hidden="true" />Votre choix</li>
-            <li className="flex items-center gap-2 text-gris-brun"><span className="h-4 w-4 border-2 border-dashed border-encre/30" aria-hidden="true" />Pas offerte (chiffre pâle)</li>
+            <li className="flex items-center gap-2"><span className="h-4 w-4 grid place-items-center font-etiquette font-bold text-[13px] text-encre/60" aria-hidden="true">8</span>Pas offerte</li>
+            <li className="flex items-center gap-2"><span className="h-4 w-4 grid place-items-center font-etiquette font-bold text-[13px] text-encre/25" aria-hidden="true">8</span>Passée</li>
           </ul>
         </div>
 
@@ -270,6 +276,16 @@ export default function CalendrierSalles({
                   <input type="checkbox" name="consentement" value="oui" required />
                   <span>J&apos;accepte que l&apos;Expo St-Isidore utilise ces renseignements pour ma réservation, selon sa <Link href="/confidentialite">politique de confidentialité</Link>.</span>
                 </label>
+                <details className="conditions-courtes">
+                  <summary>Lire les conditions de location et d&apos;annulation</summary>
+                  <ul>
+                    <li>La salle est rendue propre, dans l&apos;état où vous l&apos;avez prise; sinon, des frais de ménage sont facturés.</li>
+                    <li>Un bris au bâtiment ou au matériel est facturé au coût réel.</li>
+                    <li>Un départ après la fin de vos heures réservées est facturé.</li>
+                    <li>Vous pouvez annuler en ligne jusqu&apos;à {delaiHeures} heures avant{fraisAnnulation ? <>, moins {fraisAnnulation} de frais</> : null}. Si l&apos;Expo annule, vous êtes remboursé au complet.</li>
+                  </ul>
+                  <p><a href="#conditions">Tous les détails, avec les montants</a></p>
+                </details>
                 <label className="consentement">
                   <input type="checkbox" name="conditions" value="oui" required data-erreur="Cochez cette case pour accepter les conditions de location." />
                   <span>J&apos;ai lu et j&apos;accepte les <a href="#conditions">conditions de location</a> (salle rendue propre, bris et dépassement d&apos;heure facturés) et la <a href="#annulation">politique d&apos;annulation</a>.</span>

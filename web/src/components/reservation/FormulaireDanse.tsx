@@ -20,6 +20,30 @@ export default function FormulaireDanse({ forfaits, fermee = false }: { forfaits
   const f = forfaits.find((x) => x.cle === cle);
   const total = f?.prix != null ? f.prix * personnes : null;
 
+  // Hors saison : les forfaits sont affichés pour information seulement (aucun choix possible)
+  if (fermee) {
+    return (
+      <div className="grid gap-8">
+        <ul className="grid gap-5 md:grid-cols-3" aria-label="Forfaits de la saison">
+          {forfaits.map((x) => (
+            <li key={x.cle} className="p-5 border-[3px] border-encre bg-creme text-encre shadow-affiche-sm">
+              <span className="block font-etiquette font-bold uppercase tracking-widest text-[15px]">{x.libelle}</span>
+              <span className="block font-affiche text-[44px] leading-none my-2">{x.prix != null ? argent(x.prix) : "—"}</span>
+              <span className="block text-[16px]">{x.prix != null ? "par personne" : "Prix sur demande"}{x.fictif && x.prix != null ? " · prix fictif (test)" : ""}</span>
+              <span className="block mt-2 text-[15px] opacity-90">{x.description}</span>
+            </li>
+          ))}
+        </ul>
+        <div className="avis-bandeau" role="note">
+          <div>
+            <strong>Les inscriptions en ligne ouvrent à la mi-mai</strong>
+            <p>On paie en ligne seulement quand les dates de la saison sont connues. D&apos;ici là, ces prix sont donnés à titre d&apos;information. Questions : bureau, <a href="tel:+14188825649">418 882-5649</a>.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="grid gap-8">
       <div role="radiogroup" aria-label="Forfaits" onKeyDown={flechesRadio} className="grid gap-5 md:grid-cols-3">
@@ -47,14 +71,7 @@ export default function FormulaireDanse({ forfaits, fermee = false }: { forfaits
         })}
       </div>
 
-      {fermee ? (
-        <div className="avis-bandeau" role="note">
-          <div>
-            <strong>Les inscriptions en ligne ouvrent à la mi-mai</strong>
-            <p>On paie en ligne seulement quand les dates de la saison sont connues. D&apos;ici là, les prix ci-dessus sont donnés à titre d&apos;information. Questions : bureau, <a href="tel:+14188825649">418 882-5649</a>.</p>
-          </div>
-        </div>
-      ) : achetables.length === 0 ? (
+      {achetables.length === 0 ? (
         <div className="avis-bandeau" role="note"><p>L&apos;inscription en ligne ouvre bientôt. D&apos;ici là, appelez le bureau au <a href="tel:+14188825649">418 882-5649</a>.</p></div>
       ) : (
         <FormulaireSimple action={inscrireDanse} id="form-danse" className="formulaire formulaire--etroit" bouton={total != null ? `Payer ${argent(total)}` : "Continuer"} boutonEnCours="Ouverture du paiement sécurisé…">

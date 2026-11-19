@@ -190,6 +190,10 @@ export default function Programmation({ annee, evenements }: { annee: number; ev
     }
   }, [pendantExpo, ici]);
   const direct = pendantExpo && ici ? enCeMoment(evenements, ici.jour, ici.minute) : null;
+  // Pendant l'Expo, la page cache ce qui parle de l'archive (classe sur <html>, voir ajouts.css)
+  useEffect(() => {
+    document.documentElement.classList.toggle("expo-en-cours", pendantExpo);
+  }, [pendantExpo]);
 
   const choisirJour = (j: string, focus = false) => {
     setSens(jours.indexOf(j) >= jours.indexOf(jour) ? "suivant" : "precedent");

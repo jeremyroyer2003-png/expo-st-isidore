@@ -4,6 +4,7 @@ import FormulaireSimple from "@/components/formulaires/FormulaireSimple";
 import PlanPalais, { type EmplacementPublic } from "@/components/reservation/PlanPalais";
 import { demanderKiosqueExterieur } from "@/actions/reservations";
 import { contenu, prixPublics } from "@/lib/donnees";
+import { argent } from "@/lib/format";
 import { supabaseConfigure } from "@/lib/env";
 import { supabasePublic } from "@/lib/supabase/serveur";
 
@@ -27,6 +28,7 @@ export default async function Page() {
     contenu("kiosques_exterieurs_intro", "Machinerie, véhicules, grands kiosques : le terrain extérieur se réserve avec le comité. Envoyez votre demande, on vous appelle pour préparer l'entente."),
   ]);
 
+  let aPartirDe: string | null = null;
   let plan: React.ReactNode = (
     <div className="avis-bandeau" role="note"><p>Le plan en ligne arrive bientôt. D&apos;ici là, appelez la coordination au <a href="tel:+14183860484">418 386-0484</a>.</p></div>
   );
@@ -44,6 +46,8 @@ export default async function Page() {
       occupe: occupes.has(e.id), prix: e.prix_cents ?? (base?.visible ? base.montant_cents : null),
     }));
     plan = <PlanPalais emplacements={liste} annee={annee} fictif={!!base?.a_confirmer} />;
+    const prixLibres = liste.filter((e) => !e.occupe && e.prix != null).map((e) => e.prix!);
+    if (prixLibres.length) aPartirDe = `À partir de ${argent(Math.min(...prixLibres))}${base?.a_confirmer ? " (prix fictif, test)" : ""}.`;
   }
 
   return (
@@ -68,7 +72,7 @@ export default async function Page() {
         <div className="contenu section-espacee">
           <div className="entete-section">
             <h2 id="titre-plan" className="titre-affiche">Le palais<br />des commerces</h2>
-            <p>Kiosques intérieurs. Sélectionnez un emplacement en jaune pour le demander. Un emplacement n&apos;est jamais attribué deux fois : il est confirmé seulement à l&apos;approbation du comité.</p>
+            <p>Kiosques intérieurs. Sélectionnez un emplacement en jaune pour le demander. Un emplacement n&apos;est jamais attribué deux fois : il est confirmé seulement à l&apos;approbation du comité.{aPartirDe && <> <strong>{aPartirDe}</strong></>}</p>
           </div>
           {plan}
         </div>

@@ -29,3 +29,21 @@ input::placeholder,textarea::placeholder{font-weight:400;color:#7A6656;opacity:1
 /* Grandes dates de l'accueil : un seul papier kraft et l'année en rouge grange (l'arc-en-ciel ne codait rien) */
 .annees > li{--c:#E8D9BA;color:var(--nuit)}
 .annees > li strong{color:var(--rouge)}
+
+/* Carte « 2026 » (classe c-marine) : même encre que les autres, plus de crème sur kraft (1,1:1) */
+.annees > li,.annees > li.c-marine{color:var(--nuit)}
+/* Numéros d'ordre de passage (tire) : rouge grange au lieu du gris-bleu de l'ancienne palette (2,4:1) */
+.classes__num{color:var(--rouge)}
+/* Galerie : pas de trou quand un album a un nombre impair de photos larges */
+.galerie{grid-auto-flow:dense}
+/* Listes qui ne sont pas une suite (conditions, annulation) : des puces, pas des numéros d'étape */
+.ensuite--puces ol{counter-reset:none}
+.ensuite--puces li{padding-left:28px}
+.ensuite--puces li::before{content:"";top:8px;left:4px;width:12px;height:12px;border-radius:2px;background:var(--jaune);box-shadow:none;transform:rotate(45deg)}
+/* Pendant l'Expo (programmation en direct) : on cache ce qui parle de l'archive */
+.expo-en-cours .masque-pendant-expo{display:none}
+/* Conditions résumées au-dessus de la case à cocher, dans le formulaire de location */
+.conditions-courtes{margin:4px 0 14px;padding:10px 14px;border:2px dashed rgba(30,20,13,.35);background:#FBF6EC}
+.conditions-courtes summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-family:var(--etiquette);font-weight:800;text-decoration:underline;text-underline-offset:3px}
+.conditions-courtes ul{margin:6px 0 0;padding-left:20px;display:grid;gap:6px;font-size:16px}
+.conditions-courtes p{margin:8px 0 0;font-size:15px}

@@ -22,9 +22,12 @@ function messagePour(el: Champ): string {
   if (el.type === "date") return "Choisissez une date à venir.";
   if (el.type === "number") return "Entrez un nombre valide.";
   if (el.tagName === "SELECT") return "Choisissez une option dans la liste.";
-  // Champ vide : on nomme ce qui manque, d'après l'étiquette (« À remplir : nom complet. »)
+  // Champ vide : on nomme ce qui manque, d'après l'étiquette (« Entrez votre nom complet. »)
   const etiquette = el.closest(".champ")?.querySelector(".champ__etiquette")?.childNodes[0]?.textContent?.trim();
-  return vide && etiquette ? `À remplir : ${etiquette.replace(/\s*\(.*$/, "").toLowerCase()}.` : "Ce champ est obligatoire.";
+  if (!vide || !etiquette) return "Ce champ est obligatoire.";
+  const nom = etiquette.replace(/\s*\(.*$/, "").toLowerCase();
+  // « Nom complet » -> « Entrez votre nom complet. »; une étiquette qui est déjà une phrase garde sa forme
+  return /^(ce |ces |le |la |les |l'|votre |vos )/.test(nom) ? `Remplissez ce champ : ${nom}.` : `Entrez votre ${nom}.`;
 }
 
 export function afficherErreur(el: Champ, visible: boolean) {

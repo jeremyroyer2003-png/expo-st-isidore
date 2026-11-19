@@ -19,7 +19,9 @@ export const revalidate = 3600;
 
 export default function Page() {
   // Hiver : le remisage d'abord (c'est la saison des entrées); été : la salle, les kiosques et la danse
-  const services = estHiver() ? [SERVICES[3], SERVICES[0], SERVICES[1], SERVICES[2]] : SERVICES;
+  const hiver = estHiver();
+  const danse = hiver ? { ...SERVICES[2], texte: "L'été, dans la grange 2. Inscriptions en ligne dès la mi-mai, quand les dates de la saison sont connues.", action: "Voir les forfaits" } : SERVICES[2];
+  const services = hiver ? [SERVICES[3], SERVICES[0], SERVICES[1], danse] : SERVICES;
   return (
     <>
       <section className="heros heros--page heros--compact" aria-labelledby="titre-heros">
