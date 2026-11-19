@@ -55,7 +55,7 @@ export default function PageExposants() {
         <div className="entete-section">
           <h2 id="titre-emplacements" className="titre-affiche">Votre<br />emplacement</h2>
           <p>Les kiosques intérieurs se choisissent maintenant sur le plan du palais des commerces; les kiosques extérieurs se demandent en ligne. Pour les autres emplacements, remplissez le formulaire plus bas.</p>
-          <p className="groupe-boutons"><Link className="bouton bouton--orange" href="/kiosques">Choisir un kiosque sur le plan <span className="fleche" aria-hidden="true">→</span></Link><Link className="bouton bouton--contour" href="/kiosques#exterieur">Kiosque extérieur</Link></p>
+          <p className="groupe-boutons"><Link className="bouton bouton--orange" href="/kiosques">Choisir un kiosque sur le plan <span className="fleche" aria-hidden="true">→</span></Link><Link className="bouton bouton--contour-fonce" href="/kiosques#exterieur">Kiosque extérieur</Link></p>
         </div>
         <dl className="liste-questions liste-questions--grille">
           <div><dt>Kiosque extérieur</dt><dd>Sur le terrain de l&apos;Expo, pour la machinerie, les concessionnaires et les fournisseurs.</dd></div>

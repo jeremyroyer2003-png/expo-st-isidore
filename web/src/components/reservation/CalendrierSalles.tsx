@@ -189,7 +189,7 @@ export default function CalendrierSalles({
                     className={`relative aspect-square min-h-[44px] border-2 font-etiquette font-bold text-[18px] transition-all duration-150 motion-reduce:transition-none
                       ${e === "libre" ? (actif ? "bg-rouge text-creme border-encre shadow-affiche-sm -translate-y-0.5" : "bg-moutarde text-encre border-encre hover:-translate-y-0.5 hover:shadow-affiche-sm") : ""}
                       ${e === "pris" ? "border-encre/40 text-encre/50 bg-[repeating-linear-gradient(135deg,transparent_0_5px,rgba(30,20,13,.18)_5px_7px)]" : ""}
-                      ${e === "aucun" ? "border-transparent text-encre/60" : ""}
+                      ${e === "aucun" ? "border-transparent text-encre/70" : ""}
                       ${e === "passe" ? "border-transparent text-encre/25" : ""}`}
                   >
                     {n}
@@ -202,7 +202,7 @@ export default function CalendrierSalles({
             <li className="flex items-center gap-2"><span className="h-4 w-4 border-2 border-encre bg-moutarde" aria-hidden="true" />Libre</li>
             <li className="flex items-center gap-2"><span className="h-4 w-4 border-2 border-encre/40 bg-[repeating-linear-gradient(135deg,transparent_0_3px,rgba(30,20,13,.25)_3px_5px)]" aria-hidden="true" />Réservé</li>
             <li className="flex items-center gap-2"><span className="h-4 w-4 border-2 border-encre bg-rouge" aria-hidden="true" />Votre choix</li>
-            <li className="flex items-center gap-2"><span className="h-4 w-4 grid place-items-center font-etiquette font-bold text-[13px] text-encre/60" aria-hidden="true">8</span>Pas offerte</li>
+            <li className="flex items-center gap-2"><span className="h-4 w-4 grid place-items-center font-etiquette font-bold text-[13px] text-encre/70" aria-hidden="true">8</span>Pas offerte</li>
             <li className="flex items-center gap-2"><span className="h-4 w-4 grid place-items-center font-etiquette font-bold text-[13px] text-encre/25" aria-hidden="true">8</span>Passée</li>
           </ul>
         </div>
