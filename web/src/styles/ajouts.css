@@ -118,3 +118,12 @@ a.etat{min-height:44px}
 /* Les en-têtes sur planches et les sections foncées : des fenêtres aussi, de la même largeur */
 :is(.fond-photo,.fond-peinture) :is(main > .heros,main > .section-nuit,main > .hvid){
   width:100%;max-width:var(--largeur);margin-inline:auto;border:3px solid #1E140D;box-shadow:6px 6px 0 #1E140D,0 24px 60px rgba(10,6,3,.4)}
+/* Essai (suite) : plus aucun fond beige. Les fenêtres et l'en-tête deviennent du verre dépoli :
+   on voit le paysage au travers, flouté, et le texte reste lisible */
+:is(.fond-photo,.fond-peinture) :is(.section-papier,.section-papier-2,.galerie-section) > .contenu,
+:is(.fond-photo,.fond-peinture) .section-papier-2 > .contenu{
+  background-color:rgba(255,248,235,.42);background-image:none;
+  -webkit-backdrop-filter:blur(18px) saturate(1.25);backdrop-filter:blur(18px) saturate(1.25)}
+:is(.fond-photo,.fond-peinture) .entete{
+  background:rgba(255,248,235,.5);box-shadow:0 3px 0 rgba(255,248,235,.5),0 5px 0 var(--nuit);
+  -webkit-backdrop-filter:blur(16px) saturate(1.25);backdrop-filter:blur(16px) saturate(1.25)}
