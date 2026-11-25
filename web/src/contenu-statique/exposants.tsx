@@ -10,7 +10,14 @@ export default function PageExposants() {
     <>
 
     {/* ===== Héros ===== */}
-    <section className="heros heros--page" aria-labelledby="titre-heros">
+    <section className="heros heros--page heros--video" aria-labelledby="titre-heros">
+      {/* Le palais des commerces pendant l'Expo, fondu dans les planches (comme Kiosques et Programmation) */}
+      <figure className="heros__media">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/images/photos/kiosques-interieurs.webp" srcSet="/images/photos/kiosques-interieurs-800.webp 800w, /images/photos/kiosques-interieurs.webp 1400w" sizes="(max-width: 760px) 100vw, 64vw" alt="Allée de kiosques intérieurs animée dans le palais des commerces" width={1400} height={932} fetchPriority="high" />
+        <span className="heros__voile" aria-hidden="true" />
+        <figcaption className="heros__credit">Photo&nbsp;: Cynthia Fillion Photographe</figcaption>
+      </figure>
       <div className="contenu heros__grille heros__grille--texte">
         <div className="heros__texte">
           <p className="billet"><span>Kiosques</span><span>Jugements</span></p>
@@ -23,11 +30,6 @@ export default function PageExposants() {
             <a className="bouton bouton--orange" href="#inscription">Réserver un emplacement</a>
             <a className="bouton bouton--contour" href="#documents">Documents</a>
           </div>
-        </div>
-        <div className="heros__photo">
-          <figure className="tirage">
-            <img src="/images/photos/kiosques-interieurs-800.webp" alt="Allée de kiosques intérieurs animée dans le palais des commerces" width="800" height="533" />
-          </figure>
         </div>
       </div>
     </section>
