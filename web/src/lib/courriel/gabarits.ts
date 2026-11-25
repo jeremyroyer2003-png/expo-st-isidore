@@ -109,6 +109,10 @@ export const salleConfirmeeAdmin = (o: { nom: string; courriel: string; telephon
   });
 
 // ---------- Kiosques ----------
+// « 21 + 22 » -> « les emplacements 21 et 22 »; « 21 » -> « l'emplacement 21 »
+const plusieurs = (c?: string) => !!c && c.includes(" + ");
+const enMots = (c: string) => { const l = c.split(" + "); return l.length > 1 ? `${l.slice(0, -1).join(", ")} et ${l[l.length - 1]}` : c; };
+const lEmplacement = (c?: string) => (plusieurs(c) ? `les emplacements ${enMots(c!)}` : `l'emplacement ${c ?? ""}`);
 export const kiosqueRecu = (o: { nom: string; type: "interieur" | "exterieur"; emplacement?: string; suivi?: string }) =>
   mise_en_page({
     suivi: o.suivi,
@@ -118,7 +122,7 @@ export const kiosqueRecu = (o: { nom: string; type: "interieur" | "exterieur"; e
     intro: [
       `Merci, ${o.nom}.`,
       o.type === "interieur"
-        ? `Vous avez demandé l'emplacement ${o.emplacement} au palais des commerces. Il n'est pas encore confirmé : le comité approuve chaque demande, puis vous envoie un lien de paiement.`
+        ? `Vous avez demandé ${lEmplacement(o.emplacement)} au palais des commerces. ${plusieurs(o.emplacement) ? "Ils ne sont" : "Il n'est"} pas encore confirmé${plusieurs(o.emplacement) ? "s" : ""} : le comité approuve chaque demande, puis vous envoie un lien de paiement.`
         : "Le comité vous appelle pour préparer l'entente, puis vous envoie la facture.",
     ],
     fin: [`Une question? Appelez la coordination au 418 386-0484.`],
@@ -138,10 +142,10 @@ export const kiosqueApprouve = (o: { nom: string; emplacement: string; montant: 
   mise_en_page({
     suivi: o.suivi,
     gabarit: "kiosque_approuve",
-    sujet: `Kiosque ${o.emplacement} approuvé : il reste à payer`,
+    sujet: `${plusieurs(o.emplacement) ? "Kiosques" : "Kiosque"} ${enMots(o.emplacement)} approuvé${plusieurs(o.emplacement) ? "s" : ""} : il reste à payer`,
     titre: "Votre demande est approuvée",
-    intro: [`Bonne nouvelle, ${o.nom} : l'emplacement ${o.emplacement} vous est réservé. Le paiement confirme votre place.`],
-    lignes: [["Emplacement", o.emplacement], ["Montant", argent(o.montant)]],
+    intro: [`Bonne nouvelle, ${o.nom} : ${lEmplacement(o.emplacement)} ${plusieurs(o.emplacement) ? "vous sont réservés" : "vous est réservé"}. Le paiement confirme votre place.`],
+    lignes: [[plusieurs(o.emplacement) ? "Emplacements" : "Emplacement", enMots(o.emplacement)], ["Montant", argent(o.montant)]],
     bouton: { texte: "Payer mon kiosque", url: o.lien },
     fin: ["Le lien reste valide tant que la demande est approuvée."],
   });

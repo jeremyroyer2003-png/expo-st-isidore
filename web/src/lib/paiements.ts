@@ -11,6 +11,7 @@ import { lienSuivi } from "@/lib/suivi";
 import { journaliser, type TypeJournal } from "@/lib/journal";
 import { stripe } from "@/lib/stripe";
 import { supabaseService } from "@/lib/supabase/serveur";
+import { completerEmplacement, completerEmplacements } from "@/lib/kiosques";
 
 export type Recapitulatif = {
   titre: string; lignes: [string, string][]; message: string;
@@ -67,10 +68,11 @@ async function recapitulatif(objetType: string, objetId: string): Promise<Recapi
     };
   }
   if (objetType === "kiosque") {
-    const { data: d } = await sb.from("demandes_kiosque").select("*, emplacements_kiosque(code)").eq("id", objetId).single();
+    const { data: brut } = await sb.from("demandes_kiosque").select("*, emplacements_kiosque(code)").eq("id", objetId).single();
+    const d = await completerEmplacement(sb, brut);
     return {
       titre: "Kiosque confirmé",
-      lignes: [["Emplacement", (d.emplacements_kiosque as { code: string } | null)?.code ?? "Extérieur"], ["Entreprise", d.entreprise], ["Payé", argent(d.montant_cents)]],
+      lignes: [[d.nbEmplacements > 1 ? "Emplacements" : "Emplacement", d.codes || "Extérieur"], ["Entreprise", d.entreprise], ["Payé", argent(d.montant_cents)]],
       message: `La confirmation est envoyée à ${d.courriel}.`,
       ensuite: ["Votre emplacement est maintenant à vous pour l'Expo.", "Le comité vous écrit avant l'Expo pour l'horaire de montage et les consignes."],
     };
@@ -114,11 +116,12 @@ async function appliquer(p: { id: string; objet_type: string; objet_id: string; 
       admin(G.danseAdmin([["Nom", i.nom], ["Forfait", forfait], ["Personnes", String(i.personnes)], ["Téléphone", i.telephone], ["Courriel", i.courriel], ["Payé", argent(i.montant_cents)]])),
     ]);
   } else if (p.objet_type === "kiosque") {
-    const { data: d } = await sb.from("demandes_kiosque").update({ statut: "confirmee" }).eq("id", p.objet_id).select("*, emplacements_kiosque(code)").single();
-    const code = (d.emplacements_kiosque as { code: string } | null)?.code;
+    const { data: brut } = await sb.from("demandes_kiosque").update({ statut: "confirmee" }).eq("id", p.objet_id).select("*, emplacements_kiosque(code)").single();
+    const d = await completerEmplacement(sb, brut);
+    const code = d.codes;
     await Promise.all([
-      envoyerCourriel({ a: d.courriel, ...G.kiosqueConfirme({ nom: d.nom, quoi: code ? `l'emplacement ${code}` : "votre kiosque extérieur", montant: p.montant_cents, suivi: lienSuivi("kiosque", d.id) }) }),
-      admin(G.paiementRecuAdmin(`kiosque ${code ?? "extérieur"}`, [["Entreprise", d.entreprise], ["Contact", d.nom], ["Payé", argent(p.montant_cents)]])),
+      envoyerCourriel({ a: d.courriel, ...G.kiosqueConfirme({ nom: d.nom, quoi: code ? (d.nbEmplacements > 1 ? `les emplacements ${code.replace(/ \+ /g, ", ")}` : `l'emplacement ${code}`) : "votre kiosque extérieur", montant: p.montant_cents, suivi: lienSuivi("kiosque", d.id) }) }),
+      admin(G.paiementRecuAdmin(`${d.nbEmplacements > 1 ? "kiosques" : "kiosque"} ${code || "extérieur"}`, [["Entreprise", d.entreprise], ["Contact", d.nom], ["Payé", argent(p.montant_cents)]])),
     ]);
   } else if (p.objet_type === "remisage") {
     const { data: d } = await sb.from("demandes_remisage").update({ statut: "depot_paye" }).eq("id", p.objet_id).select("*").single();

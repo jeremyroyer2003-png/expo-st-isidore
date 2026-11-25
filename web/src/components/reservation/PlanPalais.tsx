@@ -28,18 +28,28 @@ const REPERES: [number, number, number, string, boolean][] = [
 const argent = (c: number) =>
   new Intl.NumberFormat("fr-CA", { style: "currency", currency: "CAD", minimumFractionDigits: c % 100 ? 2 : 0 }).format(c / 100);
 
-/** Plan cliquable du palais des commerces : on choisit un emplacement libre, puis on envoie la demande. */
+/** Plan cliquable du palais des commerces : on choisit un ou plusieurs emplacements libres (souvent deux voisins),
+ *  puis on envoie une seule demande. */
+const MAX_CHOIX = 6;
+const enMots = (codes: string[]) => (codes.length > 1 ? `${codes.slice(0, -1).join(", ")} et ${codes[codes.length - 1]}` : codes[0] ?? "");
 export default function PlanPalais({ emplacements, annee, fictif }: { emplacements: EmplacementPublic[]; annee: number; fictif: boolean }) {
-  const [choisi, setChoisi] = useState<string | null>(null);
+  const [choisis, setChoisis] = useState<string[]>([]);
   const [survol, setSurvol] = useState<string | null>(null);
-  const e = emplacements.find((x) => x.id === choisi);
+  // Les emplacements choisis, dans l'ordre des numéros
+  const selection = choisis.map((id) => emplacements.find((x) => x.id === id)!).filter(Boolean)
+    .sort((a, b) => a.code.localeCompare(b.code, "fr", { numeric: true }));
+  const codes = selection.map((x) => x.code);
+  const plusieurs = selection.length > 1;
+  const total = selection.length && selection.every((x) => x.prix != null) ? selection.reduce((t, x) => t + x.prix!, 0) : null;
   // Emplacements libres dans l'ordre des numéros (1, 2, 3… et non 1, 10, 11)
   const listeLibres = emplacements.filter((x) => !x.occupe).sort((a, b) => a.code.localeCompare(b.code, "fr", { numeric: true }));
   const libres = listeLibres.length;
 
+  // Toucher un emplacement l'ajoute; le toucher de nouveau le retire
   const choisir = (id: string) => {
-    setChoisi(id);
-    setTimeout(() => document.getElementById("formulaire-kiosque")?.scrollIntoView({
+    const premier = choisis.length === 0;
+    setChoisis((l) => (l.includes(id) ? l.filter((x) => x !== id) : l.length >= MAX_CHOIX ? l : [...l, id]));
+    if (premier) setTimeout(() => document.getElementById("formulaire-kiosque")?.scrollIntoView({
       behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start",
     }), 50);
   };
@@ -74,7 +84,7 @@ export default function PlanPalais({ emplacements, annee, fictif }: { emplacemen
               <text key={x} x={x} y={9} transform={`rotate(-90 ${x} 9)`} dy={0.18} textAnchor="middle" fontSize={0.5} fill="#5C4A39" fontFamily="Barlow Condensed, sans-serif" letterSpacing={0.1} aria-hidden="true">ALLÉE</text>
             ))}
             {emplacements.map((k) => {
-              const actif = k.id === choisi;
+              const actif = choisis.includes(k.id);
               const sur = k.id === survol;
               const fond = k.occupe ? "url(#hachures)" : actif ? "#8E2A1E" : sur ? "#C8622A" : "#D9A441";
               return (
@@ -125,15 +135,28 @@ export default function PlanPalais({ emplacements, annee, fictif }: { emplacemen
             <p className="font-etiquette font-bold text-[18px]">emplacement{libres > 1 ? "s" : ""} libre{libres > 1 ? "s" : ""} sur {emplacements.length}</p>
           </div>
           <ol className="grid gap-3 text-[17px] text-encre">
-            <li><strong>1. Choisissez</strong> un emplacement libre (en jaune) sur le plan.</li>
+            <li><strong>1. Choisissez</strong> un emplacement libre (en jaune) sur le plan. Il vous en faut plus d&apos;un, par exemple deux voisins&nbsp;? Touchez-les tous; touchez-en un de nouveau pour le retirer.</li>
             <li><strong>2. Envoyez</strong> votre demande : rien à payer pour l&apos;instant.</li>
             <li><strong>3. Le comité approuve</strong> et vous envoie le lien de paiement. L&apos;emplacement est à vous une fois payé.</li>
           </ol>
-          {e && (
+          {selection.length > 0 && (
             <div className="anim-monter bg-creme cadre-affiche p-4">
-              <p className="font-etiquette font-bold uppercase text-[15px] text-gris-brun">Votre choix</p>
-              <p className="font-affiche text-[34px] text-rouge leading-none">{e.code}{e.note && <span className="ml-2 font-etiquette text-[18px] font-extrabold uppercase text-gris-brun tracking-wide">{e.note}</span>}</p>
-              <p className="font-semibold">{e.dimensions}{e.prix != null ? ` · ${argent(e.prix)}${fictif ? " (prix fictif, test)" : ""}` : " · prix confirmé à l'approbation"}</p>
+              <p className="font-etiquette font-bold uppercase text-[15px] text-gris-brun">{plusieurs ? `Votre choix : ${selection.length} emplacements` : "Votre choix"}</p>
+              <ul className="mt-1 flex flex-wrap gap-2">
+                {selection.map((x) => (
+                  <li key={x.id}>
+                    <button type="button" onClick={() => choisir(x.id)} aria-label={`Retirer l'emplacement ${x.code}`}
+                      className="min-h-[44px] inline-flex items-center gap-2 px-3 border-2 border-encre bg-rouge text-creme font-affiche text-[24px] leading-none hover:bg-rouge-fonce">
+                      {x.code}{x.note && <span className="font-etiquette text-[13px] font-extrabold uppercase tracking-wide">{x.note}</span>}
+                      <span aria-hidden="true" className="font-etiquette text-[18px]">×</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-2 font-semibold">
+                {plusieurs ? "" : `${selection[0].dimensions} · `}
+                {total != null ? `${plusieurs ? "Total " : ""}${argent(total)}${fictif ? " (prix fictif, test)" : ""}` : "Prix confirmé à l'approbation"}
+              </p>
             </div>
           )}
         </div>
@@ -144,31 +167,31 @@ export default function PlanPalais({ emplacements, annee, fictif }: { emplacemen
         <summary className="cursor-pointer font-etiquette font-bold text-[18px] min-h-[44px] flex items-center">Voir la liste des emplacements libres</summary>
         <ul className="mt-2 flex flex-wrap gap-2">
           {listeLibres.map((k) => (
-            <li key={k.id}><button type="button" onClick={() => choisir(k.id)} aria-pressed={k.id === choisi}
+            <li key={k.id}><button type="button" onClick={() => choisir(k.id)} aria-pressed={choisis.includes(k.id)}
               className="min-h-[44px] min-w-[56px] border-[3px] border-encre bg-moutarde font-etiquette font-bold aria-pressed:bg-rouge aria-pressed:text-creme">{k.code}</button></li>
           ))}
         </ul>
       </details>
 
-      {e && (
+      {selection.length > 0 && (
         <div id="formulaire-kiosque" className="anim-monter scroll-mt-32">
           <FormulaireSimple
-            key={e.id}
+            key={choisis.length ? "choix" : "vide"}
             action={demanderKiosqueInterieur}
             id="form-kiosque"
             className="formulaire"
-            bouton={`Demander l'emplacement ${e.code}`}
+            bouton={plusieurs ? `Demander les emplacements ${enMots(codes)}` : `Demander l'emplacement ${codes[0]}`}
             boutonEnCours="Envoi de votre demande…"
             merci={<>
               <h3>Merci, c&apos;est reçu!</h3>
-              <p>Votre demande pour l&apos;emplacement <strong>{e.code}</strong> est entre les mains du comité. Vous recevez le lien de paiement par courriel dès qu&apos;elle est approuvée.</p>
+              <p>Votre demande pour {plusieurs ? "les emplacements" : "l'emplacement"} <strong>{enMots(codes)}</strong> est entre les mains du comité. Vous recevez le lien de paiement par courriel dès qu&apos;elle est approuvée.</p>
               <p className="merci__garder">Pas de nouvelles d&apos;ici quelques jours&nbsp;? Appelez la coordination au <a href="tel:+14183860484">418 386-0484</a>.</p>
             </>}
           >
-            <input type="hidden" name="emplacement" value={e.id} />
+            {selection.map((x) => <input key={x.id} type="hidden" name="emplacement" value={x.id} />)}
             <input type="hidden" name="annee" value={annee} />
             <fieldset className="etape">
-              <legend className="etape__titre">Votre demande pour l&apos;emplacement {e.code}</legend>
+              <legend className="etape__titre">Votre demande pour {plusieurs ? "les emplacements" : "l'emplacement"} {enMots(codes)}</legend>
               <div className="coordonnees">
                 <label className="champ"><span className="champ__etiquette">Entreprise ou ferme</span><input type="text" name="entreprise" required autoComplete="organization" /></label>
                 <label className="champ"><span className="champ__etiquette">Nom du responsable</span><input type="text" name="nom" required autoComplete="name" /></label>

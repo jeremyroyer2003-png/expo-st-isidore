@@ -3,6 +3,7 @@ import { supabaseConfigure } from "@/lib/env";
 import { argent, dateCourte } from "@/lib/format";
 import { lireSuivi, type TypeSuivi } from "@/lib/suivi";
 import { supabaseService } from "@/lib/supabase/serveur";
+import { completerEmplacement, completerEmplacements } from "@/lib/kiosques";
 
 export const metadata: Metadata = { title: "Ma demande", robots: { index: false } };
 export const dynamic = "force-dynamic";
@@ -33,12 +34,13 @@ function etapes(liste: [string, string?][], courante: number): Etape[] {
 async function charger(type: TypeSuivi, id: string): Promise<Suivi | null> {
   const sb = supabaseService();
   if (type === "kiosque") {
-    const { data: d } = await sb.from("demandes_kiosque").select("*, emplacements_kiosque(code)").eq("id", id).maybeSingle();
-    if (!d) return null;
-    const code = (d.emplacements_kiosque as { code: string } | null)?.code;
+    const { data: brut } = await sb.from("demandes_kiosque").select("*, emplacements_kiosque(code)").eq("id", id).maybeSingle();
+    if (!brut) return null;
+    const d = await completerEmplacement(sb, brut);
+    const code = d.codes;
     const interieur = d.type === "interieur";
     const base = {
-      quoi: interieur ? `Kiosque ${code}, palais des commerces` : "Kiosque extérieur",
+      quoi: interieur ? `${d.nbEmplacements > 1 ? "Kiosques" : "Kiosque"} ${code}, palais des commerces` : "Kiosque extérieur",
       nom: d.nom,
       recue: dateCourte(d.cree_le),
       lignes: [["Entreprise", d.entreprise], ["Expo", String(d.annee)], ...(d.montant_cents != null ? [["Montant", argent(d.montant_cents)] as [string, string]] : [])] as [string, string][],

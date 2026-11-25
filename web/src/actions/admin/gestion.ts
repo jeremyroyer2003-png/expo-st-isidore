@@ -12,6 +12,7 @@ import { lienSuivi } from "@/lib/suivi";
 import { auteurAdmin, journaliser, type TypeJournal } from "@/lib/journal";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { ErreurSaisie, nombre, texte, traiter, type Resultat } from "@/lib/validation";
+import { completerEmplacement, completerEmplacements } from "@/lib/kiosques";
 
 const UUID = /^[0-9a-f-]{36}$/;
 function id(fd: FormData, nom = "id") {
@@ -64,8 +65,8 @@ export async function approuverKiosque(fd: FormData): Promise<Resultat> {
       .eq("id", demandeId).eq("type", "interieur").eq("statut", "en_attente").select("*, emplacements_kiosque(code)");
     if (r.error?.code === "23505") throw new ErreurSaisie("Cet emplacement est déjà attribué à une autre demande cette année.");
     verifierEcriture(r);
-    const d = r.data![0];
-    await envoyerCourriel({ a: d.courriel, ...G.kiosqueApprouve({ nom: d.nom, emplacement: d.emplacements_kiosque.code, montant, lien: lienPaiement(d.jeton_paiement), suivi: lienSuivi("kiosque", d.id) }) });
+    const d = await completerEmplacement(sb, r.data![0]);
+    await envoyerCourriel({ a: d.courriel, ...G.kiosqueApprouve({ nom: d.nom, emplacement: d.codes, montant, lien: lienPaiement(d.jeton_paiement), suivi: lienSuivi("kiosque", d.id) }) });
     await noter(sb, userId, "kiosque", demandeId, "Approuvée", `Montant ${argent(montant)}, lien de paiement envoyé`);
     revalidatePath("/admin/kiosques");
     return { ok: true, message: "Approuvée. Le lien de paiement est envoyé." };
@@ -168,17 +169,18 @@ export async function renvoyerLien(fd: FormData): Promise<Resultat> {
       return { ok: true, message: `${rappel ? "Rappel envoyé" : "Courriel renvoyé"} à ${d.courriel}.` };
     }
     if (type !== "kiosque") throw new ErreurSaisie("Type invalide.");
-    const { data: d } = await sb.from("demandes_kiosque").select("*, emplacements_kiosque(code)").eq("id", objetId).in("statut", ["approuvee", "facturee"]).maybeSingle();
-    if (!d) throw new ErreurSaisie("Cette demande n'attend plus de paiement.");
+    const { data: brut } = await sb.from("demandes_kiosque").select("*, emplacements_kiosque(code)").eq("id", objetId).in("statut", ["approuvee", "facturee"]).maybeSingle();
+    if (!brut) throw new ErreurSaisie("Cette demande n'attend plus de paiement.");
+    const d = await completerEmplacement(sb, brut);
     const suivi = lienSuivi("kiosque", d.id);
-    const code: string = d.emplacements_kiosque?.code ?? "";
+    const code: string = d.codes;
     let lien: string;
     if (d.statut === "facturee") {
       if (!d.url_facture) throw new ErreurSaisie("La facture n'a pas de lien. Ouvrez-la dans Stripe.");
       lien = d.url_facture;
     } else lien = lienPaiement(d.jeton_paiement);
     await envoyerCourriel({ a: d.courriel, ...(rappel
-      ? G.rappelPaiement({ nom: d.nom, quoi: code ? `kiosque ${code}` : "kiosque extérieur", montant: d.montant_cents, lien, telephone: "418 386-0484", suivi })
+      ? G.rappelPaiement({ nom: d.nom, quoi: code ? `${d.nbEmplacements > 1 ? "kiosques" : "kiosque"} ${code}` : "kiosque extérieur", montant: d.montant_cents, lien, telephone: "418 386-0484", suivi })
       : d.statut === "facturee"
         ? G.kiosqueFacture({ nom: d.nom, montant: d.montant_cents, lien, suivi })
         : G.kiosqueApprouve({ nom: d.nom, emplacement: code, montant: d.montant_cents, lien, suivi })) });

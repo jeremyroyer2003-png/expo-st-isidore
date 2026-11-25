@@ -145,7 +145,9 @@ export async function libererRetenue(creneauId: string): Promise<void> {
 export async function demanderKiosqueInterieur(fd: FormData): Promise<Resultat> {
   return traiter(async () => {
     if (estRobot(fd)) return { ok: true };
-    const emplacementId = texte(fd, "emplacement", { requis: true, max: 40 });
+    // Un ou plusieurs emplacements (souvent deux voisins) : le premier est le principal
+    const ids = [...new Set(fd.getAll("emplacement").map((v) => String(v).trim()).filter(Boolean))].slice(0, 6);
+    if (!ids.length || ids.some((v) => v.length > 40)) throw new ErreurSaisie("Choisissez un emplacement sur le plan.");
     const entreprise = texte(fd, "entreprise", { requis: true, max: 160 });
     const nom = texte(fd, "nom", { requis: true, max: 120 });
     const c = courriel(fd);
@@ -156,20 +158,24 @@ export async function demanderKiosqueInterieur(fd: FormData): Promise<Resultat> 
 
     const sb = base();
     const annee = Number(texte(fd, "annee", { requis: true, max: 4 }));
-    const { data: emp } = await sb.from("emplacements_kiosque").select("id, code, actif").eq("id", emplacementId).maybeSingle();
-    if (!emp?.actif) throw new ErreurSaisie("Cet emplacement n'est pas offert. Choisissez-en un autre sur le plan.");
-    const { data: pris } = await sb.from("demandes_kiosque").select("id").eq("emplacement_id", emplacementId)
-      .eq("annee", annee).in("statut", ["approuvee", "confirmee"]).limit(1);
-    if (pris?.length) throw new ErreurSaisie(`L'emplacement ${emp.code} vient d'être attribué. Choisissez-en un autre sur le plan.`);
+    const { data: emps } = await sb.from("emplacements_kiosque").select("id, code, actif").in("id", ids);
+    const offerts = (emps ?? []).filter((e) => e.actif);
+    if (offerts.length !== ids.length) throw new ErreurSaisie("Un des emplacements choisis n'est pas offert. Choisissez-en un autre sur le plan.");
+    const { data: etats } = await sb.rpc("etat_emplacements", { p_annee: annee });
+    const pris = offerts.filter((e) => ((etats ?? []) as { id: string; occupe: boolean }[]).some((x) => x.id === e.id && x.occupe));
+    if (pris.length) throw new ErreurSaisie(`L'emplacement ${pris.map((e) => e.code).join(" et ")} vient d'être attribué. Choisissez-en un autre sur le plan.`);
+    const codes = ids.map((v) => offerts.find((e) => e.id === v)!.code).sort((x, y) => x.localeCompare(y, "fr", { numeric: true })).join(" + ");
 
-    const { data: dem, error } = await sb.from("demandes_kiosque").insert({
-      type: "interieur", annee, emplacement_id: emplacementId, entreprise, nom, courriel: c, telephone: tel, description, besoins,
-    }).select("id").single();
+    const ligne: Record<string, unknown> = {
+      type: "interieur", annee, emplacement_id: ids[0], entreprise, nom, courriel: c, telephone: tel, description, besoins,
+    };
+    if (ids.length > 1) ligne.emplacements_lies = ids.slice(1);
+    const { data: dem, error } = await sb.from("demandes_kiosque").insert(ligne).select("id").single();
     if (error) throw error;
     await Promise.all([
-      envoyerCourriel({ a: c, ...G.kiosqueRecu({ nom, type: "interieur", emplacement: emp.code, suivi: lienSuivi("kiosque", dem.id) }) }),
+      envoyerCourriel({ a: c, ...G.kiosqueRecu({ nom, type: "interieur", emplacement: codes, suivi: lienSuivi("kiosque", dem.id) }) }),
       admin(G.kiosqueRecuAdmin([
-        ["Type", "Intérieur (palais des commerces)"], ["Emplacement", emp.code], ["Entreprise", entreprise],
+        ["Type", "Intérieur (palais des commerces)"], [ids.length > 1 ? `Emplacements (${ids.length})` : "Emplacement", codes], ["Entreprise", entreprise],
         ["Contact", nom], ["Téléphone", tel], ["Courriel", c], ["Produits", description], ["Besoins", besoins || "—"],
       ])),
     ]);

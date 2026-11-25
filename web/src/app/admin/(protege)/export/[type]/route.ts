@@ -1,5 +1,6 @@
 import { exigerAdmin } from "@/lib/admin";
 import { dateCourte, dateHeure, heure, jourLocal } from "@/lib/format";
+import { completerEmplacement, completerEmplacements } from "@/lib/kiosques";
 
 // Export CSV pour la comptabilité : /admin/export/salles, kiosques, remisage, danse ou paiements.
 // Réservé aux comptes admin (exigerAdmin redirige vers la connexion; la RLS filtre les lectures).
@@ -36,9 +37,10 @@ export async function GET(_requete: Request, { params }: { params: Promise<{ typ
       return [c ? jourLocal(c.debut) : "", c ? heure(c.debut) : "", c ? heure(c.fin) : "", c?.salles.nom, r.nom, r.telephone, r.courriel, r.type_evenement, r.personnes, dollars(r.montant_cents), statut(r.statut), dateCourte(r.cree_le)];
     });
   } else if (type === "kiosques") {
-    const { data } = await sb.from("demandes_kiosque").select("*, emplacements_kiosque(code)").order("cree_le", { ascending: false }).limit(5000);
+    const { data: brut } = await sb.from("demandes_kiosque").select("*, emplacements_kiosque(code)").order("cree_le", { ascending: false }).limit(5000);
+    const data = await completerEmplacements(sb, brut ?? []);
     entetes = ["Année", "Type", "Emplacement", "Entreprise", "Contact", "Téléphone", "Courriel", "Expose", "Montant ($)", "Statut", "Notes", "Reçue le"];
-    lignes = (data ?? []).map((d) => [d.annee, d.type === "interieur" ? "Intérieur" : "Extérieur", (d.emplacements_kiosque as { code: string } | null)?.code, d.entreprise, d.nom, d.telephone, d.courriel, d.description, dollars(d.montant_cents), statut(d.statut), d.notes_admin, dateCourte(d.cree_le)]);
+    lignes = (data ?? []).map((d) => [d.annee, d.type === "interieur" ? "Intérieur" : "Extérieur", d.codes, d.entreprise, d.nom, d.telephone, d.courriel, d.description, dollars(d.montant_cents), statut(d.statut), d.notes_admin, dateCourte(d.cree_le)]);
   } else if (type === "remisage") {
     const { data } = await sb.from("demandes_remisage").select("*").order("cree_le", { ascending: false }).limit(5000);
     entetes = ["Saison", "Véhicule", "Marque et modèle", "Longueur (pi)", "Largeur (pi)", "Hauteur (pi)", "Client", "Téléphone", "Courriel", "Prix de la saison ($)", "Dépôt ($)", "Statut", "Notes", "Reçue le"];

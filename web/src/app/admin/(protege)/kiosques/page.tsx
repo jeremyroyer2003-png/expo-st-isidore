@@ -12,6 +12,7 @@ import { argent, dateHeure } from "@/lib/format";
 import { choix, dansPeriode, PERIODES, trier, type Option } from "@/lib/filtres";
 import { lireJournal } from "@/lib/journal";
 import { cheminSuivi } from "@/lib/suivi";
+import { completerEmplacement, completerEmplacements } from "@/lib/kiosques";
 
 export const metadata = { title: "Kiosques" };
 
@@ -27,7 +28,7 @@ const garder = (statut: string, d: { statut: string }) =>
 type Demande = {
   id: string; type: string; annee: number; statut: string; entreprise: string; nom: string; courriel: string; telephone: string;
   description: string; besoins: string; montant_cents: number | null; notes_admin: string; url_facture: string | null; cree_le: string; maj_le: string | null;
-  jeton_paiement: string; emplacements_kiosque: { code: string; prix_cents: number | null } | null;
+  jeton_paiement: string; emplacements_kiosque: { code: string; prix_cents: number | null } | null; emplacements_lies?: string[] | null;
 };
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ voir?: string; statut?: string; periode?: string; tri?: string }> }) {
@@ -44,7 +45,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ v
     sb.from("prix").select("cle, montant_cents").in("cle", ["kiosque_interieur", "kiosque_exterieur", "frais_annulation_kiosque"]),
   ]);
   const p = Object.fromEntries((prix ?? []).map((x) => [x.cle, x.montant_cents])) as Record<string, number>;
-  const toutes = (demandes ?? []) as Demande[];
+  const toutes = await completerEmplacements(sb, (demandes ?? []) as Demande[]);
   const nbActives = toutes.filter((d) => !["refusee", "annulee"].includes(d.statut)).length;
   const filtrees = toutes.filter((d) => garder(statut, d) && dansPeriode(d.maj_le ?? d.cree_le, periode));
   const ordre = { en_attente: 0, entente: 1, approuvee: 2, facturee: 3, confirmee: 4 } as Record<string, number>;
@@ -73,11 +74,12 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ v
         <div className="grid gap-4">
           {!actives.length && <Carte><p className="text-gris-brun">Aucune demande ne correspond.</p></Carte>}
           {actives.map((d) => {
-            const code = d.emplacements_kiosque?.code;
-            const montantDefaut = d.montant_cents ?? (d.type === "interieur" ? d.emplacements_kiosque?.prix_cents ?? p.kiosque_interieur : p.kiosque_exterieur) ?? 0;
+            const code = d.codes;
+            // Plusieurs emplacements : le prix de chacun (ou le prix de base) multiplié
+            const montantDefaut = d.montant_cents ?? (d.type === "interieur" ? d.prixEmplacements ?? (p.kiosque_interieur ?? 0) * Math.max(1, d.nbEmplacements) : p.kiosque_exterieur) ?? 0;
             return (
               <Carte key={d.id}
-                titre={<>{d.type === "interieur" ? `Intérieur · ${code}` : "Extérieur"} · {d.entreprise} <Statut s={d.statut} /></>}
+                titre={<>{d.type === "interieur" ? `Intérieur · ${d.nbEmplacements > 1 ? `${d.nbEmplacements} emplacements : ` : ""}${code}` : "Extérieur"} · {d.entreprise} <Statut s={d.statut} /></>}
                 action={<span className="text-[14px] text-gris-brun">Expo {d.annee} · reçue le {dateHeure(d.cree_le)}</span>}>
                 <div className="grid gap-4 lg:grid-cols-[1fr_1.2fr]">
                   <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-[15px]">

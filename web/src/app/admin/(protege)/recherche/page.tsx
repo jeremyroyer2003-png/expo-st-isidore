@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Carte, champCls, Statut, Titre } from "@/components/admin/ui";
 import { exigerAdmin } from "@/lib/admin";
 import { argent, dateCourte, dateLongue, plage } from "@/lib/format";
+import { completerEmplacement, completerEmplacements } from "@/lib/kiosques";
 
 export const metadata = { title: "Recherche" };
 
@@ -25,7 +26,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ q
     const [salles, kiosques, remisages, danses, messages] = await Promise.all([
       sb.from("reservations_salle").select("id, nom, courriel, telephone, statut, type_evenement, montant_cents, cree_le, creneaux_salle(debut, fin, salles(nom))")
         .or(ou("nom", "courriel", "telephone")).in("statut", ["confirmee", "annulee", "en_paiement"]).order("cree_le", { ascending: false }).limit(40),
-      sb.from("demandes_kiosque").select("id, nom, entreprise, courriel, telephone, statut, type, annee, montant_cents, cree_le, emplacements_kiosque(code)")
+      sb.from("demandes_kiosque").select("*, emplacements_kiosque(code)")
         .or(ou("nom", "entreprise", "courriel", "telephone")).order("cree_le", { ascending: false }).limit(40),
       sb.from("demandes_remisage").select("id, nom, courriel, telephone, statut, type_vehicule, marque_modele, longueur_pi, depot_cents, saison, cree_le")
         .or(ou("nom", "courriel", "telephone", "marque_modele")).order("cree_le", { ascending: false }).limit(40),
@@ -52,8 +53,8 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ q
         statut: r.statut, montant: r.montant_cents, quand: r.cree_le, href: "/admin/reservations?voir=toutes",
       });
     }
-    for (const k of kiosques.data ?? []) {
-      const code = (k.emplacements_kiosque as unknown as { code: string } | null)?.code;
+    for (const k of await completerEmplacements(sb, kiosques.data ?? [])) {
+      const code = k.codes;
       fiche(k.courriel, k.nom, k.telephone, k.entreprise).elements.push({
         cle: k.id, quoi: k.type === "interieur" ? `Kiosque intérieur ${code ?? ""}` : "Kiosque extérieur", detail: `Expo ${k.annee}`,
         statut: k.statut, montant: k.montant_cents, quand: k.cree_le, href: "/admin/kiosques",

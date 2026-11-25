@@ -6,6 +6,7 @@ import { lireJournal } from "@/lib/journal";
 import { Carte, Chiffre, Statut, Tableau, Titre } from "@/components/admin/ui";
 import { exigerAdmin, peutEditer } from "@/lib/admin";
 import { argent, dateHeure, dateLongue } from "@/lib/format";
+import { completerEmplacement, completerEmplacements } from "@/lib/kiosques";
 
 export const metadata = { title: "Tableau de bord" };
 
@@ -27,7 +28,7 @@ export default async function Page() {
   const maintenant = new Date().toISOString();
   const nb = { count: "exact", head: true } as const;
   const [kiosques, remisages, messages, aVenir, prochaines, paiementsMois, recents, courriels] = await Promise.all([
-    sb.from("demandes_kiosque").select("id, type, statut, entreprise, nom, cree_le, maj_le, emplacements_kiosque(code)").in("statut", ["en_attente", "entente", "approuvee", "facturee"]).order("cree_le").limit(100),
+    sb.from("demandes_kiosque").select("*, emplacements_kiosque(code)").in("statut", ["en_attente", "entente", "approuvee", "facturee"]).order("cree_le").limit(100),
     sb.from("demandes_remisage").select("id, statut, nom, type_vehicule, cree_le, maj_le").in("statut", ["en_attente", "approuvee"]).order("cree_le").limit(100),
     sb.from("messages").select("id, nom, sujet, formulaire, cree_le").eq("traite", false).order("cree_le").limit(50),
     sb.from("reservations_salle").select("id", nb).eq("statut", "confirmee").then((r) => r.count ?? 0),
@@ -43,8 +44,8 @@ export default async function Page() {
   const SEUIL_RELANCE = 7;
   const taches: Tache[] = [];
   const relances: Tache[] = [];
-  for (const k of kiosques.data ?? []) {
-    const code = (k.emplacements_kiosque as unknown as { code: string } | null)?.code;
+  for (const k of await completerEmplacements(sb, kiosques.data ?? [])) {
+    const code = k.codes;
     const quoi = k.type === "interieur" ? `Kiosque intérieur ${code ?? ""}` : "Kiosque extérieur";
     if (k.statut === "en_attente") {
       const a = age(k.cree_le);
