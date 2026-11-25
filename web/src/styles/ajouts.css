@@ -136,3 +136,14 @@ a.etat{min-height:44px}
 @media (max-width:760px){.heros__media--mosaique{grid-template-rows:1fr 1fr 1fr}}
 /* Couverture d'album : le bas de la photo s'assombrit pour que le titre se lise toujours */
 .photos__voile-album{background:linear-gradient(0deg,rgba(30,20,13,.92) 0%,rgba(30,20,13,.55) 32%,rgba(30,20,13,0) 60%)}
+/* Photos : zone de dépôt des photos des visiteurs */
+.depot-photos{display:block;cursor:pointer}
+.depot-photos__zone{display:grid;gap:6px;place-items:center;text-align:center;min-height:150px;padding:24px;border:3px dashed rgba(30,20,13,.45);background:#FBF6EC;transition:background .15s,border-color .15s}
+.depot-photos:hover .depot-photos__zone,.depot-photos:focus-within .depot-photos__zone{background:var(--papier-2);border-color:var(--nuit)}
+.depot-photos:focus-within .depot-photos__zone{outline:3px solid var(--rouge);outline-offset:2px}
+.depot-photos__zone strong{font-family:var(--etiquette);font-weight:800;text-transform:uppercase;letter-spacing:.04em;font-size:20px}
+.depot-photos__zone span{font-size:16px;color:var(--texte-clair,#5C4A39)}
+.depot-photos__liste{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:10px;margin:14px 0 4px;padding:0;list-style:none}
+.depot-photos__liste li{position:relative;aspect-ratio:1;border:2px solid var(--nuit);overflow:hidden;background:var(--papier-2)}
+.depot-photos__liste img{width:100%;height:100%;object-fit:cover;display:block}
+.depot-photos__liste button{position:absolute;top:3px;right:3px;width:32px;height:32px;display:grid;place-items:center;border:2px solid var(--nuit);background:var(--papier);font-size:18px;line-height:1;cursor:pointer}

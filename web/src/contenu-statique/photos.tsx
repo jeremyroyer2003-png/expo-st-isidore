@@ -3,6 +3,7 @@
 export const meta = { titre: "Photos – tire, jugements, spectacles et kiosques | Expo St-Isidore", description: "Les photos de l'Expo St-Isidore : tire de tracteurs, jugements Holstein, spectacles sous le chapiteau, kiosques et machinerie." };
 
 import Galerie from "@/components/photos/Galerie";
+import FormulairePhotos from "@/components/photos/FormulairePhotos";
 import { ALBUMS } from "@/lib/albums";
 import type { Media } from "@/lib/donnees";
 
@@ -98,15 +99,13 @@ export default function PagePhotos({ medias }: { medias: Media[] }) {
     </section>
 
     {/* ===== Vos photos ===== */}
-    <section className="section-papier" aria-labelledby="titre-vos-photos">
-      <div className="contenu section-espacee entete-section">
-        <h2 id="titre-vos-photos" className="titre-affiche">Vous avez pris<br />des photos&nbsp;?</h2>
-        <div>
-          <p>Envoyez-nous vos plus belles photos de l&apos;Expo&nbsp;: la tire, les animaux, les spectacles, les kiosques. Dites-nous votre nom pour le crédit. On les publie avec votre accord, jamais avec des enfants reconnaissables.</p>
-          <p className="groupe-boutons espace-haut">
-            <a className="bouton bouton--orange" href="mailto:info@expobassinchaudiere.com?subject=Mes%20photos%20de%20l%27Expo">Envoyer mes photos <span className="fleche" aria-hidden="true">→</span></a>
-          </p>
+    <section id="vos-photos" className="section-papier" aria-labelledby="titre-vos-photos">
+      <div className="contenu section-espacee">
+        <div className="entete-section">
+          <h2 id="titre-vos-photos" className="titre-affiche">Vous avez pris<br />des photos&nbsp;?</h2>
+          <p>Envoyez-nous vos plus belles photos de l&apos;Expo&nbsp;: la tire, les animaux, les spectacles, les kiosques. Le comité les regarde, puis les publie dans les albums avec votre nom en crédit.</p>
         </div>
+        <FormulairePhotos />
       </div>
     </section>
     </>
