@@ -281,3 +281,6 @@ a.etat{min-height:44px}
   .compteur-annees__detail{animation:annee-arrive .45s .06s cubic-bezier(.2,.7,.2,1) both}
 }
 @keyframes annee-arrive{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+/* Fond d'écran : « Notre histoire » et « Venir à l'Expo » de l'accueil avaient une couleur d'hiver plus forte
+   que la règle générale : plus de bande beige pleine largeur autour de leur fenêtre */
+:is(.fond-photo,.fond-peinture) main > section:is(.section-papier,.section-papier-2)[aria-labelledby]{background:none}
