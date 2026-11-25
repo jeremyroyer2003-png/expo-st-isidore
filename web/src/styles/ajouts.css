@@ -124,6 +124,7 @@ a.etat{min-height:44px}
 :is(.fond-photo,.fond-peinture) .section-papier-2 > .contenu{
   background-color:rgba(255,248,235,.42);background-image:none;
   -webkit-backdrop-filter:blur(18px) saturate(1.25);backdrop-filter:blur(18px) saturate(1.25)}
-:is(.fond-photo,.fond-peinture) .entete{
-  background:rgba(255,248,235,.5);box-shadow:0 3px 0 rgba(255,248,235,.5),0 5px 0 var(--nuit);
+/* En-tête : le flou est sur un calque derrière (un flou sur l'en-tête lui-même casserait le menu du téléphone) */
+:is(.fond-photo,.fond-peinture) .entete{background:transparent;box-shadow:0 3px 0 rgba(255,248,235,.5),0 5px 0 var(--nuit)}
+:is(.fond-photo,.fond-peinture) .entete::before{content:"";position:absolute;inset:0;z-index:-1;background:rgba(255,248,235,.5);
   -webkit-backdrop-filter:blur(16px) saturate(1.25);backdrop-filter:blur(16px) saturate(1.25)}
