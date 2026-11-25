@@ -2,9 +2,9 @@
 
 import { useEffect } from "react";
 
-// Essai de fonds pour les sections claires : ?fond=1 (lumière dorée), ?fond=4 (rangs de champs), ?fond=0 pour revenir.
+// Essai : le site posé comme un tableau sur un grand paysage : ?fond=photo ou ?fond=peinture, ?fond=0 pour revenir.
 // Le choix est gardé pendant la visite (sessionStorage) pour comparer page par page. À retirer une fois le fond choisi.
-const FONDS = ["1", "4"];
+const FONDS = ["photo", "peinture"];
 
 export default function EssaiFond() {
   useEffect(() => {
