@@ -267,3 +267,17 @@ a.etat{min-height:44px}
   .comite__noms span{font-size:14px}
 }
 @media (max-width:520px){.comite__noms{grid-template-columns:minmax(0,1fr)}}
+/* Notre histoire : la colonne du titre reste à l'écran; une grande année suit la lecture de la ligne du temps */
+@media (min-width:861px){
+  .bloc__titre--collant{position:sticky;top:130px}
+}
+.compteur-annees{margin-top:36px;display:none}
+@media (min-width:861px){.compteur-annees{display:block}}
+.compteur-annees__annee{display:block;font-family:var(--affiche);font-size:clamp(96px,11vw,168px);line-height:.85;color:var(--rouge);letter-spacing:-.02em;
+  text-shadow:6px 6px 0 rgba(30,20,13,.12)}
+.compteur-annees__detail{display:block;margin-top:14px;font-family:var(--etiquette);font-weight:800;text-transform:uppercase;letter-spacing:.12em;font-size:16px;color:var(--nuit);max-width:22ch;min-height:2.6em}
+@media (prefers-reduced-motion:no-preference){
+  .compteur-annees__annee{animation:annee-arrive .45s cubic-bezier(.2,.7,.2,1) both}
+  .compteur-annees__detail{animation:annee-arrive .45s .06s cubic-bezier(.2,.7,.2,1) both}
+}
+@keyframes annee-arrive{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}

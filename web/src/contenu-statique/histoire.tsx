@@ -1,5 +1,6 @@
 // Converti automatiquement depuis site/histoire.html (contenu d'origine du site statique)
 import Link from "next/link";
+import CompteurAnnees from "@/components/site/CompteurAnnees";
 
 export const meta = { titre: "Notre histoire – 28 producteurs, une expo depuis 1982 | Expo St-Isidore", description: "L'histoire de l'Expo St-Isidore : fondée en 1982 par 28 producteurs de la Beauce, de Lévis et de Dorchester. Ligne du temps, bâtisseurs, distinctions et activités d'autrefois." };
 
@@ -34,11 +35,13 @@ export default function PageHistoire({ photoComite }: { photoComite?: PhotoComit
     {/* ===== Ligne du temps ===== */}
     <section className="section-papier" aria-labelledby="titre-temps">
       <div className="contenu section-espacee bloc">
-        <div className="bloc__titre">
+        <div className="bloc__titre bloc__titre--collant">
           <h2 id="titre-temps" className="titre-affiche">D&apos;un party<br />à une expo</h2>
           <p>Les grandes étapes, d&apos;après le cahier spécial du Beauce Média de 2010 et le site de l&apos;Expo.</p>
+          {/* La grande année suit la lecture de la ligne du temps */}
+          <CompteurAnnees cible="ligne-histoire" depart="1982" detail="L&apos;idée d&apos;un party agricole" />
         </div>
-        <ol className="ligne-temps">
+        <ol className="ligne-temps" id="ligne-histoire">
           <li>
             <span className="ligne-temps__date">1982<small>Automne</small></span>
             <div><h3>L&apos;idée d&apos;un party agricole</h3><p>28 producteurs et productrices de la Beauce, de Lévis et de Dorchester se réunissent pour comparer leur bétail. Plus de 120 têtes Holstein sont prévues. Les municipalités de Saint-Isidore (Village et Paroisse, à l&apos;époque) offrent la location et les terrains à coût dérisoire, en plus de personnel.</p></div>
