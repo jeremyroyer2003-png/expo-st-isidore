@@ -10,7 +10,14 @@ export default function PageHistoire({ photoComite }: { photoComite?: PhotoComit
     <>
 
     {/* ===== Héros ===== */}
-    <section className="heros heros--page" aria-labelledby="titre-heros">
+    <section className="heros heros--page heros--video" aria-labelledby="titre-heros">
+      {/* La photo d'archive du Beauce Média, en sépia, fondue dans les planches */}
+      <figure className="heros__media heros__media--archive">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/images/archive_holstein2009.webp" alt="Jugement Holstein 2009 : éleveurs en blanc avec deux vaches primées, rubans et trophées" width={1041} height={865} fetchPriority="high" />
+        <span className="heros__voile" aria-hidden="true" />
+        <figcaption className="heros__credit">Archives Beauce Média, 15 juillet 2010</figcaption>
+      </figure>
       <div className="contenu heros__grille heros__grille--texte">
         <div className="heros__texte">
           <p className="billet"><span>Fondée en</span><span>1982</span></p>
@@ -20,16 +27,6 @@ export default function PageHistoire({ photoComite }: { photoComite?: PhotoComit
             <span>visionnaires&nbsp;»</span>
           </h1>
           <p className="heros__intro">À l&apos;automne 1982, des producteurs de la Beauce, de Lévis et de Dorchester veulent comparer leur bétail. Ils imaginent un «&nbsp;party agricole&nbsp;» ouvert à tous. Plus de 40 ans plus tard, l&apos;Expo est toujours gratuite et toujours portée par des bénévoles. Le titre reprend celui du Beauce Média en 2010.</p>
-        </div>
-        <div className="heros__photo">
-          <figure className="archive-photo heros__archive">
-            <span className="archive-photo__ruban archive-photo__ruban--1" aria-hidden="true"></span>
-            <span className="archive-photo__ruban archive-photo__ruban--2" aria-hidden="true"></span>
-            <div className="archive-photo__papier">
-              <img src="/images/archive_holstein2009.webp" alt="Jugement Holstein 2009 : éleveurs en blanc avec deux vaches primées, rubans et trophées" width="1041" height="865" />
-            </div>
-            <figcaption>Archives Beauce Média, 15 juillet 2010</figcaption>
-          </figure>
         </div>
       </div>
     </section>

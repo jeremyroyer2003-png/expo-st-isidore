@@ -285,12 +285,12 @@ export default function PageAccueil() {
           </div>
         </div>
 
-        <ol className="ligne-temps" aria-label="Grandes dates">
+        <ol className="ligne-dates" aria-label="Grandes dates">
           <li><strong>1983</strong><span>Lettres patentes et premier bureau, présidé par Odilon Pelchat</span></li>
           <li><strong>1984</strong><span>Quatre nouvelles étables</span></li>
           <li><strong>1991</strong><span>Construction du palais des commerces</span></li>
           <li><strong>2010</strong><span>Premiers manèges de l&apos;histoire de l&apos;Expo</span></li>
-          <li className="ligne-temps__aujourdhui"><strong>2026</strong><span>44<sup>e</sup> édition, toujours gratuite</span></li>
+          <li className="ligne-dates__aujourdhui"><strong>2026</strong><span>44<sup>e</sup> édition, toujours gratuite</span></li>
         </ol>
       </div>
     </section>
