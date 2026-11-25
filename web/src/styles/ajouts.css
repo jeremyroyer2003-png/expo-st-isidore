@@ -87,3 +87,7 @@ a.etat{min-height:44px}
 @media (min-width:640px){
   .fiche-horaire__voile{background:linear-gradient(90deg,var(--marine-fonce) 0%,rgba(42,29,20,.8) 22%,rgba(42,29,20,.35) 50%,rgba(42,29,20,0) 80%),linear-gradient(0deg,rgba(42,29,20,.45) 0%,rgba(42,29,20,0) 35%)}
 }
+/* Réserver : cartes sur planches, la photo du haut se fond vers le bas dans le bois */
+.reserver__voile-bas{background:linear-gradient(0deg,var(--marine-fonce) 0%,rgba(42,29,20,.6) 28%,rgba(42,29,20,0) 62%)}
+.reserver__voile-vedette{background:linear-gradient(0deg,var(--marine-fonce) 0%,rgba(42,29,20,.6) 28%,rgba(42,29,20,0) 62%)}
+@media (min-width:768px){.reserver__voile-vedette{background:linear-gradient(90deg,var(--marine-fonce) 0%,rgba(42,29,20,.8) 22%,rgba(42,29,20,.35) 50%,rgba(42,29,20,0) 80%),linear-gradient(0deg,rgba(42,29,20,.45) 0%,rgba(42,29,20,0) 35%)}}
