@@ -259,9 +259,11 @@ a.etat{min-height:44px}
 .comite__noms li{padding:11px 0}
 .comite__noms strong{font-size:20px}
 @media (min-width:900px){
-  .comite{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}
-  .comite .comite-photo{display:flex}
-  .comite .comite-photo a{display:block;flex:1}
-  .comite .comite-photo img{height:100%;object-fit:cover}
+  /* La photo du comité est très large (16:9) : elle prend plus de place et reste entière, sans recadrage */
+  .comite{grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);align-items:center}
+  .comite__noms{gap:0 18px}
+  .comite__noms li{padding:8px 0}
+  .comite__noms strong{font-size:18px}
+  .comite__noms span{font-size:14px}
 }
 @media (max-width:520px){.comite__noms{grid-template-columns:minmax(0,1fr)}}

@@ -84,7 +84,7 @@ export default function PageHistoire({ photoComite }: { photoComite?: PhotoComit
       <div className="contenu section-espacee">
         <div className="entete-section">
           <h2 id="titre-batisseurs" className="titre-affiche">Le comité<br />aujourd&apos;hui</h2>
-          <p>Sans eux, pas d&apos;Expo. Merci aux bénévoles d&apos;hier et d&apos;aujourd&apos;hui&nbsp;: ils étaient environ 50 en 2025.</p>
+          <p>Quatorze membres au comité et une cinquantaine de bénévoles sur le terrain en juillet&nbsp;: ce sont eux qui font l&apos;Expo, année après année. Une idée, une question pour le comité&nbsp;? <a href="/contact#ecrire">Écrivez-nous</a>.</p>
         </div>
         {/* La photo du comité et les noms, côte à côte et de la même hauteur */}
         <div className={photoComite ? "comite" : ""}>
