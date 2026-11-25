@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Evenement } from "@/lib/donnees";
-import { enCeMoment, instantQuebec, telechargerIcs } from "./horaire";
+import { enCeMoment, instantQuebec, plageMinutes, telechargerIcs } from "./horaire";
 
 const CATEGORIES = [
   { cle: "tout", nom: "Tout" },
@@ -114,49 +114,98 @@ function infosJour(iso: string) {
 function BoutonCalendrier({ e, petit = false }: { e: Evenement; petit?: boolean }) {
   return (
     <button type="button" onClick={() => telechargerIcs(e)}
-      className={`min-h-[40px] px-3 border-2 border-encre bg-creme hover:bg-moutarde font-etiquette font-bold uppercase tracking-wide ${petit ? "text-[13px]" : "text-[14px]"} text-encre`}>
-      Ajouter à mon calendrier<span className="visuellement-cache"> : {e.titre}</span>
+      className={`min-h-[44px] inline-flex items-center gap-2 font-etiquette font-bold uppercase tracking-wide ${petit ? "text-[13px]" : "text-[14px]"} text-encre underline decoration-2 decoration-moutarde underline-offset-4 hover:decoration-rouge`}>
+      + Ajouter à mon calendrier<span className="visuellement-cache"> : {e.titre}</span>
     </button>
   );
 }
+
+// Moments de la journée, pour aérer une longue journée en trois blocs faciles à parcourir
+// Minute de début dans la journée de l'Expo : « minuit » et « 1 h » appartiennent à la soirée qui finit
+function debutMinute(heure: string): number {
+  const d = plageMinutes(heure)?.debut;
+  if (d == null) return 0;
+  return d < 5 * 60 ? d + 24 * 60 : d;
+}
+function moment(heure: string): "matin" | "apres-midi" | "soir" {
+  const m = debutMinute(heure);
+  return m < 12 * 60 ? "matin" : m < 17 * 60 ? "apres-midi" : "soir";
+}
+const MOMENTS = { matin: "En avant-midi", "apres-midi": "L'après-midi", soir: "En soirée" } as const;
 
 function Carte({ e, rang, aVenir }: { e: Evenement; rang: number; aVenir: boolean }) {
   const cat = e.categories[0] ?? "autres";
   const s = STYLE[cat] ?? STYLE.autres;
   const [debut, fin] = e.heure.split(" à ");
+  const photo = e.photo || photoActivite(e, 400) || s.photo;
   return (
     <li
-      className="anim-monter group relative grid grid-cols-[88px_1fr] sm:grid-cols-[120px_1fr_150px] gap-0 bg-creme cadre-affiche transition-transform duration-200 hover:-translate-y-1 hover:shadow-[9px_9px_0_#1E140D] motion-reduce:hover:translate-y-0"
+      className="anim-monter grid sm:grid-cols-[148px_1fr]"
       style={{ animationDelay: `${Math.min(rang, 8) * 55}ms` }}
     >
-      <div className={`${s.fond} ${s.texte} flex flex-col items-center justify-center px-2 py-4 border-r-[3px] border-encre text-center`}>
-        <span className="font-pochoir font-extrabold text-[34px] sm:text-[40px] leading-none">{debut}</span>
-        {fin && <span className="font-etiquette font-bold text-[15px] mt-1">à {fin}</span>}
-      </div>
-      <div className="px-4 py-3 sm:px-5 sm:py-4 min-w-0">
-        <h3 className="font-etiquette font-extrabold text-[22px] sm:text-[24px] leading-tight text-encre">{e.titre}</h3>
-        {e.description && <p className="mt-1 text-[16px] leading-snug text-gris-brun">{e.description}</p>}
-        <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[15px] font-semibold text-encre">
-          <span>{e.lieu}</span>
-          {e.prix && (
-            <span className="font-etiquette uppercase tracking-wide text-[14px] px-2 py-0.5 border-2 border-encre bg-kraft">{e.prix}</span>
-          )}
-          {e.categories.map((c) => (
-            <span key={c} className="font-etiquette uppercase tracking-wide text-[13px] text-gris-brun">{CATEGORIES.find((x) => x.cle === c)?.nom ?? c}</span>
-          ))}
-        </p>
-        {aVenir && <p className="mt-2"><BoutonCalendrier e={e} petit /></p>}
-      </div>
-      <div className="hidden sm:block relative overflow-hidden border-l-[3px] border-encre">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={e.photo || photoActivite(e, 400) || s.photo}
-          alt=""
-          loading="lazy"
-          className="absolute inset-0 h-full w-full object-cover sepia-[.25] transition duration-500 group-hover:scale-110 group-hover:sepia-0 motion-reduce:group-hover:scale-100"
-        />
+      {/* L'heure */}
+      <p className="hidden sm:block pt-4 pr-5 text-right">
+        <span className="block font-affiche text-[26px] leading-none text-encre whitespace-nowrap">{debut}</span>
+        {fin && <span className="block mt-1.5 font-etiquette font-semibold text-[15px] text-gris-brun whitespace-nowrap">à {fin}</span>}
+      </p>
+      {/* Le rail et la fiche */}
+      <div className="relative ml-2 sm:ml-0 border-l-[3px] border-encre/25 pl-5 sm:pl-8 pb-5">
+        <span aria-hidden="true" className={`absolute left-[-10px] top-[18px] h-[17px] w-[17px] rotate-45 border-[3px] border-encre ${s.fond}`} />
+        <article className="group flex flex-col sm:flex-row bg-creme border-2 border-encre overflow-hidden transition-[box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:shadow-affiche-sm motion-reduce:hover:translate-y-0">
+          <div className="min-w-0 flex-1 p-3.5 sm:px-5 sm:py-4">
+            {/* Téléphone : l'heure en tête de fiche */}
+            <p className="sm:hidden mb-1 font-affiche text-[21px] leading-none text-encre">{debut}{fin && <span className="font-etiquette font-semibold text-[15px] text-gris-brun"> à {fin}</span>}</p>
+            <p className="font-etiquette font-bold uppercase tracking-[.14em] text-[13px] text-gris-brun">
+              {e.categories.map((c) => CATEGORIES.find((x) => x.cle === c)?.nom ?? c).join(" · ")}
+            </p>
+            <h4 className="mt-1 font-etiquette font-extrabold text-[22px] sm:text-[25px] leading-[1.1] text-encre">{e.titre}</h4>
+            {e.description && <p className="mt-1.5 text-[16px] leading-snug text-gris-brun">{e.description}</p>}
+            <p className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-2 text-[15px] font-semibold text-encre">
+              <span>{e.lieu}</span>
+              {e.prix && (
+                <span className="font-etiquette font-bold uppercase tracking-wide text-[14px] px-2.5 py-0.5 bg-moutarde border-2 border-dashed border-encre">{e.prix}</span>
+              )}
+            </p>
+            {aVenir && <p className="mt-1"><BoutonCalendrier e={e} petit /></p>}
+          </div>
+          <div className="relative order-first sm:order-none shrink-0 self-stretch h-[130px] sm:h-auto sm:w-[230px] sm:min-h-[150px] overflow-hidden border-b-2 sm:border-b-0 sm:border-l-2 border-encre bg-kraft">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={photo}
+              alt=""
+              loading="lazy"
+              className="absolute inset-0 h-full w-full object-cover sepia-[.2] transition duration-500 group-hover:scale-105 group-hover:sepia-0 motion-reduce:group-hover:scale-100"
+            />
+          </div>
+        </article>
       </div>
     </li>
+  );
+}
+
+function ListeJour({ liste, ici }: { liste: Evenement[]; ici: { jour: string } | null }) {
+  const groupes = (["matin", "apres-midi", "soir"] as const)
+    .map((m) => ({ m, items: liste.filter((e) => moment(e.heure) === m).sort((x, y) => debutMinute(x.heure) - debutMinute(y.heure)) }))
+    .filter((g) => g.items.length);
+  let rang = 0;
+  return (
+    <div className="grid gap-2">
+      {groupes.map((g) => (
+        <div key={g.m}>
+          <h3 className="grid sm:grid-cols-[148px_1fr] items-center mb-1">
+            <span aria-hidden="true" className="hidden sm:block" />
+            <span className="flex items-center gap-3 sm:-ml-[7px] font-etiquette font-extrabold uppercase tracking-[.16em] text-[15px] sm:text-[16px] text-rouge">
+              <span aria-hidden="true" className="h-[3px] w-6 bg-rouge" />
+              {MOMENTS[g.m]}
+              <span aria-hidden="true" className="h-[2px] flex-1 bg-encre/15" />
+            </span>
+          </h3>
+          <ul className="grid">
+            {g.items.map((e) => <Carte key={e.id} e={e} rang={rang++} aVenir={!!ici && e.jour >= ici.jour} />)}
+          </ul>
+        </div>
+      ))}
+    </div>
   );
 }
 
@@ -285,7 +334,7 @@ export default function Programmation({ annee, evenements }: { annee: number; ev
 
       {/* Filtres */}
       <div role="group" aria-label="Filtrer les activités" className="flex flex-wrap items-center gap-2 mb-8">
-        <span className="font-etiquette font-bold uppercase text-[15px] mr-1" aria-hidden="true">Afficher&nbsp;:</span>
+        <span className="font-etiquette font-bold uppercase tracking-wide text-[15px] mr-1 text-gris-brun" aria-hidden="true">Afficher&nbsp;:</span>
         {CATEGORIES.map((c) => {
           const actif = filtre === c.cle;
           const s = STYLE[c.cle];
@@ -295,9 +344,10 @@ export default function Programmation({ annee, evenements }: { annee: number; ev
               type="button"
               aria-pressed={actif}
               onClick={() => setFiltre(c.cle)}
-              className={`min-h-[44px] px-4 border-[3px] border-encre font-etiquette font-bold uppercase tracking-wide text-[16px] transition-all duration-150 motion-reduce:transition-none
-                ${actif ? `${s ? `${s.fond} ${s.texte}` : "bg-encre text-creme"} shadow-affiche-sm -translate-y-0.5` : "bg-creme text-encre hover:bg-kraft"}`}
+              className={`min-h-[44px] inline-flex items-center gap-2 px-3.5 border-2 border-encre font-etiquette font-bold uppercase tracking-wide text-[15px] transition-colors duration-150
+                ${actif ? "bg-encre text-creme" : "bg-transparent text-encre hover:bg-kraft"}`}
             >
+              {s && <span aria-hidden="true" className={`h-2.5 w-2.5 rotate-45 border-2 ${actif ? "border-creme" : "border-encre"} ${s.fond}`} />}
               {c.nom}
             </button>
           );
@@ -330,9 +380,7 @@ export default function Programmation({ annee, evenements }: { annee: number; ev
                   </span>
                 </div>
               </div>
-              <ul className="grid gap-4">
-                {liste.map((e, i) => <Carte key={e.id} e={e} rang={i} aVenir={!!ici && e.jour >= ici.jour} />)}
-              </ul>
+              <ListeJour liste={liste} ici={ici} />
             </section>
           );
         })}
