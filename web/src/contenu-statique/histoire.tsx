@@ -101,7 +101,7 @@ export default function PageHistoire({ photoComite }: { photoComite?: PhotoComit
           {photoComite && (
             <figure className="tirage comite-photo">
               <a href={photoComite.url} target="_blank" rel="noopener">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
+                { }
                 <img src={photoComite.url} alt={`Le comité de l'Expo en ${photoComite.annee}. ${photoComite.noms}`} loading="lazy" />
               </a>
               <figcaption>
