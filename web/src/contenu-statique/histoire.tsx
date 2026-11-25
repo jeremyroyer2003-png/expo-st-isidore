@@ -81,44 +81,37 @@ export default function PageHistoire({ photoComite }: { photoComite?: PhotoComit
 
     {/* ===== Bâtisseurs ===== */}
     <section className="section-papier-2" aria-labelledby="titre-batisseurs">
-      <div className="contenu section-espacee bloc">
-        <div className="bloc__titre">
-          <h2 id="titre-batisseurs" className="titre-affiche">Nos<br />bâtisseurs</h2>
+      <div className="contenu section-espacee">
+        <div className="entete-section">
+          <h2 id="titre-batisseurs" className="titre-affiche">Le comité<br />aujourd&apos;hui</h2>
           <p>Sans eux, pas d&apos;Expo. Merci aux bénévoles d&apos;hier et d&apos;aujourd&apos;hui&nbsp;: ils étaient environ 50 en 2025.</p>
         </div>
-        <div>
-          <ul className="personnes personnes--vedette">
-            <li><strong>Odilon Pelchat</strong><p>Premier président, en 1983, et membre du comité fondateur. Prix «&nbsp;Hommage à un bâtisseur&nbsp;» de l&apos;Association des expositions agricoles du Québec (AEAQ) en 2011.</p></li>
-            <li><strong>Huguette Labonté</strong><p>Secrétaire-trésorière pendant 25 des 27 premières années. Prix «&nbsp;Hommage à un bâtisseur&nbsp;» ExpoStar, au congrès de l&apos;AEAQ du 30 octobre 2009 à Montmagny.</p></li>
-            <li><strong>André Labonté</strong><p>Directeur au comité de l&apos;Expo et président de l&apos;AEAQ.</p></li>
-            <li><strong>Marcel Royer, Vanessa Plante et Jonathan Lehoux</strong><p>Honorés au Gala des Ambassadeurs de l&apos;AEAQ, en octobre 2026, pour leur implication.</p></li>
-          </ul>
-
-          <h3 className="surtitre surtitre--orange bloc-sous-titre">Le comité aujourd&apos;hui</h3>
+        {/* La photo du comité et les noms, côte à côte et de la même hauteur */}
+        <div className={photoComite ? "comite" : ""}>
           {photoComite && (
             <figure className="tirage comite-photo">
               <a href={photoComite.url} target="_blank" rel="noopener">
-                { }
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={photoComite.url} alt={`Le comité de l'Expo en ${photoComite.annee}. ${photoComite.noms}`} loading="lazy" />
               </a>
             </figure>
           )}
-          <ul className="personnes">
-            <li><strong>Vanessa Plante</strong><span>Présidente, relations d&apos;affaires</span></li>
-            <li><strong>Dominik Laterreur</strong><span>1<sup>er</sup> vice-président, tire de tracteurs</span></li>
-            <li><strong>Roxanne Larochelle</strong><span>2<sup>e</sup> vice-présidente</span></li>
-            <li><strong>Marjolaine Boutin</strong><span>Coordonnatrice</span></li>
-            <li><strong>Jimmy Royer</strong><span>Infrastructures et location</span></li>
-            <li><strong>Anne-Sophie Jacques</strong><span>Médias sociaux</span></li>
-            <li><strong>Jonathan Lehoux</strong><span>Jugements</span></li>
-            <li><strong>Raphael Plante</strong><span>Volet artistique</span></li>
-            <li><strong>Daniel Blais</strong><span>Liaison avec la municipalité</span></li>
-            <li><strong>Raphaëlle Sénéchal</strong><span>Activités familiales</span></li>
-            <li><strong>André Labonté</strong><span>Directeur</span></li>
-            <li><strong>Tommy Royer</strong><span>Directeur</span></li>
-            <li><strong>Sarah-Ève Hallé</strong><span>Directrice</span></li>
-            <li><strong>Sébastien Gagné</strong><span>Directeur</span></li>
-          </ul>
+            <ul className="personnes comite__noms">
+              <li><strong>Vanessa Plante</strong><span>Présidente, relations d&apos;affaires</span></li>
+              <li><strong>Dominik Laterreur</strong><span>1<sup>er</sup> vice-président, tire de tracteurs</span></li>
+              <li><strong>Roxanne Larochelle</strong><span>2<sup>e</sup> vice-présidente</span></li>
+              <li><strong>Marjolaine Boutin</strong><span>Coordonnatrice</span></li>
+              <li><strong>Jimmy Royer</strong><span>Infrastructures et location</span></li>
+              <li><strong>Anne-Sophie Jacques</strong><span>Médias sociaux</span></li>
+              <li><strong>Jonathan Lehoux</strong><span>Jugements</span></li>
+              <li><strong>Raphael Plante</strong><span>Volet artistique</span></li>
+              <li><strong>Daniel Blais</strong><span>Liaison avec la municipalité</span></li>
+              <li><strong>Raphaëlle Sénéchal</strong><span>Activités familiales</span></li>
+              <li><strong>André Labonté</strong><span>Directeur</span></li>
+              <li><strong>Tommy Royer</strong><span>Directeur</span></li>
+              <li><strong>Sarah-Ève Hallé</strong><span>Directrice</span></li>
+              <li><strong>Sébastien Gagné</strong><span>Directeur</span></li>
+            </ul>
         </div>
       </div>
     </section>

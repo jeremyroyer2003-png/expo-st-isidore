@@ -252,3 +252,16 @@ a.etat{min-height:44px}
   .ligne-temps li::before,.ligne-temps li:last-child::before,.ligne-temps--compacte li::before{left:0;top:24px}
   .ligne-temps__date{text-align:left}
 }
+/* Notre histoire : la photo du comité et les noms côte à côte, la photo à la hauteur de la liste */
+.comite{display:grid;gap:28px;align-items:stretch}
+.comite .comite-photo{margin:0;transform:rotate(-.6deg)}
+.comite__noms{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 22px;align-content:start}
+.comite__noms li{padding:11px 0}
+.comite__noms strong{font-size:20px}
+@media (min-width:900px){
+  .comite{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}
+  .comite .comite-photo{display:flex}
+  .comite .comite-photo a{display:block;flex:1}
+  .comite .comite-photo img{height:100%;object-fit:cover}
+}
+@media (max-width:520px){.comite__noms{grid-template-columns:minmax(0,1fr)}}
