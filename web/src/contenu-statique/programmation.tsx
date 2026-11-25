@@ -1,5 +1,6 @@
 // Converti automatiquement depuis site/programmation.html (contenu d'origine du site statique)
 import Programmation from "@/components/programmation/Programmation";
+import PhotoVivante from "@/components/site/PhotoVivante";
 import type { Evenement } from "@/lib/donnees";
 
 export const meta = { titre: "Programmation – spectacles, jugements, tire et famille | Expo St-Isidore", description: "La programmation de l'Expo St-Isidore jour par jour : spectacles, jugements d'animaux, tire de tracteurs et activités familiales. Programmation 2027 à venir." };
@@ -9,13 +10,18 @@ export default function PageProgrammation({ annee, evenements }: { annee: number
     <>
 
     {/* ===== Héros ===== */}
-    <section className="heros heros--page heros--compact" aria-labelledby="titre-heros">
+    <section className="heros heros--page heros--video" aria-labelledby="titre-heros">
+      {/* Une vache et son veau, couchés dans la paille, à droite; le texte reste à gauche */}
+      <figure className="heros__media">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/images/photos/vache-veau.webp" srcSet="/images/photos/vache-veau-800.webp 800w, /images/photos/vache-veau.webp 1600w" sizes="(max-width: 760px) 100vw, 64vw" alt="Une vache Holstein couchée dans la paille d'une grange, son veau endormi contre elle, dans un rayon de soleil" width={1600} height={1075} fetchPriority="high" />
+        <PhotoVivante video="/videos/vache-veau.mp4" />
+        <span className="heros__voile" aria-hidden="true" />
+      </figure>
       <div className="contenu heros__grille heros__grille--texte">
         <div className="heros__texte">
           <p className="billet"><span>Entrée gratuite</span><span>Prochaine&nbsp;: juillet 2027</span></p>
           <h1 id="titre-heros" className="heros__titre"><span>Programmation</span></h1>
-        </div>
-        <div className="heros__cote">
           <p className="heros__intro">L&apos;horaire 2026, jour par jour, en attendant celui de 2027. Choisissez un jour, ou un type d&apos;activité pour voir toute la semaine.</p>
         </div>
       </div>

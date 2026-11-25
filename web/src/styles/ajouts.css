@@ -60,16 +60,20 @@ a.etat{min-height:44px}
 
 /* Tire de tracteurs : la tire animée dans l'en-tête. Ordinateur : la scène occupe la droite,
    le texte reste à gauche sur les planches. Téléphone : bandeau 3:2 en haut, le texte dessous. */
-.heros--photo.heros--video{background-color:var(--marine-fonce);background-image:var(--planches)}
+.heros.heros--video{background-color:var(--marine-fonce);background-image:var(--planches)}
+.heros--video .heros__grille{min-height:clamp(380px,34vw,540px);position:relative;z-index:1}
+.heros--video .heros__cote{position:relative;z-index:2;max-width:min(420px,40%)}
 .heros__media{position:absolute;top:0;right:0;bottom:0;width:64%;margin:0;z-index:0;overflow:hidden}
 .heros__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 55%;display:block}
 .heros__media video{object-position:50% 55%}
 .heros__voile{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,var(--marine-fonce) 0%,rgba(42,29,20,.75) 14%,rgba(42,29,20,0) 42%),linear-gradient(0deg,rgba(42,29,20,.55) 0%,rgba(42,29,20,0) 28%)}
-.heros--video .heros__texte{flex-basis:auto;max-width:min(620px,50%)}
+.heros--video .heros__texte{flex-basis:auto;max-width:min(720px,56%)}
+@media (min-width:761px){.heros--video .heros__titre{white-space:nowrap}}
 @media (max-width:760px){.heros--video .heros__texte{max-width:none}}
 .heros--video .heros__credit{position:absolute;right:16px;bottom:10px;left:auto;margin:0;z-index:1;font-size:13px;color:#F3EAD8;text-shadow:0 1px 4px rgba(0,0,0,.8)}
 @media (max-width:760px){
-  .heros--photo.heros--video .heros__grille{min-height:0;padding-top:20px}
+  .heros--video .heros__grille{min-height:0;padding-top:20px}
+  .heros--video .heros__cote{max-width:none}
   .heros__media{position:relative;width:100%;aspect-ratio:3/2}
   .heros__voile{background:linear-gradient(0deg,var(--marine-fonce) 0%,rgba(42,29,20,0) 30%)}
 }
