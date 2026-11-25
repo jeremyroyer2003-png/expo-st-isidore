@@ -88,7 +88,9 @@ insert into public.emplacements_kiosque (code, x, y, largeur, hauteur, dimension
   ('48', 0, 10, 2, 2, 'Dimensions à confirmer', 'Agro'),
   ('49', 0, 8, 2, 2, 'Dimensions à confirmer', 'Agro'),
   ('50', 0, 6, 2, 2, 'Dimensions à confirmer', 'Cabane'),
-  ('51', 0, 4, 2, 2, 'Dimensions à confirmer', 'Cabane');
+  ('51', 0, 4, 2, 2, 'Dimensions à confirmer', 'Cabane'),
+  ('52', 9, 8, 2, 2, 'Dimensions à confirmer', ''),
+  ('53', 11, 8, 2, 2, 'Dimensions à confirmer', '');
 
 -- Programmation 2026 (archive), reprise de site/programmation.html
 insert into public.evenements (annee, jour, heure, titre, lieu, prix, description, categories, ordre) values
