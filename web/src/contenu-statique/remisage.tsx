@@ -12,7 +12,13 @@ export default function PageRemisage({ prixParPied, depotMin }: { prixParPied: n
 
 
     {/* ===== Héros ===== */}
-    <section className="heros" aria-labelledby="titre-heros">
+    <section className="heros heros--video heros--remisage" aria-labelledby="titre-heros">
+      {/* Le palais des commerces de l'Expo, rempli de roulottes et de VR pour l'hiver, fondu dans les planches */}
+      <figure className="heros__media">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/images/photos/remisage-palais.webp" srcSet="/images/photos/remisage-palais-800.webp 800w, /images/photos/remisage-palais.webp 1600w" sizes="(max-width: 760px) 100vw, 64vw" alt="Roulottes, VR et un bateau rangés côte à côte pour l'hiver dans un grand bâtiment de l'Expo, sous la charpente d'acier" width={1600} height={1080} fetchPriority="high" />
+        <span className="heros__voile" aria-hidden="true" />
+      </figure>
       <div className="contenu heros__grille heros__grille--texte">
         <div className="heros__texte">
           <p className="billet"><span><span className="seulement-hiver-ligne">Entrées en cours</span><span className="seulement-ete-ligne">Entrée mi-octobre</span></span><span>Sortie mi-mai</span></p>
@@ -21,8 +27,6 @@ export default function PageRemisage({ prixParPied, depotMin }: { prixParPied: n
             <span className="jaune">intérieur</span>
             <span className="contour">d&apos;hiver</span>
           </h1>
-        </div>
-        <div className="heros__cote">
           <p className="heros__intro">Votre roulotte, votre auto ou votre bateau à l&apos;abri de la neige tout l&apos;hiver, dans les bâtiments de l&apos;Expo à Saint-Isidore. <span className="seulement-hiver-ligne">Encore de la place cet hiver&nbsp;? Ça dépend de la taille. </span>Envoyez vos dimensions : on regarde l&apos;espace et on vous répond par courriel.</p>
           <div className="groupe-boutons">
             <a className="bouton bouton--orange" href="#demande">Envoyer mes dimensions</a>

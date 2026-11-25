@@ -284,3 +284,8 @@ a.etat{min-height:44px}
 /* Fond d'écran : « Notre histoire » et « Venir à l'Expo » de l'accueil avaient une couleur d'hiver plus forte
    que la règle générale : plus de bande beige pleine largeur autour de leur fenêtre */
 :is(.fond-photo,.fond-peinture) main > section:is(.section-papier,.section-papier-2)[aria-labelledby]{background:none}
+/* Remisage : l'en-tête avec les roulottes dans le palais; la rangée de chiffres passe par-dessus, sur un bas assombri */
+.heros--remisage .chiffres{position:relative;z-index:1}
+.heros--remisage .heros__voile{background:linear-gradient(90deg,var(--marine-fonce) 0%,rgba(42,29,20,.75) 16%,rgba(42,29,20,.15) 45%,rgba(42,29,20,0) 70%),linear-gradient(0deg,rgba(42,29,20,.92) 0%,rgba(42,29,20,.5) 22%,rgba(42,29,20,0) 45%)}
+@media (max-width:760px){.heros--remisage .heros__voile{background:linear-gradient(0deg,var(--marine-fonce) 0%,rgba(42,29,20,0) 30%)}}
+.heros--remisage .heros__media img{object-position:55% 88%}
