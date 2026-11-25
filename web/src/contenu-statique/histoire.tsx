@@ -123,25 +123,6 @@ export default function PageHistoire({ photoComite }: { photoComite?: PhotoComit
       </div>
     </section>
 
-    {/* ===== Distinctions ===== */}
-    <section className="section-papier" aria-labelledby="titre-distinctions">
-      <div className="contenu section-espacee bloc">
-        <div className="bloc__titre">
-          <h2 id="titre-distinctions" className="titre-affiche">Nos<br />ExpoStar</h2>
-          <p>Les prix remis par l&apos;Association des expositions agricoles du Québec.</p>
-        </div>
-        <ol className="ligne-temps ligne-temps--compacte">
-          <li><span className="ligne-temps__date">2016</span><p>Coup de cœur, innovation publicitaire (autocollants de voiture)</p></li>
-          <li><span className="ligne-temps__date">2013</span><p>ExpoStar de l&apos;année pour le centre éducatif agricole</p></li>
-          <li><span className="ligne-temps__date">2011</span><p>Communication et promotion</p></li>
-          <li><span className="ligne-temps__date">2010</span><p>Éducation agricole</p></li>
-          <li><span className="ligne-temps__date">2009</span><p>Prix du jury en éducation agricole, avec les expositions de Chaudière-Appalaches, et hommage à Huguette Labonté</p></li>
-          <li><span className="ligne-temps__date">2008</span><p>Accueil</p></li>
-          <li><span className="ligne-temps__date">2006</span><p>Communication et promotion</p></li>
-        </ol>
-      </div>
-    </section>
-
     {/* ===== Activités d'autrefois ===== */}
     <section className="section-nuit" aria-labelledby="titre-souvenirs">
       <div className="contenu section-espacee bloc">
