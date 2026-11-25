@@ -8,6 +8,7 @@ import "@/styles/ajouts.css";
 import Entete from "@/components/site/Entete";
 import Pied from "@/components/site/Pied";
 import Revele from "@/components/site/Revele";
+import EssaiFond from "@/components/site/EssaiFond";
 
 export default function LayoutPublic({ children }: { children: React.ReactNode }) {
   return (
@@ -24,6 +25,7 @@ export default function LayoutPublic({ children }: { children: React.ReactNode }
         </div>
       </div>
       <Revele />
+      <EssaiFond />
     </>
   );
 }
