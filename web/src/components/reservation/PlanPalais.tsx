@@ -143,11 +143,6 @@ export default function PlanPalais({ emplacements, annee, fictif }: { emplacemen
         </div>
 
         <div className="grid gap-4">
-          <div className="bg-planche text-creme border-[3px] border-encre shadow-affiche p-5">
-            <p className="font-etiquette font-bold uppercase tracking-widest text-moutarde text-[15px]">Palais des commerces · {annee}</p>
-            <p className="font-affiche text-[44px] leading-none mt-2">{libres}</p>
-            <p className="font-etiquette font-bold text-[18px]">emplacement{libres > 1 ? "s" : ""} libre{libres > 1 ? "s" : ""} sur {emplacements.length}</p>
-          </div>
           <ol className="grid gap-3 text-[17px] text-encre">
             <li><strong>1. Choisissez</strong> un emplacement libre (en jaune) sur le plan. Il vous en faut plus d&apos;un, par exemple deux voisins&nbsp;? Touchez-les tous; touchez-en un de nouveau pour le retirer.</li>
             <li><strong>2. Envoyez</strong> votre demande : rien à payer pour l&apos;instant.</li>
