@@ -27,7 +27,6 @@ export default function PageExposants() {
         <div className="heros__photo">
           <figure className="tirage">
             <img src="/images/photos/kiosques-interieurs-800.webp" alt="Allée de kiosques intérieurs animée dans le palais des commerces" width="800" height="533" />
-            <figcaption>Le palais des commerces</figcaption>
           </figure>
         </div>
       </div>
@@ -66,9 +65,9 @@ export default function PageExposants() {
           <div><dt>Exposant agricole</dt><dd>Jugement des bovins Holstein et jugement des jeunes éleveurs, à la tente de jugement.</dd></div>
         </dl>
         <div className="rangee-photos">
-          <figure className="tirage"><img src="/images/photos/machinerie-exterieure-800.webp" alt="Allée de machinerie agricole neuve exposée à l'extérieur" width="800" height="533" loading="lazy" /><figcaption>Kiosques extérieurs</figcaption></figure>
-          <figure className="tirage"><img src="/images/photos/agroalimentaire-800.webp" alt="Exposante qui présente ses produits à un kiosque agroalimentaire" width="800" height="533" loading="lazy" /><figcaption>Agroalimentaire</figcaption></figure>
-          <figure className="tirage"><img src="/images/photos/jugement-chapiteau-800.webp" alt="Le juge commente le classement au centre de l'arène, devant des estrades pleines sous le chapiteau" width="800" height="485" loading="lazy" /><figcaption>Jugement Holstein</figcaption></figure>
+          <figure className="tirage"><img src="/images/photos/machinerie-exterieure-800.webp" alt="Allée de machinerie agricole neuve exposée à l'extérieur" width="800" height="533" loading="lazy" /></figure>
+          <figure className="tirage"><img src="/images/photos/agroalimentaire-800.webp" alt="Exposante qui présente ses produits à un kiosque agroalimentaire" width="800" height="533" loading="lazy" /></figure>
+          <figure className="tirage"><img src="/images/photos/jugement-chapiteau-800.webp" alt="Le juge commente le classement au centre de l'arène, devant des estrades pleines sous le chapiteau" width="800" height="485" loading="lazy" /></figure>
         </div>
       </div>
     </section>

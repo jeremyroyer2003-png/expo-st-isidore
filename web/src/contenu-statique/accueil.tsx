@@ -108,7 +108,6 @@ export default function PageAccueil() {
         <article className="nouveaute">
           <figure className="nouveaute__photo">
             <img src="/images/photos/rodeo-taureau-600.webp" srcSet="/images/photos/rodeo-taureau-600.webp 600w, /images/photos/rodeo-taureau.webp 1200w" sizes="(max-width: 900px) 100vw, 480px" alt="Un cavalier, une main dans les airs, tient sur un taureau noir qui rue dans la poussière de l'arène" width="600" height="450" loading="lazy" />
-            <figcaption>Photo d&apos;illustration&nbsp;: Joey Chacon, Unsplash</figcaption>
           </figure>
           <div className="nouveaute__texte">
             <p className="nouveaute__etiquette">Nouveau en 2027</p>
@@ -159,7 +158,6 @@ export default function PageAccueil() {
           <article className="choix__panneau c-vert" id="ambiance-animaux" role="tabpanel" aria-labelledby="onglet-animaux">
             <figure className="choix__photo">
               <img src="/images/photos/holstein-championne-800.webp" srcSet="/images/photos/holstein-championne-800.webp 800w, /images/photos/holstein-championne.webp 1400w" sizes="(max-width: 900px) 100vw, 720px" alt="Deux éleveuses présentent la vache championne Holstein devant la bannière de l'Expo" width="800" height="523" loading="lazy" />
-              <figcaption>Championne Holstein</figcaption>
             </figure>
             <div className="choix__texte">
               <h3>Les animaux</h3>
@@ -177,7 +175,6 @@ export default function PageAccueil() {
           <article className="choix__panneau c-orange" id="ambiance-tire" role="tabpanel" aria-labelledby="onglet-tire">
             <figure className="choix__photo">
               <img src="/images/photos/tire-fumee-soir-800.webp" srcSet="/images/photos/tire-fumee-soir-800.webp 800w, /images/photos/tire-fumee-soir.webp 1600w" sizes="(max-width: 900px) 100vw, 720px" alt="Tracteur rouge qui crache une colonne de fumée noire dans le ciel du soir, devant les estrades" width="800" height="534" loading="lazy" />
-              <figcaption>Une colonne de fumée, à la nuit tombée</figcaption>
             </figure>
             <div className="choix__texte">
               <h3>La tire</h3>
@@ -194,7 +191,6 @@ export default function PageAccueil() {
           <article className="choix__panneau c-bleu" id="ambiance-spectacles" role="tabpanel" aria-labelledby="onglet-spectacles">
             <figure className="choix__photo">
               <img src="/images/photos/spectacle-foule-800.webp" srcSet="/images/photos/spectacle-foule-800.webp 800w, /images/photos/spectacle-foule.webp 1400w" sizes="(max-width: 900px) 100vw, 720px" alt="Foule devant la scène pendant un spectacle rock en soirée" width="800" height="533" loading="lazy" />
-              <figcaption>Le grand chapiteau, en soirée</figcaption>
             </figure>
             <div className="choix__texte">
               <h3>Les soirées</h3>
@@ -212,7 +208,6 @@ export default function PageAccueil() {
           <article className="choix__panneau c-jaune" id="ambiance-famille" role="tabpanel" aria-labelledby="onglet-famille">
             <figure className="choix__photo">
               <img src="/images/photos/petits-animaux-800.webp" srcSet="/images/photos/petits-animaux-800.webp 800w, /images/photos/petits-animaux.webp 1400w" sizes="(max-width: 900px) 100vw, 720px" alt="Chèvres et petit zébu dans un enclos de bois" width="800" height="533" loading="lazy" />
-              <figcaption>Les petits animaux</figcaption>
             </figure>
             <div className="choix__texte">
               <h3>En famille</h3>
@@ -230,7 +225,6 @@ export default function PageAccueil() {
           <article className="choix__panneau c-marine" id="ambiance-kiosques" role="tabpanel" aria-labelledby="onglet-kiosques">
             <figure className="choix__photo">
               <img src="/images/photos/tracteur-balles-foin-800.webp" srcSet="/images/photos/tracteur-balles-foin-800.webp 800w, /images/photos/tracteur-balles-foin.webp 1600w" sizes="(max-width: 900px) 100vw, 720px" alt="Tracteur géant fait de balles de foin enrubannées jaunes, devant de la machinerie sous un ciel orageux" width="800" height="533" loading="lazy" />
-              <figcaption>Le tracteur en balles de foin</figcaption>
             </figure>
             <div className="choix__texte">
               <h3>Les kiosques</h3>
@@ -276,7 +270,6 @@ export default function PageAccueil() {
             <div className="archive-photo__papier">
               <img src="/images/archive_holstein2009.webp" alt="Jugement Holstein 2009 : éleveurs en blanc avec deux vaches primées, rubans et trophées" width="1041" height="865" loading="lazy" />
             </div>
-            <figcaption>Jugement Holstein 2009. Archives Beauce Média, 15 juillet 2010.</figcaption>
           </figure>
           <div className="archives__texte">
             <h2 id="titre-histoire" className="surtitre">Notre histoire</h2>
@@ -301,7 +294,6 @@ export default function PageAccueil() {
       <div className="contenu section-espacee venir">
         <figure className="venir__photo">
           <img src="/images/photos/terrain-aerien-800.webp" srcSet="/images/photos/terrain-aerien-800.webp 800w, /images/photos/terrain-aerien.webp 1280w" sizes="(max-width: 900px) 100vw, 700px" alt="Vue aérienne du site de l'Expo : bâtiments, chapiteaux blancs, terrain de tire et stationnements entourés de champs" width="800" height="450" loading="lazy" />
-          <figcaption>Le site de l&apos;Expo vu du ciel</figcaption>
         </figure>
         <div className="venir__texte">
           <h2 id="titre-venir" className="titre-affiche">Venir à l&apos;Expo</h2>

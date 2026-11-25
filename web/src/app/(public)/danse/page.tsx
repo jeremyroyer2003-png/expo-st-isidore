@@ -51,7 +51,6 @@ export default async function Page() {
             <figure className="tirage">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/images/photos/danse-country-800.webp" alt="Danseurs en ligne sous les lustres en roues de charrette d'une grange décorée" width={800} height={532} loading="lazy" />
-              <figcaption>Soirée de danse country à l&apos;Expo</figcaption>
             </figure>
             <div className="entete-section">
               <h2 id="titre-forfaits" className="titre-affiche">Les<br />forfaits</h2>

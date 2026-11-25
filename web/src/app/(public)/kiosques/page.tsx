@@ -88,7 +88,6 @@ export default async function Page() {
             <figure className="tirage">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/images/photos/machinerie-exterieure-800.webp" alt="Machinerie agricole exposée sur le terrain extérieur de l'Expo" width={800} height={533} loading="lazy" />
-              <figcaption>Le terrain extérieur, pendant l&apos;Expo</figcaption>
             </figure>
             <FormulaireSimple
               action={demanderKiosqueExterieur}

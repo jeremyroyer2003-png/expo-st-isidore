@@ -131,9 +131,9 @@ export default function PageTireDeTracteurs() {
       <div className="contenu section-espacee">
         <h2 id="titre-ambiance" className="titre-affiche">L&apos;ambiance au bord de la piste</h2>
         <div className="rangee-photos">
-          <figure className="tirage"><img src="/images/photos/tire-semi-nuit-800.webp" alt="Camion semi sous les projecteurs, le soir, devant les estrades pleines" width="800" height="533" loading="lazy" /><figcaption>Les semis, à la nuit tombée</figcaption></figure>
-          <figure className="tirage"><img src="/images/photos/tire-nuit-800.webp" alt="Tracteur vert crachant une fumée noire, le soir, sous les projecteurs" width="800" height="533" loading="lazy" /><figcaption>La fumée des moteurs</figcaption></figure>
-          <figure className="tirage"><img src="/images/photos/tire-pickups-800.webp" alt="Pick-up modifié qui tire le traîneau, spectateurs en arrière-plan" width="800" height="533" loading="lazy" /><figcaption>Les pick-ups aussi</figcaption></figure>
+          <figure className="tirage"><img src="/images/photos/tire-semi-nuit-800.webp" alt="Camion semi sous les projecteurs, le soir, devant les estrades pleines" width="800" height="533" loading="lazy" /></figure>
+          <figure className="tirage"><img src="/images/photos/tire-nuit-800.webp" alt="Tracteur vert crachant une fumée noire, le soir, sous les projecteurs" width="800" height="533" loading="lazy" /></figure>
+          <figure className="tirage"><img src="/images/photos/tire-pickups-800.webp" alt="Pick-up modifié qui tire le traîneau, spectateurs en arrière-plan" width="800" height="533" loading="lazy" /></figure>
         </div>
         <p className="credits espace-haut">Photos&nbsp;: ELZEPHOTO, tirsQC.com et archives de l&apos;Expo. Certaines photos de pilotes ont été prises à d&apos;autres événements de l&apos;ASTTQ. <Link href="/photos">Voir toutes les photos</Link></p>
       </div>

@@ -137,7 +137,6 @@ export default function HerosVideo() {
       </div>
 
       <div className="hvid__pied">
-        <p className="hvid__legende">{scene.legende}</p>
         {videoActive && (
           <button className="hvid__pause" type="button" onClick={basculer} aria-pressed={enPause}>
             {enPause ? (

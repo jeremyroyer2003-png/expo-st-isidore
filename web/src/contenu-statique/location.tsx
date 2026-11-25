@@ -44,7 +44,6 @@ export default function PageLocation({ calendrier, avis, fraisAnnulation, delaiH
           <article className="salle">
             <figure className="salle__photo">
               <img src="/images/photos/kiosques-interieurs-800.webp" srcSet="/images/photos/kiosques-interieurs-800.webp 800w, /images/photos/kiosques-interieurs.webp 1400w" sizes="(max-width: 900px) 100vw, 600px" alt="Le palais des commerces : grand bâtiment intérieur au plafond haut, ici rempli de kiosques pendant l'Expo" width="800" height="533" loading="lazy" />
-              <figcaption>Pendant l&apos;Expo, il accueille les kiosques intérieurs</figcaption>
             </figure>
             <div className="salle__texte">
               <h3>Le palais des commerces</h3>
@@ -56,7 +55,6 @@ export default function PageLocation({ calendrier, avis, fraisAnnulation, delaiH
             <figure className="salle__photo">
               <img src="/images/photos/soiree-saloon-800.webp" srcSet="/images/photos/soiree-saloon-400.webp 400w, /images/photos/soiree-saloon-800.webp 800w, /images/photos/soiree-saloon.webp 1080w" sizes="(max-width: 900px) 100vw, 600px" alt="Le Saloon de la grange 3, façade en bois illuminée de guirlandes le soir, avec des invités devant l'entrée" width="800" height="640" loading="lazy" />
               <PhotoVivante video="/videos/saloon-soir.mp4" />
-              <figcaption>Le Saloon, un soir d&apos;Expo. Photo animée par IA.</figcaption>
             </figure>
             <div className="salle__texte">
               <h3>Le Saloon <small>grange 3</small></h3>
