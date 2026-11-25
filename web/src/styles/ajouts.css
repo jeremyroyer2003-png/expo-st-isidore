@@ -49,3 +49,11 @@ input::placeholder,textarea::placeholder{font-weight:400;color:#7A6656;opacity:1
 .conditions-courtes p{margin:8px 0 0;font-size:15px}
 /* Liens PDF des documents d'exposant : cibles de 44 px */
 a.etat{min-height:44px}
+/* Notre histoire : photo du comité d'aujourd'hui, pleine largeur de la colonne, sans recadrage */
+.comite-photo{margin:4px 0 28px;transform:rotate(-.6deg)}
+.comite-photo img{display:block;width:100%;height:auto;aspect-ratio:auto;object-fit:contain}
+.comite-photo figcaption{line-height:1.4}
+.comite-photo figcaption small{display:block;margin-top:4px;opacity:.8}
+.comite-photo{padding-bottom:14px}
+.comite-photo figcaption{position:static;margin-top:10px;font-family:var(--etiquette);font-weight:500;font-size:16px;color:var(--nuit)}
+.comite-photo figcaption strong{font-weight:800}

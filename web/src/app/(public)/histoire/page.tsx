@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Contenu, { meta } from "@/contenu-statique/histoire";
-import PelliculeComites from "@/components/site/PelliculeComites";
 import { photosComites } from "@/lib/donnees";
 
 export const metadata: Metadata = {
@@ -8,10 +7,11 @@ export const metadata: Metadata = {
   description: meta.description,
 };
 
-// Relue toutes les 5 minutes : une photo de comité ajoutée dans la médiathèque apparaît vite
+// Relue toutes les 5 minutes : une nouvelle photo du comité (médiathèque) apparaît vite
 export const revalidate = 300;
 
 export default async function Page() {
-  const photos = await photosComites();
-  return <Contenu comites={photos.length ? <PelliculeComites photos={photos} /> : undefined} />;
+  // La plus récente photo de l'album « Comités » de la médiathèque (« Ordre » = année)
+  const [p] = await photosComites();
+  return <Contenu photoComite={p ? { url: p.url, annee: p.ordre, noms: p.alt, credit: p.credit } : null} />;
 }

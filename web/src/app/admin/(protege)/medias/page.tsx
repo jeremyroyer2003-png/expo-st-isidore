@@ -21,7 +21,7 @@ export default async function Page() {
 
   return (
     <>
-      <Titre sous={<>Les photos et vidéos de la page Photos. Pas de photos d&apos;enfants identifiables, et seulement des photos dont l&apos;Expo a les droits; indiquez le crédit du photographe. <strong>Album « Comités au fil des ans »</strong> (page Notre histoire) : la description donne les noms (de gauche à droite), et « Ordre » est l&apos;année de la photo.</>}>Médiathèque</Titre>
+      <Titre sous={<>Les photos et vidéos de la page Photos. Pas de photos d&apos;enfants identifiables, et seulement des photos dont l&apos;Expo a les droits; indiquez le crédit du photographe. <strong>Album « Photo du comité »</strong> (page Notre histoire, « Le comité aujourd&apos;hui ») : la plus récente est affichée; la description donne les noms (de gauche à droite), et « Ordre » est l&apos;année de la photo.</>}>Médiathèque</Titre>
       {!edition && <LectureSeule />}
       {edition && (
         <div className="grid gap-6 lg:grid-cols-2 mb-8">
