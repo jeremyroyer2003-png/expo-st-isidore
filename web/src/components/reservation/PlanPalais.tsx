@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormulaireSimple from "@/components/formulaires/FormulaireSimple";
 import { demanderKiosqueInterieur } from "@/actions/reservations";
 
@@ -45,20 +45,34 @@ export default function PlanPalais({ emplacements, annee, fictif }: { emplacemen
   const listeLibres = emplacements.filter((x) => !x.occupe).sort((a, b) => a.code.localeCompare(b.code, "fr", { numeric: true }));
   const libres = listeLibres.length;
 
-  // Toucher un emplacement l'ajoute; le toucher de nouveau le retire
-  const choisir = (id: string) => {
-    const premier = choisis.length === 0;
+  // Toucher un emplacement l'ajoute; le toucher de nouveau le retire. On reste sur le plan :
+  // la barre « Continuer » en bas de l'écran mène au formulaire quand on a fini de choisir.
+  const choisir = (id: string) =>
     setChoisis((l) => (l.includes(id) ? l.filter((x) => x !== id) : l.length >= MAX_CHOIX ? l : [...l, id]));
-    if (premier) setTimeout(() => document.getElementById("formulaire-kiosque")?.scrollIntoView({
-      behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start",
-    }), 50);
-  };
+  const continuer = () => document.getElementById("formulaire-kiosque")?.scrollIntoView({
+    behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start",
+  });
+  // La barre se cache quand le formulaire est à l'écran (elle ne cache pas le bouton d'envoi)
+  const [formVisible, setFormVisible] = useState(false);
+  const aChoisi = choisis.length > 0;
+  useEffect(() => {
+    const f = document.getElementById("formulaire-kiosque");
+    if (!f) return;
+    const o = new IntersectionObserver(([e]) => setFormVisible(e.isIntersecting), { threshold: 0.05 });
+    o.observe(f);
+    return () => o.disconnect();
+  }, [aChoisi]);
 
   return (
     <div className="grid gap-8">
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] items-start">
         <div className="grid gap-5 min-w-0">
         <figure className="bg-creme cadre-affiche p-3 sm:p-5">
+          <p className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 font-etiquette font-extrabold text-[18px] sm:text-[20px] leading-tight text-encre">
+            <span aria-hidden="true" className="inline-block h-5 w-5 border-2 border-encre bg-moutarde" />
+            Touchez les emplacements jaunes que vous voulez.
+            <span className="font-semibold text-gris-brun text-[16px] sm:text-[17px]">Il vous en faut deux&nbsp;? Touchez les deux.</span>
+          </p>
           <svg viewBox={`-0.5 -0.5 ${LARGEUR + 1} ${HAUTEUR + 1}`} className="w-full h-auto" role="group" aria-label={`Plan du palais des commerces : ${libres} emplacements libres`}>
             {/* Murs */}
             <rect x={0} y={0} width={LARGEUR} height={HAUTEUR} fill="#E8D9BA" stroke="#1E140D" strokeWidth={0.18} />
@@ -172,6 +186,20 @@ export default function PlanPalais({ emplacements, annee, fictif }: { emplacemen
           ))}
         </ul>
       </details>
+
+      {aChoisi && !formVisible && (
+        <div className="fixed inset-x-0 bottom-0 z-40 px-3 pb-3 sm:pb-5 pointer-events-none">
+          <div role="status" className="anim-monter pointer-events-auto mx-auto max-w-[760px] flex flex-wrap items-center justify-between gap-x-4 gap-y-2 bg-planche text-creme border-[3px] border-encre shadow-affiche px-4 py-3">
+            <p className="font-etiquette font-bold text-[17px] leading-tight">
+              {plusieurs ? `${selection.length} emplacements` : "Emplacement"} <strong className="font-affiche text-[22px] text-moutarde">{codes.join(" + ")}</strong>
+              {total != null && <span className="block text-[15px] text-kraft">{plusieurs ? "Total " : ""}{argent(total)}{fictif ? " (prix fictif, test)" : ""} · touchez-en un autre pour l&apos;ajouter</span>}
+              {total == null && <span className="block text-[15px] text-kraft">Touchez-en un autre pour l&apos;ajouter</span>}
+            </p>
+            <button type="button" onClick={continuer}
+              className="bouton bouton--orange min-h-[48px]">Continuer ma demande <span className="fleche" aria-hidden="true">↓</span></button>
+          </div>
+        </div>
+      )}
 
       {selection.length > 0 && (
         <div id="formulaire-kiosque" className="anim-monter scroll-mt-32">
