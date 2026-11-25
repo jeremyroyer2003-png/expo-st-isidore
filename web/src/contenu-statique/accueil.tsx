@@ -82,39 +82,45 @@ export default function PageAccueil() {
             </div>
           </article>
 
-          <article className="porte porte--danse porte--location c-vert">
-            <figure className="porte__photo">
-              <img src="/images/photos/soiree-saloon-800.webp" srcSet="/images/photos/soiree-saloon-400.webp 400w, /images/photos/soiree-saloon-800.webp 800w" sizes="(max-width: 900px) 100vw, 400px" alt="Le Saloon de la grange 3, façade en bois illuminée de guirlandes le soir" width="800" height="640" loading="lazy" />
-            </figure>
-            <div className="porte__corps">
+          <article className="carte-planche fiche-horaire group">
+            <span className="fiche-horaire__photo carte-planche__photo">
+              <img src="/images/photos/soiree-saloon-800.webp" srcSet="/images/photos/soiree-saloon-400.webp 400w, /images/photos/soiree-saloon-800.webp 800w" sizes="(max-width: 900px) 100vw, 600px" alt="Le Saloon de la grange 3, façade en bois illuminée de guirlandes le soir" loading="lazy" />
+              <span aria-hidden="true" className="reserver__voile-bas" />
+            </span>
+            <div className="carte-planche__corps">
+              <p className="carte-planche__quand">Toute l&apos;année</p>
               <h3>Louer une salle</h3>
-              <p>Toute l&apos;année, le palais des commerces ou le Saloon de la grange 3, avec les tables, les chaises et l&apos;ambiance comprises.</p>
-              <Link className="bouton bouton--marine" href="/location">Voir les dates libres <span className="fleche" aria-hidden="true">→</span></Link>
+              <p>Le palais des commerces ou le Saloon de la grange 3, avec les tables, les chaises et l&apos;ambiance comprises.</p>
+              <Link className="bouton bouton--contour" href="/location">Voir les dates libres <span className="fleche" aria-hidden="true">→</span></Link>
             </div>
           </article>
 
-          <article className="porte porte--danse c-jaune">
-            <figure className="porte__photo">
-              <img src="/images/photos/danse-country-800.webp" srcSet="/images/photos/danse-country-400.webp 400w, /images/photos/danse-country-800.webp 800w" sizes="(max-width: 900px) 100vw, 400px" alt="Danseurs en ligne sous les lustres en roues de charrette d'une grange décorée" width="800" height="532" loading="lazy" />
-            </figure>
-            <div className="porte__corps">
+          <article className="carte-planche fiche-horaire group">
+            <span className="fiche-horaire__photo carte-planche__photo">
+              <img src="/images/photos/danse-country-800.webp" srcSet="/images/photos/danse-country-400.webp 400w, /images/photos/danse-country-800.webp 800w" sizes="(max-width: 900px) 100vw, 600px" alt="Danseurs en ligne sous les lustres en roues de charrette d'une grange décorée" loading="lazy" />
+              <span aria-hidden="true" className="reserver__voile-bas" />
+            </span>
+            <div className="carte-planche__corps">
+              <p className="carte-planche__quand">L&apos;été, grange 2</p>
               <h3>Danse country</h3>
-              <p>L&apos;été, danse en ligne dans la grange 2, de 19&nbsp;h à 21&nbsp;h. <strong>20&nbsp;$ la session</strong>, ou un forfait pour le mois ou la saison. Les dates sont annoncées sur Facebook et au bureau, au <a href="tel:+14188825649">418 882-5649</a>.</p>
-              <Link className="bouton bouton--marine" href="/danse">Voir les forfaits <span className="fleche" aria-hidden="true">→</span></Link>
+              <p>Danse en ligne de 19&nbsp;h à 21&nbsp;h. <strong>20&nbsp;$ la session</strong>, ou un forfait pour le mois ou la saison.</p>
+              <Link className="bouton bouton--contour" href="/danse">Voir les forfaits <span className="fleche" aria-hidden="true">→</span></Link>
             </div>
           </article>
         </div>
 
-        <article className="nouveaute">
-          <figure className="nouveaute__photo">
-            <img src="/images/photos/rodeo-taureau-600.webp" srcSet="/images/photos/rodeo-taureau-600.webp 600w, /images/photos/rodeo-taureau.webp 1200w" sizes="(max-width: 900px) 100vw, 480px" alt="Un cavalier, une main dans les airs, tient sur un taureau noir qui rue dans la poussière de l'arène" width="600" height="450" loading="lazy" />
-            <figcaption>Photo&nbsp;: Joey Chacon, Unsplash</figcaption>
-          </figure>
-          <div className="nouveaute__texte">
-            <p className="nouveaute__etiquette">Nouveau en 2027</p>
+        {/* Nouveau en 2027 : grande carte sur planches, la photo du rodéo fondue dans le bois */}
+        <article className="carte-planche carte-planche--large fiche-horaire group">
+          <span className="fiche-horaire__photo carte-planche__photo">
+            <img src="/images/photos/rodeo-taureau-600.webp" srcSet="/images/photos/rodeo-taureau-600.webp 600w, /images/photos/rodeo-taureau.webp 1200w" sizes="(max-width: 900px) 100vw, 700px" alt="Un cavalier, une main dans les airs, tient sur un taureau noir qui rue dans la poussière de l'arène" loading="lazy" />
+            <span aria-hidden="true" className="reserver__voile-vedette" />
+            <span className="heros__credit carte-planche__credit">Photo&nbsp;: Joey Chacon, Unsplash</span>
+          </span>
+          <div className="carte-planche__corps">
+            <p className="billet carte-planche__billet"><span>Nouveau</span><span>en 2027</span></p>
             <h3>Un rodéo, la semaine avant l&apos;Expo</h3>
             <p>Monte de taureaux, sur le site de l&apos;Expo. Dates et billets annoncés au printemps, avec la programmation.</p>
-            <a className="bouton bouton--marine" href="https://www.facebook.com/expostisidorebassinchaudiere/" rel="noopener">Être avisé sur Facebook <span className="fleche" aria-hidden="true">→</span></a>
+            <a className="bouton bouton--orange" href="https://www.facebook.com/expostisidorebassinchaudiere/" rel="noopener">Être avisé sur Facebook <span className="fleche" aria-hidden="true">→</span></a>
           </div>
         </article>
       </div>

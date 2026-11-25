@@ -147,3 +147,29 @@ a.etat{min-height:44px}
 .depot-photos__liste li{position:relative;aspect-ratio:1;border:2px solid var(--nuit);overflow:hidden;background:var(--papier-2)}
 .depot-photos__liste img{width:100%;height:100%;object-fit:cover;display:block}
 .depot-photos__liste button{position:absolute;top:3px;right:3px;width:32px;height:32px;display:grid;place-items:center;border:2px solid var(--nuit);background:var(--papier);font-size:18px;line-height:1;cursor:pointer}
+
+/* Accueil, « L'Expo toute l'année » : salle, danse et rodéo en cartes sur planches, photo fondue dans le bois */
+.carte-planche{position:relative;display:flex;flex-direction:column;overflow:hidden;border:3px solid var(--nuit);box-shadow:6px 6px 0 var(--nuit);color:var(--creme);border-radius:0;padding:0;transition:transform .2s,box-shadow .2s}
+.carte-planche:hover{transform:translateY(-4px);box-shadow:9px 9px 0 var(--nuit)}
+@media (prefers-reduced-motion:reduce){.carte-planche:hover{transform:none}}
+.carte-planche__photo{position:relative;display:block;height:230px}
+.carte-planche__photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .7s}
+.carte-planche:hover .carte-planche__photo img{transform:scale(1.05)}
+@media (prefers-reduced-motion:reduce){.carte-planche:hover .carte-planche__photo img{transform:none}}
+.carte-planche__photo > span:not(.carte-planche__credit){position:absolute;inset:0}
+.carte-planche__corps{position:relative;display:flex;flex:1;flex-direction:column;align-items:flex-start;gap:12px;padding:0 26px 26px;margin-top:-34px}
+.carte-planche__quand{margin:0;font-family:var(--etiquette);font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:14px;color:var(--jaune)}
+.carte-planche h3{margin:0;font-family:var(--affiche);font-size:clamp(28px,2.6vw,36px);line-height:1.05;color:var(--creme);text-transform:none}
+.carte-planche p{margin:0;color:var(--papier-2);font-size:17px;line-height:1.5}
+.carte-planche p strong{color:var(--creme)}
+.carte-planche .bouton{margin-top:auto}
+.carte-planche .bouton--contour{color:var(--creme);border-color:var(--creme)}
+.carte-planche__credit{position:absolute;right:12px;bottom:10px;left:auto;z-index:1}
+.carte-planche--large{margin-top:22px}
+.carte-planche__billet{margin:0}
+@media (min-width:768px){
+  .carte-planche--large{display:block;min-height:340px}
+  .carte-planche--large .carte-planche__photo{position:absolute;inset:0 0 0 auto;width:60%;height:auto}
+  .carte-planche--large .carte-planche__corps{max-width:50%;min-height:340px;justify-content:center;margin-top:0;padding:36px 40px}
+}
+.carte-planche--large .carte-planche__photo img{object-position:50% 18%}
