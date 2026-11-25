@@ -31,14 +31,14 @@ const STYLE: Record<string, { fond: string; texte: string; photo: string }> = {
 // Photos de l'Expo (page Facebook, ancien site) quand elles existent; sinon photos libres de
 // Wikimedia Commons, créditées dans docs/CREDITS-PHOTOS.md. Plusieurs fichiers = une par jour.
 const PHOTOS_ACTIVITE: [RegExp, string[]][] = [
-  [/bingo/, ["bingo-carte"]],
+  [/bingo/, ["bingo-soiree"]],
   [/feux d.artifice/, ["feux-artifice"]],
   [/cin[ée]ma/, ["cinema-exterieur"]],
   [/chiens? de berger/, ["chiens-berger"]],
   [/tonte/, ["preparation-genisse"]],
   [/latino/, ["danse-latino"]],
-  [/pique-nique/, ["pique-nique"]],
-  [/mascotte/, ["jeux-gonflables-coq"]],
+  [/pique-nique/, ["pique-nique-chapiteau"]],
+  [/mascotte/, ["mascottes"]],
   [/place de la famille/, ["jeux-gonflables"]],
   [/parcel/, ["parcelles-essai"]],
   [/mini-tracteur/, ["tracteur-pedales"]],
@@ -52,7 +52,7 @@ const PHOTOS_ACTIVITE: [RegExp, string[]][] = [
   [/championne/, ["holstein-championne"]],
   [/jugement/, ["holstein-jugement"]],
   [/kiosques/, ["kiosques-interieurs", "kiosques-allee"]],
-  [/agri.?culture/, ["agroalimentaire"]],
+  [/agri.?culture/, ["agri-culture"]],
   [/grill|bbq/, ["bbq-poulet"]],
   [/beach/, ["spectacle-bras-leves"]],
   [/lex roses/, ["spectacle-chapiteau"]],
@@ -66,12 +66,9 @@ const CREDITS_ILLUSTRATION = [
   { sujet: "Feux d'artifice", auteur: "Andrew Kelly", licence: "domaine public", page: "https://commons.wikimedia.org/wiki/File:Fireworks_over_North_Carolina_State_Fair_2009.jpg" },
   { sujet: "Chiens de berger", auteur: "Scot Campbell", licence: "CC BY-SA 2.0", page: "https://commons.wikimedia.org/wiki/File:Border_Collie_sheepdog_trial.jpg" },
   { sujet: "Parcelles d'essai", auteur: "Michael Trolove", licence: "CC BY-SA 2.0", page: "https://commons.wikimedia.org/wiki/File:Cereal_trial_plot,_Cereals_2010_-_geograph.org.uk_-_1910647.jpg" },
-  { sujet: "Bingo", auteur: "Abbey Hendrickson", licence: "CC BY 2.0", page: "https://commons.wikimedia.org/wiki/File:Bingo_card.jpg" },
   { sujet: "Cinéma extérieur", auteur: "Bdx", licence: "CC0", page: "https://commons.wikimedia.org/wiki/File:Luxembourg_City_Open_Air_Cinema,_July_2025,_Knuedler.jpg" },
   { sujet: "Danse latino", auteur: "Edil Villa", licence: "CC BY-SA 3.0", page: "https://commons.wikimedia.org/wiki/File:CCMDonation99.jpg" },
-  { sujet: "Pique-nique", auteur: "Benjamin D. Esham", licence: "CC BY-SA 4.0", page: "https://commons.wikimedia.org/wiki/File:Picnic_table.jpg" },
   { sujet: "Jeux gonflables", auteur: "Arpingstone", licence: "domaine public", page: "https://commons.wikimedia.org/wiki/File:Bouncy.castle.arp.jpg" },
-  { sujet: "Jeux gonflables (coq)", auteur: "Acabashi", licence: "CC BY-SA 4.0", page: "https://commons.wikimedia.org/wiki/File:Bouncy_Castle_at_Abridge_Village_Weekend_2022,_Essex_2.jpg" },
   { sujet: "Préparation d'une génisse", auteur: "Lorie Shaull", licence: "CC BY 2.0", page: "https://commons.wikimedia.org/wiki/File:Participants_in_the_Open_Class_Dairy_Cattle_Show_at_the_Crow_Wing_County_Fair_in_Brainerd,_MN.jpg" },
   { sujet: "Tracteur à pédales", auteur: "inkknife_2000", licence: "CC BY-SA 2.0", page: "https://commons.wikimedia.org/wiki/File:Green_Spot_Farm,_Pedal_Tractor_10-26-13_(10561276776).jpg" },
 ];
@@ -114,7 +111,7 @@ function infosJour(iso: string) {
 function BoutonCalendrier({ e, petit = false }: { e: Evenement; petit?: boolean }) {
   return (
     <button type="button" onClick={() => telechargerIcs(e)}
-      className={`min-h-[44px] inline-flex items-center gap-2 font-etiquette font-bold uppercase tracking-wide ${petit ? "text-[13px]" : "text-[14px]"} text-encre underline decoration-2 decoration-moutarde underline-offset-4 hover:decoration-rouge`}>
+      className={`min-h-[44px] inline-flex items-center gap-2 font-etiquette font-bold uppercase tracking-wide ${petit ? "text-[13px]" : "text-[14px]"} text-current underline decoration-2 decoration-moutarde underline-offset-4 hover:decoration-rouge`}>
       + Ajouter à mon calendrier<span className="visuellement-cache"> : {e.titre}</span>
     </button>
   );
@@ -137,7 +134,7 @@ function Carte({ e, rang, aVenir }: { e: Evenement; rang: number; aVenir: boolea
   const cat = e.categories[0] ?? "autres";
   const s = STYLE[cat] ?? STYLE.autres;
   const [debut, fin] = e.heure.split(" à ");
-  const photo = e.photo || photoActivite(e, 400) || s.photo;
+  const photo = e.photo || photoActivite(e, 800) || s.photo.replace("-400.", "-800.");
   return (
     <li
       className="anim-monter grid sm:grid-cols-[148px_1fr]"
@@ -151,31 +148,33 @@ function Carte({ e, rang, aVenir }: { e: Evenement; rang: number; aVenir: boolea
       {/* Le rail et la fiche */}
       <div className="relative ml-2 sm:ml-0 border-l-[3px] border-encre/25 pl-5 sm:pl-8 pb-5">
         <span aria-hidden="true" className={`absolute left-[-10px] top-[18px] h-[17px] w-[17px] rotate-45 border-[3px] border-encre ${s.fond}`} />
-        <article className="group flex flex-col sm:flex-row bg-creme border-2 border-encre overflow-hidden transition-[box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:shadow-affiche-sm motion-reduce:hover:translate-y-0">
-          <div className="min-w-0 flex-1 p-3.5 sm:px-5 sm:py-4">
-            {/* Téléphone : l'heure en tête de fiche */}
-            <p className="sm:hidden mb-1 font-affiche text-[21px] leading-none text-encre">{debut}{fin && <span className="font-etiquette font-semibold text-[15px] text-gris-brun"> à {fin}</span>}</p>
-            <p className="font-etiquette font-bold uppercase tracking-[.14em] text-[13px] text-gris-brun">
-              {e.categories.map((c) => CATEGORIES.find((x) => x.cle === c)?.nom ?? c).join(" · ")}
-            </p>
-            <h4 className="mt-1 font-etiquette font-extrabold text-[22px] sm:text-[25px] leading-[1.1] text-encre">{e.titre}</h4>
-            {e.description && <p className="mt-1.5 text-[16px] leading-snug text-gris-brun">{e.description}</p>}
-            <p className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-2 text-[15px] font-semibold text-encre">
-              <span>{e.lieu}</span>
-              {e.prix && (
-                <span className="font-etiquette font-bold uppercase tracking-wide text-[14px] px-2.5 py-0.5 bg-moutarde border-2 border-dashed border-encre">{e.prix}</span>
-              )}
-            </p>
-            {aVenir && <p className="mt-1"><BoutonCalendrier e={e} petit /></p>}
-          </div>
-          <div className="relative order-first sm:order-none shrink-0 self-stretch h-[130px] sm:h-auto sm:w-[230px] sm:min-h-[150px] overflow-hidden border-b-2 sm:border-b-0 sm:border-l-2 border-encre bg-kraft">
+        {/* Fiche sur planches : la photo à droite se fond dans le bois, comme l'en-tête de la page */}
+        <article className="fiche-horaire group relative flex flex-col sm:block sm:min-h-[168px] border-2 border-encre overflow-hidden text-creme transition-[box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:shadow-affiche-sm motion-reduce:hover:translate-y-0">
+          <div className="fiche-horaire__photo relative h-[150px] sm:absolute sm:inset-y-0 sm:right-0 sm:h-auto sm:w-[58%]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={photo}
               alt=""
               loading="lazy"
-              className="absolute inset-0 h-full w-full object-cover sepia-[.2] transition duration-500 group-hover:scale-105 group-hover:sepia-0 motion-reduce:group-hover:scale-100"
+              className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105 motion-reduce:group-hover:scale-100"
             />
+            <span aria-hidden="true" className="fiche-horaire__voile absolute inset-0" />
+          </div>
+          <div className="relative min-w-0 px-4 pb-4 -mt-6 sm:mt-0 sm:max-w-[58%] sm:px-6 sm:py-5">
+            {/* Téléphone : l'heure en tête de fiche */}
+            <p className="sm:hidden mb-1.5 font-affiche text-[22px] leading-none text-creme">{debut}{fin && <span className="font-etiquette font-semibold text-[15px] text-kraft"> à {fin}</span>}</p>
+            <p className="font-etiquette font-bold uppercase tracking-[.14em] text-[13px] text-moutarde">
+              {e.categories.map((c) => CATEGORIES.find((x) => x.cle === c)?.nom ?? c).join(" · ")}
+            </p>
+            <h4 className="mt-1 font-etiquette font-extrabold text-[23px] sm:text-[26px] leading-[1.1] text-creme">{e.titre}</h4>
+            {e.description && <p className="mt-1.5 text-[16px] leading-snug text-kraft">{e.description}</p>}
+            <p className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-2 text-[15px] font-semibold text-creme">
+              <span>{e.lieu}</span>
+              {e.prix && (
+                <span className="font-etiquette font-bold uppercase tracking-wide text-[14px] px-2.5 py-0.5 bg-moutarde text-encre border-2 border-dashed border-encre">{e.prix}</span>
+              )}
+            </p>
+            {aVenir && <p className="mt-1"><BoutonCalendrier e={e} petit /></p>}
           </div>
         </article>
       </div>
