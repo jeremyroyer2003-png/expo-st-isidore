@@ -104,10 +104,6 @@ export default function PageHistoire({ photoComite }: { photoComite?: PhotoComit
                 { }
                 <img src={photoComite.url} alt={`Le comité de l'Expo en ${photoComite.annee}. ${photoComite.noms}`} loading="lazy" />
               </a>
-              <figcaption>
-                <strong>Le comité {photoComite.annee}.</strong> {photoComite.noms}
-                {photoComite.credit && <small> Photo&nbsp;: {photoComite.credit}</small>}
-              </figcaption>
             </figure>
           )}
           <ul className="personnes">

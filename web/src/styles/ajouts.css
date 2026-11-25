@@ -54,6 +54,6 @@ a.etat{min-height:44px}
 .comite-photo img{display:block;width:100%;height:auto;aspect-ratio:auto;object-fit:contain}
 .comite-photo figcaption{line-height:1.4}
 .comite-photo figcaption small{display:block;margin-top:4px;opacity:.8}
-.comite-photo{padding-bottom:14px}
+.comite-photo{padding-bottom:10px}
 .comite-photo figcaption{position:static;margin-top:10px;font-family:var(--etiquette);font-weight:500;font-size:16px;color:var(--nuit)}
 .comite-photo figcaption strong{font-weight:800}
