@@ -52,13 +52,18 @@ export default async function Page() {
 
   return (
     <>
-      <section className="heros heros--page heros--compact" aria-labelledby="titre-heros">
+      <section className="heros heros--page heros--video" aria-labelledby="titre-heros">
+        {/* Le palais des commerces pendant l'Expo, à droite, fondu dans les planches (comme Programmation) */}
+        <figure className="heros__media">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/photos/kiosques-interieurs.webp" srcSet="/images/photos/kiosques-interieurs-800.webp 800w, /images/photos/kiosques-interieurs.webp 1600w" sizes="(max-width: 760px) 100vw, 64vw" alt="Allée de kiosques dans le palais des commerces pendant l'Expo, sous la grande charpente d'acier, avec des visiteurs" width={1400} height={932} fetchPriority="high" />
+          <span className="heros__voile" aria-hidden="true" />
+          <figcaption className="heros__credit">Photo&nbsp;: Cynthia Fillion Photographe</figcaption>
+        </figure>
         <div className="contenu heros__grille heros__grille--texte">
           <div className="heros__texte">
             <p className="billet"><span>Exposants</span><span>Expo {annee}</span></p>
             <h1 id="titre-heros" className="heros__titre"><span>Votre</span> <span className="jaune">kiosque</span></h1>
-          </div>
-          <div className="heros__cote">
             <p className="heros__intro">{intro}</p>
             <div className="groupe-boutons">
               <a className="bouton bouton--orange" href="#plan">Voir le plan <span className="fleche" aria-hidden="true">→</span></a>
