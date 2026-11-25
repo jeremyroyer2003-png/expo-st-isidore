@@ -268,55 +268,56 @@ export default function PageAccueil() {
       </div>
     </section>
 
-    {/* ===== Archives et grandes dates ===== */}
+    {/* ===== Archives et grandes dates : panneau sur planches, photo d'archive fondue, ligne du temps ===== */}
     <section className="section-papier-2" aria-labelledby="titre-histoire">
-      <div className="contenu section-espacee archives">
-        <div className="archives__haut">
-          <figure className="archive-photo">
-            <span className="archive-photo__ruban archive-photo__ruban--1" aria-hidden="true"></span>
-            <span className="archive-photo__ruban archive-photo__ruban--2" aria-hidden="true"></span>
-            <div className="archive-photo__papier">
-              <img src="/images/archive_holstein2009.webp" alt="Jugement Holstein 2009 : éleveurs en blanc avec deux vaches primées, rubans et trophées" width="1041" height="865" loading="lazy" />
-            </div>
-            <figcaption>Archives Beauce Média, 15 juillet 2010</figcaption>
+      <div className="contenu section-espacee">
+        <div className="panneau-planche">
+          <figure className="panneau-planche__photo panneau-planche__photo--gauche panneau-planche__photo--archive">
+            <img src="/images/archive_holstein2009.webp" alt="Jugement Holstein 2009 : éleveurs en blanc avec deux vaches primées, rubans et trophées" width="1041" height="865" loading="lazy" />
+            <span className="panneau-planche__voile" aria-hidden="true" />
+            <figcaption className="panneau-planche__credit">Archives Beauce Média, 15 juillet 2010</figcaption>
           </figure>
-          <div className="archives__texte">
-            <h2 id="titre-histoire" className="surtitre">Notre histoire</h2>
-            <blockquote className="archives__citation"><p>«&nbsp;Créée par 28 producteurs visionnaires.&nbsp;»</p></blockquote>
+          <div className="panneau-planche__texte">
+            <h2 id="titre-histoire" className="panneau-planche__surtitre">Notre histoire · depuis 1982</h2>
+            <blockquote className="panneau-planche__citation"><p>«&nbsp;Créée par 28 producteurs visionnaires.&nbsp;»</p></blockquote>
             <p>À l&apos;automne 1982, des producteurs de la Beauce, de Lévis et de Dorchester veulent comparer leur bétail. Ils imaginent un «&nbsp;party agricole&nbsp;» ouvert à tous. Plus de 40 ans plus tard, l&apos;idée tient toujours, grâce aux bénévoles.</p>
-            <Link className="bouton bouton--marine" href="/histoire">Lire l&apos;histoire et nos bâtisseurs <span className="fleche" aria-hidden="true">→</span></Link>
+            <Link className="bouton bouton--contour" href="/histoire">Lire l&apos;histoire et nos bâtisseurs <span className="fleche" aria-hidden="true">→</span></Link>
           </div>
         </div>
 
-        <ol className="annees" aria-label="Grandes dates">
-          <li className="c-orange"><strong>1983</strong><span>Lettres patentes et premier bureau, présidé par Odilon Pelchat</span></li>
-          <li className="c-vert"><strong>1984</strong><span>Quatre nouvelles étables</span></li>
-          <li className="c-jaune"><strong>1991</strong><span>Construction du palais des commerces</span></li>
-          <li className="c-bleu"><strong>2010</strong><span>Premiers manèges de l&apos;histoire de l&apos;Expo</span></li>
-          <li className="c-marine"><strong>2026</strong><span>44<sup>e</sup> édition, toujours gratuite</span></li>
+        <ol className="ligne-temps" aria-label="Grandes dates">
+          <li><strong>1983</strong><span>Lettres patentes et premier bureau, présidé par Odilon Pelchat</span></li>
+          <li><strong>1984</strong><span>Quatre nouvelles étables</span></li>
+          <li><strong>1991</strong><span>Construction du palais des commerces</span></li>
+          <li><strong>2010</strong><span>Premiers manèges de l&apos;histoire de l&apos;Expo</span></li>
+          <li className="ligne-temps__aujourdhui"><strong>2026</strong><span>44<sup>e</sup> édition, toujours gratuite</span></li>
         </ol>
       </div>
     </section>
 
     {/* ===== Venir à l'Expo ===== */}
     <section className="section-papier" aria-labelledby="titre-venir">
-      <div className="contenu section-espacee venir">
-        <figure className="venir__photo">
-          <img src="/images/photos/terrain-aerien-800.webp" srcSet="/images/photos/terrain-aerien-800.webp 800w, /images/photos/terrain-aerien.webp 1280w" sizes="(max-width: 900px) 100vw, 700px" alt="Vue aérienne du site de l'Expo : bâtiments, chapiteaux blancs, terrain de tire et stationnements entourés de champs" width="800" height="450" loading="lazy" />
-        </figure>
-        <div className="venir__texte">
-          <h2 id="titre-venir" className="titre-affiche">Venir à l&apos;Expo</h2>
-          <address className="venir__adresse">132, route Coulombe<small>Saint-Isidore (Québec) G0S 2S0, en Beauce</small></address>
-          <ul className="venir__faits">
-            <li className="c-vert">Entrée gratuite sur le site</li>
-            <li className="c-orange">Stationnement payant, à proximité</li>
-            <li className="c-bleu">Certaines activités payantes&nbsp;: tire, danse, souper</li>
-            <li className="c-jaune">Chiens permis en laisse</li>
-            <li className="c-vert">Aire de pique-nique, casse-croûte et camion de rue</li>
-          </ul>
-          <div className="groupe-boutons">
-            <a className="bouton bouton--orange" href="https://www.google.com/maps/search/?api=1&query=132+route+Coulombe+Saint-Isidore+QC+G0S+2S0" rel="noopener">Itinéraire <span className="fleche" aria-hidden="true">→</span></a>
-            <Link className="bouton bouton--marine" href="/contact#visiter">Infos pratiques</Link>
+      <div className="contenu section-espacee">
+        <div className="panneau-planche">
+          <figure className="panneau-planche__photo">
+            <img src="/images/photos/kiosques-exterieurs-800.webp" srcSet="/images/photos/kiosques-exterieurs-800.webp 800w, /images/photos/kiosques-exterieurs.webp 1400w" sizes="(max-width: 900px) 100vw, 60vw" alt="Le terrain de l'Expo en plein soleil : machinerie agricole, tracteurs neufs et kiosques sous les arbres" loading="lazy" />
+            <span className="panneau-planche__voile" aria-hidden="true" />
+            <figcaption className="panneau-planche__credit panneau-planche__credit--droite">Photo&nbsp;: ELZEPHOTO</figcaption>
+          </figure>
+          <div className="panneau-planche__texte">
+            <h2 id="titre-venir" className="panneau-planche__titre">Venir à l&apos;Expo</h2>
+            <address className="panneau-planche__adresse">132, route Coulombe<small>Saint-Isidore (Québec) G0S 2S0, en Beauce</small></address>
+            <ul className="panneau-planche__faits">
+              <li>Entrée gratuite sur le site</li>
+              <li>Stationnement payant, à proximité</li>
+              <li>Certaines activités payantes&nbsp;: tire, danse, souper</li>
+              <li>Chiens permis en laisse</li>
+              <li>Aire de pique-nique, casse-croûte et camion de rue</li>
+            </ul>
+            <div className="groupe-boutons">
+              <a className="bouton bouton--orange" href="https://www.google.com/maps/search/?api=1&query=132+route+Coulombe+Saint-Isidore+QC+G0S+2S0" rel="noopener">Itinéraire <span className="fleche" aria-hidden="true">→</span></a>
+              <Link className="bouton bouton--contour" href="/contact#visiter">Infos pratiques</Link>
+            </div>
           </div>
         </div>
       </div>
