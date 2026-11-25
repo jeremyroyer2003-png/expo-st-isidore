@@ -10,7 +10,8 @@ export type EmplacementPublic = {
   dimensions: string; note: string; occupe: boolean; prix: number | null;
 };
 
-// Plan du comité (kiosques intérieurs 2017) : grille de 11 × 9 cases, 2 unités par case
+// Plan du comité (kiosques intérieurs 2017) : grille de 11 × 9 cases, 2 unités par case.
+// Centre : 3 îlots verticaux (x = 3-7, 9-13, 15-19), allées entre eux (migration 0003).
 const LARGEUR = 22;
 const HAUTEUR = 18;
 const C = 2;
@@ -65,9 +66,12 @@ export default function PlanPalais({ emplacements, annee, fictif }: { emplacemen
                 )}
               </g>
             ))}
-            {/* Allées */}
-            {[1, 4, 7].map((lig) => (
-              <text key={lig} x={12} y={lig * C + C / 2 + 0.18} textAnchor="middle" fontSize={0.5} fill="#5C4A39" fontFamily="Barlow Condensed, sans-serif" letterSpacing={0.1} aria-hidden="true">ALLÉE</text>
+            {/* Allées : en haut et en bas, et entre les 3 îlots du centre (sur la longueur) */}
+            {[1, 7].map((lig) => (
+              <text key={lig} x={11} y={lig * C + C / 2 + 0.18} textAnchor="middle" fontSize={0.5} fill="#5C4A39" fontFamily="Barlow Condensed, sans-serif" letterSpacing={0.1} aria-hidden="true">ALLÉE</text>
+            ))}
+            {[8, 14].map((x) => (
+              <text key={x} x={x} y={9} transform={`rotate(-90 ${x} 9)`} dy={0.18} textAnchor="middle" fontSize={0.5} fill="#5C4A39" fontFamily="Barlow Condensed, sans-serif" letterSpacing={0.1} aria-hidden="true">ALLÉE</text>
             ))}
             {emplacements.map((k) => {
               const actif = k.id === choisi;
