@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import "./HerosVideo.css";
 
 // Héros de l'accueil (version 2, retenue par Jérémy le 11 novembre 2026).
@@ -17,12 +17,12 @@ const SCENES = {
   hiver: {
     video: "/videos/heros-aerien.mp4",
     affiche: "/images/heros-v2/aerien.webp",
-    legende: "Le site de l'Expo vu du ciel. Photo agrandie et animée par IA (Higgsfield).",
+    credit: null,
   },
   ete: {
     video: "/videos/heros-tire-nuit.mp4",
     affiche: "/images/photos/tire-fumee-soir.webp",
-    legende: "Tire de tracteurs à Saint-Isidore. Photo : ELZEPHOTO, animée par IA (Higgsfield).",
+    credit: "ELZEPHOTO",
   },
 } as const;
 
@@ -37,9 +37,6 @@ export default function HerosVideo() {
   const lecteurA = useRef<HTMLVideoElement>(null);
   const lecteurB = useRef<HTMLVideoElement>(null);
   const saison = useSyncExternalStore(sAbonner, lireSaison, () => "hiver" as Saison);
-  const [enPause, setEnPause] = useState(false);
-  const [videoActive, setVideoActive] = useState(false);
-  const pauseRef = useRef(false);
 
   useEffect(() => {
     const a = lecteurA.current;
@@ -57,7 +54,7 @@ export default function HerosVideo() {
     let relais = false;
 
     const surTemps = () => {
-      if (relais || pauseRef.current || !actif.duration) return;
+      if (relais || !actif.duration) return;
       if (actif.currentTime < actif.duration - FONDU) return;
       relais = true;
       attente.currentTime = 0;
@@ -77,7 +74,6 @@ export default function HerosVideo() {
     a.play()
       .then(() => {
         a.classList.add("est-visible");
-        setVideoActive(true);
       })
       .catch(() => {}); // lecture automatique refusée : la photo fixe reste
 
@@ -88,17 +84,6 @@ export default function HerosVideo() {
       b.pause();
     };
   }, [saison]);
-
-  function basculer() {
-    const visibles = [lecteurA.current, lecteurB.current].filter((v): v is HTMLVideoElement => !!v);
-    const actif = visibles.find((v) => v.classList.contains("est-visible"));
-    const pause = !enPause;
-    pauseRef.current = pause;
-    setEnPause(pause);
-    if (!actif) return;
-    if (pause) visibles.forEach((v) => v.pause());
-    else actif.play().catch(() => {});
-  }
 
   const scene = SCENES[saison];
 
@@ -136,18 +121,11 @@ export default function HerosVideo() {
         </div>
       </div>
 
-      <div className="hvid__pied">
-        {videoActive && (
-          <button className="hvid__pause" type="button" onClick={basculer} aria-pressed={enPause}>
-            {enPause ? (
-              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11a.8.8 0 0 0 1.2.7l9-5.5a.8.8 0 0 0 0-1.4l-9-5.5A.8.8 0 0 0 4 2.5z" /></svg>
-            ) : (
-              <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12" rx="1" /><rect x="9.5" y="2" width="3.5" height="12" rx="1" /></svg>
-            )}
-            {enPause ? "Lire la vidéo" : "Arrêter la vidéo"}
-          </button>
-        )}
-      </div>
+      {scene.credit && (
+        <div className="hvid__pied">
+          <p className="hvid__credit">Photo&nbsp;: {scene.credit}</p>
+        </div>
+      )}
     </section>
   );
 }

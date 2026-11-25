@@ -28,6 +28,7 @@ export default function PageHistoire({ photoComite }: { photoComite?: PhotoComit
             <div className="archive-photo__papier">
               <img src="/images/archive_holstein2009.webp" alt="Jugement Holstein 2009 : éleveurs en blanc avec deux vaches primées, rubans et trophées" width="1041" height="865" />
             </div>
+            <figcaption>Archives Beauce Média, 15 juillet 2010</figcaption>
           </figure>
         </div>
       </div>

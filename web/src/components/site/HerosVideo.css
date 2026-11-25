@@ -102,44 +102,13 @@
   gap: 16px;
   padding: 14px max(5vw, 20px);
 }
-.hvid__legende {
+.hvid__credit {
   margin: 0;
   font-family: var(--font-etiquette);
   font-size: 0.95rem;
   color: rgb(243 234 216 / 0.9);
   text-shadow: 0 1px 4px rgb(0 0 0 / 0.8);
 }
-.hvid__pause {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 0 16px;
-  border: 2px solid var(--color-creme);
-  border-radius: 4px;
-  background: rgb(30 20 13 / 0.6);
-  color: var(--color-creme);
-  font-family: var(--font-etiquette);
-  font-weight: 800;
-  font-size: 0.95rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-.hvid__pause svg {
-  width: 14px;
-  height: 14px;
-  fill: currentColor;
-}
-.hvid__pause:hover {
-  background: var(--color-encre);
-}
-.hvid__pause:focus-visible {
-  outline: 3px solid var(--color-moutarde);
-  outline-offset: 2px;
-}
-
 /* Téléphone et petite tablette : bandeau vidéo entier, puis le message sur les planches */
 @media (max-width: 760px) {
   .hvid {
@@ -169,7 +138,7 @@
     padding: 0 20px 24px;
     background: var(--color-planche);
   }
-  .hvid__legende {
+  .hvid__credit {
     font-size: 0.85rem;
   }
 }
@@ -250,11 +219,11 @@
   object-fit: cover;
 }
 .pellicule__photo figcaption {
-  margin-top: 8px;
+  margin-top: 6px;
   font-family: var(--font-etiquette);
-  font-size: 0.95rem;
+  font-size: 0.8rem;
   line-height: 1.25;
-  color: var(--color-encre);
+  color: var(--color-gris-brun);
 }
 .pellicule__photo figcaption small {
   display: block;

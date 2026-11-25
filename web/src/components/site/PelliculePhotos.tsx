@@ -34,6 +34,7 @@ function Groupe({ copie }: { copie?: boolean }) {
               height={267}
               loading="lazy"
             />
+            {p.credit && <figcaption>Photo&nbsp;: {p.credit}</figcaption>}
           </figure>
         </li>
       ))}

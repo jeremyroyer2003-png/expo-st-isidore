@@ -108,6 +108,7 @@ export default function PageAccueil() {
         <article className="nouveaute">
           <figure className="nouveaute__photo">
             <img src="/images/photos/rodeo-taureau-600.webp" srcSet="/images/photos/rodeo-taureau-600.webp 600w, /images/photos/rodeo-taureau.webp 1200w" sizes="(max-width: 900px) 100vw, 480px" alt="Un cavalier, une main dans les airs, tient sur un taureau noir qui rue dans la poussière de l'arène" width="600" height="450" loading="lazy" />
+            <figcaption>Photo&nbsp;: Joey Chacon, Unsplash</figcaption>
           </figure>
           <div className="nouveaute__texte">
             <p className="nouveaute__etiquette">Nouveau en 2027</p>
@@ -225,6 +226,7 @@ export default function PageAccueil() {
           <article className="choix__panneau c-marine" id="ambiance-kiosques" role="tabpanel" aria-labelledby="onglet-kiosques">
             <figure className="choix__photo">
               <img src="/images/photos/tracteur-balles-foin-800.webp" srcSet="/images/photos/tracteur-balles-foin-800.webp 800w, /images/photos/tracteur-balles-foin.webp 1600w" sizes="(max-width: 900px) 100vw, 720px" alt="Tracteur géant fait de balles de foin enrubannées jaunes, devant de la machinerie sous un ciel orageux" width="800" height="533" loading="lazy" />
+              <figcaption>Photo&nbsp;: Gagné Photographie</figcaption>
             </figure>
             <div className="choix__texte">
               <h3>Les kiosques</h3>
@@ -270,6 +272,7 @@ export default function PageAccueil() {
             <div className="archive-photo__papier">
               <img src="/images/archive_holstein2009.webp" alt="Jugement Holstein 2009 : éleveurs en blanc avec deux vaches primées, rubans et trophées" width="1041" height="865" loading="lazy" />
             </div>
+            <figcaption>Archives Beauce Média, 15 juillet 2010</figcaption>
           </figure>
           <div className="archives__texte">
             <h2 id="titre-histoire" className="surtitre">Notre histoire</h2>

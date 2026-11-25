@@ -55,6 +55,7 @@ export default function PageLocation({ calendrier, avis, fraisAnnulation, delaiH
             <figure className="salle__photo">
               <img src="/images/photos/soiree-saloon-800.webp" srcSet="/images/photos/soiree-saloon-400.webp 400w, /images/photos/soiree-saloon-800.webp 800w, /images/photos/soiree-saloon.webp 1080w" sizes="(max-width: 900px) 100vw, 600px" alt="Le Saloon de la grange 3, façade en bois illuminée de guirlandes le soir, avec des invités devant l'entrée" width="800" height="640" loading="lazy" />
               <PhotoVivante video="/videos/saloon-soir.mp4" />
+              <figcaption>Photo&nbsp;: Cynthia Fillion Photographe</figcaption>
             </figure>
             <div className="salle__texte">
               <h3>Le Saloon <small>grange 3</small></h3>

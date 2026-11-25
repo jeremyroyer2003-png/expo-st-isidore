@@ -1,5 +1,6 @@
 // Converti automatiquement depuis site/tire-de-tracteurs.html (contenu d'origine du site statique)
 import Link from "next/link";
+import PhotoVivante from "@/components/site/PhotoVivante";
 
 export const meta = { titre: "Tire de tracteurs ASTTQ – billets, classes et pilotes | Expo St-Isidore", description: "Deux soirs de tire de tracteurs ASTTQ à l'Expo St-Isidore : Super Stock, Pro Farm, Hot Farm, 4x4 modifiés et semi-remorques. Prix des billets, classes et pilotes." };
 
@@ -8,7 +9,15 @@ export default function PageTireDeTracteurs() {
     <>
 
     {/* ===== Héros ===== */}
-    <section className="heros heros--photo" aria-labelledby="titre-heros">
+    <section className="heros heros--photo heros--video" aria-labelledby="titre-heros">
+      {/* La tire de nuit (photo ELZEPHOTO) qui bouge, à droite; le texte reste à gauche, sur les planches */}
+      <figure className="heros__media">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/images/photos/tire-fumee-soir.webp" srcSet="/images/photos/tire-fumee-soir-800.webp 800w, /images/photos/tire-fumee-soir.webp 1600w" sizes="(max-width: 760px) 100vw, 64vw" alt="Tracteur modifié rouge qui tire le traîneau le soir, une colonne de fumée noire au-dessus, devant les estrades pleines" width={1600} height={1067} fetchPriority="high" />
+        <PhotoVivante video="/videos/heros-tire-nuit.mp4" />
+        <span className="heros__voile" aria-hidden="true" />
+        <figcaption className="heros__credit">Photo&nbsp;: ELZEPHOTO</figcaption>
+      </figure>
       <div className="contenu heros__grille heros__grille--texte">
         <div className="heros__texte">
           <p className="billet"><span>ASTTQ</span><span>2 soirs</span></p>
@@ -23,7 +32,6 @@ export default function PageTireDeTracteurs() {
           </div>
         </div>
       </div>
-      <p className="heros__credit">Photo&nbsp;: tire de Saint-Isidore, 2019</p>
     </section>
 
 

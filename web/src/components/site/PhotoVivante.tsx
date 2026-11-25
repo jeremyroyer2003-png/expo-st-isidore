@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 // « Photo vivante » : une vraie photo dont une courte vidéo (photo animée par IA, Higgsfield) joue par-dessus, en boucle.
 // - La photo reste l'image de base : sans JavaScript, avec « réduire les animations » ou en économie de données, rien ne bouge.
@@ -14,9 +14,6 @@ export default function PhotoVivante({ video, className = "" }: { video: string;
   const boite = useRef<HTMLDivElement>(null);
   const lecteurA = useRef<HTMLVideoElement>(null);
   const lecteurB = useRef<HTMLVideoElement>(null);
-  const pauseRef = useRef(false);
-  const [active, setActive] = useState(false);
-  const [enPause, setEnPause] = useState(false);
 
   useEffect(() => {
     const a = lecteurA.current;
@@ -34,7 +31,7 @@ export default function PhotoVivante({ video, className = "" }: { video: string;
     let aLecran = false;
 
     const surTemps = () => {
-      if (relais || pauseRef.current || !actif.duration) return;
+      if (relais || !actif.duration) return;
       if (actif.currentTime < actif.duration - FONDU) return;
       relais = true;
       attente.currentTime = 0;
@@ -63,11 +60,9 @@ export default function PhotoVivante({ video, className = "" }: { video: string;
         a.src = video;
         b.src = video;
       }
-      if (pauseRef.current) return;
       actif.play()
         .then(() => {
           actif.style.opacity = "1";
-          setActive(true);
         })
         .catch(() => {}); // lecture automatique refusée : la photo fixe reste
     }, { threshold: 0.35 });
@@ -82,31 +77,11 @@ export default function PhotoVivante({ video, className = "" }: { video: string;
     };
   }, [video]);
 
-  function basculer() {
-    const lecteurs = [lecteurA.current, lecteurB.current].filter((v): v is HTMLVideoElement => !!v);
-    const pause = !enPause;
-    pauseRef.current = pause;
-    setEnPause(pause);
-    if (pause) lecteurs.forEach((v) => v.pause());
-    else lecteurs.find((v) => v.style.opacity === "1")?.play().catch(() => {});
-  }
-
   const lecteur = "absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-1000 ease-linear motion-reduce:hidden";
   return (
     <div ref={boite} className={`absolute inset-0 ${className}`}>
       <video ref={lecteurA} className={lecteur} muted playsInline preload="none" aria-hidden="true" tabIndex={-1} />
       <video ref={lecteurB} className={lecteur} muted playsInline preload="none" aria-hidden="true" tabIndex={-1} />
-      {active && (
-        <button type="button" onClick={basculer} aria-pressed={enPause}
-          className="absolute right-2 top-2 min-h-[44px] min-w-[44px] inline-flex items-center justify-center gap-2 px-3 bg-encre/75 text-creme font-etiquette font-bold text-[14px] hover:bg-encre focus-visible:bg-encre">
-          <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true">
-            {enPause
-              ? <path d="M4 2.5v11a.8.8 0 0 0 1.2.7l9-5.5a.8.8 0 0 0 0-1.4l-9-5.5A.8.8 0 0 0 4 2.5z" />
-              : <><rect x="3" y="2" width="3.5" height="12" rx="1" /><rect x="9.5" y="2" width="3.5" height="12" rx="1" /></>}
-          </svg>
-          <span className="sr-only">{enPause ? "Lire l'animation de la photo" : "Arrêter l'animation de la photo"}</span>
-        </button>
-      )}
     </div>
   );
 }
