@@ -300,3 +300,9 @@ a.etat{min-height:44px}
 }
 /* Carte du rodéo : sur cellulaire, le crédit de la photo monte en haut (il cachait le billet « Nouveau en 2027 ») */
 @media (max-width:767px){.carte-planche__credit{top:10px;bottom:auto}}
+/* Panneaux sur planches (accueil) : quand la photo passe au-dessus du texte, le crédit monte en haut à droite
+   (il chevauchait « Notre histoire · depuis 1982 »). La photo d'archive a une bordure blanche : on la rogne. */
+@media (max-width:859px){
+  .panneau-planche__credit,.panneau-planche__credit--droite{top:10px;bottom:auto;left:auto;right:14px}
+}
+.panneau-planche__photo--archive img{transform:scale(1.06);transform-origin:40% 50%}
