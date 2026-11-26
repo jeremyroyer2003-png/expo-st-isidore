@@ -281,3 +281,10 @@ Pour chaque flux, noter ce qui casse, puis corriger avec Claude. Carte de test S
    - adapter `netlify.toml` pour bâtir `web/` ;
    - créer les comptes de production ;
    - faire l'évaluation exigée par la Loi 25.
+
+## 25 novembre 2026 : `rebuild` fusionnée dans `main` (demande de Jérémy)
+
+- `main` = `rebuild` (fusion directe, commit 92cec18). Le site de production Netlify (celebrated-sorbet-3dce34.netlify.app) bâtit maintenant l'application Next.js de `web/` (netlify.toml de `rebuild`). L'ancien site statique reste dans `site/` et au tag `baseline`.
+- Vérifier dans Netlify que les variables d'environnement s'appliquent aussi au contexte **Production** (pas seulement aux branches) et que `NEXT_PUBLIC_URL_SITE` pointe vers l'adresse de production.
+- Stripe toujours en mode test; indexation toujours désactivée (PERMETTRE_INDEXATION).
+- Désormais : travailler sur `rebuild`, puis pousser `rebuild` et `main` ensemble quand Jérémy le demande.
