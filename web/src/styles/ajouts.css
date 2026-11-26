@@ -289,3 +289,14 @@ a.etat{min-height:44px}
 .heros--remisage .heros__voile{background:linear-gradient(90deg,var(--marine-fonce) 0%,rgba(42,29,20,.75) 16%,rgba(42,29,20,.15) 45%,rgba(42,29,20,0) 70%),linear-gradient(0deg,rgba(42,29,20,.92) 0%,rgba(42,29,20,.5) 22%,rgba(42,29,20,0) 45%)}
 @media (max-width:760px){.heros--remisage .heros__voile{background:linear-gradient(0deg,var(--marine-fonce) 0%,rgba(42,29,20,0) 30%)}}
 .heros--remisage .heros__media img{object-position:55% 88%}
+/* Fond d'écran, correctif cellulaire : la grille des fenêtres ne doit jamais être plus large que l'écran
+   (sans minmax(0,1fr), un mot long ou un bouton élargissait la colonne et le texte était coupé à droite) */
+:is(.fond-photo,.fond-peinture) main{grid-template-columns:minmax(0,1fr)}
+:is(.fond-photo,.fond-peinture) main > *{min-width:0;max-width:100%}
+/* Cellulaire : le verre des fenêtres est plus opaque (le texte se lit mieux sur le paysage clair) */
+@media (max-width:760px){
+  :is(.fond-photo,.fond-peinture) :is(.section-papier,.section-papier-2,.galerie-section) > .contenu{background-color:rgba(255,248,235,.82)}
+  :is(.fond-photo,.fond-peinture) .entete::before{background:rgba(255,248,235,.8)}
+}
+/* Carte du rodéo : sur cellulaire, le crédit de la photo monte en haut (il cachait le billet « Nouveau en 2027 ») */
+@media (max-width:767px){.carte-planche__credit{top:10px;bottom:auto}}
