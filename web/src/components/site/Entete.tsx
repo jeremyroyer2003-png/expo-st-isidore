@@ -42,8 +42,21 @@ export default function Entete() {
         bouton.current?.focus();
       }
     };
+    // Cellulaire : le menu ouvert est collé en haut et cache la page. Il se referme dès qu'on fait
+    // défiler la page ou qu'on touche ailleurs, pour ne jamais rester ouvert par-dessus le contenu.
+    const depart = window.scrollY;
+    const defilement = () => { if (Math.abs(window.scrollY - depart) > 40) setOuvert(false); };
+    const ailleurs = (e: PointerEvent) => {
+      if (!(e.target as HTMLElement).closest(".entete")) setOuvert(false);
+    };
     document.addEventListener("keydown", touche);
-    return () => document.removeEventListener("keydown", touche);
+    window.addEventListener("scroll", defilement, { passive: true });
+    document.addEventListener("pointerdown", ailleurs);
+    return () => {
+      document.removeEventListener("keydown", touche);
+      window.removeEventListener("scroll", defilement);
+      document.removeEventListener("pointerdown", ailleurs);
+    };
   }, [ouvert]);
 
   // « Réserver » reste actif sur les pages de réservation qu'il regroupe
@@ -71,7 +84,8 @@ export default function Entete() {
           <span className="menu-bouton__icone" aria-hidden="true"><span></span></span>
           Menu
         </button>
-        <nav id="nav-principale" className={"nav" + (ouvert ? " est-ouvert" : "")} aria-label="Navigation principale">
+        <nav id="nav-principale" className={"nav" + (ouvert ? " est-ouvert" : "")} aria-label="Navigation principale"
+          onClick={(e) => { if ((e.target as HTMLElement).closest("a")) setOuvert(false); }}>
           {LIENS.map((l) => (
             <Link key={l.href} href={l.href} aria-current={actif(l.href)}>{l.texte}</Link>
           ))}
